@@ -11,6 +11,8 @@ export default function DocumentEdit({ $target, initialState }) {
   }
 
   this.render = () => {
+    if (!this.state) return;
+
     this.$element.innerHTML = `
       <input class="document-title" type="text" name="title" value="${this.state.title}">
       <textarea class="document-class" name="content">${this.state.content ? this.state.content : ''}</textarea>

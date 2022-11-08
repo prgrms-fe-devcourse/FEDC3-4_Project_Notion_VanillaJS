@@ -1,15 +1,21 @@
-export default function DocumentList({ $target, initialState }) {
+export default function DocumentList({ $target, initialState, onDocumentClick }) {
   const $element = document.createElement('div');
   $target.appendChild($element);
 
   this.state = initialState;
 
-  console.log(this.state);
-
   this.setState = (nextState) => {
     this.state = nextState;
     this.render();
   }
+
+  $element.addEventListener('click', (e) => {
+    const $li = e.target.closest('li');
+    if ($li) {
+      const { id } = $li.dataset;
+      onDocumentClick(id);
+    }
+  })
 
   this.render = () => {
     $element.innerHTML = `
