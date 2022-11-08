@@ -16,6 +16,7 @@
 - [ ] Router.js 를 통해 이벤트 수신기를 달아주고 주소창에 입력 시 해당 값에 맞는 화면을 Route 처리
 
 ## 추가 구현사항
+
 - [ ] 에디터 하부에 DocumentLink.js 생성
 - [ ] 해당 탭에서 작성중인 문서의 하위 문서 링크를 제작하여 전달
 - [ ] 에디터를 세련되게 만들기
@@ -25,3 +26,4 @@
 
 ![제목없음 (2)](https://user-images.githubusercontent.com/97251710/200494997-0cec547b-d98a-47bd-a109-8b25a9dcac9d.png)
 
+$ npm i dotenv
