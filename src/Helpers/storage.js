@@ -1,11 +1,11 @@
-import { I_ERROR_MESSAGE } from "../constants.js";
+import { ERROR_MESSAGE } from "../constants.js";
 import { checkLocalData } from "./checkError.js";
 
 export const setItem = (key, value) => {
   try {
     window.localStorage.setItem(key, value);
   } catch (e) {
-    throw new Error(I_ERROR_MESSAGE.NOT_VALID_LOCALDATA, e);
+    throw new Error(ERROR_MESSAGE.NOT_VALID_LOCALDATA, e);
   }
 };
 
@@ -20,6 +20,6 @@ export const getItem = (key) => {
 
     return [];
   } catch (e) {
-    throw new Error(I_ERROR_MESSAGE.NOT_VALID_LOCALDATA, e);
+    throw new Error(ERROR_MESSAGE.NOT_VALID_LOCALDATA, e);
   }
 };
