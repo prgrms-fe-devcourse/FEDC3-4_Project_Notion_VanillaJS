@@ -27,22 +27,25 @@ export default function PostList({ $target, initialState }) {
     }
   };
 
-  const Rendering = (document) => {
-    const { id, title, documents } = document;
+  const Rendering = (postLists) => {
     return `
-      <ul >
-        <li data-id="${id}" class="open"><button>토글</button>${title}
-          ${documents.map((doc) => Rendering(doc)).join("")}
-        </li>
+      <ul>
+      ${postLists
+        .map(
+          ({ id, title, documents }) => `
+          <li data-id="${id}" class="open">
+            <button>토글</button>${title}
+            ${documents ? `${Rendering(documents)}` : "하위 페이지 없음"}
+          </li>
+        `
+        )
+        .join("")}
       </ul>
     `;
   };
 
   this.render = () => {
-    // this.state.map((content) => RenderList(content)).join("");
-    $postList.innerHTML = `${this.state
-      .map((document) => Rendering(document))
-      .join("")}`;
+    $postList.innerHTML = Rendering(this.state);
   };
 
   this.render();
@@ -57,10 +60,10 @@ export default function PostList({ $target, initialState }) {
     } else if ($li.className === "close") {
       $li.className = "open";
     }
-    // console.log($li.children.map((child) => child === ul));
-    console.log($li.length);
     const isDisplay = $li.className === "open" ? "block" : "none";
-    $li.children[1].style.display = isDisplay;
+    for (let i = 1; i < $li.children.length; i++) {
+      $li.children[i].style.display = isDisplay;
+    }
   });
 
   // $postList.addEventListener("click", (e) => {
