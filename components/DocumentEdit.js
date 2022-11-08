@@ -1,6 +1,11 @@
 export default function DocumentEdit({ $target, initialState, onEditing }) {
   const $element = document.createElement('form');
   $element.className = 'document-wrap'
+  $element.innerHTML = `
+    <input class="document-title" type="text" name="title" >
+    <textarea class="document-class" name="content"></textarea>
+  `;
+
   $target.appendChild($element);
 
   this.state = initialState;
@@ -20,12 +25,9 @@ export default function DocumentEdit({ $target, initialState, onEditing }) {
   });
 
   this.render = () => {
-    if (!this.state) return;
-
-    $element.innerHTML = `
-      <input class="document-title" type="text" name="title" value="${this.state.title}">
-      <textarea class="document-class" name="content">${this.state.content ? this.state.content : ''}</textarea>
-    `;
+    if(!this.state) return;
+    $element.querySelector('[name=title]').value = this.state.title;
+    $element.querySelector('[name=content]').value = this.state.content;
   }
 
   this.render();
