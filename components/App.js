@@ -1,6 +1,7 @@
 import DocumentList from "./DocumentList.js";
 import DocumentEdit from "./DocumentEdit.js";
 import { request } from "../util/api.js";
+import debounce from "../util/debounce.js";
 
 export default function App({ $app }) {
 
@@ -26,7 +27,15 @@ export default function App({ $app }) {
 
   const documentEdit = new DocumentEdit({
     $target: $app,
-    initialState: this.state.selectedDocuments
+    initialState: this.state.selectedDocuments,
+    onEditing: debounce(async ({ id, title, content }) => {
+      await request(`/documents/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({ title, content })
+      });
+      this.setState({ ...this.state, selectedDocuments: { ...this.state.selectedDocuments, title, content } });
+      getDocuments();
+    }, 1000)
   });
 
   const getDocuments = async () => {
