@@ -7,30 +7,44 @@ import {
   putDocument,
 } from "../../Helpers/api.js";
 import DocumentList from "../DocumentList/DocumentList.js";
+import DocumentDetailedList from "../DocumentList/DocumentDetailedList.js";
 
 export default function App({ $target }) {
   isConstructor(new.target);
   const documentList = new DocumentList({
     $target,
     initialState: getDocumentAll(),
-    postDocument: () => {
+    postDocument: ({ $target }) => {
+      const id = $target.closest("[data-id]").dataset.id;
       postDocument({
-        title: "클릭한 아이 수정",
+        title: "새로운 글 생성",
+        parent: id,
       });
     },
     deleteDocument: ({ $target }) => {
-      const index = $target.closest("[data-id]").dataset.id;
+      const id = $target.closest("[data-id]").dataset.id;
       deleteDocument({
-        id: index,
+        id,
       });
     },
-    showChildDocument: ({ $target }) => {
-      const index = $target.closest("[data-id]").dataset.id;
-      putDocument({
-        id: index,
-        title: "testing change",
-        content: "testing change",
+    showChildDocument: async ({ $target }) => {
+      const id = $target.closest("[data-id]").dataset.id;
+      const initialState = await getDocumentById({ id });
+      console.log($target.id);
+      new DocumentDetailedList({
+        $target: $target.closest("[data-id]"),
+        initialState: await initialState.documents,
       });
+      $target.id = "hideChildDocumentButton";
+      $target.innerText = "🔼";
+    },
+    hideChildDocument: async ({ $target }) => {
+      const $parant = $target.closest("[data-id]");
+      const $detailList = $parant.children[4];
+      console.log($parant, $detailList);
+      $parant.removeChild($detailList);
+      $target.id = "showChildDocumentButton";
+      $target.innerText = "🔽";
     },
   });
 }

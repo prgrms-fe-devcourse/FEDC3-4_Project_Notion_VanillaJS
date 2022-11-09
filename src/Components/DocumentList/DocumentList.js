@@ -1,4 +1,5 @@
 import { isConstructor } from "../../Helpers/checkError.js";
+import DocumentDetailedList from "./DocumentDetailedList.js";
 
 export default function DocumentList({
   $target,
@@ -6,36 +7,23 @@ export default function DocumentList({
   postDocument,
   deleteDocument,
   showChildDocument,
+  hideChildDocument,
 }) {
   isConstructor(new.target);
-  const $documentList = document.createElement("ul");
+  const $documentList = document.createElement("div");
   $target.appendChild($documentList);
+  const documentDetailedList = new DocumentDetailedList({
+    $target: $documentList,
+    initialState,
+  });
 
-  this.state = initialState;
-
-  this.setState = (nextState) => {
-    this.state = nextState;
-    this.render();
+  this.setState = async (nextState) => {
+    documentDetailedList.setState(nextState);
   };
 
-  this.render = async () => {
-    const documentList = await this.state;
-    $documentList.innerHTML = `${documentList
-      .map(
-        ({ id, title }) => `
-          <li data-id="${id}">
-            <span id="title">${title}</span>
-            <button id="postDocumentButton">➕</button>
-            <button id="showChildDocumentButton">🔽</button>
-            <button id="deleteDocumentButton">❌</button>
-          </li>`
-      )
-      .join("")}`;
-  };
-
-  $documentList.addEventListener("click", (e) => {
+  $target.addEventListener("click", (e) => {
     if (e.target && e.target.id === "postDocumentButton") {
-      postDocument();
+      postDocument({ $target: e.target });
     }
 
     if (e.target && e.target.id === "deleteDocumentButton") {
@@ -45,7 +33,9 @@ export default function DocumentList({
     if (e.target && e.target.id === "showChildDocumentButton") {
       showChildDocument({ $target: e.target });
     }
-  });
 
-  this.render();
+    if (e.target && e.target.id === "hideChildDocumentButton") {
+      hideChildDocument({ $target: e.target });
+    }
+  });
 }
