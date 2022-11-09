@@ -4,7 +4,6 @@ import {
   getDocumentById,
   postDocument,
   deleteDocument,
-  putDocument,
 } from "../../Helpers/api.js";
 import DocumentList from "../DocumentList/DocumentList.js";
 import DocumentDetailedList from "../DocumentList/DocumentDetailedList.js";
@@ -26,6 +25,7 @@ export default function App({ $target }) {
       deleteDocument({
         id,
       });
+      documentList.setState(getDocumentAll());
     },
     showChildDocument: async ({ $target }) => {
       const id = $target.closest("[data-id]").dataset.id;
@@ -40,7 +40,7 @@ export default function App({ $target }) {
     },
     hideChildDocument: async ({ $target }) => {
       const $parant = $target.closest("[data-id]");
-      const $detailList = $parant.children[4];
+      const $detailList = $parant.children[5];
       console.log($parant, $detailList);
       $parant.removeChild($detailList);
       $target.id = "showChildDocumentButton";

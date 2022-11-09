@@ -16,17 +16,13 @@ export default function DocumentDetailedList({ $target, initialState }) {
     const documentList = await this.state;
     $documentList.innerHTML = `${documentList
       .map(({ id, title, documents }) => {
-        const isDocument = documents.length > 0;
         return `
           <li data-id="${id}">
             <span id="title">${title}</span>
             <button id="postDocumentButton">➕</button>
-            ${
-              isDocument
-                ? `<button id="showChildDocumentButton">🔽</button>`
-                : ``
-            }
+            <button id="showChildDocumentButton">🔽</button>
             <button id="deleteDocumentButton">❌</button>
+            <span id="title">세부항목 : ${documents.length}</span>
           </li>`;
       })
       .join("")}`;
