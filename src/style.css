@@ -6,6 +6,18 @@
   --sideBarHover: #EBEBEA; /* var(--sideBarHover) */
   --sideBarColor: #A3A29E; /* var(--sideBarColor) */
 }
+
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+* {
+  font-family: "Pretendard-Regular";
+  letter-spacing: 1px;
+}
 body{
   margin:0
 }
@@ -15,6 +27,13 @@ button{
   appearance: none;
   border:0;
   background-color: var(--white100);
+  cursor: pointer;
+}
+input,[contentEditable] {
+  border: 0
+}
+input:focus,[contentEditable]:focus {
+  outline: none;
 }
 .app {
   display: flex;
@@ -31,35 +50,18 @@ button{
   overflow: hidden;
 }
 .sideBar header {
-  padding: 2px 14px;
-  margin-top:10px
+  padding: 2px 20px;
+  margin-top:10px;
+  font-size:20px
 }
 .sideBar ul {
   list-style:none;
-  padding-left:10px;
-}
-.sideBar > ul {
-  padding-left:0px;
+  padding-left:0;
+  margin: 5px 0
 }
 .sideBar li{
-  height: 27px;
-  cursor: pointer;
-  white-space: nowrap;
-  padding: 2px 10px 2px 10px;
-}
-.sideBar li:hover{
-  background-color: var(--sideBarHover);
-}
-.sideBar li:hover:after{
-  content: '';
-  background-size: 10px;
-  background-repeat: no-repeat;
-  width: 10px;
-  height: 10px;
-  float: right;
-  position: relative;
-  top: 8px;
-  background-image: url("./assets/img/plus.png");
+  cursor: default;
+  padding-top: 5px;
 }
 .sideBar li:before{
   content: '';
@@ -69,7 +71,17 @@ button{
   height: 10px;
   display: inline-block;
   position: relative;
-  top: -2px;
+  top: 3px;
+}
+.sideBar li > img{
+  width: 12px;
+  height: 12px;
+  float: right;
+  position: relative;
+  top: 6px;
+  right: 10px;
+  display: none;
+  cursor: pointer;
 }
 .sideBar .fold:before{
   background-image: url("./assets/img/right-arrow.png");
@@ -80,7 +92,9 @@ button{
 }
 .sideBar .title {
   width: 100%;
-  color: var(--sideBarColor)
+  position: relative;
+  top: 3px;
+  color: var(--sideBarColor);
 }
 
 /*postPage*/
@@ -100,10 +114,9 @@ button{
   display: flex;
   flex-direction: column;
 }
-.postPage .editor > h1{
+.postPage .editor h1{
   padding-top: 100px;
-  font-size: 40px
 }
-.postPage .header_action_btns > button{
-
+.postPage h1 > input{
+  font-size: 40px
 }
