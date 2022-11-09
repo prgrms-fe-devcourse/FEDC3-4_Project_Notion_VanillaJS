@@ -1,7 +1,12 @@
 import { setItem, getItem, removeItem } from "../utils/storage.js";
 import { totalDirectoryList } from "../utils/totalDirectoryList.js";
 
-export default function DirectoryList({ $target, initialState }) {
+export default function DirectoryList({
+  $target,
+  initialState,
+  onClickRootAdd,
+  OnClickRemove,
+}) {
   const $directoryList = document.createElement("div");
   $directoryList.className = "directory-page";
   $target.appendChild($directoryList);
@@ -26,7 +31,6 @@ export default function DirectoryList({ $target, initialState }) {
   $directoryList.addEventListener("click", (e) => {
     const { target } = e;
     const element = target.closest("[name]");
-
     if (element) {
       const { id } = element.dataset;
       const listToggleState = `isOpened-${id}`;
@@ -37,6 +41,15 @@ export default function DirectoryList({ $target, initialState }) {
           : setItem(listToggleState, "block");
         this.render();
 
+        return;
+      }
+      if (target.className === "root-page-add-button") {
+        onClickRootAdd();
+        return;
+      }
+      if (target.name === "remove-button") {
+        console.log(id);
+        OnClickRemove(id);
         return;
       }
     }

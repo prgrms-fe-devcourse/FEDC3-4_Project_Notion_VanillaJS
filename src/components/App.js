@@ -6,7 +6,7 @@ export default function App({ $target }) {
     $target,
   });
 
-  new EditorPage({
+  const editorPage = new EditorPage({
     $target,
     initialState: {
       postId: "new",
@@ -16,4 +16,6 @@ export default function App({ $target }) {
       },
     },
   });
+
+  directoryPage.setState();
 }

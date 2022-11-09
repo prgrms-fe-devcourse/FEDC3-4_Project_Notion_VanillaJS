@@ -1,7 +1,8 @@
 import { getItem } from "./storage.js";
 
 export const totalDirectoryList = (directorys) => {
-  return `
+  if (Array.isArray(directorys)) {
+    return `
     <ul>
       ${directorys
         .map((directory) => {
@@ -29,4 +30,5 @@ export const totalDirectoryList = (directorys) => {
         .join("")}
     </ul>
   `;
+  }
 };

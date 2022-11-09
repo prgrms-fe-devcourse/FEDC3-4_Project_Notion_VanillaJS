@@ -28,19 +28,4 @@ export default function Editor({
   };
 
   this.render();
-
-  $editor.addEventListener("keyup", (e) => {
-    const nextState = { ...this.state, title: e.target.value };
-
-    this.setState(nextState);
-    onEditing(this.state);
-  });
-
-  $editor.addEventListener("input", (e) => {
-    const nextState = {
-      ...this.state,
-      content: e.target.innerHTML,
-    };
-    this.setState(nextState);
-  });
 }
