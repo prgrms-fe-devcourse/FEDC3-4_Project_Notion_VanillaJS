@@ -1,4 +1,4 @@
-export default function PostList({ $target, initialState }) {
+export default function PostList({ $target, initialState, onToggleClick }) {
   const $postList = document.createElement("div");
   $postList.className = "notion-list";
 
@@ -13,29 +13,24 @@ export default function PostList({ $target, initialState }) {
     }
   };
 
-  let depth = 1;
-  const RenderList = (content) => {
-    $postList.innerHTML += `<ul><li data-id="${content.id}">${content.title}</li></ul>`;
-
-    console.log(depth, content.title);
-    if (content.documents.length) {
-      content.documents.map((doc) => {
-        depth += 1;
-        RenderList(doc);
-        depth -= 1;
-      });
-    }
-  };
-
   const Rendering = (postLists) => {
     return `
-      <ul>
+      <ul style="display:none">
       ${postLists
         .map(
           ({ id, title, documents }) => `
-          <li data-id="${id}" class="open">
-            <button>토글</button>${title}
-            ${documents ? `${Rendering(documents)}` : "하위 페이지 없음"}
+          <li data-id="${id}" class="close">
+          <span>
+            <button class="toggle">토글</button>${title}
+          </span>
+          <span>
+            <button>+</button><button>-</button>
+          </span>
+            ${
+              documents.length !== 0
+                ? `${Rendering(documents)}`
+                : `<ul style="display:none">하위 페이지 없음</ul>`
+            }
           </li>
         `
         )
@@ -46,14 +41,17 @@ export default function PostList({ $target, initialState }) {
 
   this.render = () => {
     $postList.innerHTML = Rendering(this.state);
+    $postList.children[0].style.display = "block";
   };
 
   this.render();
 
   $postList.addEventListener("click", (e) => {
     const $li = e.target.closest("li");
+    const $btn = e.target.closest(".toggle");
     const { id } = $li.dataset;
-    const idx = this.state.findIndex((item) => item.id == id);
+
+    onToggleClick(id);
 
     if ($li.className === "open") {
       $li.className = "close";
@@ -61,34 +59,6 @@ export default function PostList({ $target, initialState }) {
       $li.className = "open";
     }
     const isDisplay = $li.className === "open" ? "block" : "none";
-    for (let i = 1; i < $li.children.length; i++) {
-      $li.children[i].style.display = isDisplay;
-    }
+    $li.children[2].style.display = isDisplay;
   });
-
-  // $postList.addEventListener("click", (e) => {
-  //   const initial = initialState;
-  //   const $test = document.createElement("ul");
-  //   let $li = e.target.closest(".title");
-  //   const { id, toggle } = $li.dataset;
-  //   const idx = this.state.findIndex((item) => item.id == id);
-  //   // const $parent = $li.parentElement;
-  //   if (this.state[idx].documents.length === 0) {
-  //     console.log("자식없음");
-  //     this.setState(this.state[idx].documents);
-  //   } else {
-  //     this.setState(this.state[idx].documents);
-  //   }
-  //   console.log(this.state.length);
-  //   if (this.state) {
-  //     $test.innerHTML = `
-  //     ${this.state
-  //       .map(
-  //         ({ id, title }) => `<li data-id="${id}" class="title">${title}</li>`
-  //       )
-  //       .join("")}
-  //         `;
-  //     $li.appendChild($test);
-  //   }
-  // });
 }
