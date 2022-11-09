@@ -13,19 +13,24 @@ export default function App({ $target }) {
   const documentList = new DocumentList({
     $target,
     initialState: getDocumentAll(),
-    createNewDocument: ({ $target }) => {
-      const index = $target.closest("[data-id]").dataset.id;
-      putDocument({
-        id: index,
+    postDocument: () => {
+      postDocument({
         title: "클릭한 아이 수정",
-        content: "클릭한 아이 수정 내용",
       });
-      console.log(getDocumentById({ id: index }));
-      documentList.setState(getDocumentAll());
+    },
+    deleteDocument: ({ $target }) => {
+      const index = $target.closest("[data-id]").dataset.id;
+      deleteDocument({
+        id: index,
+      });
     },
     showChildDocument: ({ $target }) => {
       const index = $target.closest("[data-id]").dataset.id;
-      console.log($target, "리스트 보여주기", index);
+      putDocument({
+        id: index,
+        title: "testing change",
+        content: "testing change",
+      });
     },
   });
 }

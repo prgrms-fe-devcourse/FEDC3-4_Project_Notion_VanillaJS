@@ -3,7 +3,8 @@ import { isConstructor } from "../../Helpers/checkError.js";
 export default function DocumentList({
   $target,
   initialState,
-  createNewDocument,
+  postDocument,
+  deleteDocument,
   showChildDocument,
 }) {
   isConstructor(new.target);
@@ -24,16 +25,21 @@ export default function DocumentList({
         ({ id, title }) => `
           <li data-id="${id}">
             <span id="title">${title}</span>
-            <button id="createNewDocumentButton">➕</button>
+            <button id="postDocumentButton">➕</button>
             <button id="showChildDocumentButton">🔽</button>
+            <button id="deleteDocumentButton">❌</button>
           </li>`
       )
       .join("")}`;
   };
 
   $documentList.addEventListener("click", (e) => {
-    if (e.target && e.target.id === "createNewDocumentButton") {
-      createNewDocument({ $target: e.target });
+    if (e.target && e.target.id === "postDocumentButton") {
+      postDocument();
+    }
+
+    if (e.target && e.target.id === "deleteDocumentButton") {
+      deleteDocument({ $target: e.target });
     }
 
     if (e.target && e.target.id === "showChildDocumentButton") {

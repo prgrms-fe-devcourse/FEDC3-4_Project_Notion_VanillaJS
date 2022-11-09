@@ -5,6 +5,7 @@ export const getDocumentAll = async () => {
   const res = await fetch(`${API_END_POINT}`, {
     headers: {
       "x-username": USERNAME,
+      "Content-Type": "application/json",
     },
   });
 
@@ -19,6 +20,7 @@ export const getDocumentById = async ({ id }) => {
   const res = await fetch(`${API_END_POINT}${id}`, {
     headers: {
       "x-username": USERNAME,
+      "Content-Type": "application/json",
     },
   });
 
@@ -34,6 +36,7 @@ export const postDocument = async ({ title, parent = null }) => {
     method: "POST",
     headers: {
       "x-username": USERNAME,
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       title,
@@ -51,11 +54,9 @@ export const putDocument = async ({ id, title, content }) => {
     method: "PUT",
     headers: {
       "x-username": USERNAME,
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      title: title,
-      content: content,
-    }),
+    body: JSON.stringify({ title, content }),
   });
 
   if (!res.ok) {
@@ -68,11 +69,8 @@ export const deleteDocument = async ({ id }) => {
     method: "DELETE",
     headers: {
       "x-username": USERNAME,
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      title,
-      parent,
-    }),
   });
 
   if (!res.ok) {
