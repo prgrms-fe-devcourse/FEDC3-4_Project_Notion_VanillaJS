@@ -3,8 +3,8 @@ import { totalDirectoryList } from "../utils/totalDirectoryList.js";
 
 export default function DirectoryList({ $target, initialState }) {
   const $directoryList = document.createElement("div");
+  $directoryList.className = "directory-page";
   $target.appendChild($directoryList);
-
   this.state = initialState;
 
   this.setState = (nextState) => {

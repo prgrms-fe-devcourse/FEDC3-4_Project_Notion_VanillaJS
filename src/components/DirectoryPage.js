@@ -1,6 +1,7 @@
 import DirectoryList from "./DirectoryList.js";
 
-export default function DocumentPage({ $target }) {
+export default function DirectoryPage({ $target }) {
+  const $page = document.createElement("div");
   const DUMMY_DATA = [
     {
       id: 1, // Document id
@@ -32,7 +33,13 @@ export default function DocumentPage({ $target }) {
     },
   ];
   new DirectoryList({
-    $target,
+    $target: $page,
     initialState: DUMMY_DATA,
   });
+
+  this.render = () => {
+    $target.appendChild($page);
+  };
+
+  this.render();
 }

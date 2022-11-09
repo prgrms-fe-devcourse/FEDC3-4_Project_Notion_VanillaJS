@@ -1,7 +1,22 @@
 ul {
-  padding: 0 1%;
+  padding: 0 3%;
 }
 
 li {
   list-style: none;
+}
+
+div .directory-page {
+  width: 300px;
+  margin-right: 10px;
+}
+
+.toggle-button {
+  background: none;
+  font-size: 20px;
+  font-weight: 700;
+  border: none;
+}
+
+.list-button {
 }
