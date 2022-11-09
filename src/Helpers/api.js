@@ -1,68 +1,81 @@
-import "./env.js";
+const API_END_POINT = "https://kdt-frontend.programmers.co.kr/documents/";
+const USERNAME = "zerosial";
 
-console.log("API_END_POINT:", process.env.API_END_POINT);
-console.log("API_END_POINT:", process.env.API_END_POINT);
+export const getDocumentAll = async () => {
+  const res = await fetch(`${API_END_POINT}`, {
+    headers: {
+      "x-username": USERNAME,
+    },
+  });
 
-/**
-export async function GetData({ userName }) {
-  const res = await fetch(`https://todo-api.roto.codes/${userName}?delay=1000`);
   if (!res.ok) {
     throw new Error("네트워크 응답이 올바르지 않습니다.");
   }
-  const todoList = await res.json();
-  return todoList;
-}
 
-export async function PostData({ todoText, userName }) {
-  const res = await fetch(`https://todo-api.roto.codes/${userName}`, {
+  return await res.json();
+};
+
+export const getDocumentById = async ({ id }) => {
+  const res = await fetch(`${API_END_POINT}${id}`, {
+    headers: {
+      "x-username": USERNAME,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("네트워크 응답이 올바르지 않습니다.");
+  }
+
+  return await res.json();
+};
+
+export const postDocument = async ({ title, parent = null }) => {
+  const res = await fetch(`${API_END_POINT}`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "x-username": USERNAME,
     },
     body: JSON.stringify({
-      content: todoText,
+      title,
+      parent,
     }),
   });
+
   if (!res.ok) {
     throw new Error("네트워크 응답이 올바르지 않습니다.");
   }
-}
+};
 
-export async function PutData({ userName, id }) {
-  const res = await fetch(
-    `https://todo-api.roto.codes/${userName}/${id}/toggle`,
-    {
-      method: "PUT",
-    }
-  );
-  if (!res.ok) {
-    throw new Error("네트워크 응답이 올바르지 않습니다.");
-  }
-}
-
-export async function DeleteData({ userName, id }) {
-  const res = await fetch(`https://todo-api.roto.codes/${userName}/${id}`, {
-    method: "DELETE",
+export const putDocument = async ({ id, title, content }) => {
+  const res = await fetch(`${API_END_POINT}${id}`, {
+    method: "PUT",
+    headers: {
+      "x-username": USERNAME,
+    },
+    body: JSON.stringify({
+      title: title,
+      content: content,
+    }),
   });
+
   if (!res.ok) {
     throw new Error("네트워크 응답이 올바르지 않습니다.");
   }
-}
+};
 
-export async function DeleteAllData({ userName }) {
-  const res = await fetch(`https://todo-api.roto.codes/${userName}/all`, {
+export const deleteDocument = async ({ id }) => {
+  const res = await fetch(`${API_END_POINT}${id}`, {
     method: "DELETE",
+    headers: {
+      "x-username": USERNAME,
+    },
+    body: JSON.stringify({
+      title,
+      parent,
+    }),
   });
-  if (!res.ok) {
-    throw new Error("네트워크 응답이 올바르지 않습니다.");
-  }
-}
 
-export async function GetUser() {
-  const res = await fetch(`https://todo-api.roto.codes/users`);
   if (!res.ok) {
     throw new Error("네트워크 응답이 올바르지 않습니다.");
   }
-  return await res.json();
-}
- */
+};
