@@ -4,6 +4,7 @@ export default function PostPage({ $target, initialState, onEditing, onDelete })
   }
 
   let timer = null;
+  let directoryRoute = []
 
   this.state = initialState;
   this.onEditing = onEditing
@@ -17,6 +18,7 @@ export default function PostPage({ $target, initialState, onEditing, onDelete })
   this.setState = (nextState, reRender=true) => {
     this.state = nextState;
     if(reRender){
+      console.log(this.makeDepth([],this.state.res_document))
       this.render();
     }
   };
@@ -24,29 +26,30 @@ export default function PostPage({ $target, initialState, onEditing, onDelete })
   this.makeDepth = (arr,docs) => {
     const newArr = [...arr]
     docs.forEach(doc => {
+      newArr.push(doc.title)
       if(doc.id === this.state.res_content.id){
-        console.log(newArr)
         return newArr
       }
       if(doc.documents.length) {
-        return this.makeDepth([...newArr,doc.title],doc.documents)
+        const ans = this.makeDepth(newArr, doc.documents)
+        console.log(ans)
+        if(ans){
+          
+          return ans
+        }
+        newArr.pop()
       }
-    })
+    }) 
   }
 
   this.render = () => {
-    const depthArr = this.makeDepth([],this.state.res_document)
-    console.log(depthArr)
+
     this.$div.innerHTML = `
       <header>
         <span class="header_title">
-          zz
+          ${directoryRoute.join(" / ")+" / "+this.state.res_content.title  }
         </span>
         <div class="header_action_btns">
-          <button type="button">공유</button>
-          <button type="button">댓글</button>
-          <button type="button">시간</button>
-          <button type="button">별</button>
           <button type="button" name="delete">삭제</button>
         </div>
       </header>
@@ -99,7 +102,9 @@ export default function PostPage({ $target, initialState, onEditing, onDelete })
     const { tagName } = e.target 
     const { name } = e.target
     if(tagName === "BUTTON" && name ==="delete"){
-      this.onDelete(this.state.res_content.id)
+      if(confirm("정말 삭제하시겠습니까?")){
+        this.onDelete(this.state.res_content.id)
+      }
     }
   })
 }

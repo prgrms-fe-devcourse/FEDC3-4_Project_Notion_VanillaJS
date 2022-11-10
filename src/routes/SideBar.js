@@ -84,13 +84,13 @@ export default function SideBar({ $target, initialState,onClickAdd }) {
     e.stopImmediatePropagation();
     const $li = e.target;
 
-    if($li){
+    if($li && $li.tagName !== "NAV"){
       const {id} = $li.closest("li").dataset;
 
       if ($li.tagName ==="LI") {
         const $ul = $li.childNodes[5]
 
-        if($ul && $ul.tagName === "UL"){
+        if($ul && $ul.tagName === "UL"){ // click fold
           const foldState = this.getFoldState(id)
 
           $ul.style.display = foldState ? "block" : "none"
@@ -98,7 +98,7 @@ export default function SideBar({ $target, initialState,onClickAdd }) {
 
           this.setFoldState(id)
         }
-      } else if($li.tagName ==="SPAN"){
+      } else if($li.tagName ==="SPAN"){ //click text
         const prev_id = this.state.res_content.id
         const prev_node = document.querySelector(`li[data-id="${prev_id}"]`).childNodes[1]
 
@@ -108,7 +108,7 @@ export default function SideBar({ $target, initialState,onClickAdd }) {
         $li.style.color = "#000"
 
         push(`/posts/${id}`);
-      } else if($li.tagName === "IMG"){
+      } else if($li.tagName === "IMG"){ //click plus
         const foldState = this.getFoldState(id)
 
         if(foldState){
