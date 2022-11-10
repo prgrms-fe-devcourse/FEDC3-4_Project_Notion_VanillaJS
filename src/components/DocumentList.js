@@ -50,6 +50,7 @@ export default function DocumentList({
       }
       if (target.name === "remove-button") {
         onClickRemove(id);
+        removeItem(listToggleState);
         return;
       }
       if (target.name === "add-button") {

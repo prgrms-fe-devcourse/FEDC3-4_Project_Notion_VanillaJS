@@ -8,6 +8,8 @@ export default function Editor({
 }) {
   const $editor = document.createElement("div");
 
+  let init = false;
+
   $editor.innerHTML = `
     <input type="text" name="title" stlye="width: 600px" />
     <div name="content" contenteditable="true" style="width: 600px; height:400px; border: 1px solid black; padding: 8px;"></div>
