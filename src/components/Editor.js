@@ -1,4 +1,5 @@
 import { isNew } from '../utils/helper.js';
+import { UNTITLED } from '../utils/contants.js';
 
 export default function Editor({
   $target,
@@ -10,7 +11,7 @@ export default function Editor({
   const $editor = document.createElement('div');
 
   $editor.innerHTML = `
-      <input type="text" name="title" style="width: 600px;" placeholder="untitled"/>
+      <input type="text" name="title" style="width: 600px;" placeholder="${UNTITLED}"/>
       <textarea name="content" style="width: 600px; height: 400px;" placeholder="Type '/' for commands"</textarea>
   `;
 

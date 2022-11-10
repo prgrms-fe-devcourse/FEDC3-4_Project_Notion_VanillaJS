@@ -1,5 +1,5 @@
 import { push } from '../utils/router.js';
-import { NEW, ROUTE_DOCUMENTS } from '../utils/contants.js';
+import { NEW, ROUTE_DOCUMENTS, UNTITLED } from '../utils/contants.js';
 import { isNew } from '../utils/helper.js';
 
 const DOCUMENT_ITEM = 'document-item';
@@ -24,7 +24,7 @@ export default function DocumentList({ $target, initialState }) {
           .map(
             ({ id, title, documents }) => `
               <li data-id="${id}" class="${DOCUMENT_ITEM}">
-                ${title}
+                ${title.length > 0 ? title : UNTITLED}
                 <button class="${ADD}" type="button">+</button>
               </li>
               ${
