@@ -1,0 +1,152 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+#app {
+  display: flex;
+  background-color: white;
+  font-family: ui-sans-serif;
+  color: #afaeaa;
+  height: 100vh;
+}
+
+.sideBar-container {
+  width: 240px;
+  background-color: #f8f6f2;
+  height: auto;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.editor-container {
+  width: 85%;
+  background-color: #ffffff;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+
+.editor-content-container {
+  width: 100%;
+  min-height: 80vh;
+  margin: 0 auto;
+  padding: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+button {
+  width: 20px;
+  height: 20px;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #f1f1ef;
+}
+
+.editor-title {
+  width: 80vh;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  font-size: 40px;
+  font-weight: 700;
+  border: none;
+  outline: none;
+}
+
+.editor-text {
+  width: 80vh;
+  height: 80vh;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+}
+
+.sideBar {
+  width: 240px;
+  height: 45px;
+  line-height: 24px;
+  padding: 10px 15px;
+}
+
+.header-content {
+  height: 21px;
+}
+
+.header-content span {
+  color: #000000;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  border-top: 1px solid #e9e9e9;
+}
+
+.list {
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+  margin-bottom: 45px;
+  padding-top: 10px;
+}
+
+ul {
+  list-style: none;
+  padding-left: 10px;
+}
+
+ul li {
+  line-height: 21px;
+  font-size: 14px;
+  width: 100%;
+}
+
+.list-item {
+  display: flex;
+  width: 100%;
+  flex-shrink: 0;
+  height: 27px;
+}
+
+.toggler {
+  width: 20px;
+  height: 20px;
+}
+
+.toggler::before {
+  content: '\02C3';
+  display: inline-block;
+  margin-right: 0.5rem;
+  transition: transform 0.3s ease-in-out;
+}
+
+.toggler.active::before {
+  transform: rotate(90deg);
+}
+
+.add-btn {
+  justify-content: flex-end;
+}
+
+.list-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: auto;
+  margin-right: 10px;
+}

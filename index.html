@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Notion Cloning</title>
+  </head>
+  <body>
+    <main id="app">
+      <section class="sideBar-container">
+        <header class="sideBar">
+          <div class="header-content">
+            <img src="" alt="" />
+            <span>👊 동우의 Notion</span>
+          </div>
+        </header>
+        <div class="list">
+          <ul>
+            <li data-id="0">
+              <div class="list-item">
+                <button class="toggler"></button>
+                <label for="0">
+                  <span>머하냐 ㅋㅋ</span>
+                </label>
+                <div class="list-buttons">
+                  <button class="add-btn">+</button>
+                  <button class="remove-btn">&#128465;</button>
+                </div>
+              </div>
+              <ul>
+                <li>
+                  <div class="list-item">
+                    <button class="toggler"></button>
+                    <label for="00">value00</label>
+                    <div class="list-buttons">
+                      <button class="add-btn">+</button>
+                      <button class="remove-btn">&#128465;</button>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="list-item">
+                    <button class="toggler"></button>
+                    <label for="00">value00</label>
+                    <div class="list-buttons">
+                      <button class="add-btn">+</button>
+                      <button class="remove-btn">&#128465;</button>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </li>
+            <li data-id="1">
+              <div class="list-item">
+                <button class="toggler"></button>
+                <label for="00">value00</label>
+                <div class="list-buttons">
+                  <button class="add-btn">+</button>
+                  <button class="remove-btn">&#128465;</button>
+                </div>
+              </div>
+              <ul>
+                <li>
+                  <div class="list-item">
+                    <button class="toggler"></button>
+                    <label for="00">value00</label>
+                    <div class="list-buttons">
+                      <button class="add-btn">+</button>
+                      <button class="remove-btn">&#128465;</button>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <input type="checkbox" id="1" />
+                  <label for="1">
+                    <span>value01</span>
+                    <button>+</button>
+                  </label>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <footer class="sideBar">
+          <button class="add-Folder-btn">+</button>
+          <span class="footer-text">새 페이지</span>
+        </footer>
+      </section>
+      <section class="editor-container">
+        <div class="editor-content-container">
+          <input
+            class="editor-title"
+            type="text"
+            name="text"
+            id="title"
+            placeholder="제목"
+          />
+          <textarea
+            class="editor-text"
+            name="text"
+            id="text"
+            placeholder="내용을 입력하세요..😁"
+          ></textarea>
+        </div>
+      </section>
+    </main>
+    <script src="/src/main.js" type="module"></script>
+  </body>
+</html>
