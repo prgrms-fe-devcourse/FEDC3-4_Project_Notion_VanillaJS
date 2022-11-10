@@ -10,14 +10,14 @@ export default function App({ $target }) {
 
   this.state = {
     isLoading: false,
-    onClickAddID:null,
-    res_document:[],
-    res_content:[]
+    onClickAddID: null,
+    res_document: [],
+    res_content: [],
   };
 
   this.setState = (nextState) => {
+    console.log(nextState);
     this.state = nextState;
-    console.log(nextState)
     postPage.setState(this.state);
     sideBar.setState(this.state);
   };
@@ -28,44 +28,44 @@ export default function App({ $target }) {
     onClickAdd: (id) => {
       this.setState({
         ...this.state,
-        onClickAddID:id
-      })
+        onClickAddID: id,
+      });
 
       push(`/posts/new`);
-    }
+    },
   });
 
   const postPage = new PostPage({
     $target,
     initialState: this.state,
-    onEditing: async({id, title, content})=>{
+    onEditing: async ({ id, title, content }) => {
       const res = await request(`/${id}`, {
         method: "PUT",
         body: JSON.stringify({
           title,
-          content
+          content,
         }),
       });
-      
-      const nextState = {...this.state.res_content}
 
-      nextState.title = res.title
-      nextState.content = res.content
+      const nextState = { ...this.state.res_content };
+
+      nextState.title = res.title;
+      nextState.content = res.content;
 
       this.setState({
         ...this.state,
-        res_content:nextState
-      })
-
-      this.fetch(this.state.res_content.id)
-    },
-    onDelete : async(id) => {
-      const res = await request(`/${id}`, {
-        method: "DELETE"
+        res_content: nextState,
       });
 
-      this.fetch(res.parent.id)
-    }
+      this.fetch(this.state.res_content.id);
+    },
+    onDelete: async (id) => {
+      const res = await request(`/${id}`, {
+        method: "DELETE",
+      });
+
+      this.fetch(res.parent.id);
+    },
   });
 
   this.init = async () => {
@@ -75,8 +75,7 @@ export default function App({ $target }) {
         isLoading: true,
       });
 
-      this.fetch()
-
+      this.fetch();
     } catch (e) {
       console.error(e);
     } finally {
@@ -87,41 +86,39 @@ export default function App({ $target }) {
     }
   };
 
-  this.fetch = async(targetId) => {
+  this.fetch = async (targetId) => {
     const res_document = await request("/");
-    const rootId = targetId || res_document[0].id
-    const res_content = await request(`/${rootId}`)
+    const res_content = await request(`/${targetId || res_document[0].id}`);
 
     this.setState({
       ...this.state,
       res_document,
-      res_content
+      res_content,
     });
-  }
+  };
 
-  this.route = async() => {
+  this.route = async () => {
     const { pathname } = window.location;
-  
+
     if (pathname.indexOf("/posts/") === 0) {
       const [, , postId] = pathname.split("/");
-      
-      if(postId === "new"){
-        const res = await request('/', {
+
+      if (postId === "new") {
+        const res = await request("/", {
           method: "POST",
           body: JSON.stringify({
-            title:"제목 없음",
-            parent:this.state.onClickAddID
+            title: "",
+            parent: this.state.onClickAddID,
           }),
         });
-        
+
         push(`/posts/${res.id}`);
       } else {
-        this.fetch(postId)
+        this.fetch(postId);
       }
-      
     }
   };
 
   this.init();
-  initRouter(()=>this.route())
+  initRouter(() => this.route());
 }
