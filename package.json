@@ -1,0 +1,14 @@
+{
+  "name": "fedc3-4_project_notion_vanillajs",
+  "version": "1.0.0",
+  "description": "Notion 클로닝",
+  "scripts": {
+    "dev": "npx serve -s"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prgrms-fe-devcourse/FEDC3-4_Project_Notion_VanillaJS.git"
+  },
+  "author": "yurikim",
+  "license": "ISC"
+}
