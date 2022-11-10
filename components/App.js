@@ -1,47 +1,31 @@
-import DocumentList from "./DocumentList.js";
-import DocumentEdit from "./DocumentEdit.js";
-import { request } from "../util/api.js";
+
 import debounce from "../util/debounce.js";
+import Sidebar from "./Sidebar.js";
+import DocumentPage from "./DocumentPage.js";
+import { initRouter } from "../util/route.js";
 
 export default function App({ $app }) {
-
-  this.state = {
-    documents: [],
-    selectedDocuments: null
-  }
-
-  this.setState = (nextState) => {
-    this.state = nextState;
-    documentList.setState(this.state.documents);
-    documentEdit.setState(this.state.selectedDocuments);
-  }
-
-  const documentList = new DocumentList({
+  const sidebar = new Sidebar({
     $target: $app,
-    initialState: this.state.documents,
-    onDocumentClick: async (id) => {
-      const selectedDocuments = await request(`/documents/${id}`)
-      this.setState({ ...this.state, selectedDocuments });
+  });
+
+  const documentPage = new DocumentPage({
+    $target: $app,
+    getDocuments: () => sidebar.setState()
+  });
+
+  this.route = () => {
+    const { pathname } = window.location;
+    if (pathname === '/') {
+      sidebar.setState();
+      documentPage.setState({ documentId: null });
+    } else if (pathname.indexOf('/documents/') === 0) {
+      const [, , documentId] = pathname.split('/');
+      sidebar.setState();
+      documentPage.setState({ documentId });
     }
-  });
-
-  const documentEdit = new DocumentEdit({
-    $target: $app,
-    initialState: this.state.selectedDocuments,
-    onEditing: debounce(async ({ id, title, content }) => {
-      await request(`/documents/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify({ title, content })
-      });
-      this.setState({ ...this.state, selectedDocuments: { ...this.state.selectedDocuments, title, content } });
-      getDocuments();
-    }, 1000)
-  });
-
-  const getDocuments = async () => {
-    const documents = await request('/documents');
-    this.setState({ ...this.state, documents });
   }
 
-  getDocuments();
+  this.route();
+  initRouter(() => this.route());
 }

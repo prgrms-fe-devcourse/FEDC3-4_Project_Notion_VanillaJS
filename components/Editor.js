@@ -1,9 +1,9 @@
-export default function DocumentEdit({ $target, initialState, onEditing }) {
+export default function Editor({ $target, initialState, onEditing }) {
   const $element = document.createElement('form');
-  $element.className = 'document-wrap'
+  $element.className = 'editor'
   $element.innerHTML = `
-    <input class="document-title" type="text" name="title" >
-    <textarea class="document-class" name="content"></textarea>
+    <input class="document-title" type="text" name="title" placeholder="Untitled">
+    <textarea class="document-content" name="content"></textarea>
   `;
 
   $target.appendChild($element);
@@ -29,6 +29,4 @@ export default function DocumentEdit({ $target, initialState, onEditing }) {
     $element.querySelector('[name=title]').value = this.state.title;
     $element.querySelector('[name=content]').value = this.state.content;
   }
-
-  this.render();
 }
