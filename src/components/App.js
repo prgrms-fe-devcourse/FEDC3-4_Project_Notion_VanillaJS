@@ -1,21 +1,21 @@
-import DirectoryPage from "./DirectoryPage.js";
+import DocumentPage from "./DocumentPage.js";
 import EditorPage from "./EditorPage.js";
 
 export default function App({ $target }) {
-  const directoryPage = new DirectoryPage({
+  const documentPage = new DocumentPage({
     $target,
   });
 
   const editorPage = new EditorPage({
     $target,
     initialState: {
-      postId: "new",
-      post: {
+      documentId: null,
+      document: {
         title: "",
         content: "",
       },
     },
   });
 
-  directoryPage.setState();
+  documentPage.setState();
 }
