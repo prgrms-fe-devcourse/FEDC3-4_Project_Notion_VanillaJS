@@ -5,7 +5,8 @@ export default function DirectoryList({
   $target,
   initialState,
   onClickRootAdd,
-  OnClickRemove,
+  onClickRemove,
+  onClickAdd,
 }) {
   const $directoryList = document.createElement("div");
   $directoryList.className = "directory-page";
@@ -48,8 +49,11 @@ export default function DirectoryList({
         return;
       }
       if (target.name === "remove-button") {
-        console.log(id);
-        OnClickRemove(id);
+        onClickRemove(id);
+        return;
+      }
+      if (target.name === "add-button") {
+        onClickAdd(id);
         return;
       }
     }

@@ -18,9 +18,18 @@ export default function DirectoryPage({ $target }) {
         body: JSON.stringify(post),
       });
     },
-    OnClickRemove: async (id) => {
+    onClickRemove: async (id) => {
       const removePost = await request(`/documents/${id}`, {
         method: "DELETE",
+      });
+    },
+    onClickAdd: async (id) => {
+      const addPost = await request(`/documents/`, {
+        method: "POST",
+        body: JSON.stringify({
+          title: "제목 없음",
+          parent: id,
+        }),
       });
     },
   });
