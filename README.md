@@ -6,14 +6,16 @@
 - [ ] Constents.js 에서 상수처리 분리
 - [ ] Helpers 폴더 내에서 에러체크 및 각종 기능함수 (makeEditor.js makeList.js 만들기)
 - [ ] 왼쪽에 DocumentList.js로 리스트 불러오기
-- [ ] 최상위단 - 문서 생성만 가능 (/documents)
-- [ ] 하위문서 - 하위문서 생성버튼과 해당문서 수정버튼 (/documents/[:id])
+- [ ] 최상위단 - 문서 생성 버튼
+- [ ] 하위문서 - 문서 생성 버튼
+- [ ] 하위문서 - 문서 하부문서 조회 버튼
+- [ ] 하위문서 - 문서 삭제 버튼
 - [ ] 오른쪽에 DocumentEditor.js로 에디터 불러오기
 - [ ] 상단에 타이틀 (title)
-- [ ] 하단에 입력 박스 (textarea)
+- [ ] 중단에 입력 박스 (contenteditable)
 - [ ] Api.js 를 통해 통신을 분리 (Asyne Await)
 - [ ] Storage.js 를 통해 로컬 스토리지와 통신
-- [ ] Router.js 를 통해 이벤트 수신기를 달아주고 주소창에 입력 시 해당 값에 맞는 화면을 Route 처리
+- [ ] Router.js 를 통해 이벤트 수신기를 달아주고 주소창에 입력 시 해당 값에 맞는 화면을 Route 처리 (/documents) , (/documents/[:id])
 
 ## 추가 구현사항
 
