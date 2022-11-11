@@ -5,7 +5,7 @@
 
 .flex-column {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .full-size {
@@ -22,8 +22,33 @@
   background-color: rgb(251, 251, 250);
 }
 
-.hover {
+.navigator-header {
+  padding: 1rem 1rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.document {
+  font-size: 0.9rem;
+  line-height: 1.4rem;
+  margin: 0 0.2rem;
+  padding: 0.2rem 0.15rem;
+  border-radius: 0.2rem;
+}
+.document:hover {
   background-color: rgba(0, 0, 0, 0.04);
+}
+
+.icon-wrapper {
+  padding: 0.15rem;
+  border-radius: 0.2rem;
+}
+.icon-wrapper:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.rotate .chevron {
+  transform: rotateZ(90deg);
 }
 
 /*# sourceMappingURL=main.css.map */
