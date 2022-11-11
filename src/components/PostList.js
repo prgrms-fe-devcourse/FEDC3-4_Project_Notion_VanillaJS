@@ -57,9 +57,6 @@ export default function PostList({
 
   $postList.addEventListener("click", (e) => {
     const $li = e.target.closest("li");
-    const $toggleBtn = e.target.closest(".toggle");
-    const $addBtn = e.target.closest(".add");
-    const $deleteBtn = e.target.closest(".delete");
     const { id } = $li.dataset;
     const name = e.target.closest("[name]");
     if (name) {
@@ -77,7 +74,6 @@ export default function PostList({
       }
       if (attribute === "text") {
         onSelect(id);
-        console.log("url이동", id);
         push(`/documents/${id}`);
       }
       if (attribute === "add") {
@@ -87,6 +83,7 @@ export default function PostList({
       if (attribute === "delete") {
         if ($li.parentElement.dataset) {
           const { id } = $li.parentElement.dataset;
+          push(`/documents/${id}`);
           removeItem(`notion-${id}`);
         }
         removeItem(`notion-${id}`);

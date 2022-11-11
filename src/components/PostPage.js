@@ -1,8 +1,9 @@
 import PostList from "./PostList.js";
 import { request } from "../api.js";
 import NewPostBtn from "./NewPostBtn.js";
+import { push } from "../router.js";
 
-export default function PostPage({ $target }) {
+export default function PostPage({ $target, getId }) {
   const $page = document.createElement("div");
   $page.className = "sidebar";
 
@@ -15,9 +16,11 @@ export default function PostPage({ $target }) {
   const postList = new PostList({
     $target: $page,
     initialState: this.state,
-    onSelect: () => {},
+    onSelect: async (id) => {
+      history.pushState(null, null, `/documents/${id}`);
+      getId(id);
+    },
     onAdd: async (id) => {
-      console.log(`${id}에 추가`);
       const documents = {
         title: `${id} 제목 없음`,
         parent: id,
@@ -29,7 +32,6 @@ export default function PostPage({ $target }) {
       this.setState();
     },
     onDelete: async (id) => {
-      console.log(`${id}삭제`);
       await request(`/${id}`, {
         method: "DELETE",
       });
@@ -49,6 +51,7 @@ export default function PostPage({ $target }) {
         method: "POST",
         body: JSON.stringify(documents),
       });
+      push(`/documents/${newPage.id}`);
       this.setState();
     },
   });
