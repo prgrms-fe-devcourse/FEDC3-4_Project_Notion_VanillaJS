@@ -8,6 +8,7 @@ export default function Sidebar({ $target }) {
   isNew(new.target);
 
   const $sidebar = document.createElement('div');
+  $sidebar.className = 'sidebar';
 
   $target.appendChild($sidebar);
 

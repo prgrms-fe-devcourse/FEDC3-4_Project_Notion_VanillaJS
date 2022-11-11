@@ -9,10 +9,11 @@ export default function Editor({
   isNew(new.target);
 
   const $editor = document.createElement('div');
+  $editor.className = 'editor';
 
   $editor.innerHTML = `
-      <input type="text" name="title" style="width: 600px;" placeholder="${UNTITLED}"/>
-      <textarea name="content" style="width: 600px; height: 400px;" placeholder="Type '/' for commands"</textarea>
+      <input type="text" name="title" class="title" placeholder="${UNTITLED}"/>
+      <textarea name="content" class="content" placeholder="내용을 입력하세요."</textarea>
   `;
 
   $target.appendChild($editor);

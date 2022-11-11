@@ -8,13 +8,14 @@ import {
 import { isNew } from '../utils/helper.js';
 import { setItem } from '../utils/storage.js';
 
-const DOCUMENT_ITEM = 'document-item';
+const DOCUMENT_ITEM = 'document-list-item';
 const ADD = 'add';
 
 export default function DocumentList({ $target, initialState }) {
   isNew(new.target);
 
   const $documentList = document.createElement('div');
+  $documentList.className = 'document-list';
   $target.appendChild($documentList);
 
   this.state = initialState;
@@ -31,12 +32,14 @@ export default function DocumentList({ $target, initialState }) {
             ({ id, title, documents }) => `
               <li data-id="${id}" class="${DOCUMENT_ITEM}">
                 ${title.length > 0 ? title : UNTITLED}
-                <button class="${ADD}" type="button">+</button>
+                <button class="${ADD}" type="button">
+                  <i class="fa-solid fa-plus add-icon"></i>
+                </button>
               </li>
               ${
                 documents.length
                   ? renderDocuments(documents)
-                  : 'No pages inside'
+                  : '<li class="no-subpages">No pages inside</li>'
               }
             `
           )
