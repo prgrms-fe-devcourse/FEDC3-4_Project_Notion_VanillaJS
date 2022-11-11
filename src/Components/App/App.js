@@ -3,6 +3,7 @@ import {
   getDocumentAll,
   getDocumentById,
   postDocument,
+  putDocument,
   deleteDocument,
 } from "../../Helpers/api.js";
 import DocumentList from "../DocumentList/DocumentList.js";
@@ -12,7 +13,7 @@ import { documentItem } from "../DocumentList/DocumentItem.js";
 
 export default function App({ $target }) {
   isConstructor(new.target);
-  const documentList = new DocumentList({
+  new DocumentList({
     $target,
     initialState: getDocumentAll(),
 
@@ -20,7 +21,6 @@ export default function App({ $target }) {
       const id = $target.closest("[data-id]").dataset.id;
       const $parant = $target.closest("[data-id]");
       const $detailList = $parant.children[4];
-      console.log($parant, $detailList);
       postDocument({
         title: "새로운 글 생성",
         parent: id,
@@ -39,7 +39,15 @@ export default function App({ $target }) {
       const id = $target.closest("[data-id]").dataset.id;
       const $parant = $target.closest("[data-id]");
       const $detailList = $parant.children[4];
-      console.log($parant, id, $detailList);
+      const childDocuments = await getDocumentById({ id });
+      console.log(Object.values(childDocuments));
+      if (childDocuments.documents) {
+        childDocuments.documents.forEach((doc) =>
+          deleteDocument({
+            id: doc.id,
+          })
+        );
+      }
       deleteDocument({
         id,
       });
@@ -65,11 +73,29 @@ export default function App({ $target }) {
       $target.innerText = "🔽";
     },
 
-    setEditorEvent: ({ $target }) => {
+    setEditorEvent: async ({ $target }) => {
       const id = $target.closest("[data-id]").dataset.id;
-      console.log($target, id);
+      const nextState = await getDocumentById({ id });
+      documentEditor.setState(nextState);
     },
   });
 
-  const documentEditor = new DocumentEditor({ $target, initialState: [] });
+  const documentEditor = new DocumentEditor({
+    $target,
+    initialState: {
+      id: "9999",
+      title: "여기에 입력하세요",
+      content: "여기에 입력하세요",
+    },
+    saveDocumentEvent: ({ $target }) => {
+      const $editor = $target.closest("[data-id]");
+      const id = $editor.dataset.id;
+      const arr = $editor.querySelectorAll("[contenteditable=true]");
+      putDocument({
+        id,
+        title: arr[0].innerHTML,
+        content: arr[1].innerHTML,
+      });
+    },
+  });
 }

@@ -12,6 +12,7 @@ export default function DocumentList({
 }) {
   isConstructor(new.target);
   const $documentList = document.createElement("div");
+  $documentList.id = "documentList";
   $target.appendChild($documentList);
   const documentDetailedList = new DocumentDetailedList({
     $target: $documentList,
@@ -22,25 +23,17 @@ export default function DocumentList({
     documentDetailedList.setState(nextState);
   };
 
-  $target.addEventListener("click", (e) => {
-    if (e.target && e.target.id === "title") {
-      setEditorEvent({ $target: e.target });
-    }
+  const setEvent = {
+    title: ($target) => setEditorEvent({ $target }),
+    postDocumentButton: ($target) => postDocumentEvent({ $target }),
+    deleteDocumentButton: ($target) => deleteDocumentEvent({ $target }),
+    showChildDocumentButton: ($target) => showChildDocumentEvent({ $target }),
+    hideChildDocumentButton: ($target) => hideChildDocumentEvent({ $target }),
+  };
 
-    if (e.target && e.target.id === "postDocumentButton") {
-      postDocumentEvent({ $target: e.target });
-    }
-
-    if (e.target && e.target.id === "deleteDocumentButton") {
-      deleteDocumentEvent({ $target: e.target });
-    }
-
-    if (e.target && e.target.id === "showChildDocumentButton") {
-      showChildDocumentEvent({ $target: e.target });
-    }
-
-    if (e.target && e.target.id === "hideChildDocumentButton") {
-      hideChildDocumentEvent({ $target: e.target });
+  $documentList.addEventListener("click", (e) => {
+    if (e.target.id) {
+      setEvent[e.target.id](e.target);
     }
   });
 }
