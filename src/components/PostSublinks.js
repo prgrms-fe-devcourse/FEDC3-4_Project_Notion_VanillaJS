@@ -5,11 +5,8 @@ export default function PostSublinks({ $target, initialState }) {
     throw new Error("App 컴포넌트에 new 생성자가 필요합니다.");
   }
 
+  this.$footer = $target;
   this.state = initialState;
-
-  this.$footer = document.createElement("footer");
-
-  $target.appendChild(this.$footer);
 
   this.setState = (nextState) => {
     this.state = nextState;
@@ -24,7 +21,7 @@ export default function PostSublinks({ $target, initialState }) {
       <ul>
         ${target.map((doc) => {
           return `
-            <li data-id="${doc.id}">→ ${doc.title}</li>
+            <li data-id="${doc.id}">→ ${doc.title || "제목 없음"}</li>
           `;
           }).join("")}
       </ul>

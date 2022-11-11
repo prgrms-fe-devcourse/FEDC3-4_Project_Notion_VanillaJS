@@ -1,5 +1,5 @@
 import { push } from "../router";
-import { storage } from "../storage";
+import { getItem, setItem } from "../storage";
 
 export default function SideBar({ $target, initialState, onClickAdd }) {
   if (!new.target) {
@@ -20,29 +20,32 @@ export default function SideBar({ $target, initialState, onClickAdd }) {
   };
 
   this.getFoldState = (id) => {
-    const foldState = storage.getItem("foldState");
+    const foldState = getItem("foldState");
     const targetFoldState = foldState.find((fold) => fold.id === id.toString()) || { state: true };
 
     return targetFoldState.state;
   };
 
   this.setFoldState = (id) => {
-    const foldState = storage.getItem("foldState");
+    const foldState = getItem("foldState");
     const targetFoldState = foldState.find((fold) => fold.id === id.toString()) || { state: true };
     //false = block, unfold
 
     const nextFoldState = foldState.filter((fold) => fold.id !== id.toString());
-
-    storage.setItem(
-      "foldState",
-      JSON.stringify([
-        ...nextFoldState,
-        {
-          id,
-          state: !targetFoldState.state,
-        },
-      ])
-    );
+    if (targetFoldState.state) {
+      setItem(
+        "foldState",
+        JSON.stringify([
+          ...nextFoldState,
+          {
+            id,
+            state: false,
+          },
+        ])
+      );
+    } else {
+      setItem("foldState", JSON.stringify([...nextFoldState]));
+    }
   };
 
   this.makeChildLi = ($nodes, depth = 0) => {

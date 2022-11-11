@@ -1,3 +1,5 @@
+import { getItem, setItem } from "../storage";
+
 export default function PostEditor({ $target, initialState, onEditing }) {
   if (!new.target) {
     throw new Error("App 컴포넌트에 new 생성자가 필요합니다.");
@@ -5,17 +7,15 @@ export default function PostEditor({ $target, initialState, onEditing }) {
 
   let timer = null;
 
+  this.$div = $target;
   this.state = initialState;
   this.onEditing = onEditing;
 
-  this.$div = document.createElement("setcion");
-  this.$div.className = "editor";
+  this.setState = (nextState) => {
+    const { isNeedRender } = getItem("currentContentId", null);
 
-  $target.appendChild(this.$div);
-
-  this.setState = (nextState, reRender = true) => {
     this.state = nextState;
-    if (reRender) {
+    if (isNeedRender) {
       this.render();
     }
   };
@@ -26,6 +26,7 @@ export default function PostEditor({ $target, initialState, onEditing }) {
         <input 
           name="title" 
           type="text" 
+          maxLength="20"
           value="${this.state.res_content.title || ""}"
           placeHolder = "제목 없음"/>
       </h1>
@@ -40,25 +41,35 @@ export default function PostEditor({ $target, initialState, onEditing }) {
     let value, name;
 
     if (targetTagName === "INPUT") {
-      value = e.target.value || "제목없음";
+      value = e.target.value;
       name = e.target.name;
     } else if (targetTagName === "DIV") {
       value = e.target.innerText;
       name = e.target.getAttribute("name");
     }
 
+    const { id } = getItem("currentContentId", null);
+
     const nextState = {
       ...this.state.res_content,
       [name]: value,
     };
 
-    this.setState(
-      {
-        ...this.state,
-        res_content: nextState,
-      },
-      false
-    );
+    if (this.state.res_content.id === id) {
+      setItem(
+        "inProgressContent",
+        JSON.stringify({
+          ...nextState,
+        })
+      );
+      setItem(
+        "currentContentId",
+        JSON.stringify({
+          id,
+          isNeedRender: false,
+        })
+      );
+    }
 
     if (timer !== null) {
       clearTimeout(timer);
@@ -66,6 +77,6 @@ export default function PostEditor({ $target, initialState, onEditing }) {
 
     timer = setTimeout(async () => {
       onEditing(this.state.res_content);
-    }, 1000);
+    }, 500);
   });
 }

@@ -1,6 +1,7 @@
 import PostEditor from "../components/PostEditor";
 import PostPageHeader from "../components/PostPageHeader";
 import PostSublinks from "../components/PostSublinks";
+import { getItem } from "../storage";
 
 export default function PostPage({ $target, initialState, onEditing, onDelete }) {
   if (!new.target) {
@@ -14,6 +15,15 @@ export default function PostPage({ $target, initialState, onEditing, onDelete })
   this.$div = document.createElement("div");
   this.$div.className = "postPage";
 
+  $target.appendChild(this.$div);
+
+  this.$header = document.createElement("header");
+
+  this.$section = document.createElement("setcion");
+  this.$section.className = "editor";
+
+  this.$footer = document.createElement("footer");
+
   this.setState = (nextState) => {
     this.state = nextState;
     postPageHeader.setState(this.state);
@@ -24,23 +34,31 @@ export default function PostPage({ $target, initialState, onEditing, onDelete })
   };
 
   this.render = () => {
-    $target.appendChild(this.$div);
+    const { isNeedRender } = getItem("currentContentId", null);
+
+    this.$div.appendChild(this.$header);
+
+    if (isNeedRender) {
+      this.$div.appendChild(this.$section);
+    }
+
+    this.$div.appendChild(this.$footer);
   };
 
   const postPageHeader = new PostPageHeader({
-    $target: this.$div,
+    $target: this.$header,
     initialState: this.state,
     onDelete: this.onDelete,
   });
 
   const postEditor = new PostEditor({
-    $target: this.$div,
+    $target: this.$section,
     initialState: this.state,
     onEditing: this.onEditing,
   });
 
   const postSublinks = new PostSublinks({
-    $target: this.$div,
+    $target: this.$footer,
     initialState: this.state,
   });
 }

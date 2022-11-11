@@ -5,13 +5,9 @@ export default function PostPageHeader({ $target, initialState, onDelete }) {
     throw new Error("App 컴포넌트에 new 생성자가 필요합니다.");
   }
 
+  this.$header = $target;
   this.state = initialState;
-
   this.onDelete = onDelete;
-
-  this.$div = document.createElement("header");
-
-  $target.appendChild(this.$div);
 
   this.setState = (nextState) => {
     this.state = nextState;
@@ -22,16 +18,14 @@ export default function PostPageHeader({ $target, initialState, onDelete }) {
     if (docs.length < 1) {
       return [];
     }
+
     const newArr = [...arr];
 
     for (let i = 0; i < docs.length; i++) {
       const id = docs[i].id;
       const title = docs[i].title;
 
-      newArr.push({
-        title,
-        id,
-      });
+      newArr.push({ title, id });
 
       if (id === this.state.res_content.id) {
         return newArr;
@@ -40,17 +34,16 @@ export default function PostPageHeader({ $target, initialState, onDelete }) {
         const ans = this.makeDepth(newArr, docs[i].documents);
         if (ans) {
           return ans;
-        } else {
-          newArr.pop();
         }
       }
+      newArr.pop();
     }
   };
 
   this.makeDday = (date) => {
     const today = new Date();
     const myDay = new Date(date);
-    const misec = today - myDay;
+    const misec = today - myDay < 0 ? 0 : today - myDay;
 
     let temp = Math.floor(misec / 1000);
     let count = 0;
@@ -74,7 +67,7 @@ export default function PostPageHeader({ $target, initialState, onDelete }) {
   this.render = () => {
     const route = this.makeDepth([], this.state.res_document);
 
-    this.$div.innerHTML = `
+    this.$header.innerHTML = `
       <div class="header_title">
         ${route
           .map((r) => {
@@ -93,7 +86,7 @@ export default function PostPageHeader({ $target, initialState, onDelete }) {
     `;
   };
 
-  this.$div.addEventListener("click", (e) => {
+  this.$header.addEventListener("click", (e) => {
     const { name } = e.target;
     if (name === "delete") {
       if (confirm("정말 삭제하시겠습니까?")) {

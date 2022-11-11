@@ -1,5 +1,10 @@
 const API_END_POINT = "https://kdt-frontend.programmers.co.kr/documents";
 
+const sleep = (ms) => {
+  //sleep 함수
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
 export const request = async (url, options = {}) => {
   try {
     const res = await fetch(`${API_END_POINT}${url}`, {
@@ -11,7 +16,7 @@ export const request = async (url, options = {}) => {
     });
 
     if (res.ok) {
-      const resJson = await res.json()
+      const resJson = await res.json();
       return resJson;
     }
 

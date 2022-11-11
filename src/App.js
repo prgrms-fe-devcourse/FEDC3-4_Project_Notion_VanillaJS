@@ -1,5 +1,6 @@
 import { request } from "./api.js";
 import { initRouter, push } from "./router.js";
+import { getItem, setItem, removeItem } from "./storage";
 import PostPage from "./routes/PostPage.js";
 import SideBar from "./routes/SideBar.js";
 
@@ -8,8 +9,17 @@ export default function App({ $target }) {
     throw new Error("App 컴포넌트에 new 생성자가 필요합니다.");
   }
 
+  this.$loading = document.createElement("div");
+  this.$loading.id = "loading";
+  this.$loading.innerHTML = `
+    <div class="loading_animation"></div>
+    <div class="center"/>
+      <span>Loading...</span>
+    </div>
+  `;
+  $target.appendChild(this.$loading);
+
   this.state = {
-    isLoading: false,
     onClickAddID: null,
     res_document: [],
     res_content: [],
@@ -18,8 +28,9 @@ export default function App({ $target }) {
   this.setState = (nextState) => {
     console.log(nextState);
     this.state = nextState;
-    postPage.setState(this.state);
+
     sideBar.setState(this.state);
+    postPage.setState(this.state);
   };
 
   const sideBar = new SideBar({
@@ -39,7 +50,7 @@ export default function App({ $target }) {
     $target,
     initialState: this.state,
     onEditing: async ({ id, title, content }) => {
-      const res = await request(`/${id}`, {
+      await request(`/${id}`, {
         method: "PUT",
         body: JSON.stringify({
           title,
@@ -47,55 +58,74 @@ export default function App({ $target }) {
         }),
       });
 
-      const nextState = { ...this.state.res_content };
-
-      nextState.title = res.title;
-      nextState.content = res.content;
-
-      this.setState({
-        ...this.state,
-        res_content: nextState,
-      });
-
       this.fetch(this.state.res_content.id);
     },
     onDelete: async (id) => {
-      const res = await request(`/${id}`, {
-        method: "DELETE",
-      });
-
-      this.fetch(res.parent.id);
-    },
-  });
-
-  this.init = async () => {
-    try {
       this.setState({
         ...this.state,
         isLoading: true,
       });
 
-      this.fetch();
+      const res = await request(`/${id}`, {
+        method: "DELETE",
+      });
+      if (res.parent) {
+        this.fetch(res.parent.id);
+      } else {
+        this.fetch();
+      }
+
+      this.setState({
+        ...this.state,
+        isLoading: true,
+      });
+    },
+  });
+
+  this.init = async () => {
+    try {
+      const { id } = getItem("currentContentId", null);
+      const inProgressContent = getItem("inProgressContent", null);
+
+      if (inProgressContent) {
+        if (confirm("작성중이던 글이 있습니다. 불러올까요?")) {
+          await request(`/${id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+              title: inProgressContent.title,
+              content: inProgressContent.components,
+            }),
+          });
+
+          setItem("currentContentId", JSON.stringify({ id, isNeedRender: true }));
+        }
+      }
+
+      await this.fetch(id);
     } catch (e) {
       console.error(e);
     } finally {
-      this.setState({
-        ...this.state,
-        isLoading: false,
-      });
+      $target.removeChild(this.$loading);
     }
   };
 
   this.fetch = async (targetId) => {
     const res_document = await request("/");
-    const res_content = await request(`/${targetId || res_document[0].id}`);
+
+    const initTarget = targetId || res_document[0].id;
+    const res_content = await request(`/${initTarget}`);
 
     this.setState({
       ...this.state,
       res_document,
       res_content,
     });
+
+    setItem("currentContentId", JSON.stringify({ id: initTarget, isNeedRender: true }));
+    removeItem("inProgressContent");
   };
+
+  this.init();
 
   this.route = async () => {
     const { pathname } = window.location;
@@ -119,6 +149,7 @@ export default function App({ $target }) {
     }
   };
 
-  this.init();
+  window.addEventListener("popstate", () => this.route());
+
   initRouter(() => this.route());
 }
