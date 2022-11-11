@@ -1,0 +1,139 @@
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+    format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Pretendard-Bold';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff')
+    format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
+main {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  font-family: 'Pretendard-Regular';
+}
+
+/* 리스트 영역 */
+.document-container {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #f7f5f0;
+  color: #4c4c4c;
+}
+.document-fix {
+  width: 100%;
+  height: fit-content;
+  padding: 3vh 0;
+  font-size: 16px;
+}
+.document-header {
+  border-bottom: 1px solid #e0e0e0;
+}
+.document-header span {
+  padding-left: 2vh;
+  font-weight: 600;
+}
+.document-list {
+  width: 100%;
+  height: calc(100% - 12vh);
+}
+.document {
+  width: 100%;
+  height: fit-content;
+  padding: 1.5vh 0;
+  display: flex;
+  align-items: center;
+}
+.document:hover {
+  background-color: #e8e6e0de;
+}
+.document span {
+  width: 70%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 15px;
+}
+.document-footer {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #e0e0e0;
+}
+button {
+  width: 24px;
+  height: 24px;
+  margin: 0 0.7vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 4px;
+}
+button:hover {
+  background-color: #cac8c5cc;
+}
+button img {
+  width: fit-content;
+  height: 100%;
+  opacity: 0.7;
+}
+.toggle {
+  width: fit-content;
+  height: 80%;
+}
+.plus {
+  width: fit-content;
+  height: 60%;
+}
+.create-button {
+  width: 100%;
+  justify-content: left;
+  font-family: 'Pretendard-Regular';
+  margin: 0;
+  border-radius: 0;
+}
+.create-button:hover {
+  background-color: #d4d3cdde !important;
+}
+.create-button img {
+  width: 18px;
+  height: 18px;
+  padding: 0 2vh;
+}
+
+/* 에디터 영역 */
+.editor-container {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.editor {
+  width: 80%;
+  height: 80%;
+}
+.title {
+  width: 100%;
+  padding: 10px 0;
+  font-family: 'Pretendard-Bold';
+  font-size: 42px;
+  margin-bottom: 25px;
+}
+.content {
+  width: 100%;
+  height: 80%;
+  font-family: 'Pretendard-Regular';
+  font-size: 18px;
+  color: #000000;
+}
