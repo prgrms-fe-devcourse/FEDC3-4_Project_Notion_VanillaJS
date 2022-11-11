@@ -1,10 +1,11 @@
-const API_END_POINT = "https://kdt-frontend.programmers.co.kr/";
+import { API_END_POINT } from "./Address.js";
 
 export const request = async (url, options = {}) => {
   try {
     const res = await fetch(`${API_END_POINT}${url}`, {
       ...options,
       headers: {
+        "Content-Type": "application/json",
         "x-username": "ajk",
       },
     });
