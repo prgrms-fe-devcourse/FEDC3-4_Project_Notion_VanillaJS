@@ -1,0 +1,7 @@
+#notion-app {
+  display: flex
+}
+
+.notionListcontainer{
+  width: 500px;
+}
