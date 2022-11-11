@@ -19,3 +19,24 @@ export const request = async (url, options = {}) => {
     alert(e.message)
   }
 }
+
+export const getDocument = async (documentId) => {
+  return await request(`/documents${documentId ? `/${documentId}` : ''}`)
+}
+
+export const createDocument = async (document) => {
+  return await request('/documents', {
+    method: 'POST',
+    body: JSON.stringify(document)
+  })
+}
+
+export const editDocument = async () => {
+
+}
+
+export const deleteDocument = async (documentId) => {
+  return await request(`/documents/${documentId}`, {
+    method: 'DELETE'
+  })
+}
