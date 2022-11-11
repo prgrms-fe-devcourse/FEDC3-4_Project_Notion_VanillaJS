@@ -13,7 +13,7 @@ export const getItem = (key, defaultValue) => {
 
 export const setItem = (key, value) => {
   try {
-    storage.setItem(key, value);
+    storage.setItem(key, JSON.stringify(value));
   } catch (e) {
     console.log(e.message);
   }
