@@ -1,4 +1,5 @@
 import { isConstructor } from "../../Helpers/checkError.js";
+import { documentItem } from "./DocumentItem.js";
 
 export default function DocumentDetailedList({ $target, initialState }) {
   isConstructor(new.target);
@@ -14,17 +15,7 @@ export default function DocumentDetailedList({ $target, initialState }) {
 
   this.render = async () => {
     const documentList = await this.state;
-    $documentList.innerHTML = `${documentList
-      .map(({ id, title }) => {
-        return `
-          <li data-id="${id}">
-            <span id="title">${title}</span>
-            <button id="postDocumentButton">➕</button>
-            <button id="showChildDocumentButton">🔽</button>
-            <button id="deleteDocumentButton">❌</button>
-          </li>`;
-      })
-      .join("")}`;
+    $documentList.innerHTML = `${documentList.map(documentItem).join("")}`;
   };
 
   this.render();

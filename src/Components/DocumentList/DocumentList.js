@@ -4,10 +4,11 @@ import DocumentDetailedList from "./DocumentDetailedList.js";
 export default function DocumentList({
   $target,
   initialState,
-  postDocument,
-  deleteDocument,
-  showChildDocument,
-  hideChildDocument,
+  postDocumentEvent,
+  deleteDocumentEvent,
+  showChildDocumentEvent,
+  hideChildDocumentEvent,
+  setEditorEvent,
 }) {
   isConstructor(new.target);
   const $documentList = document.createElement("div");
@@ -22,20 +23,24 @@ export default function DocumentList({
   };
 
   $target.addEventListener("click", (e) => {
+    if (e.target && e.target.id === "title") {
+      setEditorEvent({ $target: e.target });
+    }
+
     if (e.target && e.target.id === "postDocumentButton") {
-      postDocument({ $target: e.target });
+      postDocumentEvent({ $target: e.target });
     }
 
     if (e.target && e.target.id === "deleteDocumentButton") {
-      deleteDocument({ $target: e.target });
+      deleteDocumentEvent({ $target: e.target });
     }
 
     if (e.target && e.target.id === "showChildDocumentButton") {
-      showChildDocument({ $target: e.target });
+      showChildDocumentEvent({ $target: e.target });
     }
 
     if (e.target && e.target.id === "hideChildDocumentButton") {
-      hideChildDocument({ $target: e.target });
+      hideChildDocumentEvent({ $target: e.target });
     }
   });
 }
