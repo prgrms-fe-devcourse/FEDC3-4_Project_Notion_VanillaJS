@@ -1,0 +1,39 @@
+:root {
+	--sidebar-background-color: rgb(251, 251, 250);
+
+	--padding-small: 1rem;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+#root {
+	width: 100vw;
+	height: 100vh;
+}
+
+main {
+	width: 100%;
+	height: 100%;
+
+	display: flex;
+}
+
+/* Sidebar */
+nav {
+	width: 300px;
+	height: 100%;
+	background-color: var(--sidebar-background-color);
+}
+
+.document-list {
+	display: flex;
+	flex-direction: column;
+}
+
+/* Post */
+article {
+	width: 90%;
+	height: 100%;
+}

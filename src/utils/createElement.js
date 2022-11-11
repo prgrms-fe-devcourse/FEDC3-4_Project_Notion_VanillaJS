@@ -1,9 +1,14 @@
-export const createElement = ({element, $target, className = '', content = ''}) => {
+export const createElement = ({
+	element,
+	$target,
+	className = '',
+	content = '',
+}) => {
 	const $element = document.createElement(element);
-	$element.className = className;
 	$element.innerHTML = content;
-  
-  if ($target) $target.appendChild($element);
+
+	if (className) $element.className = className;
+	if ($target) $target.appendChild($element);
 
 	return $element;
 };

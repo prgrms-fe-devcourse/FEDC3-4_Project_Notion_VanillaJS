@@ -1,5 +1,4 @@
 import App from './App.js';
-import Header from './components/shared/Header.js';
 
 const $root = document.getElementById('root');
 
