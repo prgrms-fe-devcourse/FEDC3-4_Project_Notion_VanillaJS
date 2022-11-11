@@ -1,3 +1,4 @@
+import { request } from "../utils/api.js";
 import Editor from "./Editor.js";
 
 export default function EditorPage({ $target, initialState }) {
@@ -13,11 +14,25 @@ export default function EditorPage({ $target, initialState }) {
   const editor = new Editor({
     $target: $page,
     initialState: post,
-    onEditing: (post) => {},
+    onEditing: async (post) => {
+      const id = window.location.pathname.split("/")[2];
+      await request(`/documents/${id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          title: post.title,
+          content: post.content,
+        }),
+      });
+    },
   });
 
-  this.setState = (nextState) => {
+  this.setState = async (nextState) => {
     this.state = nextState;
+    const document = await request(`/documents/${this.state.documentId}`);
+    editor.setState({
+      title: document.title,
+      content: document.content,
+    });
     this.render();
   };
 

@@ -5,7 +5,7 @@ import EditorPage from "./EditorPage.js";
 export default function App({ $target }) {
   const documentPage = new DocumentPage({
     $target,
-    onClickTitle: (id) => {
+    onClickTitle: async (id) => {
       push(`/documents/${id}`);
     },
   });
