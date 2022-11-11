@@ -1,9 +1,9 @@
-import { isConstructor } from "../../Helpers/isConstructor.js";
+import { isConstructor } from "../../Helpers/checkError.js";
 
 export default function DocumentEditor({ $target, initialState }) {
   isConstructor(new.target);
-  const $todoList = document.createElement("ul");
-  $target.appendChild($todoList);
+  const $documentEditor = document.createElement("div");
+  $target.appendChild($documentEditor);
 
   this.state = initialState;
 
@@ -13,29 +13,59 @@ export default function DocumentEditor({ $target, initialState }) {
   };
 
   this.render = () => {
-    checkLocalData(this.state);
-    $todoList.innerHTML = `
-    ${this.state
-      .map(
-        ({ text, isCompleted }, index) => `
-          <li data-id="${index}" style="text-decoration: ${
-          isCompleted ? "line-through" : "none"
-        }">
-            <span class="value">${text}</span>
-            <button class="deleteButton">삭제</button>
-          </li>`
-      )
-      .join("")}
+    $documentEditor.innerHTML = `
+    <div class="editor-menu">
+    <button id="btnBold">
+        <b>B</b>
+    </button>
+    <button id="btnItalic">
+        <i>I</i>
+    </button>
+    <button id="btnUnderline">
+        <u>U</u>
+    </button>
+    <button id="btnStrike">
+        <s>S</s>
+    </button>
+    <button id="btnOrderedList">
+        OL
+    </button>
+    <button id="btnUnorderedList">
+        UL
+    </button>
+</div>
+<div id="editor" contenteditable="true"></div>
 `;
   };
 
-  $todoList.addEventListener("click", (e) => {
-    if (e.target && e.target.className === "value") {
-      onChangeComplite({ $target: e.target });
+  const setStyle = (style) => {
+    document.execCommand(style);
+    document.querySelector("#editor").focus({ preventScroll: true });
+  };
+
+  $documentEditor.addEventListener("click", (e) => {
+    if (e.target && e.target.id === "btnBold") {
+      setStyle("bold");
     }
 
-    if (e.target && e.target.className === "deleteButton") {
-      onRemove({ $target: e.target });
+    if (e.target && e.target.id === "btnItalic") {
+      setStyle("italic");
+    }
+
+    if (e.target && e.target.id === "btnUnderline") {
+      setStyle("underline");
+    }
+
+    if (e.target && e.target.id === "btnStrike") {
+      setStyle("strikeThrough");
+    }
+
+    if (e.target && e.target.id === "btnOrderedList") {
+      setStyle("insertOrderedList");
+    }
+
+    if (e.target && e.target.id === "btnUnorderedList") {
+      setStyle("insertUnorderedList");
     }
   });
 

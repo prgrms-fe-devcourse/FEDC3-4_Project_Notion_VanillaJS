@@ -15,14 +15,13 @@ export default function DocumentDetailedList({ $target, initialState }) {
   this.render = async () => {
     const documentList = await this.state;
     $documentList.innerHTML = `${documentList
-      .map(({ id, title, documents }) => {
+      .map(({ id, title }) => {
         return `
           <li data-id="${id}">
             <span id="title">${title}</span>
             <button id="postDocumentButton">➕</button>
             <button id="showChildDocumentButton">🔽</button>
             <button id="deleteDocumentButton">❌</button>
-            <span id="title">세부항목 : ${documents.length}</span>
           </li>`;
       })
       .join("")}`;
