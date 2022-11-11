@@ -10,7 +10,6 @@ export default function DocList({
 }) {
   const $listContainer = document.createElement("div");
   $target.appendChild($listContainer);
-
   const $list = makeUl("root");
 
   this.state = initialState;
@@ -21,8 +20,9 @@ export default function DocList({
   };
 
   this.render = () => {
+    $list.innerHTML = '';
     createList($list, this.state);
-    $listContainer.appendChild($list);
+    $listContainer.appendChild($list)
   };
 
   const createList = ($target, obj) => {
@@ -45,10 +45,11 @@ export default function DocList({
     });
   };
 
-  $list.addEventListener("click", (e) => {
+  this.render()
+
+  $listContainer.addEventListener("click", (e) => {
     const $li = e.target.closest(".doc-item");
     if (!$li) return;
-    console.log($li);
 
     const { documentId } = $li.dataset;
     const { className } = e.target;
@@ -56,11 +57,7 @@ export default function DocList({
       if (hasClass($li, "on")) return; //block if open in editor
       onRemove(documentId);
     } else if (className === "add") {
-      const $parent = $li.closest(".parent");
-      if (!$parent) onAdd(documentId); //add under root doc
-
-      const { parentId } = $parent.dataset;
-      onAdd(parentId); //add under parent doc
+      onAdd(documentId)
     } else {
       addClass($li, 'on');
       onSelect(documentId)
