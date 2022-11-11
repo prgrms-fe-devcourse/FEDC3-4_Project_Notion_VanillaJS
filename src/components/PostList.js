@@ -1,4 +1,5 @@
 import { getItem, removeItem, setItem } from "../storage.js";
+import { push } from "../router.js";
 
 export default function PostList({
   $target,
@@ -26,15 +27,14 @@ export default function PostList({
     ${postLists
       .map(({ id, title, documents }) => {
         const display = getItem(`notion-${id}`) || "none";
-
         return `
           <li data-id="${id}" name="notionListOne" class="close">
-          <span>
-            <button class="toggle">토글</button>${title}
-          </span>
-          <span>
-            <button class="add">+</button> <button class="delete">-</button>
-          </span>
+            <span>
+              <button name="toggle">토글</button><span data-id="${id}" name="text">${title}</span>
+            </span>
+            <span>
+              <button name="add">+</button> <button name="delete">-</button>
+            </span>
             ${
               documents.length !== 0
                 ? `<ul data-id="${id}" style="display:${display}">${Rendering(
@@ -61,35 +61,37 @@ export default function PostList({
     const $addBtn = e.target.closest(".add");
     const $deleteBtn = e.target.closest(".delete");
     const { id } = $li.dataset;
-
-    if ($toggleBtn) {
-      if (!getItem(`notion-${id}`)) {
-        console.log(id);
+    const name = e.target.closest("[name]");
+    if (name) {
+      const attribute = name.getAttribute("name");
+      if (attribute === "toggle") {
+        if ($li.className === "open") {
+          removeItem(`notion-${id}`);
+          $li.className = "close";
+        } else if ($li.className === "close") {
+          setItem(`notion-${id}`, "block");
+          $li.className = "open";
+        }
+        const isDisplay = $li.className === "open" ? "block" : "none";
+        $li.children[2].style.display = isDisplay;
       }
-      if ($li.className === "open") {
-        removeItem(`notion-${id}`);
-        $li.className = "close";
-      } else if ($li.className === "close") {
+      if (attribute === "text") {
+        onSelect(id);
+        console.log("url이동", id);
+        push(`/documents/${id}`);
+      }
+      if (attribute === "add") {
         setItem(`notion-${id}`, "block");
-        $li.className = "open";
+        onAdd(id);
       }
-      const isDisplay = $li.className === "open" ? "block" : "none";
-      $li.children[2].style.display = isDisplay;
-    }
-    if ($li) {
-      onSelect(id);
-    }
-    if ($addBtn) {
-      setItem(`notion-${id}`, "block");
-      onAdd(id);
-    }
-    if ($deleteBtn) {
-      if ($li.parentElement.dataset) {
-        const { id } = $li.parentElement.dataset;
+      if (attribute === "delete") {
+        if ($li.parentElement.dataset) {
+          const { id } = $li.parentElement.dataset;
+          removeItem(`notion-${id}`);
+        }
         removeItem(`notion-${id}`);
+        onDelete(id);
       }
-      removeItem(`notion-${id}`);
-      onDelete(id);
     }
   });
 }
