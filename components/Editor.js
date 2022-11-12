@@ -1,4 +1,4 @@
-export default function Editor({ $target, initialState, onEditing }) {
+export default function Editor({ $target, initialState, onKeyup }) {
   const $element = document.createElement('form');
   $element.className = 'editor'
   $element.innerHTML = `
@@ -20,8 +20,12 @@ export default function Editor({ $target, initialState, onEditing }) {
     if (this.state[name] !== undefined) {
       const document = { ...this.state };
       document[name] = e.target.value;
-      onEditing(document);
+      onKeyup(document, e.key)
     }
+  });
+
+  $element.addEventListener('submit', (e) => {
+    e.preventDefault();
   });
 
   this.render = () => {

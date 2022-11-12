@@ -1,6 +1,7 @@
 import { request } from "../util/api.js";
-import debounce from "../util/debounce.js";
 import Editor from "./Editor.js"
+
+const SAVE_NOW_KEYS = ['Enter', '.'];
 
 export default function DocumentPage({ $target, getDocuments }) {
   const $element = document.createElement('div');
@@ -15,7 +16,7 @@ export default function DocumentPage({ $target, getDocuments }) {
 
   this.setState = async (nextState) => {
     if (this.state.documentId !== nextState.documentId) {
-      this.state = nextState;
+      this.state = { ...nextState };
       if (this.state.documentId) {
         fetchPost()
       } else {
@@ -23,21 +24,28 @@ export default function DocumentPage({ $target, getDocuments }) {
       }
       return;
     }
-    this.state = nextState;
+    this.state = { ...this.state, ...nextState };
     editor.setState(this.state.document);
     this.render();
   }
 
+  let timeoutId = null;
+
   const editor = new Editor({
     $target: $element,
     initialState: this.state.document,
-    onEditing: debounce(async ({ id, title, content }) => {
-      await request(`/documents/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify({ title, content })
-      });
-      getDocuments();
-    }, 1000),
+    onKeyup: (document, key) => {
+      const time = SAVE_NOW_KEYS.includes(key) ? 0 : 2000;
+
+      if (timeoutId !== null) {
+        clearTimeout(timeoutId);
+      }
+
+      timeoutId = setTimeout(() => {
+        updatePost(document)
+        getDocuments();
+      }, time);
+    }
   });
 
   this.render = () => {
@@ -51,5 +59,12 @@ export default function DocumentPage({ $target, getDocuments }) {
   const fetchPost = async () => {
     const document = await request(`/documents/${this.state.documentId}`);
     this.setState({ ...this.state, document });
+  }
+
+  const updatePost = async ({ id, title, content }) => {
+    await request(`/documents/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({ title, content })
+    });
   }
 }
