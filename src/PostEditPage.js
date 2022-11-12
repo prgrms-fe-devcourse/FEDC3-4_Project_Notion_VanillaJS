@@ -64,11 +64,13 @@ export default function PostEditPage({ $target, initialState }) {
   });
 
   this.setState = async (nextState) => {
-    // 같은 글을 2번 클릭했을 때 editor의 내용이 초기화 되는 문제가 있다.
-    if (this.state.postId !== nextState.postId) {
-      postLocalSaveKey = `temp-post-${nextState.postId}`;
-      this.state = nextState;
+    console.log(this.state, nextState);
 
+    if (this.state.postId !== nextState.postId) {
+      postLocalSaveKey = `temp-post-${nextState.postId}`; // 지금 누른거로 바꿈.
+      this.state = nextState; //
+
+      // 새로운 문서를 만들 경우.
       if (this.state.postId === "new") {
         const post = getItem(postLocalSaveKey, {
           title: "새 문서의 제목을 입력하세요.",
@@ -77,14 +79,19 @@ export default function PostEditPage({ $target, initialState }) {
         this.render();
         editor.setState(post);
       } else {
+        // 이미 존재하는 문서일 경우.
         await fetchPost();
       }
       return;
     }
 
+    // 진짜 페이지에 그리는건 여기 아래서 부터.
     this.state = nextState;
     this.render();
 
+    // 왜 this.state.post 가 false가 나오지?
+    console.log(`thisStatePost : ${this.state.post.title}`);
+    console.log(typeof this.state.post);
     editor.setState(
       this.state.post || {
         title: "",
@@ -105,7 +112,7 @@ export default function PostEditPage({ $target, initialState }) {
         metohd: "GET",
       });
 
-      const tempPost = getItem(postLocalSaveKey, {
+      const tempPost = await getItem(postLocalSaveKey, {
         title: "",
         content: "",
       });
