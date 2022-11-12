@@ -18,6 +18,7 @@ export default function Sidebar({ $target, initialState }) {
 	const rootDocumentAddButton = new RootDocumentAddButton({
 		$target: $nav,
 		onClickAddButton: async () => {
+			// todo : 모듈화 필요
 			await createDocument({ title: '제목 없음' });
 			const nextRootDocuments = await getRootDocuments();
 			documentList.setState(nextRootDocuments);

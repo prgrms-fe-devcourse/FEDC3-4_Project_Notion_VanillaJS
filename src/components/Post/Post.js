@@ -4,6 +4,16 @@ export default function Post({ $target, initialState }) {
 	const $article = createElement({
 		element: 'article',
 		$target,
-		content: 'Post',
 	});
+	
+	this.state = initialState;
+	
+	this.setState = (nextState) => {
+		this.state = nextState;
+		this.render();
+	}
+	
+	this.render = () => {
+		$article.textContent = this.state;
+	}
 }

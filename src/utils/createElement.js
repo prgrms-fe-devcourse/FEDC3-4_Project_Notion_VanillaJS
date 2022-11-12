@@ -1,11 +1,6 @@
 const INIT_PADDING_LEFT = 14;
 
-export const createElement = ({
-	element,
-	$target,
-	className = '',
-	content = '',
-}) => {
+const createElement = ({ element, $target, className = '', content = '' }) => {
 	const $element = document.createElement(element);
 	$element.textContent = content;
 
@@ -14,3 +9,5 @@ export const createElement = ({
 
 	return $element;
 };
+
+export { createElement };

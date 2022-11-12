@@ -4,6 +4,7 @@ import {
 	getRootDocuments,
 } from '../../utils/api/apis.js';
 import { createElement } from '../../utils/createElement.js';
+import { push } from '../../utils/router.js';
 import {
 	getItem,
 	OPENED_DOCUMENT_ITEMS,
@@ -32,7 +33,7 @@ export default function DocumentList({ $target, initialState = [] }) {
 	};
 
 	// todo : template 코드는 따로 빼둬야 할 듯.
-	this.render = async () => {
+	this.render = () => {
 		const openedDocumentItems = getItem(OPENED_DOCUMENT_ITEMS, []);
 		$documentList.innerHTML = `
 			${this.state
@@ -117,5 +118,7 @@ export default function DocumentList({ $target, initialState = [] }) {
 					break;
 			}
 		}
+		
+		if (!action && id) push(`${id}`);
 	})
 }

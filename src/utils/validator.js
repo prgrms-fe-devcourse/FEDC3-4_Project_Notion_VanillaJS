@@ -1,3 +1,3 @@
-export const isValidElement = () => {
-  
-}
+const isValidElement = () => {};
+
+export { isValidElement };

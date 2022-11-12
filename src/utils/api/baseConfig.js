@@ -2,7 +2,7 @@ import { API_ERROR_MESSAGES } from "../constants/errorMessages.js";
 
 const BASE_URL = 'https://kdt-frontend.programmers.co.kr/documents';
 
-export const request = async ({url = '', options = {}}) => {
+const request = async ({url = '', options = {}}) => {
   try {
     const response = await fetch(`${BASE_URL}/${url}`, {
       ...options,
@@ -19,3 +19,5 @@ export const request = async ({url = '', options = {}}) => {
     console.log(error.message);
   } 
 }
+
+export default request;
