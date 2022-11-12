@@ -1,3 +1,5 @@
+import { push } from "../../router/router.js";
+
 export default function DocumentList({ $documentListPage, initialState }) {
   const $listPage = document.createElement("div");
 
@@ -49,7 +51,14 @@ export default function DocumentList({ $documentListPage, initialState }) {
     }
   };
 
-  $documentListPage.addEventListener("click", (e) => {});
+  $documentListPage.addEventListener("click", (e) => {
+    const $li = e.target.closest("li");
+
+    if (!$li) return;
+
+    const { id } = $li.dataset;
+    push(`/documents/${id}`);
+  });
 
   this.render();
 }
