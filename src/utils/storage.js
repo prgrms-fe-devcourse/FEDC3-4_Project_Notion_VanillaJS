@@ -1,6 +1,8 @@
 const storage = window.localStorage;
 
-const getItem = (key, defaultValue = {}) => {
+const OPENED_DOCUMENT_ITEMS = 'openedDocumentItems';
+
+const getItem = (key, defaultValue) => {
 	try {
 		const storedValue = JSON.parse(storage.getItem(key));
 
@@ -13,10 +15,10 @@ const getItem = (key, defaultValue = {}) => {
 
 const setItem = (key, value) => {
 	try {
-		storage.setItem(key, value);
+		storage.setItem(key, JSON.stringify(value));
 	} catch {
 		console.log(error.message);
 	}
 };
 
-export { getItem, setItem };
+export { OPENED_DOCUMENT_ITEMS, getItem, setItem };

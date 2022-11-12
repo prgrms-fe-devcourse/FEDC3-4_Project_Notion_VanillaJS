@@ -1,3 +1,5 @@
+const INIT_PADDING_LEFT = 14;
+
 export const createElement = ({
 	element,
 	$target,
@@ -5,7 +7,7 @@ export const createElement = ({
 	content = '',
 }) => {
 	const $element = document.createElement(element);
-	$element.innerHTML = content;
+	$element.textContent = content;
 
 	if (className) $element.className = className;
 	if ($target) $target.appendChild($element);

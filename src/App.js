@@ -1,6 +1,5 @@
 import Post from './components/Post/Post.js';
 import Sidebar from './components/SideBar/SideBar.js';
-import { getContentOfDocument } from './utils/api/api.js';
 import { createElement } from './utils/createElement.js';
 
 export default function App({ $target, initialState }) {
@@ -17,9 +16,6 @@ export default function App({ $target, initialState }) {
 
 	this.init = async () => {
 		this.route();
-    
-		const rootDocuments = await getContentOfDocument();
-    sidebar.setState(rootDocuments);
 	};
 
 	const sidebar = new Sidebar({ $target: $main });
