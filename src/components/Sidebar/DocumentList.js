@@ -103,6 +103,7 @@ export default function DocumentList({ $target, initialState = [] }) {
 					this.setState([...this.state]);
 					break;
 				case 'delete':
+					// todo : 만약 현재 작성 중인 페이지를 없애려고 한다면 home으로 돌아가게 만들자.
 					const removedOpenedDocumentItemIndex = storedOpenedDocumentsItems.findIndex(openedDocumentItemId => openedDocumentItemId === id)
 					if (removedOpenedDocumentItemIndex !== -1) storedOpenedDocumentsItems.splice(removedOpenedDocumentItemIndex, 1);
 					setItem(OPENED_DOCUMENT_ITEMS, [...storedOpenedDocumentsItems]);
@@ -111,6 +112,7 @@ export default function DocumentList({ $target, initialState = [] }) {
 					this.setState(nextRootDocumentsAfterDeleteAction);
 					break;
 				case 'add':
+					// todo : 새로 생성된 문서로 바로 작성하러 갈 수 있도록 추가해줄까?
 					if (!storedOpenedDocumentsItems.includes(id)) setItem(OPENED_DOCUMENT_ITEMS, [...storedOpenedDocumentsItems, id])
 					await createDocument({parent: id})
 					const nextRootDocumentsAfterCreateAction = await getRootDocuments();
@@ -119,6 +121,7 @@ export default function DocumentList({ $target, initialState = [] }) {
 			}
 		}
 		
+		// todo : 현재 클릭한 것은 background-color를 바꾸는 등 focus 되도록 하자.
 		if (!action && id) push(`${id}?currentPath=${currentPath}`);
 	})
 }

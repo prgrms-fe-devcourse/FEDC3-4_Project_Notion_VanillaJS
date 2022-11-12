@@ -13,9 +13,9 @@ export default function App({ $target, initialState }) {
 		const [, id] = pathname.split('/');
 		const queryString = new URLSearchParams(search);
 
-		if (id.length > 0) post.setState({
+		post.setState({
 			id,
-			currentPath: queryString.get('currentPath')
+			currentPath: queryString.get('currentPath') || 'Metamong',
 		});
 	};
 

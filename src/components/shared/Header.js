@@ -1,9 +1,10 @@
 import { createElement } from '../../utils/createElement.js';
+import { push } from '../../utils/router.js';
 
 export default function Header({ $target, initialState }) {
 	const $header = createElement({element: 'header', $target, content: initialState || 'Metamong'})
 
-	this.state = initialState;
+	this.state = initialState
 
 	this.setState = (nextState) => {
 		this.state = nextState;
@@ -15,4 +16,10 @@ export default function Header({ $target, initialState }) {
 			${this.state}
 		`
 	};
+	
+	if ($target.tagName === 'NAV') {
+		$header.addEventListener('click', () => {
+			push('/');
+		})
+	}
 }

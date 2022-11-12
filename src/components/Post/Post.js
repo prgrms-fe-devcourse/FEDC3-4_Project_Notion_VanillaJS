@@ -11,6 +11,7 @@ export default function Post({ $target, initialState }) {
 
 	this.setState = (nextState) => {
 		this.state = nextState;
+		console.log(this.state.currentPath);
 		header.setState(this.state.currentPath);
 	};
 

@@ -1,5 +1,3 @@
-const INIT_PADDING_LEFT = 14;
-
 const createElement = ({ element, $target, className = '', content = '' }) => {
 	const $element = document.createElement(element);
 	$element.textContent = content;
