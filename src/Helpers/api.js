@@ -1,5 +1,4 @@
-const API_END_POINT = "https://kdt-frontend.programmers.co.kr/documents/";
-const USERNAME = "zerosial";
+import { API_END_POINT, USERNAME } from "../../endpoint.js";
 
 export const getDocumentAll = async () => {
   const res = await fetch(`${API_END_POINT}`, {
