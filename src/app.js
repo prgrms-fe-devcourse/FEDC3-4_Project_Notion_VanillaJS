@@ -1,15 +1,18 @@
 import Navigator from './components/navigator.js';
 import Editor from './components/editor.js';
 import { request } from './utils/api.js';
+import { initRouter } from './router.js';
+import { METHOD } from './utils/constants.js';
 
 export default function App({ target, initialState }) {
   const wrapper = document.createElement('div');
   wrapper.classList.add('flex-row', 'full-size');
-  target.appendChild(wrapper);
 
-  this.init = async () => {
+  const fetchDocuments = async () => {
     const documents = await request('/documents');
-    this.setState({ documents: documents });
+    if (documents && documents.length) {
+      this.setState({ documents: documents });
+    }
   };
 
   this.state = initialState;
@@ -21,13 +24,43 @@ export default function App({ target, initialState }) {
     this.render();
   };
 
+  const navigator = new Navigator({
+    target: wrapper,
+    initialState: this.state,
+    onClickAddDocument: async (targetDocumentId) => {
+      console.log(targetDocumentId);
+      const document = await request(
+        '/documents',
+        { method: METHOD.POST },
+        {
+          title: '제목 없음',
+          parent: targetDocumentId,
+        },
+      );
+      console.log(document);
+      if (document) {
+        await fetchDocuments();
+        // this.setState({ documents: [...this.state.documents, document] });
+      }
+    },
+  });
+  const editor = new Editor({ target: wrapper, initialState: [] });
+
   this.render = () => {
-    new Navigator({
-      target: wrapper,
-      initialState: this.state,
-    });
-    new Editor({ target: wrapper, initialState: [] });
+    target.appendChild(wrapper);
+    navigator.render();
   };
 
-  this.init();
+  this.route = () => {
+    target.innerHTML = '';
+    fetchDocuments();
+
+    // const { pathname } = window.location;
+    // if (pathname === '/') {
+    // }
+  };
+
+  this.route();
+
+  initRouter(() => this.route());
 }

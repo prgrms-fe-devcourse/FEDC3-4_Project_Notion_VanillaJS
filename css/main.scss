@@ -1,3 +1,12 @@
+body {
+  overflow: hidden;
+}
+
+*,
+*:focus {
+  outline: 0;
+}
+
 .flex-row {
   display: flex;
   flex-direction: row;
@@ -22,6 +31,13 @@
 .navigator {
   min-width: 220px;
   background-color: rgb(251, 251, 250);
+
+  .scroller {
+    box-shadow: transparent 0px 0px 0px inset;
+    transition: box-shadow 300ms ease 0s;
+    max-height: calc(100% - 6rem);
+    overflow: hidden auto;
+  }
 }
 
 .navigator-header {
@@ -33,12 +49,38 @@
 .document {
   &:hover {
     background-color: rgba(0, 0, 0, 0.04);
+    cursor: pointer;
   }
-  font-size: 0.9rem;
-  line-height: 1.4rem;
-  margin: 0 0.2rem;
-  padding: 0.2rem 0.15rem;
-  border-radius: 0.2rem;
+  &-add {
+    padding: 0.45rem 0.3rem;
+    &-text {
+      color: rgba(55, 53, 47, 0.65);
+      font-size: 0.9rem;
+      line-height: 1.1rem;
+      margin-left: 0.6rem;
+    }
+  }
+  &-item {
+    color: rgba(25, 23, 17, 0.6);
+    font-size: 0.9rem;
+    line-height: 1.4rem;
+    margin: 0 0.2rem;
+    padding: 0.2rem 0.15rem;
+    border-radius: 0.2rem;
+    position: relative;
+
+    .visible-when-hover {
+      display: none;
+      position: absolute;
+      right: 0.3rem;
+    }
+
+    &:hover {
+      .visible-when-hover {
+        display: block;
+      }
+    }
+  }
 }
 
 .icon-wrapper {
@@ -47,11 +89,4 @@
   }
   padding: 0.15rem;
   border-radius: 0.2rem;
-}
-
-.rotate {
-  & .chevron {
-    transform: rotateZ(90deg);
-  }
-  // transition: transform 200ms ease-out 0s;
 }
