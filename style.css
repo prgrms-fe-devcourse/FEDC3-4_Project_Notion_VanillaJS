@@ -1,0 +1,9 @@
+#app {
+  display: flex;
+  flex-direction: fow;
+}
+
+.editor {
+  display: flex;
+  flex-direction: row;
+}
