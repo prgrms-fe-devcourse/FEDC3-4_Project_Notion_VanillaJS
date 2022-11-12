@@ -1,4 +1,4 @@
-import { request } from './config/base.js';
+import { request } from './baseConfig.js';
 
 const HTTP_METHODS = {
 	GET: 'get',

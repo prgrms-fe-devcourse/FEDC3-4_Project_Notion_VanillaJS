@@ -1,4 +1,4 @@
-import { API_ERROR_MESSAGES } from "../../constants/errorMessages.js";
+import { API_ERROR_MESSAGES } from "../constants/errorMessages.js";
 
 const BASE_URL = 'https://kdt-frontend.programmers.co.kr/documents';
 

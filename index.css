@@ -7,7 +7,11 @@
 	/* padding */
 	--padding-small: 0.75rem;
 	--padding-normal: 1rem;
-	
+
+	/* margin */
+	--margin-small: 0.75rem;
+	--margin-normal: 1rem;
+
 	/* border-radius */
 	--border-radius-small: 4px;
 
@@ -65,6 +69,8 @@ nav {
 }
 
 .document-item-container {
+	cursor: pointer;
+
 	display: flex;
 	flex-direction: column;
 }
@@ -90,6 +96,31 @@ img {
 
 img:hover {
 	background-color: var(--document-item-img-hover-background-color);
+}
+
+.root-document-add-button {
+	border-radius: var(--border-radius-small);
+	margin: var(--margin-normal) 0;
+	background-color: var(--document-item-img-hover-background-color);
+	cursor: pointer;
+
+	display: flex;
+	align-items: center;
+}
+
+.root-document-add-button > img {
+	margin-left: var(--margin-normal);
+
+	width: 1rem;
+	height: 1rem;
+}
+
+.root-document-add-button > p {
+	padding-left: var(--padding-small);
+}
+
+.root-document-add-button:hover {
+	opacity: 0.75;
 }
 
 /* Post */

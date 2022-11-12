@@ -2,7 +2,7 @@ import {
 	createDocument,
 	deleteDocument,
 	getRootDocuments,
-} from '../../utils/api/api.js';
+} from '../../utils/api/apis.js';
 import { createElement } from '../../utils/createElement.js';
 import {
 	getItem,
