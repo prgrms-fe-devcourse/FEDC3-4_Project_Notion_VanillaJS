@@ -40,13 +40,13 @@ export default function DocumentList({ $target, initialState = [] }) {
 				.map(
 					({ id, title, documents: subDocumentList }) => `
 				<div class='document-item-container'>
-					<div data-id='${id}' class='document-item'>
+					<div data-id='${id}' data-current-path='${id}' class='document-item'>
 						<img data-action='toggle' src='./src/assets/images/toggleButton.svg'>
 						<span>${id}</span>
 						<img data-action='delete' src='./src/assets/images/deleteButton.svg'>
 						<img data-action='add' src='./src/assets/images/addButton.svg'>
 					</div>
-					${openedDocumentItems.includes(String(id)) ? makeSubDocumentList(id, subDocumentList) : ''}
+					${openedDocumentItems.includes(String(id)) ? makeSubDocumentList(id, subDocumentList, [id]) : ''}
 				</div>
 			`
 				)
@@ -57,20 +57,20 @@ export default function DocumentList({ $target, initialState = [] }) {
 	this.render();
 
 	// todo : 따로 util로 빼자.
-	const makeSubDocumentList = (id, subDocumentList) => {
+	const makeSubDocumentList = (id, subDocumentList, path) => {
 		const openedDocumentItems = getItem(OPENED_DOCUMENT_ITEMS, []);
 		
 		let subDocumentListTemplate = `
 			<ul class='document-list'>
 				${subDocumentList.map(({id, title, documents: subSubDocumentList}) => `
 					<div class='document-item-container'>
-						<div data-id='${id}' class='document-item'>
+						<div data-id='${id}' data-current-path='${path.join(' > ')} > ${id}' class='document-item'>
 							<img data-action='toggle' src='./src/assets/images/toggleButton.svg'>
 							<span>${id}</span>
 							<img data-action='delete' src='./src/assets/images/deleteButton.svg'>
 							<img data-action='add' src='./src/assets/images/addButton.svg'>
 						</div>
-						${openedDocumentItems.includes(String(id)) ? makeSubDocumentList(id, subSubDocumentList) : ''}
+						${openedDocumentItems.includes(String(id)) ? makeSubDocumentList(id, subSubDocumentList, [...path, id]) : ''}
 					</div>
 				`).join('')}
 			</ul>
@@ -83,7 +83,7 @@ export default function DocumentList({ $target, initialState = [] }) {
 		event.stopPropagation();
 		const {target} = event;
 		const {action} = target.dataset;
-		const {id} = target.closest('div').dataset;
+		const {id, currentPath} = target.closest('div').dataset;
 		
 		if (action) {
 			const storedOpenedDocumentsItems = getItem(OPENED_DOCUMENT_ITEMS, []);
@@ -119,6 +119,6 @@ export default function DocumentList({ $target, initialState = [] }) {
 			}
 		}
 		
-		if (!action && id) push(`${id}`);
+		if (!action && id) push(`${id}?currentPath=${currentPath}`);
 	})
 }

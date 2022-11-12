@@ -9,10 +9,14 @@ export default function App({ $target, initialState }) {
 	this.state = initialState;
 
 	this.route = () => {
-		const { pathname } = window.location;
-		const [, documentId] = pathname.split('/');
+		const { pathname, search } = window.location;
+		const [, id] = pathname.split('/');
+		const queryString = new URLSearchParams(search);
 
-		if (documentId.length > 0) post.setState(documentId);
+		if (id.length > 0) post.setState({
+			id,
+			currentPath: queryString.get('currentPath')
+		});
 	};
 
 	this.init = async () => {
@@ -20,7 +24,7 @@ export default function App({ $target, initialState }) {
 	};
 
 	const sidebar = new Sidebar({ $target: $main });
-	const post = new Post({ $target: $main });
+	const post = new Post({ $target: $main, initialState });
 
 	this.init();
 	initRouter(() => {

@@ -53,7 +53,7 @@ nav {
 	width: 300px;
 	height: 100%;
 	background-color: var(--sidebar-background-color);
-	/* padding: var(--padding-small); */
+	/* padding: var(--padding-normal); */
 }
 
 .document-list__root {
@@ -127,5 +127,9 @@ img:hover {
 article {
 	width: 90%;
 	height: 100%;
+	/* padding: var(--padding-normal); */
+}
+
+.editor {
 	padding: var(--padding-normal);
 }

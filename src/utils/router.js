@@ -5,7 +5,7 @@ const initRouter = (onRoute) => {
 		const { nextUrl } = event.detail;
 
 		if (nextUrl) {
-			history.pushState(null, null, nextUrl);
+			history.pushState('hello', null, nextUrl);
 			onRoute();
 		}
 	});

@@ -1,7 +1,7 @@
 import { createElement } from '../../utils/createElement.js';
 
 export default function Header({ $target, initialState }) {
-	const $header = createElement({element: 'header', $target, content: 'Metamong'})
+	const $header = createElement({element: 'header', $target, content: initialState || 'Metamong'})
 
 	this.state = initialState;
 
@@ -10,5 +10,9 @@ export default function Header({ $target, initialState }) {
 		this.render();
 	};
 
-	this.render = () => {};
+	this.render = () => {
+		$header.innerHTML = `
+			${this.state}
+		`
+	};
 }
