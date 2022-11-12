@@ -16,10 +16,8 @@ export default function PostList({
   this.state = initialState;
 
   this.setState = (nextState) => {
-    if (nextState) {
-      this.state = nextState;
-      this.render();
-    }
+    this.state = nextState;
+    this.render();
   };
 
   const Rendering = (postLists) => {

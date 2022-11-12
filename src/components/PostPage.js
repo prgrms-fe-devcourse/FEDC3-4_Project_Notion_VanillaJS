@@ -3,11 +3,20 @@ import { request } from "../api.js";
 import NewPostBtn from "./NewPostBtn.js";
 import { push } from "../router.js";
 
-export default function PostPage({ $target, getId }) {
+export default function PostPage({ $target, getSelectedId }) {
   const $page = document.createElement("div");
   $page.className = "sidebar";
 
   $target.appendChild($page);
+
+  const $HomeButton = document.createElement("button");
+  $HomeButton.innerHTML = "변건오 Notion";
+  $page.appendChild($HomeButton);
+
+  $HomeButton.addEventListener("click", (e) => {
+    push("/");
+    this.render();
+  });
 
   this.state = {
     documents: [],
@@ -16,9 +25,8 @@ export default function PostPage({ $target, getId }) {
   const postList = new PostList({
     $target: $page,
     initialState: this.state,
-    onSelect: async (id) => {
-      history.pushState(null, null, `/documents/${id}`);
-      getId(id);
+    onSelect: (id) => {
+      getSelectedId(id);
     },
     onAdd: async (id) => {
       const documents = {
@@ -56,14 +64,20 @@ export default function PostPage({ $target, getId }) {
     },
   });
 
+  const fetchPosts = async () => {
+    const posts = await request("/");
+    postList.setState(posts);
+  };
+
   this.setState = async (nextState) => {
     this.state = nextState;
+    // app에서 변경된 값을 가져와도 다시 fetch를 해서 postList로 또 갱신하니 바뀐 값이 안들어 갈 것같음
     const documents = await request("/");
-    postList.setState({ isOpen: false, documents: documents });
+    postList.setState({ documents: documents });
     this.render();
   };
 
-  this.render = () => {
+  this.render = async () => {
     $target.appendChild($page);
   };
 
