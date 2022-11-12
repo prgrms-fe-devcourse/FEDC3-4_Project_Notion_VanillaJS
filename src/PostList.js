@@ -9,7 +9,6 @@ export default function PostList({
   postDelete,
 }) {
   const $postList = document.createElement("div");
-
   $postList.className = "postList";
 
   this.state = initialState;
@@ -79,9 +78,9 @@ export default function PostList({
     const { id } = $li.dataset;
     const name = target.className;
 
-    push(`/posts/${id}`);
-
     if (name === "title") {
+      push(`/posts/${id}`);
+
       const $ul = $li.childNodes[5];
       if (!$ul) return;
 
@@ -114,6 +113,4 @@ export default function PostList({
     });
     this.setState(nextState);
   };
-
-  // this.render();
 }

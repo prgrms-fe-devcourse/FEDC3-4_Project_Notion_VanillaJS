@@ -4,6 +4,7 @@ import LinkButton from "./LinkButton.js";
 
 export default function PostPage({ $target, initialState }) {
   const $postPage = document.createElement("div");
+
   $postPage.className = "PostPage";
   $postPage.style.width = "30%";
 
@@ -44,18 +45,14 @@ export default function PostPage({ $target, initialState }) {
       method: "GET",
     });
     postList.setState(posts);
-    this.render();
-  };
 
-  // const fetchPosts = async () => {
-  //   const posts = await request("documents", {
-  //     method: "GET",
-  //   });
-  //   postList.setState(posts);
-  // };
+    //this.render();
+  };
 
   this.render = async () => {
-    // await fetchPosts();
-    $target.appendChild($postPage);
+    //$target.appendChild($postPage);
   };
+
+  console.log("왜 안붙지");
+  $target.appendChild($postPage);
 }

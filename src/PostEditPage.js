@@ -64,14 +64,15 @@ export default function PostEditPage({ $target, initialState }) {
   });
 
   this.setState = async (nextState) => {
+    // 같은 글을 2번 클릭했을 때 editor의 내용이 초기화 되는 문제가 있다.
     if (this.state.postId !== nextState.postId) {
       postLocalSaveKey = `temp-post-${nextState.postId}`;
       this.state = nextState;
 
       if (this.state.postId === "new") {
         const post = getItem(postLocalSaveKey, {
-          title: "",
-          content: "",
+          title: "새 문서의 제목을 입력하세요.",
+          content: "새 문서의 내용을 입력하세요",
         });
         this.render();
         editor.setState(post);

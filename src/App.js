@@ -1,6 +1,5 @@
 import PostPage from "./PostPage.js";
 import PostEditPage from "./PostEditPage.js";
-import { request } from "./Api.js";
 import { initRouter } from "./router.js";
 
 export default function App({ $target, initialState }) {
@@ -11,10 +10,6 @@ export default function App({ $target, initialState }) {
   const postPage = new PostPage({
     $target,
     initialState,
-    // onPostClick: (id) => {
-    //   history.pushState(null, null, `/posts/${id}`);
-    //   this.route();
-    // },
   });
 
   const postEditPage = new PostEditPage({
@@ -29,16 +24,18 @@ export default function App({ $target, initialState }) {
     },
   });
 
-  this.route = () => {
+  this.route = async () => {
     // 비우기 코드
-    $target.innerHTML = "";
+    //$target.innerHTML = "";
 
     const { pathname } = window.location;
+
     if (pathname === "/") {
       postPage.setState();
     } else if (pathname.indexOf("/posts/") === 0) {
       const [, , postId] = pathname.split("/");
-      postEditPage.setState({ postId });
+      await postPage.setState();
+      await postEditPage.setState({ postId });
     }
   };
 
