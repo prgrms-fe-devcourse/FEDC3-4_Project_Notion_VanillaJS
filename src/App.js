@@ -5,23 +5,25 @@ import { initRouter } from "./router/router.js";
 export default function App({ $bodyPage }) {
   $bodyPage.style.display = "flex";
 
-  new DocumentListPage({
+  const documentListPage = new DocumentListPage({
     $bodyPage,
   });
 
   const editorPage = new EditorPage({
     $bodyPage,
-    initialState: {
-      title: "",
-      content: "",
-    },
   });
 
   this.router = () => {
     const { pathname } = location;
 
+    if (pathname === "/index.html") {
+      documentListPage.documentListSetState();
+      editorPage.editorPageSetState();
+    }
+
     if (pathname.indexOf("/documents/") === 0) {
       const [, , id] = pathname.split("/");
+      documentListPage.documentListSetState();
       editorPage.editorPageSetState({ id });
     }
   };
