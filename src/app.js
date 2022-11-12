@@ -28,7 +28,6 @@ export default function App({ target, initialState }) {
     target: wrapper,
     initialState: this.state,
     onClickAddDocument: async (targetDocumentId) => {
-      console.log(targetDocumentId);
       const document = await request(
         '/documents',
         { method: METHOD.POST },
@@ -37,10 +36,14 @@ export default function App({ target, initialState }) {
           parent: targetDocumentId,
         },
       );
-      console.log(document);
       if (document) {
         await fetchDocuments();
-        // this.setState({ documents: [...this.state.documents, document] });
+      }
+    },
+    onClickDeleteDocument: async (targetDocumentId) => {
+      const document = await request(`/documents/${targetDocumentId}`, { method: METHOD.DELETE });
+      if (document) {
+        await fetchDocuments();
       }
     },
   });

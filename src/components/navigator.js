@@ -6,6 +6,7 @@ export default function Navigator({
   target,
   initialState = { openedDocuments: [], documents: [] },
   onClickAddDocument,
+  onClickDeleteDocument,
 }) {
   const navigator = document.createElement('div');
   navigator.classList.add('navigator', 'flex-item');
@@ -14,6 +15,7 @@ export default function Navigator({
   const chevronIcon = Icon({ icon: 'chevron' });
   const chevronDownIcon = Icon({ icon: 'chevron', rotateDegree: DEGREE.OPENED });
   const plusIcon = Icon({ icon: 'plus' });
+  const trashIcon = Icon({ icon: 'trash' });
 
   target.appendChild(navigator);
   this.state = initialState;
@@ -38,7 +40,10 @@ export default function Navigator({
                 <div class='icon-wrapper'>${isOpened ? chevronDownIcon : chevronIcon}</div>
                 <div class='icon-wrapper'>${documentIcon}</div>
                 <div class='title-wrapper'>${title}</div>
-                <div class='icon-wrapper visible-when-hover document-add'>${plusIcon}</div>
+                <div class='visible-when-hover'>
+                  <div class='icon-wrapper document-delete'>${trashIcon}</div>
+                  <div class='icon-wrapper document-add'>${plusIcon}</div>
+                </div>
               </div>
               ${getDocuments(documents, depth + 1, isOpened)}
             `;
@@ -93,6 +98,19 @@ export default function Navigator({
       $addDocument.addEventListener('click', (e) => {
         const targetDocumentId = e.target.closest('.document').getAttribute('key');
         onClickAddDocument(targetDocumentId);
+      });
+    });
+
+    const $deleteDocuments = navigator.querySelectorAll('.document-delete');
+    [].forEach.call($deleteDocuments, ($deleteDocument) => {
+      $deleteDocument.addEventListener('click', (e) => {
+        const targetDocumentId = e.target.closest('.document').getAttribute('key');
+        const openedDocuments = this.state.openedDocuments.filter(
+          (key) => key !== targetDocumentId,
+        );
+        this.setState({ openedDocuments });
+        setItem(STORAGE_KEY.OPENED_DOCUMENTS, this.state.openedDocuments);
+        onClickDeleteDocument(targetDocumentId);
       });
     });
 

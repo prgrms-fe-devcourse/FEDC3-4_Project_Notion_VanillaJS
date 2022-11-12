@@ -77,7 +77,8 @@ body {
 
     &:hover {
       .visible-when-hover {
-        display: block;
+        display: flex;
+        flex-direction: row;
       }
     }
   }

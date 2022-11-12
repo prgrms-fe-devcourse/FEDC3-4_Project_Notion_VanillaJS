@@ -71,7 +71,8 @@ body {
   right: 0.3rem;
 }
 .document-item:hover .visible-when-hover {
-  display: block;
+  display: flex;
+  flex-direction: row;
 }
 
 .icon-wrapper {
