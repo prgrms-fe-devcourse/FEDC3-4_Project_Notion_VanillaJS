@@ -1,10 +1,24 @@
 export default function NewPostBtn({ $target, addPost }) {
-  const $button = document.createElement("button");
-  $button.textContent = "+ 새 페이지";
+  const $newButton = document.createElement("div");
+  $newButton.className = "notion-newpage-button";
+  $newButton.role = "button";
 
-  $target.appendChild($button);
+  $target.appendChild($newButton);
 
-  $button.addEventListener("click", (e) => {
+  this.render = () => {
+    $newButton.innerHTML = `
+      <div class="notion-focusable" role="button">
+        <div class="new-wrapper">
+          <div class="new-plus-button">+</div>
+          <div>새 페이지</div>
+        </div>
+      </div>
+    `;
+  };
+
+  $newButton.addEventListener("click", (e) => {
     addPost();
   });
+
+  this.render();
 }
