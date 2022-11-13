@@ -10,7 +10,8 @@ export default function PostPage({ $target, getSelectedId }) {
   $target.appendChild($page);
 
   const $HomeButton = document.createElement("button");
-  $HomeButton.innerHTML = "변건오 Notion";
+  $HomeButton.className = "home-button";
+  $HomeButton.innerHTML = "Notion 홈으로";
   $page.appendChild($HomeButton);
 
   $HomeButton.addEventListener("click", (e) => {
@@ -33,10 +34,11 @@ export default function PostPage({ $target, getSelectedId }) {
         title: `${id} 제목 없음`,
         parent: id,
       };
-      await request(`/`, {
+      const childPage = await request(`/`, {
         method: "POST",
         body: JSON.stringify(documents),
       });
+      push(`/documents/${childPage.id}`);
       this.setState();
     },
     onDelete: async (id) => {

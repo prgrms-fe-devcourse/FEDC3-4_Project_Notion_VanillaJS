@@ -26,11 +26,11 @@ export default function PostList({
       .map(({ id, title, documents }) => {
         const display = getItem(`notion-${id}`) || "none";
         return `
-          <li data-id="${id}" name="notionListOne" class="close">
+          <li data-id="${id}" name="notionListItem" id="close" class="listItem">
             <span>
-              <button name="toggle">토글</button><span data-id="${id}" name="text">${title}</span>
+              <button name="toggle" class="toggleBtn">&#9654;</button><span data-id="${id}" name="text">  ${title}</span>
             </span>
-            <span>
+            <span class="plus-minus-wrapper">
               <button name="add">+</button> <button name="delete">-</button>
             </span>
             ${
@@ -48,7 +48,9 @@ export default function PostList({
   };
 
   this.render = () => {
-    $postList.innerHTML = `<ul>${Rendering(this.state.documents)}</ul>`;
+    $postList.innerHTML = `<ul class="postList">${Rendering(
+      this.state.documents
+    )}</ul>`;
   };
 
   this.render();
@@ -60,14 +62,14 @@ export default function PostList({
     if (name) {
       const attribute = name.getAttribute("name");
       if (attribute === "toggle") {
-        if ($li.className === "open") {
+        if ($li.id === "open") {
           removeItem(`notion-${id}`);
-          $li.className = "close";
-        } else if ($li.className === "close") {
+          $li.id = "close";
+        } else if ($li.id === "close") {
           setItem(`notion-${id}`, "block");
-          $li.className = "open";
+          $li.id = "open";
         }
-        const isDisplay = $li.className === "open" ? "block" : "none";
+        const isDisplay = $li.id === "open" ? "block" : "none";
         $li.children[2].style.display = isDisplay;
       }
       if (attribute === "text") {
