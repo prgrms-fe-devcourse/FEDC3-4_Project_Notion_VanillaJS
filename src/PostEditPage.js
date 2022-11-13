@@ -2,8 +2,11 @@ import Editor from "./Editor.js";
 import { getItem, setItem, removeItem } from "./Storage.js";
 import { request } from "./Api.js";
 import LinkButton from "./LinkButton.js";
+import { CheckNew } from "./Error.js";
 
 export default function PostEditPage({ $target, initialState }) {
+  CheckNew(new.target);
+
   const $postEditPage = document.createElement("div");
 
   this.state = initialState;
@@ -65,7 +68,6 @@ export default function PostEditPage({ $target, initialState }) {
 
   this.setState = async (nextState) => {
     console.log(this.state, nextState);
-
     if (this.state.postId !== nextState.postId) {
       postLocalSaveKey = `temp-post-${nextState.postId}`; // 지금 누른거로 바꿈.
       this.state = nextState; //
@@ -84,20 +86,17 @@ export default function PostEditPage({ $target, initialState }) {
       }
       return;
     }
-
     // 진짜 페이지에 그리는건 여기 아래서 부터.
     this.state = nextState;
     this.render();
-
-    // 왜 this.state.post 가 false가 나오지?
-    console.log(`thisStatePost : ${this.state.post.title}`);
-    console.log(typeof this.state.post);
-    editor.setState(
-      this.state.post || {
-        title: "",
-        content: "",
-      }
-    );
+    if (this.state.post) {
+      editor.setState(
+        this.state.post || {
+          title: "",
+          content: "",
+        }
+      );
+    }
   };
 
   this.render = () => {

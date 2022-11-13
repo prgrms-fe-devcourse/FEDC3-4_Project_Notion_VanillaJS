@@ -1,8 +1,11 @@
 import PostPage from "./PostPage.js";
 import PostEditPage from "./PostEditPage.js";
 import { initRouter } from "./router.js";
+import { CheckNew } from "./Error.js";
 
 export default function App({ $target, initialState }) {
+  CheckNew(new.target);
+
   this.state = initialState;
 
   this.setState = (nextState) => {};

@@ -1,3 +1,5 @@
+import { CheckNew } from "./Error.js";
+
 export default function Editor({
   $target,
   initialState = {
@@ -6,6 +8,8 @@ export default function Editor({
   },
   onEditing,
 }) {
+  CheckNew(new.target);
+
   const $editor = document.createElement("div");
   $target.appendChild($editor);
 

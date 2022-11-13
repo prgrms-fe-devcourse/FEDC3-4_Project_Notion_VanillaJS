@@ -1,8 +1,11 @@
 import PostList from "./PostList.js";
 import { request } from "./Api.js";
 import LinkButton from "./LinkButton.js";
+import { CheckNew } from "./Error.js";
 
 export default function PostPage({ $target, initialState }) {
+  CheckNew(new.target);
+
   const $postPage = document.createElement("div");
 
   $postPage.className = "PostPage";
@@ -53,6 +56,5 @@ export default function PostPage({ $target, initialState }) {
     //$target.appendChild($postPage);
   };
 
-  console.log("왜 안붙지");
   $target.appendChild($postPage);
 }
