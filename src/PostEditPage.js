@@ -72,6 +72,19 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
 
   this.setState = async (nextState) => {
     console.log(this.state, nextState);
+
+    // 첫 게시물 작성시.
+    if (this.state.postId === "new" && nextState.postId === "new") {
+      this.state = nextState;
+      editor.setState({
+        title:
+          "첫 번째 게시글을 작성하시게 된걸 축하드립니다. 문서의 제목을 입력하세요.",
+        content: "새 문서의 내용을 입력하세요.",
+      });
+      this.render();
+      return;
+    }
+
     if (this.state.postId !== nextState.postId) {
       postLocalSaveKey = `temp-post-${nextState.postId}`; // 지금 누른거로 바꿈.
       this.state = nextState; //
@@ -96,7 +109,7 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
     if (this.state.post) {
       editor.setState(
         this.state.post || {
-          title: "",
+          title: "새 문서의 제목을 입력하세요.",
           content: "",
         }
       );
