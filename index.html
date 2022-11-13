@@ -1,11 +1,136 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Vanilla Notion 🍦</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <main id="app"></main>
-  <script src="/src/index.js" type="module"></script>
-</body>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vanilla Notion🍦</title>
+    <meta name="description" content="Simple Notetaking App" />
+    <link rel="stylesheet" href="src/assets/xeicon/xeicon.min.css" />
+    <link rel="stylesheet" href="src/assets/css/style.css" />
+  </head>
+  <body>
+    <div id="app" class="wrapper">
+      <aside class="doc-list-page on">
+        <div class="doc-list-header">
+          <header id="header">
+            <h1>Vanilla Notion🍦</h1>
+            <p>Simple Notetaking App</p>
+            <button class="menu">
+              <i class="xi-bars"><span>메뉴 열기/닫기</span></i>
+            </button>
+          </header>
+        </div>
+        <nav class="doc-list">
+          <ul class="root">
+            <li class="list-item">
+              <div class="container">
+                <a href="#" class="title">
+                  DOCUMENT TITLE1
+                </a>
+                <span class="btn-container">
+                  <button class="remove">
+                    <i class="xi-trash-o"><span>삭제하기</span></i>
+                  </button>
+                  <button class="add">
+                    <i class="xi-plus"><span>추가하기</span></i>
+                  </button>
+                </span>
+              </div>
+              <ul class="parent on">
+                <li class="list-item">
+                  <div class="container">
+                    <a href="#" class="title">
+                      DOCUMENT TITLE1132231313
+                    </a>
+                    <span class="btn-container">
+                      <button class="remove">
+                        <i class="xi-trash-o"><span>삭제하기</span></i>
+                      </button>
+                      <button class="add">
+                        <i class="xi-plus"><span>추가하기</span></i>
+                      </button>
+                    </span>
+                  </div>
+                </li>
+                <li class="list-item">
+                  <div class="container">
+                    <a href="#" class="title">
+                      DOCUMENT TITLE12133213132313
+                    </a>
+                    <span class="btn-container">
+                      <button class="remove">
+                        <i class="xi-trash-o"><span>삭제하기</span></i>
+                      </button>
+                      <button class="add">
+                        <i class="xi-plus"><span>추가하기</span></i>
+                      </button>
+                    </span>
+                  </div>
+                  <ul class="parent">
+                    <li class="list-item">
+                      <div class="container">
+                        <a href="#" class="title">
+                          DOCUMENT fsfareraTITLE1
+                        </a>
+                        <span class="btn-container">
+                          <button class="remove">
+                            <i class="xi-trash-o"><span>삭제하기</span></i>
+                          </button>
+                          <button class="add">
+                            <i class="xi-plus"><span>추가하기</span></i>
+                          </button>
+                        </span>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li class="list-item">
+              <div class="container">
+                <a href="#" class="title">
+                  DOCUMdadadwdENT TITLE1
+                </a>
+                <span class="btn-container">
+                  <button class="remove">
+                    <i class="xi-trash-o"><span>삭제하기</span></i>
+                  </button>
+                  <button class="add">
+                    <i class="xi-plus"><span>추가하기</span></i>
+                  </button>
+                </span>
+              </div>
+            </li>
+          </ul>
+        </nav>
+        <div class="doc-list-footer">
+          <button class="add-root"><i class="xi-plus"></i>Add New Root</button>
+        </div>
+      </aside>
+      <div class="main-container">
+        <main class="doc-edit-page">
+          <div class="doc-edit-header">
+            <label for="theme-toggle">
+              <input type="checkbox" id="theme-toggle">
+              <span class="toggle">
+                <i class="xi-moon"><span>다크모드 켜기</span></i>
+                <i class="xi-brightness"><span>라이트모드 켜기</span></i>
+              </span>
+            </label>
+          </div>
+          <div class="editor">
+            <input type="text" class="title" name="title" />
+            <textarea
+              name="content"
+              
+              class="content"
+            ></textarea>
+          </div>
+        </main>
+        <footer id="footer">
+          <p>Made by Meeeee</p>
+        </footer>
+      </div>
+    </div>
+    <script src="/src/index.js" type="module"></script>
+  </body>
 </html>
