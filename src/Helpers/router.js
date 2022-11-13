@@ -4,6 +4,10 @@ export const init = (onRouteChange) => {
   window.addEventListener(ROUTE_CHANGE_EVENT, () => {
     onRouteChange();
   });
+
+  window.addEventListener('popstate', () => {
+    onRouteChange();
+  });
 };
 
 export const routeChange = (url, params) => {

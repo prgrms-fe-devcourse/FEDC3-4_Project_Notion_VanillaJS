@@ -93,6 +93,8 @@ export default function App({ $target }) {
         title: arr[0].innerHTML,
         content: arr[1].innerHTML,
       });
+      const $title = document.querySelector(`[data-id="${id}"] SPAN`);
+      $title.innerHTML = arr[0].innerHTML;
     },
   });
 
@@ -100,9 +102,7 @@ export default function App({ $target }) {
     const { pathname } = location;
     if (pathname === '/') {
     } else if (pathname.indexOf('/documents/') === 0) {
-      console.log(pathname);
       const [, , documentsId] = pathname.split('/');
-      console.log(documentsId);
       // 지운 데이터 접근 시 처리
       const nextState = await getDocumentById({ id: documentsId });
       documentEditor.setState(nextState);
@@ -110,6 +110,5 @@ export default function App({ $target }) {
   };
 
   init(this.route);
-  window.addEventListener('popstate', this.route);
   this.route();
 }

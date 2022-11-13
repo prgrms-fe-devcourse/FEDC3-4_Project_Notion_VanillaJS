@@ -1,13 +1,9 @@
-import { isConstructor } from "../../Helpers/checkError.js";
+import { isConstructor } from '../../Helpers/checkError.js';
 
-export default function DocumentEditor({
-  $target,
-  initialState,
-  saveDocumentEvent,
-}) {
+export default function DocumentEditor({ $target, initialState, saveDocumentEvent }) {
   isConstructor(new.target);
-  const $documentEditor = document.createElement("div");
-  $documentEditor.id = "documentEditor";
+  const $documentEditor = document.createElement('div');
+  $documentEditor.id = 'documentEditor';
   $target.appendChild($documentEditor);
 
   this.state = initialState;
@@ -56,17 +52,25 @@ export default function DocumentEditor({
     document.execCommand(style);
   };
 
-  $documentEditor.addEventListener("click", (e) => {
-    if (e.target.closest("#editorMenu") && e.target.id) {
+  $documentEditor.addEventListener('click', (e) => {
+    if (e.target.closest('#editorMenu') && e.target.id) {
       setStyle(e.target.id);
     }
 
-    if (
-      e.target.closest("#editorSave") &&
-      e.target.id === "saveDocumentButton"
-    ) {
+    if (e.target.id === 'saveDocumentButton') {
       saveDocumentEvent({ $target: e.target });
     }
+  });
+
+  let setDebounce;
+  $documentEditor.addEventListener('input', (e) => {
+    if (setDebounce) {
+      clearTimeout(setDebounce);
+    }
+
+    setDebounce = setTimeout(() => {
+      saveDocumentEvent({ $target: e.target });
+    }, 1000);
   });
 
   this.render();
