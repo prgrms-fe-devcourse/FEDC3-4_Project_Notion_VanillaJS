@@ -14,7 +14,7 @@ export const getLocalStorage = (key) => {
     const localList = JSON.parse(window.localStorage.getItem(key));
 
     if (localList) {
-      checkLocalData(localList);
+      // checkLocalData(localList);
       return localList;
     }
 
