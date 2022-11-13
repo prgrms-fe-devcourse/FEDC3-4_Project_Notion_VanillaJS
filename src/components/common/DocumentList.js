@@ -57,7 +57,7 @@ export default function DocumentList({
         </ul>
         `;
     }
-    console.log("list render");
+    // console.log("list render");
   };
 
   $documentListPage.addEventListener("click", (e) => {
