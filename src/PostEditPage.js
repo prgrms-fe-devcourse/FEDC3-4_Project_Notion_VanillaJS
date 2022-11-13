@@ -4,7 +4,7 @@ import { request } from "./Api.js";
 import LinkButton from "./LinkButton.js";
 import { CheckNew } from "./Error.js";
 
-export default function PostEditPage({ $target, initialState }) {
+export default function PostEditPage({ $target, initialState, listUpdate }) {
   CheckNew(new.target);
 
   const $postEditPage = document.createElement("div");
@@ -55,12 +55,16 @@ export default function PostEditPage({ $target, initialState }) {
           this.setState({
             postId: createPost.id,
           });
+
+          listUpdate();
         } else {
           await request(`documents/${post.id}`, {
             method: "PUT",
             body: JSON.stringify(post),
           });
           removeItem(postLocalSaveKey);
+
+          listUpdate();
         }
       }, 2000);
     },

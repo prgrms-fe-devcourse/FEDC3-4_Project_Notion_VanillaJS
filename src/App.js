@@ -25,6 +25,9 @@ export default function App({ $target, initialState }) {
         content: "",
       },
     },
+    listUpdate: () => {
+      postPage.setState();
+    },
   });
 
   this.route = async () => {
@@ -34,6 +37,8 @@ export default function App({ $target, initialState }) {
     const { pathname } = window.location;
 
     if (pathname === "/") {
+      $target.innerHTML = "";
+      postPage.render();
       postPage.setState();
     } else if (pathname.indexOf("/posts/") === 0) {
       const [, , postId] = pathname.split("/");
