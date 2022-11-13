@@ -26,13 +26,14 @@ export default function PostEditor({ $target, initialState }) {
 	this.setState = (nextState) => {
 		this.state = nextState;
 		this.render();
+		// $title.focus();
 	};
 
 	this.render = () => {};
 
-	this.init = () => {
-		$title.focus();
-	};
+	// this.init = () => {
+	// 	$title.focus();
+	// };
 
-	this.init();
+	// this.init();
 }
