@@ -1,6 +1,11 @@
 import { isConstructor } from '../../Helpers/checkError.js';
 
-export default function DocumentEditor({ $target, initialState, saveDocumentEvent }) {
+export default function DocumentEditor({
+  $target,
+  initialState,
+  saveDocumentEvent,
+  saveLocalStorageEvent,
+}) {
   isConstructor(new.target);
   const $documentEditor = document.createElement('div');
   $documentEditor.id = 'documentEditor';
@@ -10,7 +15,6 @@ export default function DocumentEditor({ $target, initialState, saveDocumentEven
 
   this.setState = async (nextState) => {
     this.state = await nextState;
-    console.log(this.state);
     this.render();
   };
 
@@ -64,6 +68,8 @@ export default function DocumentEditor({ $target, initialState, saveDocumentEven
 
   let setDebounce;
   $documentEditor.addEventListener('input', (e) => {
+    saveLocalStorageEvent({ $target: e.target });
+
     if (setDebounce) {
       clearTimeout(setDebounce);
     }

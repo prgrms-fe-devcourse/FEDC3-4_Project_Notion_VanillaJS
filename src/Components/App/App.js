@@ -11,9 +11,17 @@ import DocumentDetailedList from '../DocumentList/DocumentDetailedList.js';
 import DocumentEditor from '../DocumentEditor/DocumentEditor.js';
 import { documentItem } from '../DocumentList/DocumentItem.js';
 import { init, routeChange } from '../../Helpers/router.js';
+import {
+  getLocalStorage,
+  removeLocalStorage,
+  setLocalStorage,
+} from '../../Helpers/localstorage.js';
 
 export default function App({ $target }) {
   isConstructor(new.target);
+
+  let saveApi = false;
+
   new DocumentList({
     $target,
     initialState: getDocumentAll(),
@@ -95,6 +103,26 @@ export default function App({ $target }) {
       });
       const $title = document.querySelector(`[data-id="${id}"] SPAN`);
       $title.innerHTML = arr[0].innerHTML;
+      saveApi = true;
+    },
+    saveLocalStorageEvent: ({ $target }) => {
+      const $editor = $target.closest('[data-id]');
+      const id = $editor.dataset.id;
+      const arr = $editor.querySelectorAll('[contenteditable=true]');
+      if (!saveApi) {
+      }
+      window.addEventListener('beforeunload', () => {
+        if (!saveApi) {
+          setLocalStorage(
+            id,
+            JSON.stringify({
+              title: arr[0].innerHTML,
+              content: arr[1].innerHTML,
+              tempSaveDate: new Date(),
+            })
+          );
+        }
+      });
     },
   });
 
@@ -105,6 +133,19 @@ export default function App({ $target }) {
       const [, , documentsId] = pathname.split('/');
       // 지운 데이터 접근 시 처리
       const nextState = await getDocumentById({ id: documentsId });
+      const localData = getLocalStorage(documentsId);
+      if (localData?.tempSaveDate > nextState.updatedAt) {
+        const saveApi = confirm('이전 저장된 임시 글이 있습니다. 업로드 하시겠습니까?');
+        if (saveApi) {
+          putDocument({
+            id: documentsId,
+            title: localData.title,
+            content: localData.content,
+          });
+        } else {
+          removeLocalStorage(documentsId);
+        }
+      }
       documentEditor.setState(nextState);
     }
   };
