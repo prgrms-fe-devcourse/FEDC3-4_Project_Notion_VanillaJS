@@ -35,11 +35,12 @@ export default function PostPage({ $target, initialState }) {
 
       push(`/posts/${test.id}`);
     },
-    // 로컬스토리지도 비워야함.
     postDelete: async (id) => {
       await request(`documents/${id}`, {
         method: "DELETE",
       });
+
+      removeItem(id);
 
       const nextState = await request("documents", {
         method: "GET",
