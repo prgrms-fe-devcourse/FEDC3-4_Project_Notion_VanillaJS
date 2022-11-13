@@ -57,23 +57,26 @@
       height: 30px;
       border-radius: 5px 0 0 5px;
 
-      a.title {
+      .title {
         display: inline-block;
         width: 160px;
         position: relative;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-        padding-left: 18px;
+
+        i {
+          width: 18px;
+          height: 18px;
+          border-radius: 3px;
+        }
+
+        i:hover {
+          background-color: rgba(var(--color-primary-rgb), 0.7);
+        }
       }
 
-      a.title::before {
-        content: '\e93f';
-        position: absolute;
-        left: 5px;
-        font-family: xeicon;
-        top: 0;
-      }
+
   
       .btn-container {
         position: absolute;
@@ -128,6 +131,7 @@
   ul.parent.on {
     height: max-content
   }
+
 }
 
 .doc-list-footer {

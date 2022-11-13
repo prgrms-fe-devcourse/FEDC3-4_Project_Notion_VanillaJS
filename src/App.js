@@ -8,7 +8,7 @@ export default function App({ $target }) {
     initialState: []
   })
 
-  // const docEditPage = new DocEditPage({
-  //   $target
-  // })
+  const docEditPage = new DocEditPage({
+    $target
+  })
 }

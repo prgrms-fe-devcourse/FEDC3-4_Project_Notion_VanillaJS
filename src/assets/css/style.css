@@ -134,20 +134,19 @@ body {
       position: relative;
       height: 30px;
       border-radius: 5px 0 0 5px; }
-      .doc-list li.list-item .container a.title {
+      .doc-list li.list-item .container .title {
         display: inline-block;
         width: 160px;
         position: relative;
         overflow: hidden;
         white-space: nowrap;
-        text-overflow: ellipsis;
-        padding-left: 18px; }
-      .doc-list li.list-item .container a.title::before {
-        content: '\e93f';
-        position: absolute;
-        left: 5px;
-        font-family: xeicon;
-        top: 0; }
+        text-overflow: ellipsis; }
+        .doc-list li.list-item .container .title i {
+          width: 18px;
+          height: 18px;
+          border-radius: 3px; }
+        .doc-list li.list-item .container .title i:hover {
+          background-color: rgba(var(--color-primary-rgb), 0.7); }
       .doc-list li.list-item .container .btn-container {
         position: absolute;
         right: 5px;
@@ -254,9 +253,10 @@ body {
     font-family: var(--font-family);
     padding: 5px;
     margin-top: 10px;
-    height: 50vh; }
+    height: 50vh;
+    resize: vertical; }
 
-#footer {
+.footer {
   position: relative;
   display: flex;
   bottom: 0;
@@ -264,7 +264,7 @@ body {
   width: 100%;
   justify-content: center;
   align-items: center; }
-  #footer p {
+  .footer p {
     color: rgba(var(--text-rgba), 0.5); }
 
 /*# sourceMappingURL=style.css.map */

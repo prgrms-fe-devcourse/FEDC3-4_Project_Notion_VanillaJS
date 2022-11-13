@@ -1,8 +1,7 @@
 import { makeElement } from "../../util/templates.js";
 
 export default function Edtior({ $target, initialState }) {
-  const $editor = makeElement('div', 'editor-container', 'hide')
-  $target.appendChild($editor)
+  const $editor = makeElement('div', 'editor');
 
   this.state = initialState;
 
@@ -13,11 +12,14 @@ export default function Edtior({ $target, initialState }) {
 
   this.render = () => {
     $editor.innerHTML = `
-      <input type="text" name="title" />
-      <textarea id="" name="content"></textarea>
+      <input type="text" name="title" class="title" />
+      <textarea name="content" class="content"></textarea>
     `
   }
 
   this.render()
 
+  this.init = () => {
+    $target.appendChild($editor)
+  }
 }

@@ -9,7 +9,7 @@ export const makeLi = (state) => {
     "afterbegin",
     `
       <div class="container">
-        <a href="#" class="title">${title ? title : "Untitled"}</a>
+        <a href="#" class="title"><i class="xi-angle-right-min view-more"><span>하위 게시글 보기</span></i>${title ? title : "Untitled"}</a>
         <div class=btn-container>
           <button class="remove">
             <i class="xi-trash-o"><span>삭제하기</span></i>
