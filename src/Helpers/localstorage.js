@@ -1,7 +1,7 @@
-import { ERROR_MESSAGE } from "../constants.js";
-import { checkLocalData } from "./checkError.js";
+import { ERROR_MESSAGE } from '../constants.js';
+import { checkLocalData } from './checkError.js';
 
-export const setItem = (key, value) => {
+export const setLocalStorage = (key, value) => {
   try {
     window.localStorage.setItem(key, value);
   } catch (e) {
@@ -9,7 +9,7 @@ export const setItem = (key, value) => {
   }
 };
 
-export const getItem = (key) => {
+export const getLocalStorage = (key) => {
   try {
     const localList = JSON.parse(window.localStorage.getItem(key));
 
