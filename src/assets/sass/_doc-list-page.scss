@@ -75,10 +75,30 @@
         top: 0;
       }
   
-      span.btn-container {
+      .btn-container {
         position: absolute;
         right: 5px;
         display: none;
+
+        button {
+          width: 18px;
+          height: 18px;
+          vertical-align: middle;
+          border-radius: 3px;
+          position: relative;
+
+          i {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+          }
+        }
+
+        button:hover {
+          background-color: rgba(var(--color-primary-rgb), 0.7);
+        }
+
       }
     }
   }
@@ -88,7 +108,7 @@
     > .container {
       background-color: rgba(var(--color-primary-rgb), 0.4);
 
-      span.btn-container {
+      .btn-container {
         display: inline-block;
       }
     }

@@ -1,5 +1,5 @@
-import { makeLi, makeUl } from "./util/templates.js";
-import { hasClass, addClass, removeClass } from "./util/helper.js";
+import { makeLi, makeUl, makeElement } from "../../util/templates.js";
+import { hasClass, addClass, removeClass } from "../../util/helper.js";
 
 export default function DocList({
   $target,
@@ -8,7 +8,7 @@ export default function DocList({
   onAdd,
   onRemove,
 }) {
-  const $listContainer = document.createElement("div");
+  const $listContainer = makeElement('nav', 'doc-list');
   $target.appendChild($listContainer);
   const $list = makeUl("root");
 
@@ -48,17 +48,20 @@ export default function DocList({
   this.render()
 
   $listContainer.addEventListener("click", (e) => {
-    const $li = e.target.closest(".doc-item");
+    const $li = e.target.closest(".list-item");
     if (!$li) return;
 
     const { documentId } = $li.dataset;
-    const { className } = e.target;
+    const $button = e.target.closest('button');
+    const { className } = $button;
+
     if (className === "remove") {
       if (hasClass($li, "on")) return; //block if open in editor
       onRemove(documentId);
     } else if (className === "add") {
       onAdd(documentId)
     } else {
+      document.querySelectorAll('.list-item').forEach($li => $li.classList.remove('on'));
       addClass($li, 'on');
       onSelect(documentId)
     }

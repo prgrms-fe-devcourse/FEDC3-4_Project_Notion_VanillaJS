@@ -148,13 +148,26 @@ body {
         left: 5px;
         font-family: xeicon;
         top: 0; }
-      .doc-list li.list-item .container span.btn-container {
+      .doc-list li.list-item .container .btn-container {
         position: absolute;
         right: 5px;
         display: none; }
+        .doc-list li.list-item .container .btn-container button {
+          width: 18px;
+          height: 18px;
+          vertical-align: middle;
+          border-radius: 3px;
+          position: relative; }
+          .doc-list li.list-item .container .btn-container button i {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%); }
+        .doc-list li.list-item .container .btn-container button:hover {
+          background-color: rgba(var(--color-primary-rgb), 0.7); }
   .doc-list li.list-item:hover > .container {
     background-color: rgba(var(--color-primary-rgb), 0.4); }
-    .doc-list li.list-item:hover > .container span.btn-container {
+    .doc-list li.list-item:hover > .container .btn-container {
       display: inline-block; }
   .doc-list li.list-item.on > .container {
     background-color: var(--color-primary); }
