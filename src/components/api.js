@@ -20,6 +20,7 @@ export const request = async (url, options = {}) => {
   }
 }
 
+
 export const getDocument = async (documentId) => {
   return await request(`/documents${documentId ? `/${documentId}` : ''}`)
 }
