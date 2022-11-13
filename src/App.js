@@ -9,6 +9,7 @@ export default function App({ $target, initialState }) {
 	this.state = initialState;
 
 	this.route = () => {
+		// todo : 모듈화 필요
 		const { pathname, search } = window.location;
 		const [, id] = pathname.split('/');
 		const queryString = new URLSearchParams(search);

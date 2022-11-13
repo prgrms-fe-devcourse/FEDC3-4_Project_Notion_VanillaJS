@@ -3,6 +3,7 @@ import { push } from '../../utils/router.js';
 
 export default function Header({ $target, initialState }) {
 	const $header = createElement({element: 'header', $target, content: initialState || 'Metamong'})
+	if ($target.tagName === 'NAV') $header.classList.add('sidebar-header');
 
 	this.state = initialState
 
