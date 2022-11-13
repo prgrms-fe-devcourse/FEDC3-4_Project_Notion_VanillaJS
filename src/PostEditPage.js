@@ -23,7 +23,7 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
   const editor = new Editor({
     $target: $postEditPage,
     initialState: {
-      title: "",
+      title: "제목없음",
       content: "",
     },
     onEditing: (post) => {
@@ -39,6 +39,11 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
 
         const isNew = this.state.postId === "new";
         if (isNew) {
+          if (post.title === "") {
+            alert("제목을 입력해주세요!");
+            post.title = "제목 없음";
+          }
+
           const createPost = await request("documents", {
             method: "POST",
             body: JSON.stringify(post),
@@ -58,6 +63,11 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
 
           listUpdate();
         } else {
+          if (post.title === "") {
+            alert("제목을 입력해주세요!");
+            post.title = "제목 없음";
+          }
+
           await request(`documents/${post.id}`, {
             method: "PUT",
             body: JSON.stringify(post),
@@ -77,8 +87,7 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
     if (this.state.postId === "new" && nextState.postId === "new") {
       this.state = nextState;
       editor.setState({
-        title:
-          "첫 번째 게시글을 작성하시게 된걸 축하드립니다. 문서의 제목을 입력하세요.",
+        title: "오늘의 첫번째 게시글을 작성해보세요.",
         content: "새 문서의 내용을 입력하세요.",
       });
       this.render();
