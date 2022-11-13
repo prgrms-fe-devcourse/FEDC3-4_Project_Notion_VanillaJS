@@ -27,8 +27,6 @@ export default function DocumentList({
     `;
   };
 
-  this.render();
-
   $documentList.addEventListener("click", (e) => {
     const { target } = e;
     const element = target.closest("[name]");
@@ -59,4 +57,6 @@ export default function DocumentList({
       }
     }
   });
+
+  this.render();
 }

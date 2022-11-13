@@ -19,22 +19,25 @@ export default function App({ $target }) {
         content: "",
       },
     },
+    onChange: () => {
+      documentPage.render();
+    },
   });
 
   this.route = () => {
-    $target.innerHTML = "";
     const { pathname } = window.location;
-
     if (pathname === "/") {
-      documentPage.fetchDocument();
+      documentPage.render();
     } else if (pathname.indexOf("/documents/") === 0) {
       const [, , documentId] = pathname.split("/");
-      documentPage.fetchDocument();
-      editorPage.setState({ documentId });
+      editorPage.setState({
+        ...editorPage.state,
+        documentId,
+      });
+      documentPage.render();
     }
   };
 
   this.route();
-
   initRoute(() => this.route());
 }

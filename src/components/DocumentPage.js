@@ -1,5 +1,5 @@
 import { request } from "../utils/api.js";
-import { push } from "../utils/router.js";
+import { initRoute, push } from "../utils/router.js";
 import DocumentList from "./DocumentList.js";
 
 export default function DocumentPage({ $target, onClickTitle }) {
@@ -21,18 +21,18 @@ export default function DocumentPage({ $target, onClickTitle }) {
 
     onClickRemove: async (id) => {
       if (id == window.location.pathname.split("/")[2]) {
-        if (confirm("현재 페이지를 삭제하겠습니까?")) {
+        if (confirm("현재 페이지를 삭제하시겠습니까?")) {
           await request(`/documents/${id}`, {
             method: "DELETE",
           });
           push("/");
         }
       } else {
-        if (confirm("해당 페이지를 삭제하겠습니까?")) {
+        if (confirm("해당 페이지를 삭제하시겠습니까?")) {
           await request(`/documents/${id}`, {
             method: "DELETE",
           });
-          this.fetchDocument();
+          fetchDocument();
         }
       }
     },
@@ -49,15 +49,26 @@ export default function DocumentPage({ $target, onClickTitle }) {
     },
   });
 
-  this.fetchDocument = async () => {
+  const fetchDocument = async () => {
     const posts = await request("/documents");
+    posts.map((el) => {
+      if (el.title === "") {
+        el.title = "제목 없음";
+      }
+    });
     documentList.setState(posts);
-    this.render();
+  };
+  $target.prepend($page);
+
+  this.render = async () => {
+    await fetchDocument();
   };
 
-  this.render = () => {
-    $target.appendChild($page);
+  this.route = () => {
+    this.setState();
   };
+
+  initRoute(() => fetchDocument());
 
   $page.addEventListener("click", (e) => {
     const { target } = e;
