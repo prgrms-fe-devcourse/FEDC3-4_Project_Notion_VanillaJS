@@ -11,10 +11,19 @@ export default function PostList({
   const $postList = document.createElement("div");
   $postList.className = "postList";
 
-  $postList.style.overflow = "auto";
-  $postList.style.whiteSpace = "nowrap";
-  $postList.style.height = "95vh";
-  $postList.style.backgroundColor = "#c8c8c8";
+  $postList.style = `   
+   overflow: auto;
+   scroll: no;
+   white-space: nowrap;
+   height: 95vh;
+   backgroundColor: #c8c8c8;
+  `;
+
+  // $postList.style.overflow = "auto";
+  // $postList.style.whiteSpace = "nowrap";
+  // $postList.style.height = "95vh";
+  // $postList.style.overflow.style = "none";
+  //$postList.style.backgroundColor = "#c8c8c8";
 
   this.state = initialState;
 
@@ -43,7 +52,7 @@ export default function PostList({
     if (visible.visible === null) {
       setItem(id, {
         id: id,
-        visible: "",
+        visible: "none",
       });
     }
 
@@ -58,9 +67,11 @@ export default function PostList({
     return docList
       .map(
         (cur) =>
-          `<li class="title" data-id="${cur.id}">${cur.title} 
-          <button class="add">+</button>
-          <button class="delete">x</button>          
+          `<li class="title" data-id="${cur.id}" style="list-style:none">
+          ${this.visible(cur.id) === "none" ? "ㅇ" : "ㄴ"}
+          ${cur.title} 
+          <button class="add" style="position:sticky; right:25px;">+</button>
+          <button class="delete" style="position:sticky; right:1px;">x</button>          
           ${
             cur.documents.length > 0
               ? `<ul style="display:${this.visible(cur.id)}">${this.makeList(
