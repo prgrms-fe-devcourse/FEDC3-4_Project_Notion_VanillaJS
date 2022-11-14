@@ -29,11 +29,12 @@ export default function App({ $target }) {
 
   this.route = () => {
     const { pathname } = window.location;
-    if (pathname === "/") {
-      postPage.render();
-    } else if (pathname.indexOf("/documents/") === 0) {
+    if (pathname.indexOf("/documents/") === 0) {
       const [, , postId] = pathname.split("/");
+      postPage.render();
       postEditPage.setState({ postId });
+    } else {
+      postPage.render();
     }
   };
 

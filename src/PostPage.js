@@ -1,18 +1,19 @@
 import PostList from "./PostList.js";
 import { request } from "./api.js";
+import { push } from "./router.js";
 
-export default function PostPage({ $target, initialState }) {
+export default function PostPage({ $target, editUpdate }) {
   const $page = document.createElement("div");
 
   const postList = new PostList({
-    $target,
+    $target: $page,
     initialState: [],
     onRemove: async (id) => {
       await request(`/documents/${id}`, {
         method: "DELETE",
       });
       history.pushState(null, null, "/");
-      this.render();
+      location.reload();
     },
     newDocunment: async (id, button) => {
       if (button === "add") {
@@ -21,7 +22,10 @@ export default function PostPage({ $target, initialState }) {
           parent: id,
         };
         const newDocument = await newRequest(document);
+        push(`/documents/${newDocument.id}`);
         this.render();
+      } else {
+        push(`/documents/${id}`);
       }
     },
   });
@@ -36,6 +40,8 @@ export default function PostPage({ $target, initialState }) {
       method: "POST",
       body: JSON.stringify(document),
     });
+
+    return await newRequest;
   };
 
   this.setState = async () => {

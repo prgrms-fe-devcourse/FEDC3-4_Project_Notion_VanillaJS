@@ -49,12 +49,16 @@ export default function PostList({
     const id = $li?.dataset.id ? $li.dataset.id : null;
     if ($li || name) {
       //push가 버튼이 아니라 li를 눌렀을 때만 .... 하게 하고 싶음
-      if ($li) push(`/documents/${id}`);
+      // console.log($li.hasChildNodes());
+      // console.log($li.firstChild, id);
       if (name === "remove") {
         onRemove(id);
+        return;
       } else {
         newDocunment(id, name);
       }
+
+      // if ($li) push(`/documents/${id}`);
     }
   });
 }
