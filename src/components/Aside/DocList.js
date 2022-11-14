@@ -52,18 +52,37 @@ export default function DocList({
     if (!$li) return;
 
     const { documentId } = $li.dataset;
-    const $button = e.target.closest('button');
-    const { className } = $button;
 
-    if (className === "remove") {
-      if (hasClass($li, "on")) return; //block if open in editor
-      onRemove(documentId);
-    } else if (className === "add") {
-      onAdd(documentId)
-    } else {
+    const $target = e.target;
+    const { tagName, className } = $target;
+    const splitedClassName = className.split(' ').filter(x => !x.startsWith('xi')).shift();
+
+    if(tagName === 'I') {
+      switch (splitedClassName) {
+        case 'view-more':
+          const $parent = $li.querySelector('.parent');
+          if(!$parent) return;
+
+          if(hasClass($parent, 'on')) {
+            removeClass($target, 'on');
+            removeClass($parent, 'on');
+          } else {
+            addClass($target, 'on');
+            addClass($parent, 'on');
+          }
+          break;
+        case 'add':
+          onAdd(documentId);
+          break;
+        case 'remove':
+          if(hasClass($li, 'on')) return;
+          onRemove(documentId);
+          break;
+      }
+    } else if (tagName === 'A' && splitedClassName === 'title') {
       document.querySelectorAll('.list-item').forEach($li => $li.classList.remove('on'));
-      addClass($li, 'on');
-      onSelect(documentId)
+      // addClass($li, 'on');
+      onSelect(documentId);
     }
   });
 }
