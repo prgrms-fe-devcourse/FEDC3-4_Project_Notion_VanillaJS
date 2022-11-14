@@ -1,27 +1,81 @@
 import Editor from "./Editor.js";
 import DocEditHeader from "./DocEditHeader.js";
+import DocEditFooter from "./DocEditFooter.js";
 import { makeElement } from "../../util/templates.js";
+import { getDocument, editDocument } from "../api.js";
+import { getItem, removeItem, setItem } from "../../util/localStorage.js";
+import { debounce } from "../../util/helper.js";
 
-export default function DocEditPage({ $target }) {
-  const $page = makeElement('main', 'doc-edit-page');
-  const $pageContainer = makeElement('div', 'main-container');
-  const $pageFooter = makeElement('footer', 'footer');
+export default function DocEditPage({
+  $target,
+  initialState = {
+    documentId: "",
+  },
+}) {
+  const $page = makeElement("main", "doc-edit-page");
+  $target.appendChild($page);
+
+  this.state = initialState;
+
+  let docTempSaveKey = `tempSave-${this.state}`;
 
   new DocEditHeader({
-    $target: $page
-  })
+    $target: $page,
+    onToggle: () => {},
+  });
+
   const editor = new Editor({
     $target: $page,
-    initialState: []
-  })
+    initialState: [],
+    onEdit: debounce(async (document) => {
+      const tempDoc = tempSave(document);
+      autoSave(tempDoc);
+    }, 1000),
+  });
 
-  this.init = () => {
-    $pageFooter.innerHTML = `<p>Made by Meeeee</p>`
-    $page.appendChild($pageFooter);
-    $pageContainer.appendChild($page);
-    $target.appendChild($pageContainer);
-  }
+  new DocEditFooter({
+    $target: $page,
+  });
 
-  this.init();
+  const tempSave = (document) => {
+    docTempSaveKey = `tempSave-${this.state}`;
 
+    setItem(docTempSaveKey, {
+      ...document,
+      tempSaveAt: new Date(),
+    });
+
+    const docTempSave = getItem(docTempSaveKey, {
+      title: "",
+      content: "",
+    });
+
+    return docTempSave;
+  };
+
+  const autoSave = async (tempDoc) => {
+    const editedDoc = await editDocument({
+      documentId: this.state,
+      document: {
+        title: tempDoc.title,
+        content: tempDoc.content,
+      },
+    });
+    
+    removeItem(docTempSaveKey);
+    await this.setState(this.state);
+  };
+
+  this.setState = async (nextState) => {
+    this.state = nextState;
+    if (!nextState) {
+      editor.init();
+    } else {
+      const currentDoc = await getDocument(this.state);
+      editor.setState({
+        title: currentDoc.title,
+        content: currentDoc.content,
+      });
+    }
+  };
 }
