@@ -5,13 +5,11 @@ export default function DocumentFooter({ $target }) {
 
   this.render = () => {
     $button.innerHTML = `
-      <img class='plus' />
+      <img class='plus new' />
       ${'새 페이지'}
     `;
 
-    document
-      .querySelector('.plus')
-      .setAttribute('src', '../../assets/plus.png');
+    document.querySelector('.new').setAttribute('src', '../../assets/plus.png');
   };
 
   this.render();
