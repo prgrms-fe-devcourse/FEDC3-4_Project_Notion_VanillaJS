@@ -37,7 +37,7 @@ button {
   height: 45px;
 }
 
-/*Postpage 안에 BewPostBtn*/
+/*Postpage 안에 newPostBtn*/
 .notion-newpage-button {
   display: block;
   flex: 0 0 auto;
@@ -92,9 +92,47 @@ button {
     margin-right: 14px;
 }
 
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(90deg);
+  }
+}
+
+#close .toggleBtn {
+  transform: rotate(0deg)
+}
+
+#open .toggleBtn {
+  transform: rotate(90deg);
+}
+
 .plus-minus-wrapper {
   float: right;
   color: black;
+}
+
+/*editor*/
+.editor-container {
+  margin-top: 50px;
+  margin-left: 50px;
+}
+
+input {
+  border-style: none;
+  background-color: transparent;
+  outline: none;
+}
+
+input[name="title"]{
+  font-size: 30px;
+  width: 700px;
+  height: 70px;
+  border: none;
+  padding-top: 14px;
+  margin-bottom: 24px;
 }
 
 
@@ -116,3 +154,8 @@ button {
   padding-left: 15px;
 }
 
+.child-document {
+  position: fixed;
+  bottom: 0;
+  margin-bottom: 100px;
+}
