@@ -1,6 +1,7 @@
 export default function Editor({
   $target,
   initialState = { title: "", content: "" },
+  onEditing,
 }) {
   const $editor = document.createElement("div");
   $target.appendChild($editor);
@@ -32,13 +33,14 @@ export default function Editor({
 
     const name = target.getAttribute("name");
 
-    if (this.state[name]) {
+    if (this.state[name] !== undefined) {
       const nextState = {
         ...this.state,
         [name]: target.value,
       };
 
       this.setState(nextState);
+      onEditing(this.state);
     }
   });
 }

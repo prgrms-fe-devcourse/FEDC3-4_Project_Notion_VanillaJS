@@ -1,14 +1,25 @@
 import App from "./App.js";
 import Editor from "./components/Editor.js";
+import { getItem, setItem } from "./utils/storage.js";
 
 const $target = document.querySelector("#app");
 
 // new App({ $target });
 
+const TEMP_POST_SAVE_KEY = "temp-post";
+
+const post = getItem(TEMP_POST_SAVE_KEY, {
+  title: "",
+  content: "",
+});
+
 new Editor({
   $target,
-  initialState: {
-    title: "노션 클로닝을 하자",
-    content: "아좌좌",
+  initialState: post,
+  onEditing: (post) => {
+    setItem("TEMP_POST_SAVE_KEY", {
+      ...post,
+      tempSaveDate: new Date(),
+    });
   },
 });
