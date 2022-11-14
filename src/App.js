@@ -11,4 +11,8 @@ export default function App({ $target }) {
   const docEditPage = new DocEditPage({
     $target
   })
+
+  this.route = () => {
+    
+  }
 }
