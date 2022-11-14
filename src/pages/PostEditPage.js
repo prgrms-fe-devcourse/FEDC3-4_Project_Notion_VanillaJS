@@ -1,6 +1,6 @@
 import { request } from "../utils/api.js";
 import Editor from "../components/Editor.js";
-import { getItem, setItem } from "../utils/storage.js";
+import { getItem, removeItem, setItem } from "../utils/storage.js";
 
 export default function PostEditPage({ $target, initialState }) {
   const $page = document.createElement("div");
@@ -18,16 +18,36 @@ export default function PostEditPage({ $target, initialState }) {
 
   const editor = new Editor({
     $target: $page,
-    initialState: this.state.post,
+    initialState: post,
     onEditing: (post) => {
       if (timer !== null) {
         clearTimeout(timer);
       }
-      timer = setTimeout(() => {
+      timer = setTimeout(async () => {
         setItem(postLocalSaveKey, {
           ...post,
           tempSaveDate: new Date(),
         });
+
+        const isNew = this.state.postId === "new";
+        if (isNew) {
+          const createdPost = await request("/documents", {
+            method: "POST",
+            body: JSON.stringify(post),
+          });
+          history.replaceState(null, null, `/posts/${createdPost.id}`);
+          removeItem(postLocalSaveKey);
+
+          this.setState({
+            postId: createdPost.id,
+          });
+        } else {
+          await request(`/documents/${post.id}`, {
+            method: "PUT",
+            body: JSON.stringify(post),
+          });
+          removeItem(postLocalSaveKey);
+        }
       }, 1000);
     },
   });
@@ -41,7 +61,7 @@ export default function PostEditPage({ $target, initialState }) {
         title: "",
         content: "",
       });
-      
+
       const tempSaveDate = tempPost.tempSaveDate;
       if (tempSaveDate && tempSaveDate > post.updatedAt) {
         if (confirm("저장되지 않은 데이터가 있습니다. 불러올까요?")) {
@@ -71,6 +91,7 @@ export default function PostEditPage({ $target, initialState }) {
 
     this.state = nextState;
     this.render();
+
     editor.setState(
       this.state.post || {
         title: "",
