@@ -1,3 +1,5 @@
+import { push } from "../utils/router.js";
+
 export default function PostList({ $target, initialState }) {
   const $postList = document.createElement("div");
   $target.appendChild($postList);
@@ -15,6 +17,7 @@ export default function PostList({ $target, initialState }) {
 
     posts.forEach((post) => {
       let $li = document.createElement("li");
+      $li.setAttribute("data-id", post.id);
       $li.innerText = post.title ? post.title : "제목 없음";
       $ul.appendChild($li);
 
@@ -25,8 +28,18 @@ export default function PostList({ $target, initialState }) {
   };
 
   this.render = () => {
-    renderPosts($postList, this.state);
+    $postList.innerHTML = "";
+    this.state.length && renderPosts($postList, this.state);
   };
 
   this.render();
+
+  $postList.addEventListener("click", (e) => {
+    const $li = e.target.closest("li");
+
+    if ($li) {
+      const { id } = $li.dataset;
+      push(`/posts/${id}`);
+    }
+  });
 }
