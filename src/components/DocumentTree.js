@@ -1,4 +1,8 @@
-import { fetchData } from "../utils/api.js";
+import {
+  createNewDocument,
+  getDocumentDetail,
+  getRootDocuments,
+} from "../utils/fetchData.js";
 import DocumentNode from "./DocumentNode.js";
 
 function DocumentTree({ $target, initialState }) {
@@ -28,24 +32,18 @@ function DocumentTree({ $target, initialState }) {
         };
         createNewDocument(data);
       },
+      onSelect: (documentId) => {
+        getDocumentDetail(documentId);
+      },
     });
   };
 
-  const getRootDocuments = async () => {
-    const data = await fetchData("/documents");
-
+  this.init = async () => {
+    const data = await getRootDocuments();
     this.setState({
       ...this.state,
       data,
     });
-  };
-
-  const createNewDocument = async (data) => {
-    await fetchData("/documents", "POST", data);
-  };
-
-  this.init = () => {
-    getRootDocuments();
   };
 
   this.init();

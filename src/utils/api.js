@@ -1,11 +1,6 @@
 import { API_END_POINT, HEADERS } from "./constants.js";
 
-export const fetchData = async (
-  url,
-  method = "GET",
-  data,
-  defaultValue = []
-) => {
+export const request = async (url, method = "GET", data, defaultValue = []) => {
   try {
     const response = await fetch(API_END_POINT + url, {
       method,
@@ -15,7 +10,6 @@ export const fetchData = async (
 
     if (response.ok) {
       const json = await response.json();
-      console.log(json, "데이터 패치 완료");
       return json;
     }
 

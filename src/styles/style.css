@@ -14,3 +14,23 @@
   width: 30vw;
   max-width: 300px;
 }
+
+.tree-node {
+  padding-left: 12px;
+  border-left: 1px solid lightgray;
+}
+
+.node-item {
+  list-style: none;
+  padding-top: 6px;
+  cursor: pointer;
+}
+
+.add-button {
+  all: unset;
+}
+
+.text-editor {
+  width: 500px;
+  height: 1200px;
+}

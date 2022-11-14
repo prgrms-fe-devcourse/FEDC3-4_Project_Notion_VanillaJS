@@ -1,4 +1,6 @@
-function DocumentNode({ $target, initialState, onClick }) {
+import { navigate } from "../utils/router.js";
+
+function DocumentNode({ $target, initialState, onClick, onSelect }) {
   const $node = document.createElement("article");
   $target.appendChild($node);
 
@@ -17,7 +19,7 @@ function DocumentNode({ $target, initialState, onClick }) {
         ${data
           .map(({ id, title, documents }) => {
             const $li = document.createElement("li");
-
+            $li.dataset.documentId = id;
             $li.className = "node-item";
             $li.innerHTML = `
             ${title}${id}
@@ -52,6 +54,18 @@ function DocumentNode({ $target, initialState, onClick }) {
 
       if (parentId) {
         onClick(parseInt(parentId));
+      }
+      return;
+    }
+
+    const $li = e.target.closest("li");
+
+    if ($li) {
+      const { documentId } = $li.dataset;
+      // 여기서 라우터 변경을 한 후 이동한 페이지에서 api 요청해서 문서 정보 불러오기
+      if (documentId) {
+        onSelect(parseInt(documentId));
+        navigate(`/document/${documentId}`);
       }
     }
   });
