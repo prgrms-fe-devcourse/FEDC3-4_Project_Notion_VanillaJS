@@ -8,6 +8,7 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
   CheckNew(new.target);
 
   const $postEditPage = document.createElement("div");
+  $postEditPage.style.margin = "30px";
 
   this.state = initialState;
 
@@ -55,6 +56,7 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
           });
 
           history.replaceState(null, null, `/posts/${createPost.id}`);
+
           removeItem(postLocalSaveKey);
 
           this.setState({
@@ -72,6 +74,7 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
             method: "PUT",
             body: JSON.stringify(post),
           });
+
           removeItem(postLocalSaveKey);
 
           listUpdate();
@@ -83,7 +86,7 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
   this.setState = async (nextState) => {
     console.log(this.state, nextState);
 
-    // 첫 게시물 작성시.
+    // 첫 게시물 작성시 <-- 수정필요.
     if (this.state.postId === "new" && nextState.postId === "new") {
       this.state = nextState;
       editor.setState({
@@ -162,7 +165,7 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
   new LinkButton({
     $target: $postEditPage,
     initialState: {
-      text: "목록으로 이동",
+      text: "보고 있는 글 닫기",
       link: "/",
     },
   });

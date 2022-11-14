@@ -9,9 +9,11 @@ export default function PostPage({ $target, initialState }) {
   CheckNew(new.target);
 
   const $postPage = document.createElement("div");
-
   $postPage.className = "PostPage";
+
   $postPage.style.width = "30%";
+  $postPage.style.height = "100vh";
+  $postPage.style.backgroundColor = "#dcdcdc";
 
   new LinkButton({
     $target: $postPage,
@@ -36,6 +38,18 @@ export default function PostPage({ $target, initialState }) {
       push(`/posts/${test.id}`);
     },
     postDelete: async (id) => {
+      const { pathname } = window.location;
+      if (pathname.indexOf("/posts/") === 0) {
+        const [, , postId] = pathname.split("/");
+        if (id === postId) {
+          if (confirm("현재 보고있는 문서를 삭제하시겠습니까?")) {
+            // home으로 라우팅.
+            alert("현재 문서가 삭제되었습니다.");
+            push("/");
+          }
+        }
+      }
+
       await request(`documents/${id}`, {
         method: "DELETE",
       });

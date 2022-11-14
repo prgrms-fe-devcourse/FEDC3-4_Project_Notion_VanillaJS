@@ -18,13 +18,14 @@ export default function App({ $target, initialState }) {
   const postEditPage = new PostEditPage({
     $target,
     initialState: {
-      // ...this.state ?
       postId: "new",
       post: {
         title: "",
         content: "",
       },
     },
+
+    // 의존성 발생
     listUpdate: () => {
       postPage.setState();
     },
