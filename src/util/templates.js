@@ -12,10 +12,10 @@ export const makeLi = (state) => {
         <a href="#" class="title"><i class="xi-angle-right-min view-more"><span>하위 게시글 보기</span></i>${title ? title : "Untitled"}</a>
         <div class=btn-container>
           <button class="remove">
-            <i class="xi-trash-o"><span>삭제하기</span></i>
+            <i class="xi-trash-o remove"><span>삭제하기</span></i>
           </button>
           <button class="add">
-            <i class="xi-plus"><span>추가하기</span></i>
+            <i class="xi-plus add"><span>추가하기</span></i>
           </button>
         </div>
       </div>
@@ -37,11 +37,12 @@ export const makeElement = (element, ...names) => {
   return $element;
 };
 
-export const makeButton = (name, iconName, spanText) => {
+export const makeButton = ({name, iconName, spanText = '', textContent = ''}) => {
   const $button = document.createElement("button");
   addClass($button, name);
   $button.innerHTML = `
-    <i class="${iconName}"><span>${spanText ? spanText : ''}</span></i>  
+    <i class="${iconName}"><span>${spanText}</span></i>
+    ${textContent}
   `;
   return $button;
 };

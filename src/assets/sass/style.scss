@@ -34,6 +34,21 @@ body {
   color: var(--text-primary);
   font-family: var(--font-family);
   font-size: 14px;
+  position: relative;
+  overscroll-behavior-y: none;
+}
+
+body::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  background: url(../images/vecteezy_icon-background-ice-cream-flat-design-vector_.jpg) repeat;
+  background-size: 30%;
 }
 
 #app {
@@ -43,15 +58,6 @@ body {
 }
 
 @import '_doc-list-page.scss';
-
-.main-container {
-  width: 100%;
-  height: 100vh;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
 @import '_doc-edit-page.scss';
 
 .footer {

@@ -82,7 +82,21 @@ body {
   background-color: var(--background-color);
   color: var(--text-primary);
   font-family: var(--font-family);
-  font-size: 14px; }
+  font-size: 14px;
+  position: relative;
+  overscroll-behavior-y: none; }
+
+body::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  background: url(../images/vecteezy_icon-background-ice-cream-flat-design-vector_.jpg) repeat;
+  background-size: 30%; }
 
 #app {
   display: flex;
@@ -90,7 +104,7 @@ body {
   position: relative; }
 
 .doc-list-page {
-  background-color: var(--color-secondary);
+  background-color: var(--background-color);
   width: 50px;
   padding: 0;
   overflow: hidden;
@@ -142,11 +156,19 @@ body {
         white-space: nowrap;
         text-overflow: ellipsis; }
         .doc-list li.list-item .container .title i {
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+          margin-right: 3px;
           width: 18px;
           height: 18px;
-          border-radius: 3px; }
+          border-radius: 3px;
+          transition: 0.4s; }
         .doc-list li.list-item .container .title i:hover {
           background-color: rgba(var(--color-primary-rgb), 0.7); }
+        .doc-list li.list-item .container .title i.on {
+          transform: rotate(90deg);
+          transform-origin: center; }
       .doc-list li.list-item .container .btn-container {
         position: absolute;
         right: 5px;
@@ -184,18 +206,14 @@ body {
   .doc-list-footer .add-root > i {
     margin-right: 5px; }
 
-.main-container {
-  width: 100%;
-  height: 100vh;
+.doc-edit-page {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; }
-
-.doc-edit-page {
-  position: relative;
+  justify-content: space-between;
   padding: 30px 50px;
   width: 100%;
+  height: 100vh;
   box-sizing: border-box; }
 
 .doc-edit-header {
