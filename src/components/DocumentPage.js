@@ -1,6 +1,7 @@
 import { request } from "../utils/api.js";
 import { initRoute, push } from "../utils/router.js";
 import DocumentList from "./DocumentList.js";
+import Header from "./Header.js";
 
 export default function DocumentPage({ $target, onClickTitle }) {
   const $page = document.createElement("div");
@@ -47,6 +48,11 @@ export default function DocumentPage({ $target, onClickTitle }) {
       });
       push(`/documents/${addPost.id}`);
     },
+  });
+
+  new Header({
+    $target: $page,
+    initialState: "김민우",
   });
 
   const fetchDocument = async () => {
