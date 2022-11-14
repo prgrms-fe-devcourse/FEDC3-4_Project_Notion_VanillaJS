@@ -52,6 +52,7 @@ export default function DocumentList({
         return;
       }
       if (target.name === "add-button") {
+        getItem(listToggleState) ? "" : setItem(listToggleState, "block");
         onClickAdd(id);
         return;
       }
