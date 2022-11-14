@@ -4,23 +4,28 @@ export default function PostList({ $target, initialState }) {
 
   this.state = initialState;
 
-  const renderPostList = (root, postList) => {
+  this.setState = (nextState) => {
+    this.state = nextState;
+    this.render();
+  };
+
+  const renderPosts = (root, posts) => {
     let $ul = document.createElement("ul");
     root.appendChild($ul);
 
-    postList.forEach((post) => {
+    posts.forEach((post) => {
       let $li = document.createElement("li");
       $li.innerText = post.title;
       $ul.appendChild($li);
 
       if (post.documents.length) {
-        renderPostList($li, post.documents);
+        renderPosts($li, post.documents);
       }
     });
   };
 
   this.render = () => {
-    renderPostList($postList, this.state);
+    renderPosts($postList, this.state);
   };
 
   this.render();
