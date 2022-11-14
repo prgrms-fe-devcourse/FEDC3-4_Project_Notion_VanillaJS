@@ -17,16 +17,17 @@ export default function App({ $target }) {
       <span>Loading...</span>
     </div>
   `;
+
   $target.appendChild(this.$loading);
 
   this.state = {
     onClickAddID: null,
     res_document: [],
-    res_content: [],
+    res_content: null,
   };
 
   this.setState = (nextState) => {
-    console.log(nextState);
+    //console.log(nextState);
     this.state = nextState;
 
     sideBar.setState(this.state);
@@ -57,7 +58,6 @@ export default function App({ $target }) {
           content,
         }),
       });
-
       this.fetch(this.state.res_content.id);
     },
     onDelete: async (id) => {
@@ -69,6 +69,7 @@ export default function App({ $target }) {
       const res = await request(`/${id}`, {
         method: "DELETE",
       });
+
       if (res.parent) {
         this.fetch(res.parent.id);
       } else {
@@ -84,10 +85,24 @@ export default function App({ $target }) {
 
   this.init = async () => {
     try {
-      const { id } = getItem("currentContentId", null);
+      const storageItem = getItem("currentContentId", null);
+      let id = "";
+
+      if (storageItem !== null) {
+        id = storageItem.id;
+      } else {
+        const res_document = await request("/");
+
+        if (res_document.length) {
+          id = res_document[0].id;
+        } else {
+          push(`/posts/new`);
+        }
+      }
+
       const inProgressContent = getItem("inProgressContent", null);
 
-      if (inProgressContent) {
+      if (id && inProgressContent) {
         if (confirm("작성중이던 글이 있습니다. 불러올까요?")) {
           await request(`/${id}`, {
             method: "PUT",
@@ -96,11 +111,10 @@ export default function App({ $target }) {
               content: inProgressContent.components,
             }),
           });
-
-          setItem("currentContentId", JSON.stringify({ id, isNeedRender: true }));
         }
       }
 
+      setItem("currentContentId", JSON.stringify({ id, isNeedRender: true }));
       await this.fetch(id);
     } catch (e) {
       console.error(e);
@@ -111,18 +125,27 @@ export default function App({ $target }) {
 
   this.fetch = async (targetId) => {
     const res_document = await request("/");
+    if (res_document.length > 0) {
+      const initTarget = targetId || res_document[0].id;
+      const res_content = await request(`/${initTarget}`);
 
-    const initTarget = targetId || res_document[0].id;
-    const res_content = await request(`/${initTarget}`);
+      this.setState({
+        ...this.state,
+        res_document,
+        res_content,
+      });
 
-    this.setState({
-      ...this.state,
-      res_document,
-      res_content,
-    });
+      setItem("currentContentId", JSON.stringify({ id: initTarget, isNeedRender: true }));
+      removeItem("inProgressContent");
+    } else {
+      setItem("currentContentId", JSON.stringify({ id: null, isNeedRender: true }));
 
-    setItem("currentContentId", JSON.stringify({ id: initTarget, isNeedRender: true }));
-    removeItem("inProgressContent");
+      this.setState({
+        ...this.state,
+        res_document: [],
+        res_content: null,
+      });
+    }
   };
 
   this.init();

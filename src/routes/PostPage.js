@@ -1,3 +1,4 @@
+import Empty from "../components/Empty";
 import PostEditor from "../components/PostEditor";
 import PostPageHeader from "../components/PostPageHeader";
 import PostSublinks from "../components/PostSublinks";
@@ -12,37 +13,48 @@ export default function PostPage({ $target, initialState, onEditing, onDelete })
   this.onEditing = onEditing;
   this.onDelete = onDelete;
 
-  this.$div = document.createElement("div");
-  this.$div.className = "postPage";
-
-  $target.appendChild(this.$div);
+  this.$postPage = document.createElement("div");
+  this.$postPage.className = "postPage";
 
   this.$header = document.createElement("header");
-
   this.$section = document.createElement("setcion");
   this.$section.className = "editor";
-
   this.$footer = document.createElement("footer");
+
+  this.$empty = document.createElement("div");
+  this.$empty.className = "empty";
+
+  $target.appendChild(this.$postPage);
 
   this.setState = (nextState) => {
     this.state = nextState;
-    postPageHeader.setState(this.state);
-    postEditor.setState(this.state);
-    postSublinks.setState(this.state);
 
-    this.render();
+    if (nextState.res_document.length < 1) {
+      this.$postPage.innerHTML = "";
+      this.renderEmpty();
+    } else {
+      this.$postPage.innerHTML = "";
+      postPageHeader.setState(this.state);
+      postEditor.setState(this.state);
+      postSublinks.setState(this.state);
+      this.render();
+    }
   };
 
   this.render = () => {
     const { isNeedRender } = getItem("currentContentId", null);
 
-    this.$div.appendChild(this.$header);
+    this.$postPage.appendChild(this.$header);
 
     if (isNeedRender) {
-      this.$div.appendChild(this.$section);
+      this.$postPage.appendChild(this.$section);
     }
 
-    this.$div.appendChild(this.$footer);
+    this.$postPage.appendChild(this.$footer);
+  };
+
+  this.renderEmpty = () => {
+    this.$postPage.appendChild(this.$empty);
   };
 
   const postPageHeader = new PostPageHeader({
@@ -59,6 +71,11 @@ export default function PostPage({ $target, initialState, onEditing, onDelete })
 
   const postSublinks = new PostSublinks({
     $target: this.$footer,
+    initialState: this.state,
+  });
+
+  new Empty({
+    $target: this.$empty,
     initialState: this.state,
   });
 }
