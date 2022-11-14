@@ -1,4 +1,10 @@
-export default function Header({ $target }) {
+import { $ } from '../../lib/utils.js';
+
+export default function Header({
+  $target,
+  processByTitle,
+  sendStatesToEditor,
+}) {
   const $modalHeader = document.createElement('modal-header');
   $modalHeader.className = 'modal-header';
   $target.appendChild($modalHeader);
@@ -30,4 +36,13 @@ export default function Header({ $target }) {
   };
 
   this.render();
+
+  // 닫기 버튼 누를 시 모달 창 나가기
+  $('.close-btn').addEventListener('click', () => {
+    processByTitle();
+  });
+
+  $('.full-screen-btn').addEventListener('click', () => {
+    sendStatesToEditor();
+  });
 }

@@ -6,7 +6,7 @@ export default function Editor({ $target, initialState }) {
 
   $target.appendChild($editor);
 
-  this.state = initialState;
+  this.state = initialState ? initialState : {};
 
   this.setState = (nextState) => {
     this.state = nextState;
