@@ -1,5 +1,6 @@
 import { request } from "../api.js";
 import { getItem, removeItem, setItem } from "../storage.js";
+import ChildDocument from "./ChildDocument.js";
 import Editor from "./Editor.js";
 
 export default function EditPage({ $target, initialState, getTitleChange }) {
@@ -30,15 +31,18 @@ export default function EditPage({ $target, initialState, getTitleChange }) {
         });
         getTitleChange();
         removeItem(postLocalSaveKey);
-        this.setState(changePost);
-      }, 2000);
+        // this.setState(changePost);
+      }, 100);
     },
   });
+
+  const childDocument = new ChildDocument({ $target: $editPage });
 
   this.setState = async (nextState) => {
     this.state = nextState;
     this.render();
     editor.setState(this.state);
+    childDocument.setState(this.state);
   };
 
   this.render = () => {

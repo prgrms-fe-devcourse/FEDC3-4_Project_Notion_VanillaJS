@@ -15,11 +15,14 @@ export default function Editor({ $target, initialState, onEditing }) {
 
   $target.appendChild($editor);
 
+  $editor.innerHTML = `
+    <input type="text" name="title" style="width:600px" value="${this.state.title}" />
+    <textarea name="content" style="width:600px;height:400px;border:1px solid black; padding:8px;">${this.state.content}</textarea>
+    `;
+
   this.render = () => {
-    $editor.innerHTML = `
-      <input type="text" name="title" style="width:600px" value="${this.state.title}" />
-      <textarea name="content" style="width:600px;height:400px;border:1px solid black; padding:8px;">${this.state.content}</textarea>
-      `;
+    $editor.querySelector("[name=title]").value = this.state.title;
+    $editor.querySelector("[name=content]").value = this.state.content;
   };
 
   this.render();

@@ -33,7 +33,6 @@ export default function App({ $target }) {
     $target: $editorContainer,
     initialState: this.state,
     getTitleChange: () => {
-      this.route();
       postPage.setState(this.state.documents);
     },
   });
