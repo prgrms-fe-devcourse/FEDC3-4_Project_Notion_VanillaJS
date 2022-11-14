@@ -5,14 +5,21 @@ export default function Editor({ $editorPageTarget, initialState, onEditing }) {
     <input type="text" name="title" style="width: 600px; display:none;"/>
     <textarea name="content" style="width: 600px; height: 400px; border: 1px solid black; padding: 8px; display:none;">안녕</textarea>
     <div name="subdocument" class="subdocument"></div>
+    <a href="#" name="documentlink"></a>
   `;
 
   $editorPageTarget.appendChild($editor);
 
-  this.editorState = initialState;
+  this.editorState = {
+    editorData: undefined,
+    documentIdData: [],
+    documentTitleData: [],
+  };
 
   this.editorSetState = (nextState) => {
-    this.editorState = nextState;
+    this.editorState.editorData = nextState.editorData;
+    this.editorState.documentIdData = nextState.documentIdData;
+    this.editorState.documentTitleData = nextState.documentTitleData;
     this.render();
   };
 
@@ -22,8 +29,8 @@ export default function Editor({ $editorPageTarget, initialState, onEditing }) {
   };
 
   this.render = () => {
-    if (this.editorState) {
-      const { title, content, documents } = this.editorState;
+    if (this.editorState.editorData) {
+      const { title, content, documents } = this.editorState.editorData;
 
       $editorPageTarget.querySelector("[name=subdocument]").innerHTML = ``;
       // by 민형, index 페이지 일 경우_221113
@@ -58,7 +65,24 @@ export default function Editor({ $editorPageTarget, initialState, onEditing }) {
     .addEventListener("keyup", (e) => {
       const newTitle = e.target.value;
       if (newTitle) {
-        const nextState = { ...this.editorState, title: newTitle };
+        $editorPageTarget.querySelector("[name=documentlink]").textContent = "";
+
+        if (this.editorState.documentTitleData.includes(newTitle)) {
+          const coinCildeIndex =
+            this.editorState.documentTitleData.indexOf(newTitle);
+          const coinCildeId = this.editorState.documentIdData[coinCildeIndex];
+          $editorPageTarget.querySelector(
+            "[name=documentlink]"
+          ).href = `/documents/${coinCildeId}`;
+          $editorPageTarget.querySelector(
+            "[name=documentlink]"
+          ).textContent = `기존 ${newTitle} document가 있으니 이동 부탁드립니다!`;
+        }
+        const nextState = {
+          editorData: { ...this.editorState.editorData, title: newTitle },
+          documentIdData: this.editorState.documentIdData,
+          documentTitleData: this.editorState.documentTitleData,
+        };
         this.editorSetState(nextState);
         onEditing(nextState);
       }
@@ -69,7 +93,11 @@ export default function Editor({ $editorPageTarget, initialState, onEditing }) {
     .addEventListener("keyup", (e) => {
       const newContent = e.target.value;
       if (newContent) {
-        const nextState = { ...this.editorState, content: newContent };
+        const nextState = {
+          editorData: { ...this.editorState.editorData, content: newContent },
+          documentIdData: this.editorState.documentIdData,
+          documentTitleData: this.editorState.documentTitleData,
+        };
         this.editorSetState(nextState);
         onEditing(nextState);
       }
