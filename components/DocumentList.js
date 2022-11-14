@@ -9,7 +9,7 @@ export default function DocumentList({ $target, initialState, onDocumentClick, o
   this.state = initialState;
 
   this.setState = (nextState) => {
-    this.state = nextState;
+    this.state = [...nextState];
     this.render();
   }
 

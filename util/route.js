@@ -1,6 +1,7 @@
 const ROUTE_CHANGE_EVENT_NAME = 'route-change';
 
 export const initRouter = (onRoute) => {
+  onRoute();
   window.addEventListener(ROUTE_CHANGE_EVENT_NAME, (e) => {
     const { nextUrl } = e.detail
     if (nextUrl) {
