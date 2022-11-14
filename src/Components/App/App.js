@@ -20,7 +20,7 @@ import {
 export default function App({ $target }) {
   isConstructor(new.target);
 
-  let saveApi = false;
+  let isSaveApi = false;
 
   new DocumentList({
     $target,
@@ -41,21 +41,15 @@ export default function App({ $target }) {
     },
 
     deleteDocumentEvent: async ({ $target }) => {
-      const id = $target.closest('[data-id]').dataset.id;
-      const $parant = $target.closest('[data-id]');
-      const $detailList = $parant.children[4];
-      const childDocuments = await getDocumentById({ id });
-      if (childDocuments.documents) {
-        childDocuments.documents.forEach((doc) =>
-          deleteDocument({
-            id: doc.id,
-          })
-        );
+      const confirmDelete = confirm('글을 삭제하시겠습니까? 하위 폴더는 자동으로 이동됩니다.');
+      if (confirmDelete) {
+        const id = $target.closest('[data-id]').dataset.id;
+        const $parant = $target.closest('[data-id]');
+        deleteDocument({
+          id,
+        });
+        $parant.remove();
       }
-      deleteDocument({
-        id,
-      });
-      $parant.remove();
     },
 
     showChildDocumentEvent: async ({ $target }) => {
@@ -81,6 +75,7 @@ export default function App({ $target }) {
       const id = $target.closest('[data-id]').dataset.id;
       const nextState = await getDocumentById({ id });
       documentEditor.setState(nextState);
+      isSaveApi = false;
       routeChange(`/documents/${id}`);
     },
   });
@@ -88,31 +83,45 @@ export default function App({ $target }) {
   const documentEditor = new DocumentEditor({
     $target,
     initialState: {
-      id: '9999',
+      id: 'Root',
       title: '여기에 입력하세요',
       content: '여기에 입력하세요',
     },
-    saveDocumentEvent: ({ $target }) => {
+    saveDocumentEvent: async ({ $target }) => {
       const $editor = $target.closest('[data-id]');
       const id = $editor.dataset.id;
       const arr = $editor.querySelectorAll('[contenteditable=true]');
-      putDocument({
-        id,
-        title: arr[0].innerHTML,
-        content: arr[1].innerHTML,
-      });
-      const $title = document.querySelector(`[data-id="${id}"] SPAN`);
-      $title.innerHTML = arr[0].innerHTML;
-      saveApi = true;
+      let $title;
+      if (id === 'Root') {
+        const res = await postDocument({
+          title: arr[0].innerHTML,
+        });
+        $title = document.querySelector('#documentList UL');
+        console.log(res);
+        $title.insertAdjacentHTML(
+          'beforeend',
+          documentItem({
+            id: res.id,
+            title: res.title,
+          })
+        );
+      } else {
+        putDocument({
+          id,
+          title: arr[0].innerHTML,
+          content: arr[1].innerHTML,
+        });
+        $title = document.querySelector(`[data-id="${id}"] SPAN`);
+        $title.innerHTML = arr[0].innerHTML;
+      }
+      isSaveApi = true;
     },
     saveLocalStorageEvent: ({ $target }) => {
       const $editor = $target.closest('[data-id]');
       const id = $editor.dataset.id;
       const arr = $editor.querySelectorAll('[contenteditable=true]');
-      if (!saveApi) {
-      }
       window.addEventListener('beforeunload', () => {
-        if (!saveApi) {
+        if (!isSaveApi) {
           setLocalStorage(
             id,
             JSON.stringify({
@@ -121,6 +130,7 @@ export default function App({ $target }) {
               tempSaveDate: new Date(),
             })
           );
+          isSaveApi = false;
         }
       });
     },
@@ -129,24 +139,30 @@ export default function App({ $target }) {
   this.route = async () => {
     const { pathname } = location;
     if (pathname === '/') {
+      const $root = $target.querySelector('#documentList UL');
+      $root.className = 'Root';
     } else if (pathname.indexOf('/documents/') === 0) {
       const [, , documentsId] = pathname.split('/');
-      // 지운 데이터 접근 시 처리
       const nextState = await getDocumentById({ id: documentsId });
       const localData = getLocalStorage(documentsId);
       if (localData?.tempSaveDate > nextState.updatedAt) {
-        const saveApi = confirm('이전 저장된 임시 글이 있습니다. 업로드 하시겠습니까?');
+        const saveApi = confirm(
+          '이전 저장된 임시 글이 있습니다. 업로드 하시겠습니까? 저장되지 않은 글은 삭제됩니다.'
+        );
         if (saveApi) {
           putDocument({
             id: documentsId,
             title: localData.title,
             content: localData.content,
           });
-        } else {
-          removeLocalStorage(documentsId);
         }
+        removeLocalStorage(documentsId);
       }
       documentEditor.setState(nextState);
+    } else {
+      alert('올바르지 않은 접속입니다. 최상단 폴더로 돌아갑니다.');
+      routeChange('/');
+      location.reload();
     }
   };
 
