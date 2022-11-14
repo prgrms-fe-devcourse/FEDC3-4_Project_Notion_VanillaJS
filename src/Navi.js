@@ -95,4 +95,18 @@ export default function Navi({ $target, initialState }) {
     const targetId = $span.dataset.id;
     push(`/posts/${targetId}`);
   });
+
+  $navi.addEventListener("mouseover", (e) => {
+    const { target } = e;
+    const $span = target.closest("span");
+
+    if (!$span) return;
+
+    $span.style.backgroundColor = "#bebebe";
+  });
+
+  $navi.addEventListener("mouseout", (e) => {
+    const { target } = e;
+    target.style.backgroundColor = "white";
+  });
 }

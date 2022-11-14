@@ -13,6 +13,7 @@ export default function PostList({
 
   $postList.style.overflow = "auto";
   $postList.style.whiteSpace = "nowrap";
+  $postList.style.height = "95vh";
   $postList.style.backgroundColor = "#c8c8c8";
 
   this.state = initialState;

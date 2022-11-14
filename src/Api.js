@@ -12,7 +12,7 @@ export const request = async (url, options = {}) => {
     if (res.ok) {
       return await res.json();
     }
-    throw new Error("fetch fail");
+    throw new Error(`${options.method} fetch fail`);
   } catch (e) {
     alert(e.message);
   }
