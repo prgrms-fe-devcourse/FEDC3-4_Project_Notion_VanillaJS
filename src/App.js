@@ -10,11 +10,13 @@ export default function App({ $target, initialState }) {
 
   this.setState = (nextState) => {};
 
+  // 모든 문서 구조에 대한 정보가 필요함.
   const postPage = new PostPage({
     $target,
     initialState,
   });
 
+  // 편집기에 보여줄 문서에 대한 정보만 필요함.
   const postEditPage = new PostEditPage({
     $target,
     initialState: {

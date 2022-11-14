@@ -50,8 +50,6 @@ export default function PostPage({ $target, initialState }) {
         const [, , postId] = pathname.split("/");
         if (id === postId) {
           if (confirm("현재 보고있는 문서를 삭제하시겠습니까?")) {
-            // home으로 라우팅.
-            alert("현재 문서가 삭제되었습니다.");
             push("/");
           }
         }
@@ -62,6 +60,7 @@ export default function PostPage({ $target, initialState }) {
       });
 
       removeItem(id);
+      removeItem(`temp-post-${id}`);
 
       const nextState = await request("documents", {
         method: "GET",
