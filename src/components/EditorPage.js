@@ -3,6 +3,7 @@ import Editor from "./Editor.js";
 
 export default function EditorPage({ $target, initialState, onChange }) {
   const $page = document.createElement("div");
+  $page.className = "editor-page";
 
   this.state = initialState;
 

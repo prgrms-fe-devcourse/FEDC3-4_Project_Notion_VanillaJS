@@ -5,7 +5,6 @@ export default function Editor({
     content: "",
   },
   onEditing,
-  onClick,
 }) {
   const $editor = document.createElement("div");
 

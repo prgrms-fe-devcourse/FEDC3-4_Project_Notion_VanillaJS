@@ -1,6 +1,7 @@
 import { initRoute, push } from "../utils/router.js";
 import DocumentPage from "./DocumentPage.js";
 import EditorPage from "./EditorPage.js";
+import MainPage from "./MainPage.js";
 
 export default function App({ $target }) {
   const documentPage = new DocumentPage({
@@ -24,11 +25,24 @@ export default function App({ $target }) {
     },
   });
 
+  const mainPage = new MainPage({
+    $target,
+  });
+
   this.route = () => {
     const { pathname } = window.location;
     if (pathname === "/") {
       documentPage.render();
+      mainPage.render();
+      const $div = document.querySelector(".editor-page");
+      if ($div) {
+        $div.remove();
+      }
     } else if (pathname.indexOf("/documents/") === 0) {
+      const $div = document.querySelector(".main-page");
+      if ($div) {
+        $div.remove();
+      }
       const [, , documentId] = pathname.split("/");
       editorPage.setState({
         ...editorPage.state,
