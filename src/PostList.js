@@ -30,8 +30,9 @@ export default function PostList({
       <li data-id="${id}">${title}
       <button name="add"> + </button>
       <button name="remove"> - </button>
-      </li>
       ${documents.map((document) => markUp([document], text)).join("")}
+      </li>
+      
       `
         )
         .join("")}
@@ -48,17 +49,21 @@ export default function PostList({
     const { name } = e.target;
     const id = $li?.dataset.id ? $li.dataset.id : null;
     if ($li || name) {
-      //push가 버튼이 아니라 li를 눌렀을 때만 .... 하게 하고 싶음
-      // console.log($li.hasChildNodes());
-      // console.log($li.firstChild, id);
       if (name === "remove") {
+        const node = $li.querySelector("ul");
+        if (node) {
+          node.querySelectorAll("li").forEach((e) => onRemove(e?.dataset.id));
+        }
         onRemove(id);
         return;
       } else {
         newDocunment(id, name);
       }
-
-      // if ($li) push(`/documents/${id}`);
     }
+
+    /**
+     * li랑 name을 구분할까?
+     * li를 하면 해당 내용을 push만 하고 name이 있으면 해당 버튼에 따라 메소드 주고...
+     */
   });
 }
