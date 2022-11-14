@@ -7,6 +7,7 @@ export default function Editor({
   onEditing,
 }) {
   const $editor = document.createElement("div");
+  $editor.className = "editor-container";
 
   $target.appendChild($editor);
 
@@ -23,8 +24,8 @@ export default function Editor({
   this.render = () => {
     if (!init) {
       $editor.innerHTML = `
-        <input type="text" name="title" stlye="width: 600px" value="${this.state.title}" />
-        <textarea name="content" style="width: 600px; height:400px; border: 1px solid black; padding: 8px;">${this.state.content}</textarea>
+        <input class="editor-input" type="text" placeholder="제목을 입력하세요" name="title" value="${this.state.title}" />
+        <textarea class="editor-content" name="content">${this.state.content}</textarea>
       `;
     }
     init = true;
