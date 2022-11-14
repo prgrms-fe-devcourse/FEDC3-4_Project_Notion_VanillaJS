@@ -24,6 +24,17 @@ export default function DocumentPage({ $target }) {
 
   new DocumentFooter({
     $target,
+    onCreate: async () => {
+      const newDocument = {
+        title: '제목 없음',
+        parent: null,
+      };
+      await request('/documents', {
+        method: 'POST',
+        body: JSON.stringify(newDocument),
+      });
+      await fetchDocument();
+    },
   });
 
   const fetchDocument = async () => {

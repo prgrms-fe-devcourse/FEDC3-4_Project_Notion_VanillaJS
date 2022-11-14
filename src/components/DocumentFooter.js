@@ -1,4 +1,4 @@
-export default function DocumentFooter({ $target }) {
+export default function DocumentFooter({ $target, onCreate }) {
   const $button = document.createElement('button');
   $button.className = 'document-fix document-footer create-button';
   $target.appendChild($button);
@@ -10,6 +10,10 @@ export default function DocumentFooter({ $target }) {
     `;
 
     document.querySelector('.new').setAttribute('src', '../../assets/plus.png');
+
+    $button.addEventListener('click', () => {
+      onCreate();
+    });
   };
 
   this.render();
