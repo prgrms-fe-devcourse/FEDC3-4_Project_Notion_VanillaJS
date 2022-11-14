@@ -10,6 +10,8 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
 
   const $postEditPage = document.createElement("div");
   $postEditPage.className = "postEditPage";
+
+  $postEditPage.style.width = "60%";
   $postEditPage.style.margin = "30px";
 
   this.state = initialState;
@@ -101,6 +103,8 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
         title: "오늘의 첫번째 게시글을 작성해보세요.",
         content: "새 문서의 내용을 입력하세요.",
       });
+
+      navi.setState(this.state);
       this.render();
       return;
     }
