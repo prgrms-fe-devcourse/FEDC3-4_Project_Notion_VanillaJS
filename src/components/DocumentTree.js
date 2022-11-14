@@ -17,30 +17,31 @@ function DocumentTree({ $target, initialState }) {
     $tree.innerHTML = `
       <h1>트리</h1>
     `;
-
     new DocumentNode({
       $target: $tree,
       initialState: { data: this.state.data },
       onClick: (parentId) => {
-        // parent id, 새로운 문서의 title 입력 받기
         const title = prompt("새로운 문서의 제목을 입력해주세요");
-        // 새로운 문서 생성 하기
+        const data = {
+          title,
+          parent: parentId,
+        };
+        createNewDocument(data);
       },
     });
   };
 
   const getRootDocuments = async () => {
     const data = await fetchData("/documents");
-    // const data = await fetchData("/documents", "POST", {
-    //   title: "첫 번째 문서",
-    //   parent: null,
-    // });
 
     this.setState({
       ...this.state,
       data,
     });
-    console.log(this.state.data);
+  };
+
+  const createNewDocument = async (data) => {
+    await fetchData("/documents", "POST", data);
   };
 
   this.init = () => {

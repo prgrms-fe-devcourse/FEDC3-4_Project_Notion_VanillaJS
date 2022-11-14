@@ -1,6 +1,5 @@
 function DocumentNode({ $target, initialState, onClick }) {
-  const $node = document.createElement("section");
-  $node.className = "node";
+  const $node = document.createElement("article");
   $target.appendChild($node);
 
   this.state = initialState;
@@ -12,22 +11,27 @@ function DocumentNode({ $target, initialState, onClick }) {
 
   this.render = () => {
     const { data } = this.state;
-    console.log(data, "노드");
 
     $node.innerHTML = `
-      <ul>
+      <ul class="tree-node">
         ${data
           .map(({ id, title, documents }) => {
-            new DocumentNode({
-              $target,
-              initialState: { data: documents },
-            });
-            return `
-                <li class="node-item">
-                  ${title}
-                  <button class="add-button" data-parent-id="${id}">+</button>
-                </li>
-          `;
+            const $li = document.createElement("li");
+
+            $li.className = "node-item";
+            $li.innerHTML = `
+            ${title}${id}
+            <button class="add-button" data-parent-id="${id}">☑️</button>
+            `;
+
+            if (documents.length > 0) {
+              new DocumentNode({
+                $target: $li,
+                initialState: { data: documents },
+              });
+            }
+
+            return $li.outerHTML;
           })
           .join("")}
         </ul>
