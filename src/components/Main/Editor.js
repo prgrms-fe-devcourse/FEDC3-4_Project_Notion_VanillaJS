@@ -2,6 +2,7 @@ import { makeElement } from "../../util/templates.js";
 
 export default function Edtior({ $target, initialState }) {
   const $editor = makeElement('div', 'editor');
+  $target.appendChild($editor);
 
   this.state = initialState;
 
@@ -18,8 +19,4 @@ export default function Edtior({ $target, initialState }) {
   }
 
   this.render()
-
-  this.init = () => {
-    $target.appendChild($editor)
-  }
 }
