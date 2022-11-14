@@ -7,8 +7,32 @@
   display: flex;
   background-color: white;
   font-family: ui-sans-serif;
-  color: #afaeaa;
+  color: #73726e;
   height: 100vh;
+}
+
+textarea {
+  border: none;
+  width: 100%;
+  height: 100%;
+}
+
+button {
+  width: 20px;
+  height: 20px;
+  background: none;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #e9e9e9;
+}
+
+button:focus {
+  outline: none;
 }
 
 .sideBar-container {
@@ -29,36 +53,21 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 10px;
 }
 
-.editor-content-container {
+.editor-content {
   width: 100%;
   min-height: 80vh;
   margin: 0 auto;
-  padding: 100px;
+  padding: 100px 130px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-button {
-  width: 20px;
-  height: 20px;
-  background: none;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #f1f1ef;
+  align-items: left;
 }
 
 .editor-title {
   width: 80vh;
-  padding: 10px 15px;
+  padding: 15px 0px;
   margin-bottom: 15px;
   font-size: 40px;
   font-weight: 700;
@@ -98,8 +107,14 @@ footer {
   border-top: 1px solid #e9e9e9;
 }
 
+.add-root-btn {
+  width: 100%;
+  height: 100%;
+}
+
 .list {
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   width: 100%;
   height: 100%;
   margin-bottom: 45px;
@@ -117,11 +132,23 @@ ul li {
   width: 100%;
 }
 
+ul > li:hover {
+  background-color: #f1f1ef;
+}
+
 .list-item {
   display: flex;
   width: 100%;
   flex-shrink: 0;
   height: 27px;
+}
+
+.text-title {
+  display: block;
+  width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .toggler {
@@ -145,8 +172,75 @@ ul li {
 }
 
 .list-buttons {
+  display: none;
+}
+
+/* 라벨 없애보기로 가능할듯 */
+.list-item:hover > .list-buttons {
+  width: 20%;
   display: flex;
   justify-content: flex-end;
   margin-left: auto;
   margin-right: 10px;
+}
+
+.list-item:hover > .text-title {
+  width: 80%;
+}
+
+.modal-container {
+  background-color: rgba(0, 0, 0, 0.4);
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.modal-container.show-modal {
+  display: block;
+  opacity: 1;
+}
+
+.modal {
+  background-color: #ffffff;
+  border: none;
+  position: absolute;
+  overflow: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 100%;
+  width: 960px;
+  animation-name: modalopen;
+  animation-duration: 1s;
+}
+
+.modal-header {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.close-btn {
+  color: #878682;
+}
+
+.modal-editor {
+  height: 75vh;
+  padding: 20px 100px;
+}
+
+.modal-editor > .editor-title::placeholder {
+  color: #e9e9e9;
+}
+
+@keyframes modalopen {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
