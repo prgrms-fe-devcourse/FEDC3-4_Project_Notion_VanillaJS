@@ -9,7 +9,7 @@ export default function DocumentList({
   onClickAdd,
 }) {
   const $documentList = document.createElement("div");
-  $documentList.className = "document-page";
+  $documentList.className = "document-list";
   $target.appendChild($documentList);
   this.state = initialState;
 
@@ -20,7 +20,7 @@ export default function DocumentList({
 
   this.render = () => {
     $documentList.innerHTML = `
-      <button name="add-button" class="root-page-add-button">Add page</button>
+      <button name="add-button" class="root-page-add-button">➕ 페이지 추가</button>
       <div class="list-box"></div>
       ${totalDocumentList(this.state)}
       <div>
@@ -33,7 +33,7 @@ export default function DocumentList({
     if (element) {
       const { id } = element.dataset;
       const listToggleState = `isOpened-${id}`;
-      if (target.className === "toggle-button") {
+      if (target.classList.contains("toggle-button")) {
         const getToggleState = getItem(listToggleState);
         getToggleState
           ? removeItem(listToggleState)

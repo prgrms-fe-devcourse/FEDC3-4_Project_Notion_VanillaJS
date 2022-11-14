@@ -5,7 +5,7 @@ import Header from "./Header.js";
 
 export default function DocumentPage({ $target, onClickTitle }) {
   const $page = document.createElement("div");
-
+  $page.className = "document-page";
   const documentList = new DocumentList({
     $target: $page,
     initialState: [],

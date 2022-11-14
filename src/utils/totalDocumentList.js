@@ -10,9 +10,9 @@ export const totalDocumentList = (documents) => {
           const display = getItem(listToggleState) || "none";
           return `
             <li data-id="${document.id}" name="list">
-            <span class="list-title"><button class="toggle-button" isClosed="true">></button>${
-              document.title
-            }</span>
+            <span class="list-title"><button class="toggle-button ${display}">></button>${
+            document.title
+          }</span>
             <span class="list-button"><button name="add-button" data-id="${
               document.id
             }">+</button>
