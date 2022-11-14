@@ -1,17 +1,22 @@
-import Header from "./Header.js";
+import DocListHeader from "./DocListHeader.js";
 import DocList from "./DocList.js";
-import Footer from "./Footer.js";
+import DocListFooter from "./DocListFooter.js";
 import { getDocument, createDocument, deleteDocument } from "../api.js";
 import { push } from "../router.js";
 import { makeElement } from "../../util/templates.js";
 
-export default function DocListPage({ $target, initialState }) {
+export default function DocListPage({ 
+  $target,
+  initialState = {
+    documentId: ''
+  } 
+}) {
   const $page = makeElement('aside', 'doc-list-page', 'on')
   $target.appendChild($page)
 
   this.state = initialState;
 
-  new Header({
+  new DocListHeader({
     $target: $page,
     content: {
       title: 'Vanilla Notion 🍦',
@@ -23,43 +28,47 @@ export default function DocListPage({ $target, initialState }) {
     $target: $page,
     initialState: [],
     onSelect: (documentId) => {
-      // change route
+      push(documentId);
     },
     onAdd: async (parentId) => {
       const newDoc = await createDocument({
         'title': '',
         'parent': parentId
       })
-      console.log(newDoc)
-      // change route (newDoc id)
-      this.setState()
+      push(newDoc.id);
     },
     onRemove: async (documentId) => {
       const deleted = await deleteDocument(documentId)
-      console.log(deleted)
+      // ** todo: add deleted doc's parent to setState
       this.setState()
     }
   })
 
 
-  new Footer({
+  new DocListFooter({
     $target: $page,
     onAddRoot: async () => {
       const newRootDoc = await createDocument({
         'title': '',
         'parent': null
       })
-      // change route (newDoc id)
+      push(newRootDoc.id);
       this.setState()
     }
   })
 
-
-
-  this.setState = async () => {
-    const rootDocs = await getDocument()
-    docList.setState(rootDocs)
+  this.setState = async (nextState) => {
+    const rootDocs = await getDocument();
+    if(nextState) {
+      const currentDoc = nextState;
+      docList.setState({
+        documents: rootDocs,
+        openedDocId: currentDoc
+      })    
+    } else {
+      docList.setState({
+        documents: rootDocs,
+      })
+    }
   }
-
-  this.setState()
 }
