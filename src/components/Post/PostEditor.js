@@ -1,10 +1,9 @@
 import { updateDocument } from '../../utils/api/apis.js';
+import changeCurrentPath from '../../utils/changeCurrentPath.js';
 import { createElement } from '../../utils/createElement.js';
-import {
-	historyPush,
-	historyReplace,
-	ROUTE_CHANGE_EVENT_NAME,
-} from '../../utils/router.js';
+import debounce from '../../utils/debounce.js';
+
+const INIT_DEBOUNCE_TIME = 750;
 
 /**
  * state: {
@@ -54,23 +53,22 @@ export default function PostEditor({
 		$title.focus();
 	};
 
-	$title.addEventListener('input', async (event) => {
-		event.preventDefault();
-		const changedTitle = $title.value;
-		const { id } = this.state;
-		// todo : 모듈화 필요
-		const queryString = new URLSearchParams(window.location.search);
-    // ' > '로 split 하면 title을 완전히 지웠을 떄 마지막 요소가 사라져서 이전의 것이 변경된다.
-    // 따라서 ' >' 으로 뒤에 ' '과 같이 공백을 한 개 남겨놔야 한다.
-		const currentPath = queryString.get('currentPath').split(' >');
-		currentPath[currentPath.length - 1] = changedTitle;
-		const changedCurrentPath = `${currentPath.join(' > ')}`;
+	$title.addEventListener(
+		'input',
+		debounce(async () => {
+			const changedTitle = $title.value;
+			const { id } = this.state;
+			const changedCurrentPath = changeCurrentPath(changedTitle);
 
-		await updateDocument(id, { title: changedTitle });
-		onChangeTitleAndCurrentPath(id, changedCurrentPath);
-	});
+			await updateDocument(id, { title: changedTitle });
+			onChangeTitleAndCurrentPath(id, changedCurrentPath);
+		}, INIT_DEBOUNCE_TIME)
+	);
 
-	$content.addEventListener('keyup', async (event) => {
-		await updateDocument(this.state.id, { content: $content.innerHTML });
-	});
+	$content.addEventListener(
+		'input',
+		debounce(async () => {
+			await updateDocument(this.state.id, { content: $content.innerHTML });
+		}, INIT_DEBOUNCE_TIME)
+	);
 }
