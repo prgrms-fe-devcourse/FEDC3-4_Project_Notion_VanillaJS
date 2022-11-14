@@ -28,8 +28,8 @@ export default function Editor({
     // 얘도 밖으로 뺴도 될듯..?
     if (!isInit) {
       $editor.innerHTML = `
-      <input type="text" name="title" style="width:600px;display:block" value="${this.state.title}" />
-      <textarea name="content" style="width:600px; height:600px">${this.state.content}</textarea>
+      <input type="text" name="title" style="width:95%;display:flex" value="${this.state.title}" />
+      <textarea name="content" style="width:95%; height:600px">${this.state.content}</textarea>
     `;
 
       isInit = true;

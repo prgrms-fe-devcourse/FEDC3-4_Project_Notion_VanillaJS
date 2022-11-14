@@ -11,7 +11,7 @@ export default function PostPage({ $target, initialState }) {
   const $postPage = document.createElement("div");
   $postPage.className = "PostPage";
 
-  $postPage.style.width = "30%";
+  $postPage.style.width = "20%";
   $postPage.style.height = "98vh";
   $postPage.style.backgroundColor = "#dcdcdc";
 

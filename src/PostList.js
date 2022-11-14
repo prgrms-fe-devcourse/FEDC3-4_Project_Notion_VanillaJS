@@ -16,7 +16,7 @@ export default function PostList({
    scroll: no;
    white-space: nowrap;
    height: 95vh;
-   backgroundColor: #c8c8c8;
+   backgroundColor: #c8c8c8;   
   `;
 
   // $postList.style.overflow = "auto";
@@ -67,14 +67,16 @@ export default function PostList({
     return docList
       .map(
         (cur) =>
-          `<li class="title" data-id="${cur.id}" style="list-style:none">
-          ${this.visible(cur.id) === "none" ? "ㅇ" : "ㄴ"}
-          ${cur.title} 
+          `<li class="title" data-id="${cur.id}" title="${
+            cur.title
+          }" style="list-style:none; background-color:initial;">
+          ${this.visible(cur.id) === "none" ? "▶" : "▼"}
+          ${cur.title}
           <button class="add" style="position:sticky; right:25px;">+</button>
           <button class="delete" style="position:sticky; right:1px;">x</button>          
           ${
             cur.documents.length > 0
-              ? `<ul style="display:${this.visible(cur.id)}">${this.makeList(
+              ? `<ul style="display:${this.visible(cur.id)};">${this.makeList(
                   cur.documents,
                   depth + 1
                 )}</ul>`
@@ -121,6 +123,26 @@ export default function PostList({
       postDelete(id);
       //fetchPosts(); PostPage에 postDelete를 정의한 부분에 넣어버림. 왜 여기에 있으면 반영이 바로 안될까
     }
+  });
+
+  $postList.addEventListener("mouseover", (e) => {
+    const { target } = e;
+
+    const $li = target.closest("li");
+
+    if (!$li) return;
+
+    $li.style.backgroundColor = "#bebebe";
+  });
+
+  $postList.addEventListener("mouseout", (e) => {
+    const { target } = e;
+
+    const $li = target.closest("li");
+
+    if (!$li) return;
+
+    $li.style.backgroundColor = "";
   });
 
   const fetchPosts = async () => {

@@ -5,6 +5,8 @@ export default function Navi({ $target, initialState }) {
   const $navi = document.createElement("div");
   $navi.className = "Navi";
 
+  $navi.style = "width:95vh;";
+
   this.state = initialState;
 
   this.setState = (nextState) => {
@@ -46,7 +48,7 @@ export default function Navi({ $target, initialState }) {
         .map((item) => {
           return `<span data-id="${item.curId}">${item.title}</span>`;
         })
-        .join(">")}
+        .join(" < ")}
     `;
   };
 
