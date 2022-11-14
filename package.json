@@ -1,0 +1,11 @@
+{
+  "name": "yenotion",
+  "version": "1.0.0",
+  "description": "automatic text editor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "yezyvibe",
+  "license": "ISC"
+}
