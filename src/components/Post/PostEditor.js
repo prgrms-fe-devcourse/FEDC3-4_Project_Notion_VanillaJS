@@ -1,6 +1,14 @@
+import { updateDocument } from '../../utils/api/apis.js';
 import { createElement } from '../../utils/createElement.js';
+import { push, replace, ROUTE_CHANGE_EVENT_NAME } from '../../utils/router.js';
 
-export default function PostEditor({ $target, initialState }) {
+/**
+ * state: {
+ *  title: string,
+ *  content: string
+ * }
+ */
+export default function PostEditor({ $target, initialState, onChangeTitle }) {
 	const $div = createElement({ element: 'div', $target, className: 'editor' });
 	const $title = createElement({
 		element: 'input',
@@ -22,18 +30,30 @@ export default function PostEditor({ $target, initialState }) {
 	});
 
 	this.state = initialState;
-
+  
 	this.setState = (nextState) => {
 		this.state = nextState;
 		this.render();
-		// $title.focus();
 	};
 
-	this.render = () => {};
+	this.render = () => {
+    const {title, content} = this.state;
+    $title.value = title;
+    $content.innerHTML = content;
+  };
 
-	// this.init = () => {
-	// 	$title.focus();
-	// };
-
-	// this.init();
+  $title.addEventListener('keyup', async (event) => {
+    // const [, id] = window.location.pathname.split('/');
+    // await updateDocument(id, {title: $title.value});
+    // onChangeTitle();
+    // const splitedQueryString = decodeURI(window.location.search).split('>');
+    // splitedQueryString[splitedQueryString.length - 1] = ` ${$title.value}`;
+    // replace(`${splitedQueryString.join(' > ')}`)
+    await updateDocument(this.state.id, {title: $title.value});
+    onChangeTitle();
+  })
+  
+  $content.addEventListener('keyup', async (event) => {
+    await updateDocument(this.state.id, {content: $content.innerHTML});
+  })
 }

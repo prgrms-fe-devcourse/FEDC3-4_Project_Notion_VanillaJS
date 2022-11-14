@@ -6,8 +6,7 @@ import DocumentList from './DocumentList.js';
 import RootDocumentAddButton from './RootDocumentAddButton.js';
 
 /**
- *
- * @param {{$target: HTMLElement, initialState: Array}}
+ * state: array
  */
 export default function Sidebar({ $target, initialState }) {
 	const $nav = createElement({ element: 'nav', $target });
@@ -29,13 +28,6 @@ export default function Sidebar({ $target, initialState }) {
 
 	this.setState = (nextState) => {
 		this.state = nextState;
-		this.render();
+		documentList.setState(this.state);
 	};
-
-	this.render = async () => {
-		const rootDocuments = await getRootDocuments();
-		documentList.setState(rootDocuments);
-	};
-
-	this.render();
 }

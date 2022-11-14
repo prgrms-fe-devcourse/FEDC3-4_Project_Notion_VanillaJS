@@ -40,13 +40,17 @@ export default function DocumentList({ $target, initialState = [] }) {
 				.map(
 					({ id, title, documents: subDocumentList }) => `
 				<div class='document-item-container'>
-					<div data-id='${id}' data-current-path='${id}' class='document-item'>
+					<div data-id='${id}' data-current-path='${title}' class='document-item'>
 						<img data-action='toggle' src='./src/assets/images/toggleButton.svg'>
-						<span>${id}</span>
+						<span>${title}</span>
 						<img data-action='delete' src='./src/assets/images/deleteButton.svg'>
 						<img data-action='add' src='./src/assets/images/addButton.svg'>
 					</div>
-					${openedDocumentItems.includes(String(id)) ? makeSubDocumentList(id, subDocumentList, [id]) : ''}
+					${
+						openedDocumentItems.includes(String(id))
+							? makeSubDocumentList(id, subDocumentList, [title])
+							: ''
+					}
 				</div>
 			`
 				)
@@ -59,69 +63,95 @@ export default function DocumentList({ $target, initialState = [] }) {
 	// todo : 따로 util로 빼자.
 	const makeSubDocumentList = (id, subDocumentList, path) => {
 		const openedDocumentItems = getItem(OPENED_DOCUMENT_ITEMS, []);
-		
+
 		let subDocumentListTemplate = `
 			<ul class='document-list'>
-				${subDocumentList.map(({id, title, documents: subSubDocumentList}) => `
+				${subDocumentList
+					.map(
+						({ id, title, documents: subSubDocumentList }) => `
 					<div class='document-item-container'>
-						<div data-id='${id}' data-current-path='${path.join(' > ')} > ${id}' class='document-item'>
+						<div data-id='${id}' data-current-path='${path.join(
+							' > '
+						)} > ${title}' class='document-item'>
 							<img data-action='toggle' src='./src/assets/images/toggleButton.svg'>
-							<span>${id}</span>
+							<span>${title}</span>
 							<img data-action='delete' src='./src/assets/images/deleteButton.svg'>
 							<img data-action='add' src='./src/assets/images/addButton.svg'>
 						</div>
-						${openedDocumentItems.includes(String(id)) ? makeSubDocumentList(id, subSubDocumentList, [...path, id]) : ''}
+						${
+							openedDocumentItems.includes(String(id))
+								? makeSubDocumentList(id, subSubDocumentList, [...path, title])
+								: ''
+						}
 					</div>
-				`).join('')}
+				`
+					)
+					.join('')}
 			</ul>
-		`
-		
+		`;
+
 		return subDocumentListTemplate;
 	};
-	
+
 	$documentList.addEventListener('click', async (event) => {
 		event.stopPropagation();
-		const {target} = event;
-		const {action} = target.dataset;
-		const {id, currentPath} = target.closest('div').dataset;
-		
+		const { target } = event;
+		const { action } = target.dataset;
+		const { id, currentPath } = target.closest('div').dataset;
+
 		if (action) {
 			const storedOpenedDocumentsItems = getItem(OPENED_DOCUMENT_ITEMS, []);
-			
+
 			switch (action) {
 				case 'toggle':
 					if (storedOpenedDocumentsItems.includes(id)) {
-						const removedOpenedDocumentItemIndex = storedOpenedDocumentsItems.findIndex(openedDocumentItemId => openedDocumentItemId === id);
-						
-						if (removedOpenedDocumentItemIndex !== -1)	storedOpenedDocumentsItems.splice(removedOpenedDocumentItemIndex, 1);
+						const removedOpenedDocumentItemIndex =
+							storedOpenedDocumentsItems.findIndex(
+								(openedDocumentItemId) => openedDocumentItemId === id
+							);
+
+						if (removedOpenedDocumentItemIndex !== -1)
+							storedOpenedDocumentsItems.splice(
+								removedOpenedDocumentItemIndex,
+								1
+							);
 						setItem(OPENED_DOCUMENT_ITEMS, [...storedOpenedDocumentsItems]);
-					
 					} else {
-						setItem(OPENED_DOCUMENT_ITEMS, [...storedOpenedDocumentsItems, id])
-						
+						setItem(OPENED_DOCUMENT_ITEMS, [...storedOpenedDocumentsItems, id]);
 					}
 					this.setState([...this.state]);
 					break;
 				case 'delete':
-					// todo : 만약 현재 작성 중인 페이지를 없애려고 한다면 home으로 돌아가게 만들자.
-					const removedOpenedDocumentItemIndex = storedOpenedDocumentsItems.findIndex(openedDocumentItemId => openedDocumentItemId === id)
-					if (removedOpenedDocumentItemIndex !== -1) storedOpenedDocumentsItems.splice(removedOpenedDocumentItemIndex, 1);
+					// todo : 만약 현재 작성 중인 페이지를 없애려고 한다면 home으로 돌아가게 만들자. -> good
+					const [, currentId] = window.location.pathname.split('/');
+
+					const removedOpenedDocumentItemIndex =
+						storedOpenedDocumentsItems.findIndex(
+							(openedDocumentItemId) => openedDocumentItemId === id
+						);
+					if (removedOpenedDocumentItemIndex !== -1)
+						storedOpenedDocumentsItems.splice(
+							removedOpenedDocumentItemIndex,
+							1
+						);
 					setItem(OPENED_DOCUMENT_ITEMS, [...storedOpenedDocumentsItems]);
 					await deleteDocument(id);
 					const nextRootDocumentsAfterDeleteAction = await getRootDocuments();
 					this.setState(nextRootDocumentsAfterDeleteAction);
+					if (id === currentId) push('/');
 					break;
 				case 'add':
 					// todo : 새로 생성된 문서로 바로 작성하러 갈 수 있도록 추가해줄까?
-					if (!storedOpenedDocumentsItems.includes(id)) setItem(OPENED_DOCUMENT_ITEMS, [...storedOpenedDocumentsItems, id])
-					await createDocument({parent: id})
+					if (!storedOpenedDocumentsItems.includes(id))
+						setItem(OPENED_DOCUMENT_ITEMS, [...storedOpenedDocumentsItems, id]);
+					await createDocument({ parent: id });
 					const nextRootDocumentsAfterCreateAction = await getRootDocuments();
 					this.setState(nextRootDocumentsAfterCreateAction);
 					break;
 			}
 		}
-		
+
 		// todo : 현재 클릭한 것은 background-color를 바꾸는 등 focus 되도록 하자.
 		if (!action && id) push(`${id}?currentPath=${currentPath}`);
-	})
+	});
 }

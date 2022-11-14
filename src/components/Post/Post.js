@@ -3,7 +3,15 @@ import Header from '../shared/Header.js';
 import NotFound from './NotFound.js';
 import PostEditor from './PostEditor.js';
 
-export default function Post({ $target, initialState }) {
+/**
+ * state: {
+ * 	id: string | number
+ * 	currentPath: string,
+ * 	title: string,
+ * 	content: string
+ * }
+ */
+export default function Post({ $target, initialState, onChangeTitle }) {
 	const $article = createElement({
 		element: 'article',
 		$target,
@@ -13,14 +21,16 @@ export default function Post({ $target, initialState }) {
 
 	this.setState = (nextState) => {
 		this.state = nextState;
-		const { currentPath, id } = this.state;
+		const { id, currentPath, title, content } = this.state;
 		header.setState(currentPath);
 
 		// todo : 야매로 한 것 같다...
 		if (id) {
 			document.querySelector('.editor').style.display = 'flex';
 			document.querySelector('.not-found').style.display = 'none';
-			postEditor.setState(id);
+			postEditor.setState({
+				...this.state,
+			});
 		} else {
 			document.querySelector('.editor').style.display = 'none';
 			document.querySelector('.not-found').style.display = 'block';
@@ -33,7 +43,11 @@ export default function Post({ $target, initialState }) {
 		initialState: this.state?.currentPath,
 	});
 
-	const postEditor = new PostEditor({ $target: $article });
+	const postEditor = new PostEditor({
+		$target: $article,
+		initialState: this.state,
+		onChangeTitle,
+	});
 
 	const notFound = new NotFound({ $target: $article });
 }
