@@ -69,23 +69,6 @@ export default function TextList({ $target, initialState }) {
       }
     };
 
-    // 이걸 누르면 모달창이 열려야된다?
-    // 모달창이 열려서
-  });
-
-  $ul.addEventListener('mouseover', (e) => {
-    const $li = e.target.closest('li');
-    if ($li) {
-      const $buttons = $('.list-buttons', $li);
-      $buttons.classList.remove('hidden');
-    }
-  });
-
-  $ul.addEventListener('mouseout', (e) => {
-    const $li = e.target.closest('li');
-    if ($li) {
-      const $buttons = $('.list-buttons', $li);
-      $buttons.classList.add('hidden');
-    }
+    toggleList();
   });
 }

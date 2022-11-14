@@ -1,6 +1,6 @@
 import { $ } from '../../lib/utils.js';
 
-export default function Footer({ $target, addRootDocument }) {
+export default function Footer({ $target, addRootDocument, holdListScroll }) {
   const $footer = document.createElement('footer');
   $footer.className = 'sideBar';
   $target.appendChild($footer);
@@ -17,6 +17,8 @@ export default function Footer({ $target, addRootDocument }) {
   this.render();
   const $addBtn = $('.add-root-btn');
   $addBtn.addEventListener('click', () => {
+    console.log($('.modal-container'));
     addRootDocument();
+    holdListScroll();
   });
 }
