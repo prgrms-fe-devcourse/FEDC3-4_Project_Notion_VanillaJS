@@ -1,7 +1,7 @@
 import Editor from './Editor.js';
 
 import { fetchDocuments } from '../utils/api.js';
-import { NEW, NEWPARENT, ROUTE_DOCUMENTS } from '../utils/contants.js';
+import { NEW, NEWPARENT, ROUTE_DOCUMENTS } from '../utils/constants.js';
 import { isNew, setDocumentTitle } from '../utils/helper.js';
 import { getItem, removeItem, setItem } from '../utils/storage.js';
 

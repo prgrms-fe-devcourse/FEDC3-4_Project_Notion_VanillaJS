@@ -1,7 +1,7 @@
 import Sidebar from './Sidebar.js';
 import DocumentEditPage from './DocumentEditPage.js';
 
-import { ROUTE_DOCUMENTS } from '../utils/contants.js';
+import { ROUTE_DOCUMENTS } from '../utils/constants.js';
 import { isNew } from '../utils/helper.js';
 import { initRouter } from '../utils/router.js';
 

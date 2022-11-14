@@ -4,7 +4,7 @@ import {
   NEWPARENT,
   ROUTE_DOCUMENTS,
   UNTITLED,
-} from '../utils/contants.js';
+} from '../utils/constants.js';
 import { isNew } from '../utils/helper.js';
 import { setItem } from '../utils/storage.js';
 

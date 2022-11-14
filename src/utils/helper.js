@@ -1,4 +1,4 @@
-import { UNTITLED } from './contants.js';
+import { UNTITLED } from './constants.js';
 
 export const isNew = (isNew) => {
   try {

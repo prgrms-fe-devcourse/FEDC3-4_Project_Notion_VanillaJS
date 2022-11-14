@@ -1,5 +1,5 @@
 import { isNew, setDocumentTitle } from '../utils/helper.js';
-import { UNTITLED } from '../utils/contants.js';
+import { UNTITLED } from '../utils/constants.js';
 
 export default function Editor({
   $target,
