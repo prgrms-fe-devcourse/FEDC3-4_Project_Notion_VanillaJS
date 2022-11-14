@@ -37,6 +37,10 @@ export default function Post({ $target, initialState, onChangeTitle }) {
 			notFound.render();
 		}
 	};
+	
+	this.focus = () => {
+		postEditor.focus();
+	}
 
 	const header = new Header({
 		$target: $article,
@@ -46,7 +50,10 @@ export default function Post({ $target, initialState, onChangeTitle }) {
 	const postEditor = new PostEditor({
 		$target: $article,
 		initialState: this.state,
-		onChangeTitle,
+		onChangeTitleAndCurrentPath: (id, changedCurrentPath) => {
+			header.setState(changedCurrentPath);
+			onChangeTitle(id, changedCurrentPath);
+		},
 	});
 
 	const notFound = new NotFound({ $target: $article });

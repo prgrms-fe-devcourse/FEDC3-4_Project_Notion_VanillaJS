@@ -1,3 +1,5 @@
+// todo : popstate 이벤트 추가해서 뒤로가기, 앞으로가기 해도 반응할 수 있도록 구현
+
 const ROUTE_CHANGE_EVENT_NAME = 'route-change';
 
 const initRouter = (onRoute) => {
@@ -11,7 +13,6 @@ const initRouter = (onRoute) => {
 
 		if (nextUrl && action === 'replace') {
 			history.replaceState(null, null, nextUrl);
-			onRoute();
 		}
 	});
 };

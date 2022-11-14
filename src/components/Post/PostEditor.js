@@ -8,7 +8,11 @@ import { push, replace, ROUTE_CHANGE_EVENT_NAME } from '../../utils/router.js';
  *  content: string
  * }
  */
-export default function PostEditor({ $target, initialState, onChangeTitle }) {
+export default function PostEditor({
+	$target,
+	initialState,
+	onChangeTitleAndCurrentPath,
+}) {
 	const $div = createElement({ element: 'div', $target, className: 'editor' });
 	const $title = createElement({
 		element: 'input',
@@ -30,30 +34,37 @@ export default function PostEditor({ $target, initialState, onChangeTitle }) {
 	});
 
 	this.state = initialState;
-  
+
 	this.setState = (nextState) => {
 		this.state = nextState;
 		this.render();
 	};
 
 	this.render = () => {
-    const {title, content} = this.state;
-    $title.value = title;
-    $content.innerHTML = content;
-  };
-
-  $title.addEventListener('keyup', async (event) => {
-    // const [, id] = window.location.pathname.split('/');
-    // await updateDocument(id, {title: $title.value});
-    // onChangeTitle();
-    // const splitedQueryString = decodeURI(window.location.search).split('>');
-    // splitedQueryString[splitedQueryString.length - 1] = ` ${$title.value}`;
-    // replace(`${splitedQueryString.join(' > ')}`)
-    await updateDocument(this.state.id, {title: $title.value});
-    onChangeTitle();
-  })
+		const { title, content } = this.state;
+		$title.value = title;
+		$content.innerHTML = content;
+	};
   
-  $content.addEventListener('keyup', async (event) => {
-    await updateDocument(this.state.id, {content: $content.innerHTML});
-  })
+  this.focus = () => {
+    $title.focus();
+  }
+
+	$title.addEventListener('input', async (event) => {
+    event.preventDefault();
+		const changedTitle = $title.value;
+		const { id } = this.state;
+		// todo : 모듈화 필요
+		const queryString = new URLSearchParams(window.location.search);
+		const currentPath = queryString.get('currentPath').split(' > ');
+		currentPath[currentPath.length - 1] = changedTitle;
+		const changedCurrentPath = `${currentPath.join(' > ')}`;
+		
+		await updateDocument(id, { title: changedTitle });
+		onChangeTitleAndCurrentPath(id, changedCurrentPath);
+	});
+
+	$content.addEventListener('keyup', async (event) => {
+		await updateDocument(this.state.id, { content: $content.innerHTML });
+	});
 }

@@ -6,7 +6,7 @@ import {
 	getRootDocuments,
 } from './utils/api/apis.js';
 import { createElement } from './utils/createElement.js';
-import { initRouter } from './utils/router.js';
+import { initRouter, replace } from './utils/router.js';
 
 /**
  * state: {
@@ -26,12 +26,13 @@ export default function App({ $target, initialState }) {
 	};
 
 	this.route = async () => {
-		// todo : 모듈화 필요
 		const { pathname, search } = window.location;
 		const [, id] = pathname.split('/');
+		// todo : 모듈화 필요
 		const queryString = new URLSearchParams(search);
 		const { title, content } = await getContentOfDocument(id);
-
+		
+		post.focus();
 		post.setState({
 			id,
 			currentPath: queryString.get('currentPath') || 'Metamong',
@@ -60,12 +61,13 @@ export default function App({ $target, initialState }) {
 	const post = new Post({
 		$target: $main,
 		initialState,
-		onChangeTitle: async () => {
+		onChangeTitle: async (id, changedCurrentPath) => {
 			const nextRootDocuments = await getRootDocuments();
 			this.setState({
 				...this.state,
 				rootDocuments: nextRootDocuments,
 			});
+			replace(`${id}?currentPath=${changedCurrentPath}`)
 		},
 	});
 

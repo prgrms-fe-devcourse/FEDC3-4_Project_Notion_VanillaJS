@@ -1,5 +1,3 @@
-import { createDocument } from '../../utils/api/apis.js';
-import { getRootDocuments } from '../../utils/api/apis.js';
 import { createElement } from '../../utils/createElement.js';
 import Header from '../shared/Header.js';
 import DocumentList from './DocumentList.js';
