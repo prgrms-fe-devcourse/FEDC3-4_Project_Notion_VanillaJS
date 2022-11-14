@@ -27,7 +27,7 @@ export default function App({ $target }) {
   };
 
   this.setState = (nextState) => {
-    //console.log(nextState);
+    console.log(nextState);
     this.state = nextState;
 
     sideBar.setState(this.state);
@@ -114,7 +114,7 @@ export default function App({ $target }) {
         }
       }
 
-      setItem("currentContentId", JSON.stringify({ id, isNeedRender: true }));
+      setItem("currentContentId", { id, isNeedRender: true });
       await this.fetch(id);
     } catch (e) {
       console.error(e);
@@ -135,10 +135,10 @@ export default function App({ $target }) {
         res_content,
       });
 
-      setItem("currentContentId", JSON.stringify({ id: initTarget, isNeedRender: true }));
+      setItem("currentContentId", { id: initTarget, isNeedRender: true });
       removeItem("inProgressContent");
     } else {
-      setItem("currentContentId", JSON.stringify({ id: null, isNeedRender: true }));
+      setItem("currentContentId", { id: null, isNeedRender: true });
 
       this.setState({
         ...this.state,

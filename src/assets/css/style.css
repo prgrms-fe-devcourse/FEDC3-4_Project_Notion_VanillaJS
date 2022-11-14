@@ -160,6 +160,14 @@ input:focus,
   display: flex;
   flex-direction: column;
 }
+.postPage .editor-menu {
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--dark100);
+}
+.postPage .editor-menu .on {
+  background-color: var(--sideBarColor);
+}
 .postPage .section_content {
   min-height: 600px;
 }
@@ -181,9 +189,11 @@ input:focus,
   padding-right: 10px;
 }
 .postPage ul {
-  list-style: none;
   padding-left: 15px;
   margin: 0;
+}
+.postPage footer ul {
+  list-style: none;
 }
 .postPage li {
   padding: 3px 0;

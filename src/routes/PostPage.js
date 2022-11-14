@@ -33,7 +33,6 @@ export default function PostPage({ $target, initialState, onEditing, onDelete })
       this.$postPage.innerHTML = "";
       this.renderEmpty();
     } else {
-      this.$postPage.innerHTML = "";
       postPageHeader.setState(this.state);
       postEditor.setState(this.state);
       postSublinks.setState(this.state);

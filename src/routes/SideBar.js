@@ -33,18 +33,15 @@ export default function SideBar({ $target, initialState, onClickAdd }) {
 
     const nextFoldState = foldState.filter((fold) => fold.id !== id.toString());
     if (targetFoldState.state) {
-      setItem(
-        "foldState",
-        JSON.stringify([
-          ...nextFoldState,
-          {
-            id,
-            state: false,
-          },
-        ])
-      );
+      setItem("foldState", [
+        ...nextFoldState,
+        {
+          id,
+          state: false,
+        },
+      ]);
     } else {
-      setItem("foldState", JSON.stringify([...nextFoldState]));
+      setItem("foldState", [...nextFoldState]);
     }
   };
 

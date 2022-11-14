@@ -1,4 +1,4 @@
-const API_END_POINT = "https://kdt-frontend.programmers.co.kr/documents";
+const API_END_POINT = process.env.FEDC_SERVER_URL;
 
 const sleep = (ms) => {
   //sleep 함수
@@ -11,7 +11,7 @@ export const request = async (url, options = {}) => {
       ...options,
       headers: {
         "Content-Type": "application/json",
-        "x-username": "shkim061198",
+        "x-username": process.env.FEDC_KEY_NAME,
       },
     });
 

@@ -88,10 +88,23 @@ export default function PostPageHeader({ $target, initialState, onDelete }) {
 
   this.$header.addEventListener("click", (e) => {
     const { name } = e.target;
+
     if (name === "delete") {
       if (confirm("정말 삭제하시겠습니까?")) {
         this.onDelete(this.state.res_content.id);
       }
+    } else if (name === "share") {
+      const t = document.createElement("textarea");
+
+      document.body.appendChild(t);
+
+      t.value = window.location.href;
+      t.select();
+
+      document.execCommand("copy");
+      document.body.removeChild(t);
+
+      alert("링크가 복사되었습니다. 원하는 사람에게 공유해보세요");
     } else if (name === "link") {
       const { id } = e.target.dataset;
 
