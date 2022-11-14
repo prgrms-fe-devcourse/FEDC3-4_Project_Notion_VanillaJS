@@ -8,16 +8,13 @@ body {
 /* document page */
 .document-page {
   background-color: #edece9;
-  padding: 10px 0 0 0;
   height: 100vh;
-  box-sizing: border-box;
+  width: 270px;
   overflow: auto;
 }
 
 .document-list {
-  width: 300px;
-  margin-right: 10px;
-  box-sizing: border-box;
+  width: 100%;
   overflow: hidden;
   color: rgba(25, 23, 17, 0.6);
   display: flex;
@@ -34,17 +31,23 @@ ul {
 }
 
 li {
+  box-sizing: content-box;
   list-style: none;
   padding: 0 0 0 4%;
+  margin: 5px 0 5px 0;
+  align-items: center;
+  font-size: 15px;
 }
 
 .list-title {
   cursor: pointer;
-  text-align: center;
+  font-weight: 700;
 }
 
 .list-button {
   float: right;
+  font-size: 16px;
+  opacity: 0.45;
 }
 
 button {
@@ -60,11 +63,32 @@ button {
 }
 
 .toggle-button {
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 700;
   color: inherit;
 }
 
 .toggle-button.block {
   transform: rotate(90deg);
+}
+
+/* main page */
+.main-page {
+  width: 80vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-page-container {
+  font-size: 25px;
+  font-weight: 500;
+}
+
+/* editor page */
+.editor-page {
+  width: 80vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

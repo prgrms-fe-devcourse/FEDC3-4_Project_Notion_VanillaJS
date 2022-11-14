@@ -27,6 +27,7 @@ export default function App({ $target }) {
 
   const mainPage = new MainPage({
     $target,
+    initialState: "김민우",
   });
 
   this.route = () => {

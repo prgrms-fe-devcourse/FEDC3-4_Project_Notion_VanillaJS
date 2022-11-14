@@ -15,14 +15,14 @@ export const totalDocumentList = (documents) => {
           }</span>
             <span class="list-button"><button name="add-button" data-id="${
               document.id
-            }">+</button>
-            <button name="remove-button" data-id=${document.id}>-</button></span>
+            }">➕</button>
+            <button name="remove-button" data-id=${document.id}>➖</button></span>
               ${
                 document.documents.length
                   ? `<ul style="display: ${display}">${totalDocumentList(
                       document.documents
                     )}</ul>`
-                  : `<ul style="display: ${display}"><li>하위 페이지가 없습니다.</li></ul>`
+                  : `<ul style="display: ${display}"><li><i>하위 페이지가 없음</i></li></ul>`
               }
             </li>
           `;
