@@ -7,6 +7,7 @@ export default function PostList({
   newDocunment,
 }) {
   const $postList = document.createElement("div");
+  $postList.className = "postList";
   $target.appendChild($postList);
 
   this.state = initialState;

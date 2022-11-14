@@ -1,0 +1,53 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0px;
+  margin: 0px;
+}
+#app {
+  display: flex;
+  flex: 1;
+}
+
+.editor {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  top: 10px;
+}
+
+.listPage {
+  width: 400px;
+  height: 100vh;
+  border-right: 1px solid rgb(245, 245, 237);
+  background-color: rgb(251, 251, 250);
+}
+
+.editPage {
+  width: 100vh;
+}
+
+input {
+  width: 600px;
+  height: 50px;
+}
+
+textarea {
+  width: 600px;
+  height: 600px;
+  resize: none;
+}
+
+p {
+  margin: 0px;
+}
+
+.postList {
+  padding: 20px;
+}

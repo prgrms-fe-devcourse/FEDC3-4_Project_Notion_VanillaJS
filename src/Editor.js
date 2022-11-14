@@ -7,6 +7,7 @@ export default function Editor({
   onEditing,
 }) {
   const $editor = document.createElement("div");
+  $editor.className = "editor";
   $target.appendChild($editor);
 
   this.state = initialState;
@@ -20,8 +21,8 @@ export default function Editor({
 
   this.render = () => {
     $editor.innerHTML = `
-    <input type="text" name="title" class="editor title" value="${this.state.title}"/>
-    <textarea name="content" class="editor content">${this.state.content}</textarea>
+    <input type="text" name="title" class="title" value="${this.state.title}"/>
+    <textarea name="content" class="content">${this.state.content}</textarea>
     `;
   };
 

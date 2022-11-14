@@ -4,6 +4,7 @@ import { push } from "./router.js";
 
 export default function PostPage({ $target, editUpdate }) {
   const $page = document.createElement("div");
+  $page.className = "listPage";
 
   const postList = new PostList({
     $target: $page,
