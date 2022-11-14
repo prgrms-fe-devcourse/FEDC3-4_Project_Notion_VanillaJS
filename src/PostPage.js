@@ -2,7 +2,7 @@ import PostList from "./PostList.js";
 import { request } from "./Api.js";
 import LinkButton from "./LinkButton.js";
 import { CheckNew } from "./Error.js";
-import { removeItem } from "./Storage.js";
+import { setItem, removeItem } from "./Storage.js";
 import { push } from "./router.js";
 
 export default function PostPage({ $target, initialState }) {
@@ -34,6 +34,13 @@ export default function PostPage({ $target, initialState }) {
           parent: id,
         }),
       });
+
+      // 하위 문서를 추가하면 자동으로 하위 문서 목록을 보이게 해준다.
+      setItem(id, {
+        id: id,
+        visible: "",
+      });
+      postList.render();
 
       push(`/posts/${test.id}`);
     },
