@@ -44,4 +44,10 @@
 
 ![제목없음 (2)](https://user-images.githubusercontent.com/97251710/200494997-0cec547b-d98a-47bd-a109-8b25a9dcac9d.png)
 
-$ npm i dotenv
+기능이 모두 연결된 베이스 페이지 (without CSS)
+![chrome_i1MJFxMLeD](https://user-images.githubusercontent.com/97251710/201684438-efa7335d-cbb4-42c3-9146-e6b1dba9a3b5.png)
+
+마크업이 끝난 노션페이지 (TailwindCSS)
+![chrome_fOxncKNsfx](https://user-images.githubusercontent.com/97251710/201684559-ffe3c1d2-729e-4426-a87f-e647c05fc286.png)
+
+
