@@ -10,13 +10,10 @@ import {
 	OPENED_DOCUMENT_ITEMS,
 	setItem,
 } from '../../utils/storage.js';
+import templates from '../../utils/templates.js';
 
 /**
- *
- * @param {{
- * 					$target: HTMLElement,
- * 					initialState: Array
- * 				}}
+ * state: array
  */
 export default function DocumentList({ $target, initialState = [] }) {
 	const $documentList = createElement({
@@ -32,66 +29,25 @@ export default function DocumentList({ $target, initialState = [] }) {
 		this.render();
 	};
 
-	// todo : template 코드는 따로 빼둬야 할 듯.
 	this.render = () => {
 		const openedDocumentItems = getItem(OPENED_DOCUMENT_ITEMS, []);
 		$documentList.innerHTML = `
 			${this.state
 				.map(
 					({ id, title, documents: subDocumentList }) => `
-				<div class='document-item-container'>
-					<div data-id='${id}' data-current-path='${title}' class='document-item'>
-						<img data-action='toggle' src='./src/assets/images/toggleButton.svg'>
-						<span>${title}</span>
-						<img data-action='delete' src='./src/assets/images/deleteButton.svg'>
-						<img data-action='add' src='./src/assets/images/addButton.svg'>
-					</div>
-					${
-						openedDocumentItems.includes(String(id))
-							? makeSubDocumentList(id, subDocumentList, [title])
-							: ''
-					}
-				</div>
+				${templates.rootDocumentListItem(
+					id,
+					title,
+					subDocumentList,
+					openedDocumentItems
+				)}
 			`
 				)
-				.join('')}	
+				.join('')}
 		`;
 	};
 
 	this.render();
-
-	// todo : 따로 util로 빼자.
-	const makeSubDocumentList = (id, subDocumentList, path) => {
-		const openedDocumentItems = getItem(OPENED_DOCUMENT_ITEMS, []);
-
-		let subDocumentListTemplate = `
-			<ul class='document-list'>
-				${subDocumentList
-					.map(
-						({ id, title, documents: subSubDocumentList }) => `
-					<div class='document-item-container'>
-						<div data-id='${id}' data-current-path='${path.join(
-							' > '
-						)} > ${title}' class='document-item'>
-							<img data-action='toggle' src='./src/assets/images/toggleButton.svg'>
-							<span>${title}</span>
-							<img data-action='delete' src='./src/assets/images/deleteButton.svg'>
-							<img data-action='add' src='./src/assets/images/addButton.svg'>
-						</div>
-						${
-							openedDocumentItems.includes(String(id))
-								? makeSubDocumentList(id, subSubDocumentList, [...path, title])
-								: ''
-						}
-					</div>
-				`
-					)
-					.join('')}
-			</ul>
-		`;
-
-		return subDocumentListTemplate;
-	};
 
 	$documentList.addEventListener('click', async (event) => {
 		event.stopPropagation();

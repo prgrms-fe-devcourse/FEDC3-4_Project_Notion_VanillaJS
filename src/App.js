@@ -1,6 +1,10 @@
 import Post from './components/Post/Post.js';
 import Sidebar from './components/SideBar/SideBar.js';
-import { createDocument, getContentOfDocument, getRootDocuments } from './utils/api/apis.js';
+import {
+	createDocument,
+	getContentOfDocument,
+	getRootDocuments,
+} from './utils/api/apis.js';
 import { createElement } from './utils/createElement.js';
 import { initRouter } from './utils/router.js';
 
@@ -42,14 +46,17 @@ export default function App({ $target, initialState }) {
 		sidebar.setState(rootDocuments);
 	};
 
-	const sidebar = new Sidebar({ $target: $main, onClickAddButton: async () => {
-		await createDocument({title: '제목 없음'});
-		const nextRootDocuments = await getRootDocuments();
-		this.setState({
-			...this.state,
-			rootDocuments: nextRootDocuments
-		})
-	} });
+	const sidebar = new Sidebar({
+		$target: $main,
+		onClickAddButton: async () => {
+			await createDocument({ title: '제목 없음' });
+			const nextRootDocuments = await getRootDocuments();
+			this.setState({
+				...this.state,
+				rootDocuments: nextRootDocuments,
+			});
+		},
+	});
 	const post = new Post({
 		$target: $main,
 		initialState,
