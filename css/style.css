@@ -46,6 +46,7 @@ main {
 .document-list {
   width: 100%;
   height: calc(100% - 12vh);
+  overflow-y: auto;
 }
 .document {
   width: 100%;
@@ -63,6 +64,7 @@ main {
   white-space: nowrap;
   text-overflow: ellipsis;
   font-size: 15px;
+  cursor: pointer;
 }
 .document-footer {
   display: flex;
