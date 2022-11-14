@@ -1,0 +1,129 @@
+@import "./reset.css";
+.global-container {
+  display: flex;
+  height: 100vh;
+}
+.global-container .post-list-container,
+.global-container .post-edit-container {
+  display: inline-block;
+}
+.global-container .post-list-container {
+  background-color: rgb(251, 251, 250);
+  max-width: 300px;
+  min-width: 260px;
+  width: 100%;
+}
+.global-container .post-list-container .nav-header {
+  padding: 1rem 0 8px 0;
+  text-align: center;
+}
+.global-container .post-list-container .nav-header:hover {
+  cursor: pointer;
+}
+.global-container .post-list-container button {
+  border: 0;
+  color: #5e5e5e;
+  background-color: transparent;
+}
+.global-container .post-list-container ul {
+  padding: 8px;
+  max-height: 870px;
+  overflow-y: scroll;
+}
+.global-container .post-list-container ul .post-list {
+  font-size: 14px;
+}
+.global-container .post-list-container ul .post-list .list-flex {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 4px;
+}
+.global-container .post-list-container ul .post-list .list-flex span {
+  padding: 2px;
+}
+.global-container .post-list-container ul .post-list .list-flex .post-title {
+  display: inline-block;
+  vertical-align: bottom;
+  max-width: 150px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.global-container .post-list-container ul .post-list .list-flex .delete-create-btn-container {
+  display: none;
+  position: absolute;
+  right: 0;
+}
+.global-container .post-list-container ul .post-list .list-flex .delete-create-btn-container button {
+  padding: 1px;
+}
+.global-container .post-list-container ul .post-list .list-flex:hover {
+  cursor: pointer;
+  background-color: rgb(235, 235, 235);
+}
+.global-container .post-list-container ul .post-list .list-flex:hover .delete-create-btn-container {
+  display: block;
+  z-index: 5;
+}
+.global-container .post-list-container ul .post-list .list-flex:hover .delete-create-btn-container button {
+  cursor: pointer;
+}
+.global-container .post-list-container ul .post-list .list-flex:hover .delete-create-btn-container button:hover {
+  background-color: rgb(209, 209, 209);
+}
+.global-container .post-list-container ul .child-ul {
+  margin: 6px 0;
+  padding-left: 24px;
+}
+.global-container .post-list-container .create-post-btn-container {
+  padding: 1rem 0;
+  width: 300px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  background-color: rgb(251, 251, 250);
+}
+.global-container .post-list-container .create-post-btn-container button:hover {
+  cursor: pointer;
+}
+.global-container .post-list-container .create-post-btn-container:hover {
+  cursor: pointer;
+  background-color: rgb(235, 235, 235);
+}
+.global-container .post-edit-container {
+  display: flex;
+  width: 100%;
+  max-width: 900px;
+  min-width: 400px;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  padding: 0 4rem;
+  background-color: #ffffff;
+}
+.global-container .post-edit-container .home h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #c7c7c7;
+}
+.global-container .post-edit-container .editor {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.global-container .post-edit-container .editor input {
+  font-size: 36px;
+  padding: 8px;
+  border: 0;
+  box-shadow: 3px 3px 10px #b3b3b3;
+}
+.global-container .post-edit-container .editor textarea {
+  padding: 8px;
+  border: 0;
+  box-shadow: 3px 3px 10px #b3b3b3;
+}
+
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,155 @@
+@import "./reset.css";
+@import "./libs/vars.scss";
+@import "./libs/mixins.scss";
+
+.global-container {
+	display: flex;
+	height: 100vh;
+
+	.post-list-container,
+	.post-edit-container {
+		display: inline-block;
+	}
+
+	.post-list-container {
+		background-color: $color-post-list-background;
+		max-width: 300px;
+		min-width: 260px;
+		width: 100%;
+
+		.nav-header {
+			padding: 1rem 0 8px 0;
+			text-align: center;
+		}
+
+		.nav-header:hover {
+			cursor: pointer;
+		}
+
+		button {
+			@include base-button;
+		}
+
+		ul {
+			padding: 8px;
+			max-height: 870px;
+			overflow-y: scroll;
+			.post-list {
+				// display: flex;
+				// justify-content: space-between;
+				font-size: 14px;
+
+				.list-flex {
+					display: flex;
+					position: relative;
+					justify-content: space-between;
+					align-items: center;
+					padding: 8px 4px;
+
+					span {
+						padding: 2px;
+					}
+
+					.post-title {
+						display: inline-block;
+						vertical-align: bottom;
+						max-width: 150px;
+						overflow-x: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
+
+					.delete-create-btn-container {
+						display: none;
+						position: absolute;
+						right: 0;
+
+						button {
+							padding: 1px;
+						}
+					}
+				}
+
+				.list-flex:hover {
+					cursor: pointer;
+					background-color: $color-post-list-hover;
+
+					.delete-create-btn-container {
+						display: block;
+						z-index: 5;
+
+						button {
+							cursor: pointer;
+						}
+
+						button:hover {
+							background-color: $color-post-button-hover;
+						}
+					}
+				}
+			}
+
+			.child-ul {
+				margin: 6px 0;
+				padding-left: 24px;
+			}
+		}
+
+		.create-post-btn-container {
+			padding: 1rem 0;
+			width: 300px;
+			text-align: center;
+			position: fixed;
+			bottom: 0;
+			background-color: $color-post-list-background;
+			button:hover {
+				cursor: pointer;
+			}
+		}
+
+		.create-post-btn-container:hover {
+			cursor: pointer;
+			background-color: $color-post-list-hover;
+		}
+	}
+
+	.post-edit-container {
+		display: flex;
+		width: 100%;
+		max-width: 900px;
+		min-width: 400px;
+		margin: 0 auto;
+		justify-content: center;
+		align-items: center;
+		padding: 0 4rem;
+		background-color: $color-post-edit-background;
+
+		.home {
+			h1 {
+				font-size: 3rem;
+				font-weight: bold;
+				color: $color-home-font;
+			}
+		}
+
+		.editor {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			gap: 2rem;
+
+			input {
+				font-size: 36px;
+				padding: 8px;
+				border: 0;
+				box-shadow: 3px 3px 10px #b3b3b3;
+			}
+
+			textarea {
+				padding: 8px;
+				border: 0;
+				box-shadow: 3px 3px 10px #b3b3b3;
+			}
+		}
+	}
+}

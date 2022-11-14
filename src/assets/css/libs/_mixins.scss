@@ -1,0 +1,7 @@
+@import "./vars.scss";
+
+@mixin base-button {
+	border: 0;
+	color: $color-base-font;
+	background-color: transparent;
+}
