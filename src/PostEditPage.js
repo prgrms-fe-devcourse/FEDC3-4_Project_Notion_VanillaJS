@@ -87,7 +87,7 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
 
           listUpdate();
         }
-      }, 2000);
+      }, 1000);
     },
   });
 
@@ -113,7 +113,7 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
       if (this.state.postId === "new") {
         const post = getItem(postLocalSaveKey, {
           title: "새 문서의 제목을 입력하세요.",
-          content: "새 문서의 내용을 입력하세요",
+          content: "문서의 내용을 변경하면 문서가 생성되고 저장됩니다.",
         });
 
         navi.setState(this.state);

@@ -2,6 +2,9 @@ import { request } from "./Api.js";
 import { setItem, getItem } from "./Storage.js";
 import { push } from "./router.js";
 
+// 내용 변경되면 서브바 스크롤 자꾸 올라가서 불편함.
+// 아예 리스트 길이를 엄청 길게 해둔다음에 history.scrollRestoration = "auto" 로 복구시키기?
+
 export default function PostList({
   $target,
   initialState,
@@ -18,12 +21,6 @@ export default function PostList({
    height: 95vh;
    backgroundColor: #c8c8c8;   
   `;
-
-  // $postList.style.overflow = "auto";
-  // $postList.style.whiteSpace = "nowrap";
-  // $postList.style.height = "95vh";
-  // $postList.style.overflow.style = "none";
-  //$postList.style.backgroundColor = "#c8c8c8";
 
   this.state = initialState;
 
