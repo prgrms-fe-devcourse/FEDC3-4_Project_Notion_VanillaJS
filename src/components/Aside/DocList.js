@@ -3,7 +3,10 @@ import { hasClass, addClass, removeClass } from "../../util/helper.js";
 
 export default function DocList({
   $target,
-  initialState,
+  initialState = {
+    documents: [],
+    openedDocId
+  },
   onSelect,
   onAdd,
   onRemove,
@@ -16,12 +19,13 @@ export default function DocList({
 
   this.setState = (nextState) => {
     this.state = nextState;
+    console.log(this.state)
     this.render();
   };
 
   this.render = () => {
     $list.innerHTML = '';
-    createList($list, this.state);
+    createList($list, this.state.documents);
     $listContainer.appendChild($list)
   };
 
@@ -32,12 +36,21 @@ export default function DocList({
       if (typeof value === "object" && key !== "documents") {
         const { documents, id } = value;
         const $li = makeLi(value);
-        const hasChild = documents.length > 0;
 
+        if(this.state.openedDocId === id.toString()) {
+          addClass($li, 'on');
+        }
+
+        const hasChild = documents.length > 0;
         if (hasChild) {
           const $ul = makeUl("parent");
           $ul.dataset.parentId = id;
           createList($ul, documents);
+          
+          if($ul.querySelector('li.on')) {
+            addClass($ul, 'on');
+          }
+          
           $li.appendChild($ul);
         }
         $target.appendChild($li);
@@ -45,9 +58,8 @@ export default function DocList({
     });
   };
 
-  this.render()
-
   $listContainer.addEventListener("click", (e) => {
+    e.preventDefault();
     const $li = e.target.closest(".list-item");
     if (!$li) return;
 
@@ -86,3 +98,7 @@ export default function DocList({
     }
   });
 }
+
+/* To do:
+- stay on current doc tab during setState -> state variable for currently open needed
+*/
