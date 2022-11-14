@@ -1,0 +1,16 @@
+.main-content {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.document-editor {
+  background-color: antiquewhite;
+  width: 100vw;
+}
+
+.document-tree {
+  background-color: rgb(227, 250, 215);
+  width: 30vw;
+  max-width: 300px;
+}
