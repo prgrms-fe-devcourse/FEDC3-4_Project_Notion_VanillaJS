@@ -1,10 +1,19 @@
 import PostList from "./PostList.js";
 import { request } from "./api.js";
 import { push } from "./router.js";
+import Header from "./Header.js";
 
 export default function PostPage({ $target, editUpdate }) {
   const $page = document.createElement("div");
   $page.className = "listPage";
+
+  new Header({
+    $target: $page,
+    initialState: {
+      user: "zero",
+      email: "yj0zero@gmail.com",
+    },
+  });
 
   const postList = new PostList({
     $target: $page,
@@ -16,27 +25,25 @@ export default function PostPage({ $target, editUpdate }) {
       history.pushState(null, null, "/");
       location.reload();
     },
-    newDocunment: async (id, button) => {
+    onAddDocument: async (id, button) => {
       if (button === "add") {
         const document = {
           title: "new",
           parent: id,
         };
-        const newDocument = await newRequest(document);
+        const newDocument = await fetchNewDocument(document);
         push(`/documents/${newDocument.id}`);
         this.render();
-      } else {
-        push(`/documents/${id}`);
       }
     },
   });
 
-  const fetchRequest = async () => {
+  const fetchList = async () => {
     const data = await request("/documents");
     postList.setState(data);
   };
 
-  const newRequest = async (document) => {
+  const fetchNewDocument = async (document) => {
     const newRequest = await request(`/documents`, {
       method: "POST",
       body: JSON.stringify(document),
@@ -45,15 +52,8 @@ export default function PostPage({ $target, editUpdate }) {
     return await newRequest;
   };
 
-  this.setState = async () => {
-    const posts = await request("/documents");
-    postList.setState(posts);
-    this.render();
-  };
-  //this.setState가 필요할까??
-
   this.render = async () => {
-    await fetchRequest();
+    await fetchList();
     $target.appendChild($page);
   };
 

@@ -4,7 +4,7 @@ export default function PostList({
   $target,
   initialState,
   onRemove,
-  newDocunment,
+  onAddDocument,
 }) {
   const $postList = document.createElement("div");
   $postList.className = "postList";
@@ -17,12 +17,7 @@ export default function PostList({
     this.render();
   };
 
-  this.render = () => {
-    const documentsList = markUp(this.state, "");
-    const lootButton = `<button name="add"> + </button>`;
-    $postList.innerHTML = `<p>노션 ${lootButton}${documentsList}</p>`;
-  };
-  const markUp = (list, text) => {
+  const markUpDocumentList = (list, text) => {
     text += `
       <ul>
       ${list
@@ -31,7 +26,9 @@ export default function PostList({
       <li data-id="${id}">${title}
       <button name="add"> + </button>
       <button name="remove"> - </button>
-      ${documents.map((document) => markUp([document], text)).join("")}
+      ${documents
+        .map((document) => markUpDocumentList([document], text))
+        .join("")}
       </li>
       
       `
@@ -43,13 +40,19 @@ export default function PostList({
     return text;
   };
 
+  this.render = () => {
+    const documentsList = markUpDocumentList(this.state, "");
+    const documentAddBtn = `<button name="add"> + 페이지 추가하기 </button>`;
+    $postList.innerHTML = `<div>${documentsList}${documentAddBtn}</div>`;
+  };
+
   this.render();
 
   $postList.addEventListener("click", (e) => {
     const $li = e.target.closest("li");
     const { name } = e.target;
     const id = $li?.dataset.id ? $li.dataset.id : null;
-    if ($li || name) {
+    if (name) {
       if (name === "remove") {
         const node = $li.querySelector("ul");
         if (node) {
@@ -58,13 +61,12 @@ export default function PostList({
         onRemove(id);
         return;
       } else {
-        newDocunment(id, name);
+        onAddDocument(id, name);
       }
     }
 
-    /**
-     * li랑 name을 구분할까?
-     * li를 하면 해당 내용을 push만 하고 name이 있으면 해당 버튼에 따라 메소드 주고...
-     */
+    if ($li) {
+      push(`/documents/${id}`);
+    }
   });
 }
