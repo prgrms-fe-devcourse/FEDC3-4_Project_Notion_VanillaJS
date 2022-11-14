@@ -1,5 +1,5 @@
-import { isConstructor } from "../../Helpers/checkError.js";
-import DocumentDetailedList from "./DocumentDetailedList.js";
+import { isConstructor } from '../../Helpers/checkError.js';
+import DocumentDetailedList from './DocumentDetailedList.js';
 
 export default function DocumentList({
   $target,
@@ -11,8 +11,8 @@ export default function DocumentList({
   setEditorEvent,
 }) {
   isConstructor(new.target);
-  const $documentList = document.createElement("div");
-  $documentList.id = "documentList";
+  const $documentList = document.createElement('div');
+  $documentList.id = 'documentList';
   $target.appendChild($documentList);
   const documentDetailedList = new DocumentDetailedList({
     $target: $documentList,
@@ -31,9 +31,9 @@ export default function DocumentList({
     hideChildDocumentButton: ($target) => hideChildDocumentEvent({ $target }),
   };
 
-  $documentList.addEventListener("click", (e) => {
+  $documentList.addEventListener('click', (e) => {
     if (e.target.id) {
-      setEvent[e.target.id](e.target);
+      setEvent?.[e.target.id](e.target);
     }
   });
 }
