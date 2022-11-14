@@ -4,6 +4,7 @@ export default function Editor({ $editorPageTarget, initialState, onEditing }) {
   $editor.innerHTML = `
     <input type="text" name="title" style="width: 600px; display:none;"/>
     <textarea name="content" style="width: 600px; height: 400px; border: 1px solid black; padding: 8px; display:none;">안녕</textarea>
+    <div name="subdocument" class="subdocument"></div>
   `;
 
   $editorPageTarget.appendChild($editor);
@@ -22,8 +23,9 @@ export default function Editor({ $editorPageTarget, initialState, onEditing }) {
 
   this.render = () => {
     if (this.editorState) {
-      const { title, content } = this.editorState;
+      const { title, content, documents } = this.editorState;
 
+      $editorPageTarget.querySelector("[name=subdocument]").innerHTML = ``;
       // by 민형, index 페이지 일 경우_221113
       if (title === "not render") {
         indexRender("none");
@@ -32,6 +34,17 @@ export default function Editor({ $editorPageTarget, initialState, onEditing }) {
 
         $editorPageTarget.querySelector("[name=title]").value = title;
         $editorPageTarget.querySelector("[name=content]").value = content;
+
+        documents.forEach((doc) => {
+          const $link = document.createElement("a");
+          $link.textContent = doc.title;
+          $link.href = `/documents/${doc.id}`;
+          $link.style.marginRight = "30px";
+
+          $editorPageTarget
+            .querySelector("[name=subdocument]")
+            .appendChild($link);
+        });
       }
     }
     // by 민형, 서버에서 데이터를 먼저 불러오므로 먼저 render_221112
