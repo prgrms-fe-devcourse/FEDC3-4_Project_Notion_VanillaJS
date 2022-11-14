@@ -4,7 +4,7 @@ import {
 	getRootDocuments,
 } from '../../utils/api/apis.js';
 import { createElement } from '../../utils/createElement.js';
-import { push } from '../../utils/router.js';
+import { historyPush } from '../../utils/router.js';
 import {
 	getItem,
 	OPENED_DOCUMENT_ITEMS,
@@ -94,7 +94,7 @@ export default function DocumentList({ $target, initialState = [] }) {
 					await deleteDocument(id);
 					const nextRootDocumentsAfterDeleteAction = await getRootDocuments();
 					this.setState(nextRootDocumentsAfterDeleteAction);
-					if (id === currentId) push('/');
+					if (id === currentId) historyPush('/');
 					break;
 				case 'add':
 					// todo : 새로 생성된 문서로 바로 작성하러 갈 수 있도록 추가해줄까?
@@ -108,6 +108,6 @@ export default function DocumentList({ $target, initialState = [] }) {
 		}
 
 		// todo : 현재 클릭한 것은 background-color를 바꾸는 등 focus 되도록 하자.
-		if (!action && id) push(`${id}?currentPath=${currentPath}`);
+		if (!action && id) historyPush(`${id}?currentPath=${currentPath}`);
 	});
 }

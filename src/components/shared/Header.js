@@ -1,5 +1,5 @@
 import { createElement } from '../../utils/createElement.js';
-import { push } from '../../utils/router.js';
+import { historyPush } from '../../utils/router.js';
 
 export default function Header({ $target, initialState }) {
 	const $header = createElement({
@@ -25,7 +25,7 @@ export default function Header({ $target, initialState }) {
 	this.init = () => {
 		if ($target.tagName === 'NAV') {
 			$header.addEventListener('click', () => {
-				push('/');
+				historyPush('/');
 			});
 		}
 	};

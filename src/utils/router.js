@@ -6,37 +6,37 @@ const initRouter = (onRoute) => {
 	window.addEventListener(ROUTE_CHANGE_EVENT_NAME, (event) => {
 		const { nextUrl, action } = event.detail;
 
-		if (nextUrl && action === 'push') {
+		if (nextUrl && action === 'historyPush') {
 			history.pushState(null, null, nextUrl);
 			onRoute();
 		}
 
-		if (nextUrl && action === 'replace') {
+		if (nextUrl && action === 'historyReplace') {
 			history.replaceState(null, null, nextUrl);
 		}
 	});
 };
 
-const push = (nextUrl) => {
+const historyPush = (nextUrl) => {
 	window.dispatchEvent(
 		new CustomEvent(ROUTE_CHANGE_EVENT_NAME, {
 			detail: {
 				nextUrl,
-				action: 'push',
+				action: 'historyPush',
 			},
 		})
 	);
 };
 
-const replace = (nextUrl) => {
+const historyReplace = (nextUrl) => {
 	window.dispatchEvent(
 		new CustomEvent(ROUTE_CHANGE_EVENT_NAME, {
 			detail: {
 				nextUrl,
-				action: 'replace',
+				action: 'historyReplace',
 			},
 		})
 	);
 };
 
-export { ROUTE_CHANGE_EVENT_NAME, initRouter, push, replace };
+export { ROUTE_CHANGE_EVENT_NAME, initRouter, historyPush, historyReplace };

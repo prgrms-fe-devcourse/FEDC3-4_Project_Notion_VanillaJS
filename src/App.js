@@ -6,7 +6,7 @@ import {
 	getRootDocuments,
 } from './utils/api/apis.js';
 import { createElement } from './utils/createElement.js';
-import { initRouter, replace } from './utils/router.js';
+import { initRouter, historyReplace } from './utils/router.js';
 
 /**
  * state: {
@@ -31,7 +31,7 @@ export default function App({ $target, initialState }) {
 		// todo : 모듈화 필요
 		const queryString = new URLSearchParams(search);
 		const { title, content } = await getContentOfDocument(id);
-		
+
 		post.focus();
 		post.setState({
 			id,
@@ -67,7 +67,7 @@ export default function App({ $target, initialState }) {
 				...this.state,
 				rootDocuments: nextRootDocuments,
 			});
-			replace(`${id}?currentPath=${changedCurrentPath}`)
+			historyReplace(`${id}?currentPath=${changedCurrentPath}`);
 		},
 	});
 
