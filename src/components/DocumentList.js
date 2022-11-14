@@ -21,9 +21,9 @@ export default function DocumentList({
   this.render = () => {
     $documentList.innerHTML = `
       <button name="add-button" class="root-page-add-button">➕ 페이지 추가</button>
-      <div class="list-box"></div>
+      <div class="list-box">
       ${totalDocumentList(this.state)}
-      <div>
+      </div>
     `;
   };
 

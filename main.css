@@ -27,16 +27,19 @@ body {
 }
 
 ul {
-  padding: 0;
+  padding: 0 0 0 3%;
 }
 
 li {
   box-sizing: content-box;
   list-style: none;
-  padding: 0 0 0 4%;
   margin: 5px 0 5px 0;
   align-items: center;
   font-size: 15px;
+}
+
+.focusable:hover {
+  background-color: #d3d1cb;
 }
 
 .list-title {
