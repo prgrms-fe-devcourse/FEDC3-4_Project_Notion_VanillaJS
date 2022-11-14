@@ -2,7 +2,7 @@ const API_END_POINT = '';
 
 export const request = async (url, options = {}) => {
   try {
-    const res = await fetch(`${API_END_POINT}${url}`, {
+    const res = await fetch(url, {
       ...options,
       headers: {
         'Content-type': 'application/json',
@@ -14,8 +14,14 @@ export const request = async (url, options = {}) => {
       return await res.json();
     }
 
-    throw new Error('API 처리 중 뭔가 이상합니다!');
+    throw new Error('요청에 실패함');
   } catch (e) {
-    alert(e.message);
+    console.error(e);
   }
 };
+
+export const fetchDocuments = async (documentId = '', options) =>
+  request(
+    `${API_END_POINT}/documents${documentId.length ? `/${documentId}` : ''}`,
+    options
+  );

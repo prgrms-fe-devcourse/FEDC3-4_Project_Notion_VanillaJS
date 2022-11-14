@@ -1,6 +1,6 @@
 import Editor from './Editor.js';
 
-import { request } from '../utils/api.js';
+import { fetchDocuments } from '../utils/api.js';
 import { NEW, NEWPARENT, ROUTE_DOCUMENTS } from '../utils/contants.js';
 import { isNew } from '../utils/helper.js';
 import { getItem, removeItem, setItem } from '../utils/storage.js';
@@ -36,7 +36,7 @@ export default function DocumentEditPage({ $target, initialState }) {
         });
 
         if (this.state.documentId === NEW) {
-          const createdDocument = await request(ROUTE_DOCUMENTS, {
+          const createdDocument = await fetchDocuments('', {
             method: 'POST',
             body: JSON.stringify({
               title: document.title,
@@ -55,7 +55,7 @@ export default function DocumentEditPage({ $target, initialState }) {
             documentId: createdDocument.id,
           });
         } else {
-          await request(`${ROUTE_DOCUMENTS}/${document.id}`, {
+          await fetchDocuments(document.id, {
             method: 'PUT',
             body: JSON.stringify(document),
           });
@@ -102,7 +102,7 @@ export default function DocumentEditPage({ $target, initialState }) {
 
   const fetchDocument = async () => {
     const { documentId } = this.state;
-    const document = await request(`${ROUTE_DOCUMENTS}/${documentId}`);
+    const document = await fetchDocuments(documentId);
 
     const tempDocument = getItem(documentLocalSaveKey, {
       title: '',
