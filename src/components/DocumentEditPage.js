@@ -2,7 +2,7 @@ import Editor from './Editor.js';
 
 import { fetchDocuments } from '../utils/api.js';
 import { NEW, NEWPARENT, ROUTE_DOCUMENTS } from '../utils/contants.js';
-import { isNew } from '../utils/helper.js';
+import { isNew, setDocumentTitle } from '../utils/helper.js';
 import { getItem, removeItem, setItem } from '../utils/storage.js';
 
 export default function DocumentEditPage({ $target, initialState }) {
@@ -98,6 +98,7 @@ export default function DocumentEditPage({ $target, initialState }) {
 
   this.render = () => {
     $target.appendChild($page);
+    setDocumentTitle(this.state.document?.title || '');
   };
 
   const fetchDocument = async () => {

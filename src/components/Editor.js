@@ -1,4 +1,4 @@
-import { isNew } from '../utils/helper.js';
+import { isNew, setDocumentTitle } from '../utils/helper.js';
 import { UNTITLED } from '../utils/contants.js';
 
 export default function Editor({
@@ -30,6 +30,8 @@ export default function Editor({
 
     $editor.querySelector('[name=title]').value = title;
     $editor.querySelector('[name=content]').value = content;
+
+    setDocumentTitle(title);
   };
 
   this.render();
