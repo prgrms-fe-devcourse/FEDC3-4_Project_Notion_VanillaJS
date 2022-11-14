@@ -15,7 +15,7 @@ export default function PostList({ $target, initialState }) {
 
     posts.forEach((post) => {
       let $li = document.createElement("li");
-      $li.innerText = post.title;
+      $li.innerText = post.title ? post.title : "제목 없음";
       $ul.appendChild($li);
 
       if (post.documents.length) {
