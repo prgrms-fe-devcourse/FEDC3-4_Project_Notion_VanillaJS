@@ -125,7 +125,7 @@ export default function App({ $app }) {
           title,
         })
       );
-      routeChange(`/${userId}/documents/${res.id}`);
+      routeChange(`/${userId}/documents/${id}`);
     },
   });
 
