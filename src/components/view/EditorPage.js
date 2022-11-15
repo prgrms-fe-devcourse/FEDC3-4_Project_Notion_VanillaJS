@@ -4,7 +4,7 @@ import { push } from "../../router/router.js";
 
 export default function EditorPage({ $bodyPage, initialState }) {
   const $editorPage = document.createElement("div");
-  $editorPage.style.width = "700px";
+  $editorPage.classList.add("editor");
 
   $bodyPage.appendChild($editorPage);
 

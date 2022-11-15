@@ -3,8 +3,6 @@ import EditorPage from "./components/view/EditorPage.js";
 import { initRouter } from "./router/router.js";
 
 export default function App({ $bodyPage }) {
-  $bodyPage.style.display = "flex";
-
   const documentListPage = new DocumentListPage({
     $bodyPage,
   });

@@ -4,6 +4,7 @@ import { push } from "../../router/router.js";
 
 export default function DocumentListPage({ $bodyPage, initialState }) {
   const $documentListPage = document.createElement("div");
+  $documentListPage.classList.add("list-container");
 
   this.documentListState = initialState;
 

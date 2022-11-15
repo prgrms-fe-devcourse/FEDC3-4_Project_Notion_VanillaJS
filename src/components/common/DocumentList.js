@@ -8,6 +8,7 @@ export default function DocumentList({
   onRemove,
 }) {
   const $listPage = document.createElement("div");
+  $listPage.classList.add("list-container__lists");
 
   $documentListPage.appendChild($listPage);
 
@@ -19,10 +20,24 @@ export default function DocumentList({
   };
 
   const listMarkUp = (list, width) => {
-    return `<li data-id="${list.id}" class="list" style="margin-left: ${width}px;">
-    <i class="fa-solid fa-arrow-right" data-id="${list.id}"></i>${list.title}</li>
-    <button class="plus" data-id="${list.id}">Plus</button>
-    <button class="remove" data-id="${list.id}">Remove</button>`;
+    const { pathname } = location;
+    const [, , pathId] = pathname.split("/");
+    const containerClassName =
+      parseInt(pathId) === list.id
+        ? "list-container__list select"
+        : "list-container__list";
+
+    return `<div class="${containerClassName}" data-id="${list.id}">
+      <li class="list" style="margin-left: ${width}px;">
+        <i class="fa-solid fa-chevron-right" data-id="${list.id}"></i>
+        <i class="fa-brands fa-pagelines" style="color: green;"></i>
+        <span class="list-container__lists--txt">${list.title}<span>
+      </li>
+      <div data-id="${list.id}"> 
+        <i class="fa-solid fa-plus plus" data-id="${list.id}"></i>
+        <i class="fa-solid fa-trash remove" data-id="${list.id}"></i>
+      </div>
+    </div>`;
   };
 
   const listRender = (list) => {
@@ -40,7 +55,7 @@ export default function DocumentList({
         for (let i = nextList.documents.length - 1; i >= 0; i--) {
           stack.push({
             list: nextList.documents[i],
-            width: nextWidth + 30,
+            width: nextWidth + 15,
           });
         }
       }
@@ -51,9 +66,17 @@ export default function DocumentList({
 
   this.render = () => {
     if (Array.isArray(this.listState)) {
-      $listPage.innerHTML = `<ul>
-        ${this.listState.map((list) => listRender(list)).join("")}
-        <button class="rootplus" data-id="null">페이지 추가</button>
+      $listPage.innerHTML = `
+        <a href="/index.html" class="home">
+          <i class="fa-solid fa-user"></i>
+          <div>민형 박의 Notion</div>
+        </a>
+        <ul>
+          ${this.listState.map((list) => listRender(list)).join("")}
+            <div class="list-container__list rootplus" data-id="no-router">
+              <i class="fa-solid fa-plus"></i>
+              <span>페이지 추가</span>
+            </div>
         </ul>
         `;
     }
@@ -61,22 +84,25 @@ export default function DocumentList({
   };
 
   $documentListPage.addEventListener("click", (e) => {
-    const $li = e.target.closest("li");
-    const $button = e.target.closest("button");
+    const $i = e.target.closest("i");
+    const $div = e.target.closest("div");
 
-    if ($li) {
-      const { id } = $li.dataset;
-      push(`/documents/${id}`);
-    }
-    if ($button) {
-      const { id } = $button.dataset;
-      const className = $button.getAttribute("class");
+    if ($i) {
+      const { id } = $i.dataset;
+      const className = $i.classList.item(2);
       if (className === "plus") {
         onPlus(id);
-      } else if (className === "rootplus") {
-        onRootPlus(id);
       } else if (className === "remove") {
         onRemove(id);
+      }
+    } else if ($div) {
+      const { id } = $div.dataset;
+      // by 민형, id가 no-router가 아니라면 경로 이동 아니면 페이지 추가 evnet_221114
+      if (id !== "no-router") {
+        push(`/documents/${id}`);
+      } else {
+        const className = $div.classList.item(1);
+        if (className === "rootplus") onRootPlus(className);
       }
     }
   });
