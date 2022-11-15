@@ -5,6 +5,7 @@ import { push } from "../utils/router.js";
 
 export default function PostsPage({ $target }) {
   const $page = document.createElement("div");
+  $page.setAttribute("class", "posts-page");
 
   const postList = new PostList({
     $target: $page,
@@ -42,7 +43,7 @@ export default function PostsPage({ $target }) {
     this.render();
   };
 
-  this.render = async () => {
-    $target.appendChild($page);
+  this.render = () => {
+    $target.prepend($page);
   };
 }

@@ -1,7 +1,6 @@
 import { request } from "../utils/api.js";
 import Editor from "../components/Editor.js";
 import { getItem, removeItem, setItem } from "../utils/storage.js";
-import LinkButton from "../components/LinkButton.js";
 
 export default function PostEditPage({ $target, initialState }) {
   const $page = document.createElement("div");
@@ -34,6 +33,12 @@ export default function PostEditPage({ $target, initialState }) {
           method: "PUT",
           body: JSON.stringify(post),
         });
+
+        const prevPost = this.state.post;
+        if (prevPost.title !== post.title) {
+          window.dispatchEvent(new CustomEvent("title-change"));
+        }
+
         removeItem(postLocalSaveKey);
       }, 1000);
     },
@@ -90,7 +95,6 @@ export default function PostEditPage({ $target, initialState }) {
       this.state = nextState;
 
       if (this.state.postId === "new") {
-        console.log("new?");
         const post = getItem(postLocalSaveKey, {
           title: "",
           content: "",
@@ -112,7 +116,7 @@ export default function PostEditPage({ $target, initialState }) {
     );
   };
 
-  this.render = async () => {
+  this.render = () => {
     $target.appendChild($page);
   };
 
