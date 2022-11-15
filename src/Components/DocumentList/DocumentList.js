@@ -1,5 +1,7 @@
 import { isConstructor } from '../../Helpers/checkError.js';
 import DocumentDetailedList from './DocumentDetailedList.js';
+import { documentUser } from './documentUser.js';
+import { newPageButton } from './newPageButton.js';
 
 export default function DocumentList({
   $target,
@@ -11,11 +13,20 @@ export default function DocumentList({
   setEditorEvent,
 }) {
   isConstructor(new.target);
-  const $documentList = document.createElement('div');
-  $documentList.id = 'documentList';
-  $target.appendChild($documentList);
+  $target.innerHTML = `
+        ${documentUser()}
+        <div class="overflow-y-scroll border-t border-b border-gray-400">
+          <div class="h-[80vh]">
+            <nav class="">
+              <ul class="m-0 my-1 p-0" id="documentList">
+              </ul>
+            </nav>
+          </div>
+        </div>
+        ${newPageButton()}
+  `;
   const documentDetailedList = new DocumentDetailedList({
-    $target: $documentList,
+    $target: $target.querySelector('#documentList'),
     initialState,
   });
 
@@ -31,7 +42,7 @@ export default function DocumentList({
     hideChildDocumentButton: ($target) => hideChildDocumentEvent({ $target }),
   };
 
-  $documentList.addEventListener('click', (e) => {
+  $target.addEventListener('click', (e) => {
     if (e.target.id) {
       setEvent?.[e.target.id](e.target);
     }

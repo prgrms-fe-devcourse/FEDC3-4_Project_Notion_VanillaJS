@@ -9,7 +9,7 @@ import {
 import DocumentList from '../DocumentList/DocumentList.js';
 import DocumentDetailedList from '../DocumentList/DocumentDetailedList.js';
 import DocumentEditor from '../DocumentEditor/DocumentEditor.js';
-import { documentItem } from '../DocumentList/DocumentItem.js';
+import { documentItem } from '../DocumentList/documentItem.js';
 import { init, routeChange } from '../../Helpers/router.js';
 import {
   getLocalStorage,
@@ -19,16 +19,28 @@ import {
 
 export default function App({ $target }) {
   isConstructor(new.target);
+  $target.innerHTML = `
+  <aside class="relative w-80 bg-gray-300 text-sm text-gray-800">
+    <div>사이드리스트</div>
+  </aside>
+  <main class="">
+    <div>에디터</div>
+  </main>
+  `;
 
   let isSaveApi = false;
 
+  const $aside = $target.querySelector('aside');
+  const $main = $target.querySelector('main');
+  console.log($aside, $main);
+
   new DocumentList({
-    $target,
+    $target: $aside,
     initialState: getDocumentAll(),
     postDocumentEvent: async ({ $target }) => {
       const id = $target.closest('[data-id]').dataset.id;
       const $parant = $target.closest('[data-id]');
-      const $detailList = $parant.children[4];
+      const $detailList = $parant.children[1];
       postDocument({
         title: '새로운 글 생성',
         parent: id,
@@ -65,7 +77,7 @@ export default function App({ $target }) {
 
     hideChildDocumentEvent: async ({ $target }) => {
       const $parant = $target.closest('[data-id]');
-      const $detailList = $parant.children[4];
+      const $detailList = $parant.children[1];
       $parant.removeChild($detailList);
       $target.id = 'showChildDocumentButton';
       $target.innerText = '🔽';
@@ -81,7 +93,7 @@ export default function App({ $target }) {
   });
 
   const documentEditor = new DocumentEditor({
-    $target,
+    $target: $main,
     initialState: {
       id: 'Root',
       title: '여기에 입력하세요',

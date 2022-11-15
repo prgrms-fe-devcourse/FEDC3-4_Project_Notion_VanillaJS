@@ -1,9 +1,9 @@
-import { isConstructor } from "../../Helpers/checkError.js";
-import { documentItem } from "./DocumentItem.js";
+import { isConstructor } from '../../Helpers/checkError.js';
+import { documentItem } from './documentItem.js';
 
 export default function DocumentDetailedList({ $target, initialState }) {
   isConstructor(new.target);
-  const $documentList = document.createElement("ul");
+  const $documentList = document.createElement('ul');
   $target.appendChild($documentList);
 
   this.state = initialState;
@@ -15,7 +15,7 @@ export default function DocumentDetailedList({ $target, initialState }) {
 
   this.render = async () => {
     const documentList = await this.state;
-    $documentList.innerHTML = `${documentList.map(documentItem).join("")}`;
+    $documentList.innerHTML = `${documentList.map(documentItem).join('')}`;
   };
 
   this.render();
