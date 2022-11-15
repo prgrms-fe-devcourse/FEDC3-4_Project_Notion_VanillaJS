@@ -40,7 +40,7 @@ export default function App({ $target, initialState }) {
 				content,
 				documents: subDocuments,
 			} = await getContentOfDocument(id);
-			console.log(subDocuments);
+
 			post.focus();
 			post.setState({
 				id,

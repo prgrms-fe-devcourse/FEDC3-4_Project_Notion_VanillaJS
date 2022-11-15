@@ -48,8 +48,9 @@ export default function DocumentList({
 
 	$documentList.addEventListener('click', async (event) => {
 		event.stopPropagation();
-
+		
 		const { target } = event;
+		if (['document-list', 'document-list__root', 'document-item-container', 'no-sub-document'].includes(target.className)) return;
 		const { action } = target.dataset;
 		const { id, currentPath } = target.closest('[data-id]').dataset;
 
