@@ -1,14 +1,17 @@
-import { request } from "../utils/api.js";
 import { push } from "../utils/router.js";
 
-export default function PostList({ $target, initialState, onDelete }) {
+export default function PostList({
+  $target,
+  initialState,
+  onCreate,
+  onDelete,
+}) {
   const $postList = document.createElement("div");
   $target.appendChild($postList);
 
   this.state = initialState;
 
   this.setState = (nextState) => {
-    console.log(nextState);
     this.state = nextState;
     this.render();
   };
@@ -22,6 +25,7 @@ export default function PostList({ $target, initialState, onDelete }) {
       $li.setAttribute("data-id", post.id);
       $li.innerHTML = `
         ${post.title ? post.title : "제목 없음"}
+        <button class="post-create">+</button>
         <button class="post-delete">x</button>
       `;
 
@@ -46,9 +50,11 @@ export default function PostList({ $target, initialState, onDelete }) {
       const { className } = e.target;
       if (className === "post-delete") {
         onDelete(id);
-        return;
+      } else if (className === "post-create") {
+        onCreate(id);
+      } else {
+        push(`/posts/${id}`);
       }
-      push(`/posts/${id}`);
     }
   });
 }

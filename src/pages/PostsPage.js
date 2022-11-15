@@ -1,6 +1,7 @@
 import { request } from "../utils/api.js";
 import PostList from "../components/PostList.js";
 import LinkButton from "../components/LinkButton.js";
+import { push } from "../utils/router.js";
 
 export default function PostsPage({ $target }) {
   const $page = document.createElement("div");
@@ -8,6 +9,17 @@ export default function PostsPage({ $target }) {
   const postList = new PostList({
     $target: $page,
     initialState: [],
+    onCreate: async (parent) => {
+      const createdPost = await request(`/documents`, {
+        method: "POST",
+        body: JSON.stringify({
+          title: "제목 없음",
+          parent,
+        }),
+      });
+      this.setState();
+      push(`/posts/${createdPost.id}`);
+    },
     onDelete: async (id) => {
       await request(`/documents/${id}`, {
         method: "DELETE",
