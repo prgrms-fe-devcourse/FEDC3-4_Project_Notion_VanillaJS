@@ -87,11 +87,15 @@
 						}
 					}
 				}
-			}
 
-			.child-ul {
-				margin: 6px 0;
-				padding-left: 24px;
+				.child-ul {
+					padding: 8px 4px;
+					padding-left: 24px;
+				}
+
+				.hide {
+					display: none;
+				}
 			}
 		}
 

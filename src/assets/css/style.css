@@ -73,9 +73,12 @@
 .global-container .post-list-container ul .post-list .list-flex:hover .delete-create-btn-container button:hover {
   background-color: rgb(209, 209, 209);
 }
-.global-container .post-list-container ul .child-ul {
-  margin: 6px 0;
+.global-container .post-list-container ul .post-list .child-ul {
+  padding: 8px 4px;
   padding-left: 24px;
+}
+.global-container .post-list-container ul .post-list .hide {
+  display: none;
 }
 .global-container .post-list-container .create-post-btn-container {
   padding: 1rem 0;
