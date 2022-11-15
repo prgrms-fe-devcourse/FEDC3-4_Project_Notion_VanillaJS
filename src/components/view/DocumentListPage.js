@@ -21,7 +21,7 @@ export default function DocumentListPage({ $bodyPage, initialState }) {
       const res = await request(`/documents`, {
         method: "POST",
         body: JSON.stringify({
-          title: "",
+          title: "제목 없음",
           parent: id,
         }),
       });
@@ -55,7 +55,7 @@ export default function DocumentListPage({ $bodyPage, initialState }) {
       const res = await request(`/documents`, {
         method: "POST",
         body: JSON.stringify({
-          title: "",
+          title: "제목 없음",
           parent: id,
         }),
       });

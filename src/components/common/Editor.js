@@ -3,8 +3,8 @@ export default function Editor({ $editorPageTarget, initialState, onEditing }) {
 
   $editor.innerHTML = `
     <img name="icon" class="editor-icon" src="https://cdn-icons-png.flaticon.com/512/5968/5968292.png" />
-    <input type="text" name="title" class="editor-input" />
-    <textarea name="content" class="editor-textarea">안녕</textarea>
+    <input type="text" name="title" class="editor-input" placeholder="제목 없음" />
+    <textarea name="content" class="editor-textarea" placeholder="내용 없음"></textarea>
     <div name="editor-subdocuments" class="editor-subdocuments"></div>
     <div name="samelink" class="editor-same__link">
       <i class="fa-solid fa-link"></i>
@@ -43,13 +43,19 @@ export default function Editor({ $editorPageTarget, initialState, onEditing }) {
       // by 민형, index 페이지 일 경우_221113
       if (title === "not render") {
         indexRender("none");
+        // by 민형, 동일한 document가 있다는 text가 render 된 상태에서 삭제 누르면 text가 삭제 되도록(원래는 그대로 남아 있었음)_221115
+        document.querySelector(".editor-same__link").style.display = "none";
       } else {
         indexRender("block");
 
-        $editorPageTarget.querySelector("[name=title]").value =
-          title || "제목 없음";
-        $editorPageTarget.querySelector("[name=content]").value =
-          content || "내용 없음";
+        // by 민형, 처음 페이지를 추가했을 때 title을 제목 없음으로 넘겨주는데 "제목 없음"을 value로 설정하면 placeholder가 작동 안 함_221115
+        // "제목 없음" document로 왔을 때도 tile이 ""로 수정되어야 함, 수정되지 않으면 이전 document의 title이 render
+        if (title === "제목 없음") {
+          $editorPageTarget.querySelector("[name=title]").value = "";
+        } else {
+          $editorPageTarget.querySelector("[name=title]").value = title;
+        }
+        $editorPageTarget.querySelector("[name=content]").value = content;
 
         documents.forEach((doc) => {
           const $linkDiv = document.createElement("div");
@@ -81,10 +87,13 @@ export default function Editor({ $editorPageTarget, initialState, onEditing }) {
     .querySelector("[name=title]")
     .addEventListener("keyup", (e) => {
       const newTitle = e.target.value;
-      if (newTitle) {
+      if (newTitle !== undefined) {
         document.querySelector(".editor-same__link").style.display = "none";
-
         if (this.editorState.documentTitleData.includes(newTitle)) {
+          document.querySelector(".editor-same__link").style.display = "flex";
+          document.querySelector(".editor-same__link i").style.display =
+            "block";
+
           const coinCildeIndex =
             this.editorState.documentTitleData.indexOf(newTitle);
           const coinCildeId = this.editorState.documentIdData[coinCildeIndex];
@@ -94,11 +103,13 @@ export default function Editor({ $editorPageTarget, initialState, onEditing }) {
           $editorPageTarget.querySelector(
             "[name=documentlink]"
           ).textContent = `기존 "${newTitle}" document가 있으니 해당 text 클릭을 통해 이동 부탁드립니다!`;
-          document.querySelector(".editor-same__link").style.display = "block";
         }
 
         const nextState = {
-          editorData: { ...this.editorState.editorData, title: newTitle },
+          editorData: {
+            ...this.editorState.editorData,
+            title: newTitle || "제목 없음",
+          },
           documentIdData: this.editorState.documentIdData,
           documentTitleData: this.editorState.documentTitleData,
         };
@@ -111,7 +122,7 @@ export default function Editor({ $editorPageTarget, initialState, onEditing }) {
     .querySelector("[name=content]")
     .addEventListener("keyup", (e) => {
       const newContent = e.target.value;
-      if (newContent) {
+      if (newContent !== undefined) {
         const nextState = {
           editorData: { ...this.editorState.editorData, content: newContent },
           documentIdData: this.editorState.documentIdData,
