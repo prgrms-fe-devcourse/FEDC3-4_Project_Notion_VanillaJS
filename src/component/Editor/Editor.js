@@ -10,7 +10,6 @@ export default function Editor({ $target, initialState, onEditing }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
-    console.log(this.state);
     $('[name=title]', $editor).value = this.state.title;
     $('[name=content]', $editor).value = this.state.content;
   };
@@ -35,7 +34,6 @@ export default function Editor({ $target, initialState, onEditing }) {
   };
 
   this.render = () => {
-    console.log(this.state);
     $editor.innerHTML = editorContent(this.state.title, this.state.content);
   };
 

@@ -8,13 +8,9 @@ export default function EditorContainer({ $target, initialState }) {
 
   this.state = initialState;
 
-  console.log(this.state);
   this.setState = (nextState) => {
-    console.log(nextState);
-    if (this.state.id !== undefined) {
-      this.state = nextState;
-      editor.setState(this.state);
-    }
+    this.state = nextState;
+    editor.setState(this.state);
   };
 
   // 쓰로틀링 사용
@@ -23,7 +19,6 @@ export default function EditorContainer({ $target, initialState }) {
     $target: $editorContainer,
     initialState: this.state,
     onEditing: (state) => {
-      console.log(state);
       const { id, title, content } = state;
       this.setState(state);
       if (timer !== null) {

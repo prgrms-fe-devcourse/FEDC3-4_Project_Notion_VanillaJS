@@ -2,6 +2,7 @@ import { request } from './api/request.js';
 import EditorContainer from './component/Editor/EditorContainer.js';
 import ModalContainer from './component/Modal/ModalContainer.js';
 import SideBarContainer from './component/SideBar/SideBarContainer.js';
+import { initRouter } from './lib/router.js';
 // import { $ } from './lib/utils.js';
 
 export default function App({ $target }) {
@@ -34,6 +35,7 @@ export default function App({ $target }) {
     });
   };
 
+  // Container
   const sidebarContainer = new SideBarContainer({
     $target,
     initialState: {},
@@ -107,4 +109,29 @@ export default function App({ $target }) {
   });
 
   getData();
+
+  // router
+
+  this.route = async () => {
+    const { pathname } = window.location;
+
+    if (pathname.indexOf('/documents/') === 0) {
+      const [, , documentId] = pathname.split('/');
+
+      if (documentId) {
+        const data = await request(`/documents/${documentId}`, {
+          method: 'GET',
+        });
+        this.setState({
+          ...this.state,
+          id: data.id,
+          title: data.title,
+          content: data.content,
+        });
+      }
+    }
+  };
+
+  this.route();
+  initRouter(() => this.route());
 }

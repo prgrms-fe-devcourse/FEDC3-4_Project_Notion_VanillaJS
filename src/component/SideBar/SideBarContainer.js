@@ -1,5 +1,6 @@
 import { request } from '../../api/request.js';
 import { USER_NAME } from '../../lib/constants.js';
+import { push } from '../../lib/router.js';
 import { $, showModal } from '../../lib/utils.js';
 
 import Footer from './Footer.js';
@@ -49,6 +50,7 @@ export default function SideBarContainer({
       await getData();
     },
     requestDocumentDetail: async (id) => {
+      push(`/documents/${id}`);
       const documentDetail = await request(`/documents/${id}`, {
         method: 'GET',
       });
