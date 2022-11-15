@@ -9,10 +9,7 @@ export default function EditorPage({ $target, initialState }) {
       this.state = nextState;
       const post = await request(`/documents/${this.state.documentId}`);
       editor.setState(post);
-      return;
     }
-    this.state = nextState;
-    editor.setState(this.state.post || { title: '', content: '' });
   };
 
   let timer = null;
