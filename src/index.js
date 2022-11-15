@@ -1,14 +1,11 @@
-import request from './api/index.js';
 import App from './components/App.js';
 
 const $target = document.querySelector('#app');
 
-new App({ $target });
+// console.log('init render');
 
-async function getRequestTest() {
-  const temp = await request('documents');
-
-  console.log(temp);
+try {
+  new App($target);
+} catch (error) {
+  console.error(error);
 }
-
-getRequestTest();

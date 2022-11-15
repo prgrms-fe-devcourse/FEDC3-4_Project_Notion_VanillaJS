@@ -14,6 +14,25 @@ main {
   border: 1px solid black;
 }
 
+/* .sidebar-body {
+  padding-left: 15px;
+} */
+
+/* .sidebar-body-blank {
+  padding-left: 10px;
+} */
+
+.sidebar-list-title {
+  /* border: 1px solid red; */
+  padding: 7px 0;
+  padding-left: 15px;
+}
+
+.sidebar-list-title:hover {
+  background-color: #eee;
+  border-radius: 5px;
+}
+
 /* posts area*/
 
 .post-container {

@@ -1,30 +1,59 @@
+import request from '../api/index.js';
+
 import PostPage from './posts/PostPage.js';
 import SidebarPage from './sidebar/SidebarPage.js';
 
 class App {
-  constructor({ $target }) {
+  constructor($target) {
     this.$target = $target;
-    this.$main = document.createElement('main');
-    this.state = {};
-    this.isMount = false;
 
-    this.render();
-    $target.appendChild(this.$main);
+    this.state = {
+      allList: [],
+      currentList: {
+        id: '',
+        title: '',
+        content: '',
+        documents: [],
+      },
+    };
+
+    this.initialization();
+
+    this.postPage = new PostPage(this.$target, {
+      documentListData: this.state.currentList,
+    });
+    this.sidebarPage = new SidebarPage(this.$target, {
+      documentsListData: this.state.allList,
+
+      onParentSetState: data => {
+        const { id, title, content, documents } = data;
+
+        this.setState({
+          allList: [...this.state.allList],
+          currentList: { id, title, content, documents },
+        });
+      },
+    });
   }
 
   setState(nextState) {
     this.state = nextState;
 
-    this.render();
+    this.postPage.setState(this.state.currentList);
+    this.sidebarPage.setState(this.state.allList);
   }
 
-  render() {
-    if (!this.isMount) {
-      this.isMount = true;
+  async readAllDoucmentList() {
+    const data = await request('documents');
 
-      new SidebarPage({ $target: this.$main });
-      new PostPage({ $target: this.$main });
-    }
+    this.setState({
+      ...this.state,
+      allList: data,
+    });
+  }
+
+  async initialization() {
+    await this.readAllDoucmentList();
   }
 }
 
