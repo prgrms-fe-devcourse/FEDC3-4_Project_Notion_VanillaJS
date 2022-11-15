@@ -3,7 +3,7 @@ import { BASE_INIT_USERNAME } from '../../constants.js';
 export const documentUser = (userId) => {
   return `
   <div>
-    <div class="flex items-center justify-between p-3 hover:bg-gray-400" id="userNameButton">
+    <div class="flex items-center justify-between p-3 hover:bg-gray-400" data-event="userNameButton">
       <div class="mr-2 flex items-center justify-between">
         <span
           class="mr-1 inline-flex h-5 w-5 items-center justify-center rounded bg-gray-600 text-sm text-white"
