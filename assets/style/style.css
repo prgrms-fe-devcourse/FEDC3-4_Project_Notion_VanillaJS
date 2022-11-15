@@ -1,5 +1,11 @@
 /* App */
 
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
 ul {
   padding: 0;
   margin: 0;
@@ -30,6 +36,7 @@ button:hover {
 
 #app {
   display: flex;
+  height: 100%;
 }
 
 .hidden {
@@ -56,11 +63,28 @@ button:hover {
 
 /* Sidebar */
 
+.sidebar .document-title {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.sidebar .document-title :hover {
+  max-width: 90%;
+}
+
+.document-button-group {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
 .sidebar .documents-header {
   font-size: 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 }
 
 .documents-header h1 {
@@ -70,9 +94,14 @@ button:hover {
 }
 
 .sidebar {
-  width: 20%;
+  min-width: 300px;
+  width: 300px;
+  max-width: 30vw;
   padding: 0.5rem;
   flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 ul.document-list {
@@ -189,4 +218,12 @@ textarea {
   box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
 
   transform: translateX(-50%) translateY(-50%);
+}
+
+.resizer {
+  width: 1px;
+  background-color: rgb(200, 200, 200);
+  height: 100%;
+  cursor: col-resize;
+  margin-left: 0.5rem;
 }

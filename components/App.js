@@ -5,6 +5,8 @@ import { request } from "../util/api.js";
 import DocumentList from "./DocumentList.js";
 import Editor from "./Editor.js";
 import Modal from "./Modal.js";
+import Resizer from "./Resizer.js";
+import { SIDEBAR_WIDTH } from "../util/constants.js";
 
 const SAVE_NOW_KEYS = ['Enter', '.', 'Tab', undefined];
 
@@ -53,6 +55,11 @@ export default function App({ $app }) {
       deleteDocument(Number(id))
     }
   });
+
+  new Resizer({
+    $target: sidebar.getElement(),
+    storageKey: SIDEBAR_WIDTH
+  })
 
   let editorKeyupTimeoutId = null;
 
