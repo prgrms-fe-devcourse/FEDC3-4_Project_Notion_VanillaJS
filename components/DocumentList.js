@@ -18,7 +18,7 @@ export default function DocumentList({ $target, initialState, onDocumentClick, o
   this.opendSubDocuments = getStorageItem('opendSubDocuments', [])
 
   this.setState = (nextState) => {
-    this.state = [...nextState];
+    this.state = { ...nextState };
     this.render();
   }
 
@@ -49,7 +49,7 @@ export default function DocumentList({ $target, initialState, onDocumentClick, o
     // TODO: 공통함수로 분리할 수 있는지 확인
     if (className.includes(ADD_SUB_DOCUMENT_BUTTON)) {
       if ($ul && $ul.classList.contains('close')) {
-        openSubDocuments($ul, $li, id) 
+        openSubDocuments($ul, $li, id)
       } else {
         const $button = $li.querySelector(`.${DROPDOWN_DOCUMENTS_BUTTON}`)
         $button.classList.remove('hidden');
@@ -90,7 +90,8 @@ export default function DocumentList({ $target, initialState, onDocumentClick, o
 
   this.render = () => {
     template = `<ul class="document-list">`;
-    renderDocuments(this.state);
+    const { documents } = this.state;
+    renderDocuments(documents);
     template += `</ul>`
     $element.innerHTML = template;
   }
@@ -100,26 +101,25 @@ export default function DocumentList({ $target, initialState, onDocumentClick, o
       const isOpen = this.opendSubDocuments.includes(id);
       template += `
         <li data-id="${id}">
-          <div class="${DOCUMENT_ITEM}" style="padding-left: ${depth * 20}px">
+          <div class="${DOCUMENT_ITEM} ${id === this.state.selectedDocument.id ? 'selected' : ''}" style="padding-left: ${depth * 20 + 3}px">
             <div class="${DOCUMENT_TITLE}">
               <span class="icon ${DROPDOWN_DOCUMENTS_BUTTON}${isOpen ? ' rotate-90' : ''}"></span>
-              ${title.trim()  === '' ? 'Untitled' : title}
+              ${title.trim() === '' ? 'Untitled' : title}
             </div>
             <div class="${DOCUMENT_BUTTON_GROUP} hidden">
               <span class="icon ${REMOVE_DOCUMENT_BUTTON}"></span>
               <span class="icon ${ADD_SUB_DOCUMENT_BUTTON}"></span>
             </div>
           </div>
-        `
+        `;
 
-        template += `<ul class="document-list ${isOpen ? 'open' : 'close'}">`;
-        if (documents.length > 0) {
-          renderDocuments(documents, depth + 1);
-        } else {
-          template += `<li class="${NO_SUB_DOCUMENTS}" style="padding-left: ${depth * 20 + 20}px; font-size:0.9rem; color: rgb(100, 100, 100);">No Sub Docmuents</li>`
-        }
-        template += `</ul>`;
-
+      template += `<ul class="document-list ${isOpen ? 'open' : 'close'}">`;
+      if (documents.length > 0) {
+        renderDocuments(documents, depth + 1);
+      } else {
+        template += `<li class="${NO_SUB_DOCUMENTS}" style="padding-left: ${depth * 20 + 20}px; font-size:0.9rem; color: rgb(100, 100, 100);">No Sub Docmuents</li>`
+      }
+      template += `</ul>`;
       template += `</li>`;
     }
   }

@@ -26,7 +26,7 @@ export default function App({ $app }) {
     // TODO: Validate
     this.state = { ...nextState };
     const { documents, selectedDocument } = this.state;
-    documentList.setState(documents);
+    documentList.setState({ documents, selectedDocument });
     editor.setState(selectedDocument);
   }
 
@@ -67,7 +67,7 @@ export default function App({ $app }) {
       }
 
       editorKeyupTimeoutId = setTimeout(() => {
-        
+
         const { id } = this.state.selectedDocument
         updateDocument(id, document);
         getDocuments();
@@ -119,8 +119,8 @@ export default function App({ $app }) {
   }
 
   const createNetworkErrorModal = () => {
-    new Modal({ 
-      $target: $app, 
+    new Modal({
+      $target: $app,
       className: NETWORK_ERROR_MODAL,
       text: '네트워크 연결이 해제되었습니다. 네트워크 상태를 확인해주세요!'
     });
@@ -129,7 +129,7 @@ export default function App({ $app }) {
   window.addEventListener("offline", (e) => {
     createNetworkErrorModal();
   });
-  
+
   window.addEventListener("online", (e) => {
     const $modal = $app.querySelector(`.${NETWORK_ERROR_MODAL}`)
     if ($modal) $app.removeChild($modal);

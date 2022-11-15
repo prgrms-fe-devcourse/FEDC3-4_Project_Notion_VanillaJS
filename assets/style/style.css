@@ -96,7 +96,11 @@ ul.document-list {
 }
 
 .document-item:hover {
-  background-color: #eee;
+  background-color: rgb(240, 240, 240);
+}
+
+.document-item.selected {
+  background-color: rgb(230, 230, 230);
 }
 
 .dropdown-documents-button {
