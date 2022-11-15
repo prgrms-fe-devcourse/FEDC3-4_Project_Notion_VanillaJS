@@ -23,7 +23,7 @@ function DocumentNode({ $target, initialState, onClick, onSelect }) {
             $li.className = "node-item";
             $li.innerHTML = `
             ${title}${id}
-            <button class="add-button" data-parent-id="${id}">☑️</button>
+            <button class="add-button" data-parent-id="${id}">+</button>
             `;
 
             if (documents.length > 0) {

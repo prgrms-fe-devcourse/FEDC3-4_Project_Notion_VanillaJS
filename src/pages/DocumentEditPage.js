@@ -1,6 +1,6 @@
 import DocumentEditor from "../components/DocumentEditor.js";
 import DocumentTree from "../components/DocumentTree.js";
-import { getDocumentDetail } from "../utils/fetchData.js";
+import { getDocumentDetail, updateDocument } from "../utils/fetchData.js";
 import { handleLocationChange } from "../utils/router.js";
 
 function DocumentEditPage({ $target }) {
@@ -17,14 +17,6 @@ function DocumentEditPage({ $target }) {
   $editor.className = "document-editor";
   $editPage.appendChild($editor);
 
-  // this.state = {
-  //   data: {},
-  // };
-
-  // this.setState = (nextState) => {
-  //   this.state = nextState;
-  // };
-
   this.route = () => {
     const { pathname } = window.location;
     const [, , documentId] = pathname.split("/");
@@ -39,9 +31,21 @@ function DocumentEditPage({ $target }) {
         initialState: {
           data: {},
         },
+        onChange: (newTitle, newContent) => {
+          updateDocument(documentId, {
+            title: newTitle,
+            content: newContent,
+          });
+
+          this.getData(documentId);
+        },
       });
     }
   };
+
+  // this.updateData = async (documentId, newData) => {
+  //   const data = await updateDocument(documentId, newData);
+  // };
 
   this.getData = async (documentId) => {
     const data = await getDocumentDetail(documentId);

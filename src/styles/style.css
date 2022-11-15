@@ -22,15 +22,33 @@
 
 .node-item {
   list-style: none;
-  padding-top: 6px;
+  margin-top: 6px;
   cursor: pointer;
 }
 
 .add-button {
   all: unset;
+  color: gray;
+  background-color: lightblue;
+  width: 12px;
+  padding: 0 3px;
+  border-radius: 4px;
 }
 
-.text-editor {
-  width: 500px;
-  height: 1200px;
+.editor-text {
+  width: 100vw;
+  height: 100vh;
+}
+
+.document-editor {
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-document-title {
+  height: 50px;
+  font-size: x-large;
+  font-weight: bold;
+  padding-left: 10px;
+  border: none;
 }

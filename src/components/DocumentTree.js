@@ -26,10 +26,18 @@ function DocumentTree({ $target, initialState }) {
       initialState: { data: this.state.data },
       onClick: (parentId) => {
         const title = prompt("새로운 문서의 제목을 입력해주세요");
+
+        if (title === null) return;
+        if (!title.trim()) {
+          alert("올바른 제목을 입력해주세요.");
+          return;
+        }
+
         const data = {
-          title,
+          title: title.trim(),
           parent: parentId,
         };
+
         createNewDocument(data);
       },
       onSelect: (documentId) => {
