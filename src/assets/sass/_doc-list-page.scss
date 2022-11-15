@@ -59,7 +59,7 @@
 
       .title {
         display: inline-block;
-        width: 160px;
+        max-width: 160px;
         position: relative;
         overflow: hidden;
         white-space: nowrap;
@@ -116,16 +116,14 @@
     }
   }
 
-  li.list-item:hover {
+  li.list-item > .container:hover {
+    background-color: rgba(var(--color-primary-rgb), 0.4);
 
-    > .container {
-      background-color: rgba(var(--color-primary-rgb), 0.4);
-
-      .btn-container {
-        display: inline-block;
-      }
+    .btn-container {
+      display: inline-block;
     }
   }
+  
 
   li.list-item.on > .container{
     background-color: var(--color-primary);
