@@ -67,6 +67,8 @@ SIDEBAR_PAGE
   height: 45px;
   width: 100%;
   cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 8px;
 }
 
 #sidebar-header:hover {
@@ -108,7 +110,7 @@ SIDEBAR_PAGE
 
 /* Documents */
 #sidebar-list-container {
-  padding: 6px 5px 20px 0;
+  padding: 15px 5px 20px 0;
   box-shadow: var(--box-shadow-inset);
   overflow: hidden auto;
   display: flex;
