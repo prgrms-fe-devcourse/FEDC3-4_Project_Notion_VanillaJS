@@ -33,24 +33,15 @@
 - [x] Router 주소를 기존에서 "base_url/[username]" 과 문서 클릭시 "base_url/[username]/documents/[id]"로 변경
 - [x] [username]을 location에서 가져와서 api 및 에디터에 로드
 - [x] [username]을 변경하여 다른 유저의 리스트와 에디터 수정 가능
-
-## 진행 예정 (화)
-
-- [ ] constant.js를 좀 더 상세히 분리
-- [ ] checkError.js를 좀 더 상세히 분리
-- [ ] debounce.js에 디바운스 기능 분리
-- [ ] 의식의 흐름대로 작성한 코드 전체 리팩토링
+- [x] constant.js를 좀 더 상세히 분리
+- [x] checkError.js를 좀 더 상세히 분리
+- [x] debounce.js에 디바운스 기능 분리
+- [x] 의식의 흐름대로 작성한 코드 전체 리팩토링
+- [x] 각종 에러상황에 대한 에러체크 및 기능조정
 
 ## 진행 예정 (수)
 
 - [ ] 에디터의 CSS 변경
 - [ ] CSS를 노션과 조금 더 유사한 형태로 변경
-- [ ] 각종 에러상황에 대한 에러체크 및 기능조정
 
 ![제목없음 (2)](https://user-images.githubusercontent.com/97251710/200494997-0cec547b-d98a-47bd-a109-8b25a9dcac9d.png)
-
-기능이 모두 연결된 베이스 페이지 (without CSS)
-![chrome_i1MJFxMLeD](https://user-images.githubusercontent.com/97251710/201684438-efa7335d-cbb4-42c3-9146-e6b1dba9a3b5.png)
-
-마크업이 끝난 노션페이지 (TailwindCSS)
-![chrome_fOxncKNsfx](https://user-images.githubusercontent.com/97251710/201684559-ffe3c1d2-729e-4426-a87f-e647c05fc286.png)
