@@ -45,7 +45,7 @@ export default function DocumentList({
   };
 
   const setEvent = {
-    title: ($target) => setEditorEvent({ $target }),
+    setDocumentButton: ($target) => setEditorEvent({ $target }),
     postDocumentButton: ($target) => postDocumentEvent({ $target }),
     deleteDocumentButton: ($target) => deleteDocumentEvent({ $target }),
     showChildDocumentButton: ($target) => showChildDocumentEvent({ $target }),
@@ -55,9 +55,8 @@ export default function DocumentList({
   };
 
   $target.addEventListener('click', (e) => {
-    console.log(e.target);
-    if (e.target.id) {
-      setEvent?.[e.target.id](e.target);
+    if (e.target.dataset.event) {
+      setEvent[e.target.dataset.event](e.target);
     }
   });
 

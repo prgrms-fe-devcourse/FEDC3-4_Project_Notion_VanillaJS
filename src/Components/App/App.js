@@ -41,11 +41,9 @@ export default function App({ $app }) {
 
   const $aside = $app.querySelector('aside');
   const $main = $app.querySelector('main');
-
   const documentList = new DocumentList({
     $target: $aside,
     initialState: getDocumentAll(),
-
     postDocumentEvent: async ({ $target }) => {
       const $parant = $target.closest('[data-id]');
       const $childList = $parant.children[1];
@@ -54,7 +52,6 @@ export default function App({ $app }) {
         title: NEW_TITLE,
         parent: id,
       });
-
       if ($childList) {
         $childList.insertAdjacentHTML(
           'beforeend',
@@ -121,7 +118,6 @@ export default function App({ $app }) {
       const { id, title } = await postDocument({
         title: NEW_TITLE,
       });
-
       $documentList.insertAdjacentHTML(
         'beforeend',
         documentItem({
@@ -129,14 +125,12 @@ export default function App({ $app }) {
           title,
         })
       );
-
       routeChange(`/${userId}/documents/${res.id}`);
     },
   });
 
   this.route = async () => {
     const [, userId, document, documentId] = location.pathname.split('/');
-
     if (!userId) {
       initLocalStorage(BASE_INIT_USERNAME);
       routeChange(`/${BASE_INIT_USERNAME}`);
@@ -146,7 +140,6 @@ export default function App({ $app }) {
       isString(userId);
       isNumber(documentId);
       checkDocumentPath(document);
-
       const documentEditor = new DocumentEditor({
         $target: $main,
         initialState: {
@@ -154,7 +147,6 @@ export default function App({ $app }) {
           title: NEW_TITLE,
           content: NEW_CONTENT,
         },
-
         saveApi: async ({ $target }) => {
           const $editor = $target.closest('[data-id]');
           const id = $editor.dataset.id;
@@ -165,7 +157,6 @@ export default function App({ $app }) {
             title,
             content,
           });
-
           const $documentItem = $app.querySelector(`[data-id="${id}"] SPAN`);
           $documentItem.innerHTML = title;
           removeLocalStorage(id);
@@ -187,22 +178,23 @@ export default function App({ $app }) {
         },
       });
 
-      const apiData = await getDocumentById({ id: documentId });
-      const localData = getLocalStorage(documentId);
-      documentEditor.setState(apiData);
-
-      if (localData?.tempUpdateAt > apiData.updatedAt) {
-        const changeApiDataToLocalData = confirm(CHANGE_API_DATA_TO_LOCAL_DATA);
-        if (changeApiDataToLocalData) {
-          putDocument({
-            id: documentId,
-            title: localData.title,
-            content: localData.content,
-          });
+      (async function compareApiDataAndLocalData() {
+        const apiData = await getDocumentById({ id: documentId });
+        const localData = getLocalStorage(documentId);
+        documentEditor.setState(apiData);
+        if (localData?.tempUpdateAt > apiData.updatedAt) {
+          const changeApiDataToLocalData = confirm(CHANGE_API_DATA_TO_LOCAL_DATA);
+          if (changeApiDataToLocalData) {
+            putDocument({
+              id: documentId,
+              title: localData.title,
+              content: localData.content,
+            });
+          }
+          removeLocalStorage(documentId);
+          location.reload();
         }
-        removeLocalStorage(documentId);
-        location.reload();
-      }
+      })();
     }
   };
 

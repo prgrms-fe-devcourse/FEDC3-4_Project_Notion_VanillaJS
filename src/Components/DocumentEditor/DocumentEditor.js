@@ -16,22 +16,22 @@ export default function DocumentEditor({ $target, initialState, saveApi, saveLoc
     <div data-id="${this.state.id}" class="p-6">
       <div id="editorTitle" contenteditable="true">${this.state.title}</div>
       <div id="editorMenu">
-        <button id="bold">
+        <button class="w-12" data-event="bold">
             <b>B</b>
         </button>
-        <button id="italic">
+        <button class="w-12" data-event="italic">
             <i>I</i>
         </button>
-        <button id="underline">
+        <button class="w-12" data-event="underline">
             <u>U</u>
         </button>
-        <button id="strikeThrough">
+        <button class="w-12" data-event="strikeThrough">
             <s>S</s>
         </button>
-        <button id="insertOrderedList">
+        <button class="w-12" data-event="insertOrderedList">
             OL
         </button>
-        <button id="insertUnorderedList">
+        <button class="w-12" data-event="insertUnorderedList">
             UL
         </button>
       </div>
@@ -54,8 +54,9 @@ export default function DocumentEditor({ $target, initialState, saveApi, saveLoc
   });
 
   $target.addEventListener('click', (e) => {
-    if (e.target.closest('#editorMenu') && e.target.id) {
-      setStyle(e.target.id);
+    const event = e.target.closest(['button'])?.dataset.event;
+    if (event) {
+      setStyle(event);
     }
   });
 
