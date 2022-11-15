@@ -5,7 +5,7 @@ export default function Navi({ $target, initialState }) {
   const $navi = document.createElement("div");
   $navi.className = "Navi";
 
-  $navi.style = "width:95vh;";
+  $navi.style = "width:95%;";
 
   this.state = initialState;
 
@@ -36,19 +36,39 @@ export default function Navi({ $target, initialState }) {
       metohd: "GET",
     });
 
-    let test = "";
+    let postPath = "";
+    let postChildren = "";
     posts.forEach((item) => {
       const temp = DFS(item, postId);
       if (temp !== undefined) {
-        test = temp;
+        postPath = temp[0];
+        postChildren = temp[1];
       }
     });
-    $navi.innerHTML = `      
-      ${test
-        .map((item) => {
-          return `<span data-id="${item.curId}">${item.title}</span>`;
-        })
-        .join(" < ")}
+
+    $navi.innerHTML = `
+    <p> 파일 경로:          
+      ${
+        postPath.length !== 0
+          ? postPath
+              .map((item) => {
+                return `<span data-id="${item.id}">${item.title}</span>`;
+              })
+              .join(" < ")
+          : "상위 파일 없음"
+      }
+    </p>
+    <p> 하위 파일:
+        ${
+          postChildren.length !== 0
+            ? postChildren
+                .map((item) => {
+                  return `<span data-id="${item.id}">${item.title}</span>`;
+                })
+                .join(" / ")
+            : "하위 파일 없음"
+        }
+    </p>
     `;
   };
 
@@ -58,7 +78,7 @@ export default function Navi({ $target, initialState }) {
       node: start,
       path: [
         {
-          curId: start.id,
+          id: start.id,
           title: start.title,
         },
       ],
@@ -68,7 +88,8 @@ export default function Navi({ $target, initialState }) {
       const cur = stack.pop();
 
       if (cur.node.id === postId) {
-        return cur.path;
+        const children = cur.node.documents;
+        return [cur.path, children];
       }
 
       const docs = cur.node.documents;
@@ -76,7 +97,7 @@ export default function Navi({ $target, initialState }) {
       docs.forEach((e) => {
         const nextPath = [...cur.path];
         nextPath.push({
-          curId: e.id,
+          id: e.id,
           title: e.title,
         });
 
