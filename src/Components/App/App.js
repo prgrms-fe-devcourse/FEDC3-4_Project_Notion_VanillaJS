@@ -83,7 +83,7 @@ export default function App({ $app }) {
         $target: $parant,
         initialState: await initialState.documents,
       });
-      $target.id = 'hideChildDocumentButton';
+      $target.dataset.event = 'hideChildDocumentButton';
       $target.innerText = '🔼';
     },
 
@@ -91,7 +91,7 @@ export default function App({ $app }) {
       const $parant = $target.closest('[data-id]');
       const $childList = $parant.children[1];
       $parant.removeChild($childList);
-      $target.id = 'showChildDocumentButton';
+      $target.dataset.event = 'showChildDocumentButton';
       $target.innerText = '🔽';
     },
 
