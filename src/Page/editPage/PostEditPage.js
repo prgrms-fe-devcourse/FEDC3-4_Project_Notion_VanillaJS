@@ -1,7 +1,7 @@
-import { request } from "./api.js";
+import { request } from "../../utils/api.js";
 import Editor from "./Editor.js";
 import MarkUpList from "./MarkUpList.js";
-import { getItem, removeItem, setItem } from "./storage.js";
+import { getItem, removeItem, setItem } from "../../utils/storage.js";
 
 export default function PostEditPage({ $target, initialState, listUpdate }) {
   const $page = document.createElement("div");
@@ -11,22 +11,25 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
 
   let postLocalSaveKey = `temp-post-${this.state.postId}`;
 
-  const post = getItem(postLocalSaveKey, {
-    title: "",
-    content: "",
-  });
-
-  let timer = null;
-  let serveTimer = null;
-
   const editor = new Editor({
     $target: $page,
-    initialState: post,
+    initialState: {
+      title: "",
+      content: "",
+    },
     onEditing: (post) => {
       storageSave(post);
       serverSave(post);
     },
   });
+
+  const markupList = new MarkUpList({
+    $target: $page,
+    initialState: [],
+  });
+
+  let timer = null;
+  let serveTimer = null;
 
   const storageSave = (post) => {
     if (timer !== null) {
@@ -41,18 +44,13 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
     }, 500);
   };
 
-  const markupList = new MarkUpList({
-    $target: $page,
-    initialState: [],
-  });
-
   const serverSave = (post) => {
     if (serveTimer !== null) {
       clearTimeout(serveTimer);
     }
 
     serveTimer = setTimeout(async () => {
-      const newDoc = await request(`/documents/${post.id}`, {
+      await request(`/documents/${post.id}`, {
         method: "PUT",
         body: JSON.stringify(post),
       });
@@ -60,7 +58,7 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
       removeItem(postLocalSaveKey);
       listUpdate();
 
-      const data = await request(`/documents/${newDoc.id}`);
+      const data = await request(`/documents/${post.id}`);
       markupList.setState(data);
     }, 1000);
   };

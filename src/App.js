@@ -1,6 +1,6 @@
-import PostEditPage from "./PostEditPage.js";
-import PostPage from "./PostPage.js";
-import { initRouter } from "./router.js";
+import PostEditPage from "./Page/editPage/PostEditPage.js";
+import PostPage from "./Page/listPage/PostPage.js";
+import { initRouter } from "./utils/router.js";
 
 export default function App({ $target }) {
   const $postListContainer = document.createElement("div");

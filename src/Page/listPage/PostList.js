@@ -1,4 +1,4 @@
-import { push } from "./router.js";
+import { push } from "../../utils/router.js";
 
 export default function PostList({
   $target,
@@ -24,7 +24,6 @@ export default function PostList({
         .map(
           ({ id, title, documents }) => `
       <div class='documentsTree'>
-        
         <li data-id="${id}">
         <img class="svg" src="../icon/chevron-right-solid.svg" />
         ${title}
@@ -55,7 +54,7 @@ export default function PostList({
   $postList.addEventListener("click", (e) => {
     const $li = e.target.closest("li");
     const { name } = e.target;
-    const id = $li?.dataset.id ? $li.dataset.id : null;
+    const id = $li.dataset.id;
 
     if (name) {
       if (name === "remove") {
@@ -63,6 +62,7 @@ export default function PostList({
         return;
       } else {
         onAddDocument(id, name);
+        return;
       }
     }
 

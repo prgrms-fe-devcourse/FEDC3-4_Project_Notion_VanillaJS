@@ -1,4 +1,4 @@
-import { push } from "./router.js";
+import { push } from "../../utils/router.js";
 
 export default function MarkUpList({ $target, initialState }) {
   const $markUpList = document.createElement("div");
@@ -19,7 +19,6 @@ export default function MarkUpList({ $target, initialState }) {
         .map(
           ({ id, title, documents }) => `
       <div class='documentsTree'>
-      
         <li data-id="${id}">
         <img class="svg" src="../icon/chevron-right-solid.svg" />
         ${title}

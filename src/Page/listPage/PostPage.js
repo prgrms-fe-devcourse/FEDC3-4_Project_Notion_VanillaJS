@@ -1,6 +1,6 @@
 import PostList from "./PostList.js";
-import { request } from "./api.js";
-import { push } from "./router.js";
+import { request } from "../../utils/api.js";
+import { push } from "../../utils/router.js";
 import Header from "./Header.js";
 
 export default function PostPage({ $target, editUpdate }) {
@@ -25,8 +25,8 @@ export default function PostPage({ $target, editUpdate }) {
       history.pushState(null, null, "/");
       location.reload();
     },
-    onAddDocument: async (id, button) => {
-      if (button === "add") {
+    onAddDocument: async (id, name) => {
+      if (name === "add") {
         const document = {
           title: "new",
           parent: id,
