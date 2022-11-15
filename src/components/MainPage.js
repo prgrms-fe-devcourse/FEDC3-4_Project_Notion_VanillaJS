@@ -1,3 +1,5 @@
+import { clickRootAdd } from "../utils/router.js";
+
 export default function MainPage({ $target, initialState }) {
   const $mainPage = document.createElement("div");
   $mainPage.className = "main-page";
@@ -7,10 +9,18 @@ export default function MainPage({ $target, initialState }) {
   $mainPage.innerHTML = `
     <div class="main-page-container">
       <p>${this.state}님의 페이지 입니다.</p>
-      <p><strong><u>페이지를 추가</u></strong>하여 글을 작성하세요</p>
+      <p><strong style="cursor: pointer"><u>페이지를 추가</u></strong>하여 글을 작성하세요</p>
     </div>
   `;
   this.render = () => {
     $target.appendChild($mainPage);
   };
+
+  $mainPage.addEventListener("click", (e) => {
+    const { target } = e;
+    const $strong = target.closest("strong");
+    if ($strong) {
+      clickRootAdd();
+    }
+  });
 }
