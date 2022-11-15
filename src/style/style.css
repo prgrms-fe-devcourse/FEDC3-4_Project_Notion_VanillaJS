@@ -25,8 +25,16 @@ body {
   padding: 5px;
 }
 
+.home:hover {
+  background-color: rgba(80, 80, 80, 0.2);
+}
+
 .home i {
   margin-right: 10px;
+  background-color: blue;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 .list-container {
@@ -34,10 +42,7 @@ body {
   height: 100vh;
   background-color: #fbfbfa;
   border-right: 1px solid rgba(80, 80, 80, 0.1);
-}
-
-.list-container__lists {
-  margin-left: 10px;
+  padding-left: 10px;
 }
 
 .list-container__lists ul {
@@ -51,22 +56,23 @@ body {
   cursor: pointer;
   margin-bottom: 5px;
   margin-right: 10px;
-  font-size: 14px;
-  opacity: 0.5;
+  font-size: 15px;
   border-radius: 5px;
   padding: 5px;
 }
 
-.list-container__list li {
-  width: 50%;
+.select {
+  background-color: rgba(80, 80, 80, 0.2);
 }
 
-.list-container__list div {
-  width: 50px;
+.list-container__list li i:nth-child(2) {
+  color: green;
+  margin-right: 5px;
 }
 
 .list-container__list div i {
   opacity: 0;
+  transition: all 0.3s ease;
 }
 
 .list-container__list div i:first-child {
@@ -82,24 +88,32 @@ body {
 }
 
 .list-container__list:hover {
-  background-color: gray;
-}
-
-.home:hover {
-  background-color: rgba(80, 80, 80, 0.3);
+  background-color: rgba(80, 80, 80, 0.2);
 }
 
 .list-container__list:hover div i {
   opacity: 1;
 }
 
-.select {
-  background-color: gray;
+.list-container__list:hover div i:hover {
+  color: yellowgreen;
+}
+
+.list-container__lists--txt {
+  transition: all 0.3s ease;
+}
+
+.list-container__lists--txt {
+  opacity: 0.5;
 }
 
 .select .list-container__lists--txt {
   opacity: 1;
   font-weight: 900;
+}
+
+.select .list-container__lists--txt:hover {
+  color: yellowgreen;
 }
 
 .editor {
@@ -125,6 +139,7 @@ body {
   border: none;
   font-size: 48px;
   font-weight: 700;
+  outline: none;
 }
 
 .editor-textarea {
@@ -132,6 +147,7 @@ body {
   border: none;
   font-size: 24px;
   margin-bottom: 50px;
+  outline: none;
 }
 
 .editor-subdocuments {

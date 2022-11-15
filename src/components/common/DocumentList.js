@@ -30,7 +30,7 @@ export default function DocumentList({
     return `<div class="${containerClassName}" data-id="${list.id}">
       <li class="list" style="margin-left: ${width}px;">
         <i class="fa-solid fa-chevron-right" data-id="${list.id}"></i>
-        <i class="fa-brands fa-pagelines" style="color: green;"></i>
+        <i class="fa-brands fa-pagelines fa-lg"></i>
         <span class="list-container__lists--txt">${list.title}<span>
       </li>
       <div data-id="${list.id}"> 
