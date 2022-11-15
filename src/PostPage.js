@@ -52,17 +52,39 @@ export default function PostPage({ $target, initialState }) {
     },
     postDelete: async (id) => {
       const { pathname } = window.location;
-      const [, , postId] = pathname.split("/");
 
+      // 문서를 보고 있을 때 삭제.
       if (pathname.indexOf("/posts/") === 0) {
+        const [, , postId] = pathname.split("/");
+
         if (id === postId) {
           if (confirm("현재 보고있는 문서를 삭제하시겠습니까?")) {
+            await request(`documents/${id}`, {
+              method: "DELETE",
+            });
+
+            removeItem(id);
+            removeItem(`temp-post-${id}`);
+
             history.replaceState(null, null, "/");
             push("/");
           }
-        }
-      }
+        } else {
+          await request(`documents/${id}`, {
+            method: "DELETE",
+          });
 
+          removeItem(id);
+          removeItem(`temp-post-${id}`);
+
+          history.replaceState(null, null, "/");
+
+          // breadcrum을 갱신시키기 위헤서 현재 보고있는 문서로 재라우팅 시킨다.
+          push(`/posts/${postId}`);
+        }
+        return;
+      }
+      // 문서를 보고 있지 않을 때 삭제
       await request(`documents/${id}`, {
         method: "DELETE",
       });
@@ -70,15 +92,7 @@ export default function PostPage({ $target, initialState }) {
       removeItem(id);
       removeItem(`temp-post-${id}`);
 
-      if (id !== postId) {
-        // breadcrum을 갱신시키기 위헤서 {postId}로 라우팅 시킨다.
-        push(`/posts/${postId}`);
-      }
-
-      // const nextState = await request("documents", {
-      //   method: "GET",
-      // });
-      // postList.setState(nextState);
+      push("/");
     },
   });
 

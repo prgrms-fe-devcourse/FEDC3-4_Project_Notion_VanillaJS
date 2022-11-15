@@ -41,8 +41,8 @@ export default function App({ $target, initialState }) {
 
     if (pathname === "/") {
       $target.innerHTML = "";
+      postPage.render();
       await postPage.setState();
-      await postPage.render();
     } else if (pathname.indexOf("/posts/") === 0) {
       const [, , postId] = pathname.split("/");
       await postPage.setState();
