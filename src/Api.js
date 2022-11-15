@@ -1,4 +1,5 @@
 import { API_END_POINT } from "./Address.js";
+import { push } from "./router.js";
 
 export const request = async (url, options = {}) => {
   try {
@@ -14,6 +15,7 @@ export const request = async (url, options = {}) => {
     }
     throw new Error(`${options.method} fetch fail`);
   } catch (e) {
-    alert(e.message);
+    alert(`${e.message} 메인 화면으로 이동합니다.`);
+    push("/");
   }
 };
