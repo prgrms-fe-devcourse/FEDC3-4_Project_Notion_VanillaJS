@@ -132,6 +132,7 @@ button:hover {
   display: flex;
   flex-direction: row;
   align-items: center;
+  cursor: pointer;
 }
 
 .user h3 {
@@ -165,4 +166,16 @@ button:hover {
 
 .markUpList {
   cursor: pointer;
+}
+
+.startPage {
+  width: 100vh;
+  padding: calc(var(--padding) * 5) 0 0 calc(var(--padding) * 9.5);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.startPage .startList {
+  list-style-type: disc;
 }
