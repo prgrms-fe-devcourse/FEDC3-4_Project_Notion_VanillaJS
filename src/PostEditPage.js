@@ -1,5 +1,6 @@
 import { request } from "./api.js";
 import Editor from "./Editor.js";
+import MarkUpList from "./MarkUpList.js";
 import { getItem, removeItem, setItem } from "./storage.js";
 
 export default function PostEditPage({ $target, initialState, listUpdate }) {
@@ -40,22 +41,29 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
     }, 500);
   };
 
+  const markupList = new MarkUpList({
+    $target: $page,
+    initialState: [],
+  });
+
   const serverSave = (post) => {
     if (serveTimer !== null) {
       clearTimeout(serveTimer);
     }
 
     serveTimer = setTimeout(async () => {
-      await request(`/documents/${post.id}`, {
+      const newDoc = await request(`/documents/${post.id}`, {
         method: "PUT",
         body: JSON.stringify(post),
       });
 
       removeItem(postLocalSaveKey);
       listUpdate();
+
+      const data = await request(`/documents/${newDoc.id}`);
+      markupList.setState(data);
     }, 1000);
   };
-  //함수로 빼는게 좋은지 아직 잘 모르겠다.
 
   this.setState = async (nextState) => {
     if (this.state.postId !== nextState.postId) {
@@ -64,8 +72,8 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
       await fetchPost();
       return;
     }
-
     this.state = nextState;
+    markupList.setState(this.state.post);
     this.render();
 
     if (this.state.post) {
