@@ -3,10 +3,11 @@ function DocumentEditor({ $target, initialState, onChange }) {
   $editor.className = "document-editor";
   $target.appendChild($editor);
 
+  this.debounce = null;
+
   this.state = initialState;
 
   this.setState = (nextState) => {
-    console.log(nextState);
     this.state = nextState;
     this.render();
   };
@@ -16,7 +17,6 @@ function DocumentEditor({ $target, initialState, onChange }) {
 
     // 로딩 처리 해주기
 
-    console.log(content, "내용 수정됨");
     $editor.innerHTML = `
       <input class="editor-document-title" value="${
         title ? title : "제목을 입력하세요."
@@ -35,7 +35,14 @@ function DocumentEditor({ $target, initialState, onChange }) {
     if ($textarea) {
       const $title = document.querySelector(".editor-document-title");
 
-      onChange($title.value, $textarea.value);
+      if (this.debounce) {
+        clearTimeout(this.debounce);
+      }
+
+      this.debounce = setTimeout(() => {
+        onChange($title.value, $textarea.value);
+      }, 5000);
+
       return;
     }
 
@@ -43,8 +50,13 @@ function DocumentEditor({ $target, initialState, onChange }) {
 
     if ($input) {
       const $content = document.querySelector(".editor-text");
+      if (this.debounce) {
+        clearTimeout(this.debounce);
+      }
 
-      onChange($input.value, $content.value);
+      this.debounce = setTimeout(() => {
+        onChange($input.value, $content.value);
+      }, 5000);
     }
   });
 }

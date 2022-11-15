@@ -43,10 +43,6 @@ function DocumentEditPage({ $target }) {
     }
   };
 
-  // this.updateData = async (documentId, newData) => {
-  //   const data = await updateDocument(documentId, newData);
-  // };
-
   this.getData = async (documentId) => {
     const data = await getDocumentDetail(documentId);
     this.documentEditor.setState({
