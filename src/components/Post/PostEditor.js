@@ -24,6 +24,7 @@ export default function PostEditor({
 		attributes: {
 			type: 'text',
 			name: 'title',
+			placeholder: '제목을 입력해주세요.',
 		},
 	});
 	const $content = createElement({
@@ -46,7 +47,7 @@ export default function PostEditor({
 	this.render = () => {
 		const { title, content } = this.state;
 		$title.value = title;
-    $content.innerHTML = content;
+		$content.innerHTML = content;
 	};
 
 	this.focus = () => {

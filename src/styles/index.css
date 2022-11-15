@@ -56,7 +56,6 @@ nav {
 	width: 300px;
 	height: 100%;
 	background-color: var(--sidebar-background-color);
-	padding-right: var(--padding-normal);
 
 	display: flex;
 	flex-direction: column;
@@ -73,7 +72,7 @@ nav {
 
 .document-list__root {
 	height: 100%;
-	padding-left: var(--padding-normal);
+	padding: 0 var(--padding-normal);
 	justify-self: start;
 	overflow-x: hidden;
 	overflow-y: auto;
@@ -96,6 +95,7 @@ nav {
 
 .document-item {
 	height: 2rem;
+	/* position: relative; */
 
 	display: flex;
 	align-items: center;
@@ -104,7 +104,14 @@ nav {
 
 .document-item__title {
 	width: 100%;
+	/* display: inline-block; */
+	/* height: 2rem; */
+	line-height: 2rem;
+	/* vertical-align: middle; */
 	margin-left: var(--margin-very-small);
+	/* position: absolute; */
+	/* top: 50%; */
+	/* transform: translate(0, -50%); */
 	
 	display: block;
 	white-space: nowrap;
@@ -128,6 +135,7 @@ nav {
 	border-radius: var(--border-radius-small);
 	width: 1.25rem;
 	height: 1.25rem;
+	line-height: 2rem;
 	transition: all 0.25s;
 }
 

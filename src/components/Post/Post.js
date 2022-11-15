@@ -44,7 +44,6 @@ export default function Post({ $target, initialState, onChangeTitle }) {
 
 	const header = new Header({
 		$target: $article,
-		// initialState: this.state?.currentPath,
 	});
 
 	const postEditor = new PostEditor({
