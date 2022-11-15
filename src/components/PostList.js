@@ -1,4 +1,4 @@
-import { $emptyPage, $onLoadList } from "../utils/templates.js";
+import { $emptyPage, $onLoadParentList } from "../utils/templates.js";
 
 export default function PostList({
 	$target,
@@ -7,7 +7,7 @@ export default function PostList({
 	onRemove,
 	onToggle,
 }) {
-	const $postList = document.createElement("ul");
+	const $postList = document.createElement("div");
 	$target.appendChild($postList);
 
 	this.state = {
@@ -21,48 +21,33 @@ export default function PostList({
 	};
 
 	this.render = () => {
-		$postList.innerHTML = `
-				${this.state.posts.map((post) => $onLoadList(post)).join("")}
-		`;
+		$postList.innerHTML = `${$onLoadParentList(this.state.posts)}`;
 	};
 
 	const onToggleList = (e, item) => {
-		// this.state.documents = item.documents;
-		console.log(item);
-		const $li = e.target.closest("li");
-		$li.classList.toggle("open");
-
-		const $child = document.createElement("ul");
-		$child.className = "child-ul";
-
-		if ($li) {
-			$li.appendChild($child);
-			if (item.documents.length === 0) {
-				$child.innerHTML = $emptyPage();
-			} else {
-				$child.innerHTML = `
-					${item.documents.map((post) => $onLoadList(post)).join("")}
-				`;
-				// makeChild(e, this.state.documents);
-			}
-		}
-		// console.log(this.state.documents);
+		console.log();
 	};
 
 	// 리스트들 중 하나 클릭
 	$postList.addEventListener("click", (e) => {
 		const posts = this.state.posts;
-		const $li = e.target.closest("li");
 
-		if ($li.dataset.id !== undefined) {
+		const $rootLi = e.target.closest(".list-flex");
+
+		if ($rootLi.dataset.id !== undefined) {
 			const { className } = e.target;
-			const { id } = $li.dataset;
-
+			const { id } = $rootLi.dataset;
 			if (className.includes("open-folder")) {
-				onToggleList(
-					e,
-					posts.find((item) => item.id === parseInt(id))
-				);
+				const $childLi = $rootLi.nextElementSibling;
+				if ($childLi.className.includes("hide")) {
+					$childLi.classList.remove("hide");
+				} else {
+					$childLi.classList.add("hide");
+				}
+				// onToggleList(
+				// 	e,
+				// 	posts.find((item) => item.id === parseInt(id))
+				// );
 			} else if (className.includes("delete-page-btn")) {
 				onRemove(posts.find((item) => item.id === parseInt(id)));
 			} else {

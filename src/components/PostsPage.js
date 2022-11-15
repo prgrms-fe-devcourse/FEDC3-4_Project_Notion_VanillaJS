@@ -31,6 +31,7 @@ export default function PostsPage({ $target, initialState }) {
 		},
 
 		onPostClick: async (id) => {
+			console.log(id);
 			push(`/documents/${id}`);
 		},
 	});
