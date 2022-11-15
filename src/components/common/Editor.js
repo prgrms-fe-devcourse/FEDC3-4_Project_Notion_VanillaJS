@@ -15,12 +15,20 @@ export default function Editor({ $editorPageTarget, initialState, onEditing }) {
   $editorPageTarget.appendChild($editor);
 
   this.editorState = {
-    editorData: undefined,
+    editorData: { id: 0, title: "not render" },
     documentIdData: [],
     documentTitleData: [],
   };
 
+  // by 민형, 다른 페이지로 이동 시 same document 알림 text 제거_221115
+  const removeSameDocument = (prevId, nextId) => {
+    if (prevId !== nextId)
+      document.querySelector(".editor-same__link").style.display = "none";
+  };
+
   this.editorSetState = (nextState) => {
+    removeSameDocument(this.editorState.editorData.id, nextState.editorData.id);
+
     this.editorState.editorData = nextState.editorData;
     this.editorState.documentIdData = nextState.documentIdData;
     this.editorState.documentTitleData = nextState.documentTitleData;
@@ -40,11 +48,10 @@ export default function Editor({ $editorPageTarget, initialState, onEditing }) {
       $editorPageTarget.querySelector(
         "[name=editor-subdocuments]"
       ).innerHTML = ``;
+
       // by 민형, index 페이지 일 경우_221113
       if (title === "not render") {
         indexRender("none");
-        // by 민형, 동일한 document가 있다는 text가 render 된 상태에서 삭제 누르면 text가 삭제 되도록(원래는 그대로 남아 있었음)_221115
-        document.querySelector(".editor-same__link").style.display = "none";
       } else {
         indexRender("block");
 
@@ -90,19 +97,24 @@ export default function Editor({ $editorPageTarget, initialState, onEditing }) {
       if (newTitle !== undefined) {
         document.querySelector(".editor-same__link").style.display = "none";
         if (this.editorState.documentTitleData.includes(newTitle)) {
-          document.querySelector(".editor-same__link").style.display = "flex";
-          document.querySelector(".editor-same__link i").style.display =
-            "block";
-
           const coinCildeIndex =
             this.editorState.documentTitleData.indexOf(newTitle);
           const coinCildeId = this.editorState.documentIdData[coinCildeIndex];
-          $editorPageTarget.querySelector(
-            "[name=documentlink]"
-          ).href = `/documents/${coinCildeId}`;
-          $editorPageTarget.querySelector(
-            "[name=documentlink]"
-          ).textContent = `기존 "${newTitle}" document가 있으니 해당 text 클릭을 통해 이동 부탁드립니다!`;
+          const { pathname } = location;
+          const [, , pathId] = pathname.split("/");
+
+          if (parseInt(pathId) !== coinCildeId) {
+            $editorPageTarget.querySelector(
+              "[name=documentlink]"
+            ).href = `/documents/${coinCildeId}`;
+            $editorPageTarget.querySelector(
+              "[name=documentlink]"
+            ).textContent = `기존 "${newTitle}" document가 있으니 해당 text 클릭을 통해 이동 부탁드립니다!`;
+
+            document.querySelector(".editor-same__link").style.display = "flex";
+            document.querySelector(".editor-same__link i").style.display =
+              "block";
+          }
         }
 
         const nextState = {
