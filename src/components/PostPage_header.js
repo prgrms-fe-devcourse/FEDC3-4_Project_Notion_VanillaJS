@@ -1,5 +1,5 @@
 import { push } from "../router";
-
+import { getItem, setItem } from "../storage";
 export default function PostPageHeader({ $target, initialState, onDelete }) {
   if (!new.target) {
     throw new Error("App 컴포넌트에 new 생성자가 필요합니다.");
@@ -14,7 +14,7 @@ export default function PostPageHeader({ $target, initialState, onDelete }) {
     this.render();
   };
 
-  this.makeDepth = (arr, docs) => {
+  this.breadCrumb = (arr, docs) => {
     if (docs.length < 1) {
       return [];
     }
@@ -31,7 +31,7 @@ export default function PostPageHeader({ $target, initialState, onDelete }) {
         return newArr;
       }
       if (docs[i].documents.length) {
-        const ans = this.makeDepth(newArr, docs[i].documents);
+        const ans = this.breadCrumb(newArr, docs[i].documents);
         if (ans) {
           return ans;
         }
@@ -65,7 +65,9 @@ export default function PostPageHeader({ $target, initialState, onDelete }) {
   };
 
   this.render = () => {
-    const route = this.makeDepth([], this.state.res_document);
+    const route = this.breadCrumb([], this.state.res_document);
+    const favoritesList = getItem("favoritesList", []);
+    const target = favoritesList.find((fav) => fav.id === this.state.res_content.id);
 
     this.$header.innerHTML = `
       <div class="header_title">
@@ -77,10 +79,8 @@ export default function PostPageHeader({ $target, initialState, onDelete }) {
       </div>
       <div class="header_action_btns">
         <span>${this.makeDday(this.state.res_content.updatedAt)}</span>
+        <button type="button" name="star" class=${target ? "on" : "off"}></button>  
         <button type="button" name="share">공유</button>
-        <button type="button" name="star">
-          <img src="${require("../assets/img/star.png")}" class="star">
-        </button>  
         <button type="button" name="delete">삭제</button>
       </div>
     `;
@@ -105,6 +105,23 @@ export default function PostPageHeader({ $target, initialState, onDelete }) {
       document.body.removeChild(t);
 
       alert("링크가 복사되었습니다. 원하는 사람에게 공유해보세요");
+    } else if (name === "star") {
+      const favoritesList = getItem("favoritesList", []);
+      const target = favoritesList.find((fav) => fav.id === this.state.res_content.id);
+      if (target) {
+        setItem(
+          "favoritesList",
+          favoritesList.filter((fav) => fav.id !== this.state.res_content.id)
+        );
+        e.target.className = "off";
+      } else {
+        setItem("favoritesList", [
+          ...favoritesList,
+          { id: this.state.res_content.id, title: this.state.res_content.title },
+        ]);
+        e.target.className = "on";
+      }
+      push(`/posts/${this.state.res_content.id}`);
     } else if (name === "link") {
       const { id } = e.target.dataset;
 

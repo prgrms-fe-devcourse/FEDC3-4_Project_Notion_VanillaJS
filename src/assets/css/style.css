@@ -20,6 +20,7 @@
 }
 body {
   margin: 0;
+  overflow-y: hidden;
 }
 button,
 a {
@@ -48,9 +49,17 @@ input:focus,
 .sideBar {
   width: 275px;
   height: 100%;
+  max-height: 100vh;
   background-color: var(--sideBar1);
   border-right: var(--sideBar2) 1px solid;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  white-space: nowrap;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.sideBar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
 }
 .sideBar header {
   padding: 2px 20px;
@@ -64,17 +73,19 @@ input:focus,
   white-space: nowrap;
 }
 .sideBar .classification {
+  margin-left: 5px;
   margin-top: 50px;
+  margin-bottom: 65px;
 }
 .sideBar li[data-id="parent"] {
   color: var(--sideBarColor);
   cursor: pointer;
-  font-size: 17px;
+  font-size: 15px;
 }
 .sideBar ul {
   list-style: none;
   padding-left: 0;
-  margin: 5px 0;
+  margin: 0 0 3px 0;
 }
 .sideBar .classification > ul {
   margin: 0;
@@ -85,10 +96,8 @@ input:focus,
 }
 .sideBar li {
   cursor: default;
-  padding: 2px 0;
 }
 .sideBar li:last-child {
-  padding: 2px 0 0 0;
 }
 .sideBar .depth0 li:before {
   content: "";
@@ -116,15 +125,38 @@ input:focus,
   transform: rotate(90deg);
 }
 .sideBar .title {
-  position: absolute;
-  padding-left: 5px;
+  position: relative;
+  top: 5px;
+  font-size: 15px;
   color: var(--sideBarColor);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  display: inline;
+  display: inline-block;
 }
-
+.sideBar .sideBarAdd {
+  width: 275px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--sideBar2);
+  border-top: 1px solid var(--sideBarHover);
+  position: fixed;
+  z-index: 9999;
+  bottom: 0;
+  cursor: pointer;
+}
+.sideBar .plus_btn_bottom {
+  width: 16px;
+  height: 16px;
+  position: relative;
+  top: 2px;
+  color: var(--sideBarColor);
+}
+.sideBar .bottomContainer > span {
+  color: var(--sideBarColor);
+}
 /*postPage*/
 .postPage {
   width: calc(100% - 275px);
@@ -149,8 +181,18 @@ input:focus,
 .postPage button {
   font-size: 16px;
 }
-.postPage button .star {
+.postPage button[name="star"] {
   width: 20px;
+  height: 20px;
+  background-size: 20px;
+  position: relative;
+  top: -2px;
+}
+.postPage .off {
+  background-image: url("../img/star.png");
+}
+.postPage .on {
+  background-image: url("../img/star_on.png") !important;
 }
 .postPage .editor {
   padding-top: 100px;

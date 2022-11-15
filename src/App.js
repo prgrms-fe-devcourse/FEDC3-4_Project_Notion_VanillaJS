@@ -58,6 +58,7 @@ export default function App({ $target }) {
           content,
         }),
       });
+
       this.fetch(this.state.res_content.id);
     },
     onDelete: async (id) => {

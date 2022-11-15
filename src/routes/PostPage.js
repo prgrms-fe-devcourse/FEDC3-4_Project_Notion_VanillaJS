@@ -1,7 +1,7 @@
 import Empty from "../components/Empty";
-import PostEditor from "../components/PostEditor";
-import PostPageHeader from "../components/PostPageHeader";
-import PostSublinks from "../components/PostSublinks";
+import PostPage_editor from "../components/PostPage_editor";
+import PostPage_header from "../components/PostPage_header";
+import PostPage_sublinks from "../components/PostPage_sublinks";
 import { getItem } from "../storage";
 
 export default function PostPage({ $target, initialState, onEditing, onDelete }) {
@@ -33,9 +33,9 @@ export default function PostPage({ $target, initialState, onEditing, onDelete })
       this.$postPage.innerHTML = "";
       this.renderEmpty();
     } else {
-      postPageHeader.setState(this.state);
-      postEditor.setState(this.state);
-      postSublinks.setState(this.state);
+      postPage_header.setState(this.state);
+      postPage_editor.setState(this.state);
+      postPage_sublinks.setState(this.state);
       this.render();
     }
   };
@@ -56,19 +56,19 @@ export default function PostPage({ $target, initialState, onEditing, onDelete })
     this.$postPage.appendChild(this.$empty);
   };
 
-  const postPageHeader = new PostPageHeader({
+  const postPage_header = new PostPage_header({
     $target: this.$header,
     initialState: this.state,
     onDelete: this.onDelete,
   });
 
-  const postEditor = new PostEditor({
+  const postPage_editor = new PostPage_editor({
     $target: this.$section,
     initialState: this.state,
     onEditing: this.onEditing,
   });
 
-  const postSublinks = new PostSublinks({
+  const postPage_sublinks = new PostPage_sublinks({
     $target: this.$footer,
     initialState: this.state,
   });
