@@ -1,0 +1,8 @@
+@import './reset.css';
+@import './SideBar/SideBar.css';
+@import './DocumentPage/DocumentPage.css';
+
+main {
+	width: 100vw;
+	display: flex;
+}

@@ -1,0 +1,151 @@
+aside {
+	box-sizing: border-box;
+	color: rgba(25, 23, 17, 0.6);
+	cursor: default;
+	display: flex;
+	flex-direction: column;
+	font-family: ui-sans-serif, -apple-system, 'system-ui', 'Segoe UI', Helvetica,
+		'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
+	font-weight: 500;
+	height: 100%;
+	line-height: 24px;
+	max-height: 100%;
+	opacity: 1;
+	outline: 0;
+	pointer-events: auto;
+	width: 267px;
+	min-height: 100vh;
+
+	background-color: #f7f6f3;
+
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+}
+
+.document-list {
+	flex: 1;
+	margin: 30px 15px;
+}
+
+.document-list > h1 {
+	box-sizing: border-box;
+	color: rgba(55, 53, 47, 0.8);
+	cursor: pointer;
+	font-family: ui-sans-serif, -apple-system, 'system-ui', 'Segoe UI', Helvetica,
+		'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
+	font-size: 20px;
+	font-weight: 600;
+	letter-spacing: 0.03em;
+	line-height: 1;
+	margin-bottom: 30px;
+	outline: 0;
+	text-transform: uppercase;
+	transition: color 100ms ease-out 0s;
+	white-space: nowrap;
+}
+
+.document-list .toggle {
+	box-sizing: border-box;
+	color: rgba(25, 23, 17, 0.6);
+	cursor: pointer;
+	font-family: ui-sans-serif, -apple-system, 'system-ui', 'Segoe UI', Helvetica,
+		'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 21px;
+	outline: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+
+	margin-bottom: 5px;
+}
+
+.document-list .toggle:hover {
+	background: #dad9d6;
+}
+
+.document-list p {
+	box-sizing: border-box;
+	color: rgba(55, 53, 47, 0.5);
+	cursor: default;
+	font-family: ui-sans-serif, -apple-system, 'system-ui', 'Segoe UI', Helvetica,
+		'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 21px;
+	outline: 0;
+	padding-left: 12px;
+	white-space: nowrap;
+}
+
+summary {
+	width: 95%;
+	padding-right: 5px;
+	white-space: nowrap;
+}
+
+.option-container {
+	float: right;
+}
+
+.option-btn {
+	position: relative;
+	z-index: 999;
+	display: none;
+	margin-top: 2px;
+	background: rgba(55, 53, 47, 0.08);
+	border: 1px solid rgba(55, 53, 47, 0.16);
+	padding: 2px;
+	margin-bottom: 2px;
+	width: 10px;
+	height: 10px;
+	border-radius: 2px;
+	transition: 0.3s;
+}
+
+.option-btn.remove {
+	background: url('/src/public/images/trash.svg') no-repeat center;
+	background-size: cover;
+}
+
+.option-btn.add {
+	background: url('/src/public/images/plus.svg') no-repeat center;
+	background-size: cover;
+}
+
+summary:hover .option-container > input {
+	display: inline-block;
+}
+
+.option-btn:hover {
+	box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+		rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
+.document-add-btn {
+	width: 100%;
+
+	display: flex;
+	justify-content: start;
+	align-items: center;
+
+	padding: 20px 15px;
+
+	border-top: 1px solid #e6e6e6;
+
+	cursor: pointer;
+	transition: 0.3s;
+}
+
+.document-add-btn:hover {
+	background: #dad9d6;
+}
+
+.doc-img {
+	width: 13px;
+	height: 13px;
+	object-fit: cover;
+	object-position: center;
+}
