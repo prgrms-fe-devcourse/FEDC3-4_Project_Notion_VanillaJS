@@ -1,8 +1,8 @@
 import { BASE_USERNAME } from '../../constants.js';
+import { getUserId } from '../../Helpers/getUserId.js';
 
 export const documentUser = () => {
-  const { pathname } = location;
-  const [, userId] = pathname.split('/');
+  const userId = getUserId();
 
   return `
   <div>

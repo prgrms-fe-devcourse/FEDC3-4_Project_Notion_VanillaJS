@@ -1,5 +1,5 @@
 import { isConstructor } from '../../Helpers/checkError.js';
-import DocumentDetailedList from './DocumentDetailedList.js';
+import DocumentDetailedList from './RenderDocumentItems.js';
 import { documentUser } from './documentUser.js';
 import { newPageButton } from './newPageButton.js';
 
@@ -12,6 +12,7 @@ export default function DocumentList({
   hideChildDocumentEvent,
   setEditorEvent,
   userNameButtonEvent,
+  newPageEvent,
 }) {
   isConstructor(new.target);
   $target.innerHTML = `
@@ -42,9 +43,11 @@ export default function DocumentList({
     showChildDocumentButton: ($target) => showChildDocumentEvent({ $target }),
     hideChildDocumentButton: ($target) => hideChildDocumentEvent({ $target }),
     userNameButton: () => userNameButtonEvent(),
+    newPageButton: () => newPageEvent(),
   };
 
   $target.addEventListener('click', (e) => {
+    console.log(e.target.id);
     if (e.target.id) {
       setEvent?.[e.target.id](e.target);
     }

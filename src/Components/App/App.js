@@ -7,16 +7,18 @@ import {
   deleteDocument,
 } from '../../Helpers/api.js';
 import DocumentList from '../DocumentList/DocumentList.js';
-import DocumentDetailedList from '../DocumentList/DocumentDetailedList.js';
+import RenderDocumentItems from '../DocumentList/RenderDocumentItems.js';
 import DocumentEditor from '../DocumentEditor/DocumentEditor.js';
 import { documentItem } from '../DocumentList/documentItem.js';
 import { init, routeChange } from '../../Helpers/router.js';
 import {
   getLocalStorage,
+  initLocalStorage,
   removeLocalStorage,
   setLocalStorage,
 } from '../../Helpers/localstorage.js';
 import { BASE_USERNAME } from '../../constants.js';
+import { getUserId } from '../../Helpers/getUserId.js';
 
 export default function App({ $target }) {
   isConstructor(new.target);
@@ -28,8 +30,6 @@ export default function App({ $target }) {
     <div>에디터</div>
   </main>
   `;
-
-  let isSaveApi = false;
 
   const $aside = $target.querySelector('aside');
   const $main = $target.querySelector('main');
@@ -67,7 +67,7 @@ export default function App({ $target }) {
     showChildDocumentEvent: async ({ $target }) => {
       const id = $target.closest('[data-id]').dataset.id;
       const initialState = await getDocumentById({ id });
-      new DocumentDetailedList({
+      new RenderDocumentItems({
         $target: $target.closest('[data-id]'),
         initialState: await initialState.documents,
       });
@@ -87,7 +87,6 @@ export default function App({ $target }) {
       const id = $target.closest('[data-id]').dataset.id;
       const nextState = await getDocumentById({ id });
       documentEditor.setState(nextState);
-      isSaveApi = false;
       const { pathname } = location;
       const [, userId] = pathname.split('/');
       routeChange(`/${userId}/documents/${id}`);
@@ -98,11 +97,22 @@ export default function App({ $target }) {
       const [, baseId] = pathname.split('/');
       const userId = prompt('변경할 ID를 입력해주세요', baseId);
       if (userId) {
+        initLocalStorage(userId);
         routeChange(`/${userId}`);
       } else {
         routeChange(`/${BASE_USERNAME}`);
       }
       location.reload();
+    },
+
+    newPageEvent: () => {
+      const userId = getUserId();
+      documentEditor.setState({
+        id: 'Root',
+        title: '최상단 부분에 글쓰기 입니다.',
+        content: '여기에 입력하세요',
+      });
+      routeChange(`/${userId}`);
     },
   });
 
@@ -110,7 +120,7 @@ export default function App({ $target }) {
     $target: $main,
     initialState: {
       id: 'Root',
-      title: '여기에 입력하세요',
+      title: '최상단 부분에 글쓰기 입니다.',
       content: '여기에 입력하세요',
     },
     saveDocumentEvent: async ({ $target }) => {
@@ -123,7 +133,6 @@ export default function App({ $target }) {
           title: arr[0].innerHTML,
         });
         $title = document.querySelector('#documentList UL');
-        console.log(res);
         $title.insertAdjacentHTML(
           'beforeend',
           documentItem({
@@ -140,24 +149,19 @@ export default function App({ $target }) {
         $title = document.querySelector(`[data-id="${id}"] SPAN`);
         $title.innerHTML = arr[0].innerHTML;
       }
-      isSaveApi = true;
+      removeLocalStorage(id);
     },
     saveLocalStorageEvent: ({ $target }) => {
       const $editor = $target.closest('[data-id]');
       const id = $editor.dataset.id;
       const arr = $editor.querySelectorAll('[contenteditable=true]');
-      window.addEventListener('beforeunload', () => {
-        if (!isSaveApi) {
-          setLocalStorage(
-            id,
-            JSON.stringify({
-              title: arr[0].innerHTML,
-              content: arr[1].innerHTML,
-              tempSaveDate: new Date(),
-            })
-          );
-          isSaveApi = false;
-        }
+      setLocalStorage({
+        id,
+        value: {
+          title: arr[0].innerHTML,
+          content: arr[1].innerHTML,
+          tempSaveDate: new Date(),
+        },
       });
     },
   });
@@ -165,6 +169,7 @@ export default function App({ $target }) {
   this.route = async () => {
     const { pathname } = location;
     if (pathname === '/') {
+      initLocalStorage(BASE_USERNAME);
       routeChange(`/${BASE_USERNAME}`);
     } else if (pathname.indexOf('/documents/') > 0) {
       const [, , , documentsId] = pathname.split('/');
@@ -182,6 +187,7 @@ export default function App({ $target }) {
           });
         }
         removeLocalStorage(documentsId);
+        location.reload();
       }
       documentEditor.setState(nextState);
     }
