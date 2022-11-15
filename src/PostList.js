@@ -35,7 +35,7 @@ export default function PostList({
       ${this.makeList(this.state)}     
       </ul>
     `;
-    $target.appendChild($postList);
+    // $target.appendChild($postList);
   };
 
   // 접혀있는지 펴져있는지 확인하는 함수.
@@ -148,4 +148,6 @@ export default function PostList({
     });
     this.setState(nextState);
   };
+
+  $target.appendChild($postList);
 }
