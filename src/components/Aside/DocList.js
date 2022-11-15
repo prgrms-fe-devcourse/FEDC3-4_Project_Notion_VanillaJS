@@ -1,5 +1,6 @@
 import { makeLi, makeUl, makeElement } from "../../util/templates.js";
 import { hasClass, addClass, removeClass } from "../../util/helper.js";
+import { session } from "../../util/storage.js";
 
 export default function DocList({
   $target,
@@ -13,7 +14,9 @@ export default function DocList({
 }) {
   const $listContainer = makeElement('nav', 'doc-list');
   $target.appendChild($listContainer);
+
   const $list = makeUl("root");
+  const LIST_SCROLLTOP_SAVE_KEY = 'listScrollPos'
 
   this.state = initialState;
 
@@ -26,7 +29,8 @@ export default function DocList({
   this.render = () => {
     $list.innerHTML = '';
     createList($list, this.state.documents);
-    $listContainer.appendChild($list)
+    $listContainer.appendChild($list);
+    goToListScrollPos();
   };
 
   const createList = ($target, obj) => {
@@ -46,7 +50,7 @@ export default function DocList({
           const $ul = makeUl("parent");
           $ul.dataset.parentId = id;
           createList($ul, documents);
-          
+
           if($ul.querySelector('li.on')) {
             addClass($ul, 'on');
           }
@@ -57,6 +61,19 @@ export default function DocList({
       }
     });
   };
+
+  const goToListScrollPos = () => {
+    var listScrollPos = session.getItem(LIST_SCROLLTOP_SAVE_KEY, 0);
+    if(listScrollPos > 0) {
+      console.log(listScrollPos);
+      $list.scrollTo(0, listScrollPos);
+      session.removeItem(LIST_SCROLLTOP_SAVE_KEY);
+    }
+  }
+
+  window.addEventListener('beforeunload', () => {
+    session.setItem(LIST_SCROLLTOP_SAVE_KEY, $list.scrollTop)
+  })
 
   $listContainer.addEventListener("click", (e) => {
     e.preventDefault();
@@ -93,7 +110,6 @@ export default function DocList({
       }
     } else if (tagName === 'A' && splitedClassName === 'title') {
       document.querySelectorAll('.list-item').forEach($li => $li.classList.remove('on'));
-      // addClass($li, 'on');
       onSelect(documentId);
     }
   });
