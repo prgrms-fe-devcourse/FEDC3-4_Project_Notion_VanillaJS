@@ -8,6 +8,12 @@ export default function PostsPage({ $target }) {
   const postList = new PostList({
     $target: $page,
     initialState: [],
+    onDelete: async (id) => {
+      await request(`/documents/${id}`, {
+        method: "DELETE",
+      });
+      this.setState();
+    },
   });
 
   new LinkButton({
