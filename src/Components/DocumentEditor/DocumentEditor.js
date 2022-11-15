@@ -7,9 +7,6 @@ export default function DocumentEditor({
   saveLocalStorageEvent,
 }) {
   isConstructor(new.target);
-  const $documentEditor = document.createElement('div');
-  $documentEditor.id = 'documentEditor';
-  $target.appendChild($documentEditor);
 
   this.state = initialState;
 
@@ -19,8 +16,8 @@ export default function DocumentEditor({
   };
 
   this.render = () => {
-    $documentEditor.innerHTML = `
-    <div data-id="${this.state.id}">
+    $target.innerHTML = `
+    <div data-id="${this.state.id}" class="p-6">
       <div id="editorTitle" contenteditable="true">${this.state.title}</div>
       <div id="editorMenu">
         <button id="bold">
@@ -44,9 +41,6 @@ export default function DocumentEditor({
       </div>
       <div id="editorContent" contenteditable="true">${this.state.content}</div>
       <div id="editorSave">
-        <button id="saveDocumentButton">
-            Save
-        </button>
       </div>
     </div>
 `;
@@ -56,18 +50,14 @@ export default function DocumentEditor({
     document.execCommand(style);
   };
 
-  $documentEditor.addEventListener('click', (e) => {
+  $target.addEventListener('click', (e) => {
     if (e.target.closest('#editorMenu') && e.target.id) {
       setStyle(e.target.id);
-    }
-
-    if (e.target.id === 'saveDocumentButton') {
-      saveDocumentEvent({ $target: e.target });
     }
   });
 
   let setDebounce;
-  $documentEditor.addEventListener('input', (e) => {
+  $target.addEventListener('input', (e) => {
     saveLocalStorageEvent({ $target: e.target });
 
     if (setDebounce) {

@@ -1,10 +1,15 @@
-import { API_END_POINT, USERNAME } from '../../endpoint.js';
+import { API_END_POINT } from '../../endpoint.js';
 import { routeChange } from './router.js';
+import { BASE_USERNAME } from '../constants.js';
+
+const { pathname } = location;
+const [, userId] = pathname.split('/');
+console.log(userId);
 
 export const getDocumentAll = async () => {
   const res = await fetch(`${API_END_POINT}`, {
     headers: {
-      'x-username': USERNAME,
+      'x-username': userId ? userId : BASE_USERNAME,
       'Content-Type': 'application/json',
     },
   });
@@ -19,7 +24,7 @@ export const getDocumentAll = async () => {
 export const getDocumentById = async ({ id }) => {
   const res = await fetch(`${API_END_POINT}${id}`, {
     headers: {
-      'x-username': USERNAME,
+      'x-username': userId ? userId : BASE_USERNAME,
       'Content-Type': 'application/json',
     },
   });
@@ -37,7 +42,7 @@ export const postDocument = async ({ title, parent = null }) => {
   const res = await fetch(`${API_END_POINT}`, {
     method: 'POST',
     headers: {
-      'x-username': USERNAME,
+      'x-username': userId ? userId : BASE_USERNAME,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -57,7 +62,7 @@ export const putDocument = async ({ id, title, content }) => {
   const res = await fetch(`${API_END_POINT}${id}`, {
     method: 'PUT',
     headers: {
-      'x-username': USERNAME,
+      'x-username': userId ? userId : BASE_USERNAME,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ title, content }),
@@ -72,7 +77,7 @@ export const deleteDocument = async ({ id }) => {
   const res = await fetch(`${API_END_POINT}${id}`, {
     method: 'DELETE',
     headers: {
-      'x-username': USERNAME,
+      'x-username': userId ? userId : BASE_USERNAME,
       'Content-Type': 'application/json',
     },
   });

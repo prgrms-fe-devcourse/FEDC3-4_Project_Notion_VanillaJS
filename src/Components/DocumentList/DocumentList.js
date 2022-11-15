@@ -11,6 +11,7 @@ export default function DocumentList({
   showChildDocumentEvent,
   hideChildDocumentEvent,
   setEditorEvent,
+  userNameButtonEvent,
 }) {
   isConstructor(new.target);
   $target.innerHTML = `
@@ -40,6 +41,7 @@ export default function DocumentList({
     deleteDocumentButton: ($target) => deleteDocumentEvent({ $target }),
     showChildDocumentButton: ($target) => showChildDocumentEvent({ $target }),
     hideChildDocumentButton: ($target) => hideChildDocumentEvent({ $target }),
+    userNameButton: () => userNameButtonEvent(),
   };
 
   $target.addEventListener('click', (e) => {

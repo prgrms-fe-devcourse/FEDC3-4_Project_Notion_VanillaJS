@@ -16,14 +16,15 @@ import {
   removeLocalStorage,
   setLocalStorage,
 } from '../../Helpers/localstorage.js';
+import { BASE_USERNAME } from '../../constants.js';
 
 export default function App({ $target }) {
   isConstructor(new.target);
   $target.innerHTML = `
-  <aside class="relative w-80 bg-gray-300 text-sm text-gray-800">
+  <aside class="bg-gray-300 text-sm text-gray-800">
     <div>사이드리스트</div>
   </aside>
-  <main class="">
+  <main class="col-span-4">
     <div>에디터</div>
   </main>
   `;
@@ -32,7 +33,6 @@ export default function App({ $target }) {
 
   const $aside = $target.querySelector('aside');
   const $main = $target.querySelector('main');
-  console.log($aside, $main);
 
   new DocumentList({
     $target: $aside,
@@ -88,7 +88,21 @@ export default function App({ $target }) {
       const nextState = await getDocumentById({ id });
       documentEditor.setState(nextState);
       isSaveApi = false;
-      routeChange(`/documents/${id}`);
+      const { pathname } = location;
+      const [, userId] = pathname.split('/');
+      routeChange(`/${userId}/documents/${id}`);
+    },
+
+    userNameButtonEvent: () => {
+      const { pathname } = location;
+      const [, baseId] = pathname.split('/');
+      const userId = prompt('변경할 ID를 입력해주세요', baseId);
+      if (userId) {
+        routeChange(`/${userId}`);
+      } else {
+        routeChange(`/${BASE_USERNAME}`);
+      }
+      location.reload();
     },
   });
 
@@ -151,10 +165,9 @@ export default function App({ $target }) {
   this.route = async () => {
     const { pathname } = location;
     if (pathname === '/') {
-      const $root = $target.querySelector('#documentList UL');
-      $root.className = 'Root';
-    } else if (pathname.indexOf('/documents/') === 0) {
-      const [, , documentsId] = pathname.split('/');
+      routeChange(`/${BASE_USERNAME}`);
+    } else if (pathname.indexOf('/documents/') > 0) {
+      const [, , , documentsId] = pathname.split('/');
       const nextState = await getDocumentById({ id: documentsId });
       const localData = getLocalStorage(documentsId);
       if (localData?.tempSaveDate > nextState.updatedAt) {
@@ -171,10 +184,6 @@ export default function App({ $target }) {
         removeLocalStorage(documentsId);
       }
       documentEditor.setState(nextState);
-    } else {
-      alert('올바르지 않은 접속입니다. 최상단 폴더로 돌아갑니다.');
-      routeChange('/');
-      location.reload();
     }
   };
 
