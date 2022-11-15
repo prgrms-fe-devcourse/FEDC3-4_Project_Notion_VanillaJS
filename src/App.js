@@ -12,7 +12,10 @@ export default function App({ $target }) {
   $target.appendChild($document);
   $target.appendChild($editor);
 
-  new DocumentPage({ $target: $document });
+  new DocumentPage({
+    $target: $document,
+  });
+
   const editorPage = new EditorPage({
     $target: $editor,
     initialState: {
