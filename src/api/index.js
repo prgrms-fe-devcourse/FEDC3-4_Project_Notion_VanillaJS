@@ -2,7 +2,7 @@ import { API_ENDPOINT } from '../../.env.js';
 
 const request = async (url, options = {}) => {
   try {
-    const data = await fetch(`${API_ENDPOINT}/ㅌ${url}`, {
+    const data = await fetch(`${API_ENDPOINT}/${url}`, {
       ...options,
       headers: {
         'Content-Type': 'application/json',
