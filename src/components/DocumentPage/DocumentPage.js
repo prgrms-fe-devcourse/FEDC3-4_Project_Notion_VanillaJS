@@ -1,12 +1,5 @@
-import {
-  ERROR_NEW_KEYWORD_MISSING,
-  LOCAL_IS_GOING_TO_PUT,
-  LOCAL_IS_PUTTING_OKAY,
-  LOCAL_IS_WAITING_USER_ANSWER,
-} from "../utils/constants.js";
+import { ERROR_NEW_KEYWORD_MISSING, idNameObj } from "../utils/constants.js";
 import { hasNewTarget, isValidArray } from "../utils/error.js";
-import { routePush } from "../utils/router.js";
-import { getItem, setItem } from "../utils/storage.js";
 import DocumentFooter from "./DocumentFooter.js";
 import DocumentHeader from "./DocumentHeader.js";
 import Documents from "./Documents.js";
@@ -16,7 +9,7 @@ export default function DocumentPage({ $target, initialState }) {
 
   //tags
   const $page = document.createElement("div");
-  $page.setAttribute("id", "sidebar-container");
+  $page.setAttribute("id", idNameObj.SIDEBAR_CONTAINER);
 
   let isInit = false;
 
@@ -35,18 +28,6 @@ export default function DocumentPage({ $target, initialState }) {
   const documents = new Documents({
     $target: $page,
     initialState: this.state,
-    onClick: async ({ id, parentId }) => {
-      const isGoingToPut = getItem(LOCAL_IS_GOING_TO_PUT, false);
-
-      setItem(LOCAL_IS_WAITING_USER_ANSWER, true);
-      if (!isGoingToPut || confirm("변경사항이 저장되지 않을 수 있습니다.")) {
-        setItem(LOCAL_IS_PUTTING_OKAY, !isGoingToPut);
-        routePush(
-          `/documents/${id}${parentId ? `?parent.id=${parentId}` : ""}`
-        );
-      }
-      setItem(LOCAL_IS_WAITING_USER_ANSWER, false);
-    },
   });
 
   new DocumentFooter({ $target: $page });

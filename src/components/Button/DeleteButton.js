@@ -1,15 +1,12 @@
 import { hasNewTarget, hasId } from "../utils/error.js";
-import {
-  DELETE_BUTTON_TEXT,
-  ERROR_NEW_KEYWORD_MISSING,
-} from "../utils/constants.js";
+import { DELETE_BUTTON_TEXT, DISABLED_ID, ERROR_NEW_KEYWORD_MISSING } from "../utils/constants.js";
 import { routeRemoveDocument } from "../utils/router.js";
 
 export default function DeleteButton({ $target, initialState }) {
   if (!hasNewTarget(new.target)) throw new Error(ERROR_NEW_KEYWORD_MISSING);
 
   //tags
-  const $button = document.createElement("button");
+  const $button = document.createElement("div");
   $target.appendChild($button);
 
   const isValidState = (state) => {
@@ -21,13 +18,13 @@ export default function DeleteButton({ $target, initialState }) {
 
   this.setState = (initialState) => {
     this.state = initialState;
-  };
 
-  this.render = () => {
-    $button.textContent = DELETE_BUTTON_TEXT;
+    if (this.state.id === DISABLED_ID) {
+      $button.style.display = "none";
+    } else {
+      $button.style.display = "block";
+    }
   };
-
-  this.render();
 
   //event handler
   $button.addEventListener("click", async () => {

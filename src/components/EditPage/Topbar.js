@@ -1,12 +1,12 @@
 import { hasId, hasNewTarget } from "../utils/error.js";
-import { DISABLED_ID, ERROR_NEW_KEYWORD_MISSING } from "../utils/constants.js";
+import { DISABLED_ID, ERROR_NEW_KEYWORD_MISSING, classNameObj } from "../utils/constants.js";
 import DeleteButton from "../Button/DeleteButton.js";
 
 export default function Topbar({ $target, initialState }) {
   if (!hasNewTarget(new.target)) throw new Error(ERROR_NEW_KEYWORD_MISSING);
 
   const $topbar = document.createElement("div");
-  $topbar.setAttribute("class", "editor-topbar");
+  $topbar.setAttribute("class", classNameObj.EDITOR_TOPBAR);
   $target.appendChild($topbar);
 
   const isValidState = (state) => {
@@ -26,12 +26,6 @@ export default function Topbar({ $target, initialState }) {
     if (!nextState) return;
 
     this.state = nextState;
-
-    if (this.state.id === DISABLED_ID) {
-      $topbar.style.display = "none";
-    } else {
-      $topbar.style.display = "block";
-      deleteBtn.setState(this.state);
-    }
+    deleteBtn.setState(this.state);
   };
 }

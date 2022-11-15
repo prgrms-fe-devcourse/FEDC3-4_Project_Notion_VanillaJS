@@ -1,4 +1,10 @@
-import { classNameObj, DOCUMENT_HEADER_CONTENT, ERROR_NEW_KEYWORD_MISSING, styleObj } from "../utils/constants.js";
+import {
+  classNameObj,
+  styleObj,
+  idNameObj,
+  DOCUMENT_HEADER_CONTENT,
+  ERROR_NEW_KEYWORD_MISSING,
+} from "../utils/constants.js";
 import { hasNewTarget } from "../utils/error.js";
 import { routeCreateDocument } from "../utils/router.js";
 
@@ -8,7 +14,7 @@ export default function DocumentHeader({ $target }) {
   if (!hasNewTarget(new.target)) throw new Error(ERROR_NEW_KEYWORD_MISSING);
 
   const $header = document.createElement("div");
-  $header.setAttribute("id", "sidebar-header");
+  $header.setAttribute("id", idNameObj.SIDEBAR_HEADER);
   $target.appendChild($header);
 
   const CONTENT = DOCUMENT_HEADER_CONTENT;

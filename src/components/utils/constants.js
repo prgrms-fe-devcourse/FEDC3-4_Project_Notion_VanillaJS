@@ -7,13 +7,23 @@ export const properties = {
 };
 
 //Header
-export const DEFAULT_TITLE = "제목없음";
+export const DEFAULT_TITLE = "제목 없음";
 export const ROOT_TITLE = "작업 중... 👌";
+export const DEFAULT_CONTENT = "내용을 입력해주세요";
 
 //Document
+export const idNameObj = {
+  SIDEBAR_CONTAINER: "sidebar-container",
+  SIDEBAR_HEADER: "sidebar-header",
+  SIDEBAR_LIST_CONTAINER: "sidebar-list-container",
+  SIDEBAR_FOOTER: "sidebar-footer",
+  EDITOR_CONTAINER: "editor-container",
+};
+
 export const classNameObj = {
-  SIDEBAR: "sidebar",
+  TITLE_WRAPPER: "title-wrapper",
   TITLE: "title",
+  BTN_WRAPPER: "btn-wrapper",
   DISPLAY_BTN: "display-btn",
   NEW_BTN: "new-btn",
   REMOVE_BTN: "remove-btn",
@@ -21,11 +31,12 @@ export const classNameObj = {
   DOCUMENT_SECTION: "document-section",
   DOCUMENT_LIST_BLOCK: "document-list-block",
   DOCUMENT_BLOCK_INNER: "document-block-inner",
-  SIDEBAR_DOCUMENT_LIST_CONTAINER: "sidebar-document-list-container",
+  SIDEBAR_DOCUMENT_LIST_CONTAINER: "sidebar-list-container",
+  EDITOR_TOPBAR: "topbar",
 };
 
 export const styleObj = {
-  DEFAULT_PADDING: 10,
+  DEFAULT_PADDING: 15,
   PADDING_INCREMENT: 20,
 };
 

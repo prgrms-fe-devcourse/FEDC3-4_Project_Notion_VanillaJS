@@ -1,5 +1,5 @@
 import { ERROR_API_CALL } from "../components/utils/constants.js";
-import { API_END_POINT } from "./api_constant.js";
+import { API_END_POINT, USERNAME } from "./api_constant.js";
 
 export const request = async (url, options = {}) => {
   try {
@@ -7,7 +7,7 @@ export const request = async (url, options = {}) => {
       ...options,
       headers: {
         "Content-Type": "application/json",
-        "x-username": "kal",
+        "x-username": `${USERNAME}`,
       },
     });
 

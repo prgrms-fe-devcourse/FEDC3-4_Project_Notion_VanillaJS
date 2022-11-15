@@ -1,4 +1,10 @@
-import { classNameObj, DOCUMENT_FOOTER_CONTENT, ERROR_NEW_KEYWORD_MISSING, styleObj } from "../utils/constants.js";
+import {
+  classNameObj,
+  styleObj,
+  idNameObj,
+  DOCUMENT_FOOTER_CONTENT,
+  ERROR_NEW_KEYWORD_MISSING,
+} from "../utils/constants.js";
 import { hasNewTarget } from "../utils/error.js";
 import { routeCreateDocument } from "../utils/router.js";
 
@@ -8,7 +14,7 @@ export default function DocumentFooter({ $target }) {
   if (!hasNewTarget(new.target)) throw new Error(ERROR_NEW_KEYWORD_MISSING);
 
   const $footer = document.createElement("div");
-  $footer.setAttribute("id", "sidebar-footer");
+  $footer.setAttribute("id", idNameObj.SIDEBAR_FOOTER);
   $target.appendChild($footer);
 
   const CONTENT = DOCUMENT_FOOTER_CONTENT;

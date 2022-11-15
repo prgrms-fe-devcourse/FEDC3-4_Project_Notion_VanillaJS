@@ -1,5 +1,5 @@
 import { hasContent, hasNewTarget } from "../utils/error.js";
-import { DISABLED_ID, ERROR_NEW_KEYWORD_MISSING } from "../utils/constants.js";
+import { DEFAULT_CONTENT, DISABLED_ID, ERROR_NEW_KEYWORD_MISSING } from "../utils/constants.js";
 
 export default function Editor({ $target, initialState, onEditing }) {
   if (!hasNewTarget(new.target)) throw new Error(ERROR_NEW_KEYWORD_MISSING);
@@ -23,12 +23,18 @@ export default function Editor({ $target, initialState, onEditing }) {
     if (!isValidContent(nextState)) return;
 
     this.state = nextState;
-    const textarea = $editor.querySelector("textarea");
-    textarea.value = this.state.content;
 
-    this.state.id === DISABLED_ID
-      ? (textarea.disabled = true)
-      : (textarea.disabled = false);
+    const { content } = this.state;
+    const textarea = $editor.querySelector("textarea");
+
+    if (content === DEFAULT_CONTENT) {
+      textarea.value = "";
+      textarea.placeholder = DEFAULT_CONTENT;
+    } else {
+      textarea.value = this.state.content;
+    }
+
+    this.state.id === DISABLED_ID ? (textarea.disabled = true) : (textarea.disabled = false);
   };
 
   this.render = () => {

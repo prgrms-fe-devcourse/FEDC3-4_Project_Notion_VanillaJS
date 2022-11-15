@@ -1,9 +1,4 @@
-import {
-  ERROR_NEW_KEYWORD_MISSING,
-  DEFAULT_TITLE,
-  DISABLED_ID,
-  ROOT_TITLE,
-} from "../utils/constants.js";
+import { ERROR_NEW_KEYWORD_MISSING, DEFAULT_TITLE, DISABLED_ID, ROOT_TITLE } from "../utils/constants.js";
 import { hasId, hasNewTarget, hasTitle } from "../utils/error.js";
 
 export default function Header({ $target, initialState, onEditing }) {
@@ -27,6 +22,7 @@ export default function Header({ $target, initialState, onEditing }) {
 
   this.setState = (nextState) => {
     if (!isValidState(nextState)) return;
+
     this.state = nextState;
 
     const { title } = this.state;
@@ -39,18 +35,16 @@ export default function Header({ $target, initialState, onEditing }) {
       input.value = title;
     }
 
-    this.state.id === DISABLED_ID
-      ? (input.disabled = true)
-      : (input.disabled = false);
+    this.state.id === DISABLED_ID ? (input.disabled = true) : (input.disabled = false);
   };
 
   this.render = () => {
     if (!isInit) {
       const { title } = this.state;
       $header.innerHTML = `
-        <input type="text"${
-          !title.length ? `placeholder="${DEFAULT_TITLE}"` : `value="${title}"`
-        }/>
+        <div class="input-wrapper">
+          <input type="text"${!title.length ? `placeholder="${DEFAULT_TITLE}"` : `value="${title}"`}/>
+        </div>
       `;
       isInit = true;
     }

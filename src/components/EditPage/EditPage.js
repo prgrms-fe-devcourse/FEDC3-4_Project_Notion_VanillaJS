@@ -3,13 +3,12 @@ import {
   DISABLED_ID,
   ERROR_NEW_KEYWORD_MISSING,
   LOCAL_STORAGE_RECENT_DOCUMENT,
-  LOCAL_IS_GOING_TO_PUT,
-  LOCAL_IS_PUTTING_OKAY,
-  LOCAL_IS_WAITING_USER_ANSWER,
+  idNameObj,
+  DEFAULT_CONTENT,
 } from "../utils/constants.js";
 import { hasNewTarget } from "../utils/error.js";
 import { routePutDocument, setHeaderChange } from "../utils/router.js";
-import { getItem, setItem } from "../utils/storage.js";
+import { setItem } from "../utils/storage.js";
 import Editor from "./Editor.js";
 import Header from "./Header.js";
 import Topbar from "./Topbar.js";
@@ -19,7 +18,7 @@ export default function EditPage({ $target, initialState }) {
 
   //tags
   const $page = document.createElement("div");
-  $page.setAttribute("id", "editor-container");
+  $page.setAttribute("id", idNameObj.EDITOR_CONTAINER);
 
   let isInit = false;
   let timer = null;
@@ -54,7 +53,7 @@ export default function EditPage({ $target, initialState }) {
         id: this.state.id,
         title: this.state.title,
       });
-      autoSaveDocument({ delay: 2000 });
+      autoSaveDocument({ delay: 500 });
     },
   });
 
@@ -69,7 +68,7 @@ export default function EditPage({ $target, initialState }) {
         content,
       });
 
-      autoSaveDocument({ delay: 2000 });
+      autoSaveDocument({ delay: 500 });
     },
   });
 
@@ -85,7 +84,10 @@ export default function EditPage({ $target, initialState }) {
       id,
       title: title || DEFAULT_TITLE,
     });
-    editor.setState({ id, content: content || "" });
+    editor.setState({
+      id,
+      content: content || DEFAULT_CONTENT,
+    });
     topbar.setState({ id, parentId: parentId || null });
 
     //LS 저장
@@ -110,15 +112,10 @@ export default function EditPage({ $target, initialState }) {
       clearTimeout(timer);
     }
 
-    setItem(LOCAL_IS_GOING_TO_PUT, true);
     timer = setTimeout(async () => {
       const { id, title, content } = this.state;
 
-      while (getItem(LOCAL_IS_WAITING_USER_ANSWER, false));
-      getItem(LOCAL_IS_PUTTING_OKAY, true)
-        ? routePutDocument({ id, title, content })
-        : "";
-      setItem(LOCAL_IS_GOING_TO_PUT, false);
+      routePutDocument({ id, title, content });
     }, delay);
   };
   //event handler

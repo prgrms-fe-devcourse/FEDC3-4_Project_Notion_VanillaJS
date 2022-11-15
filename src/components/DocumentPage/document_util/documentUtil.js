@@ -4,6 +4,8 @@ import { classNameObj, styleObj, DEFAULT_TITLE, DEFAULT_ID, LOCAL_STORAGE_DISPLA
 //constants
 const {
   TITLE,
+  TITLE_WRAPPER,
+  BTN_WRAPPER,
   DISPLAY_BTN,
   NEW_BTN,
   REMOVE_BTN,
@@ -21,11 +23,13 @@ export const createDocumentBlock = (id, title, padding) => {
     <div data-id=${id} class="${DOCUMENT_BLOCK}">
       <div class="${DOCUMENT_BLOCK_INNER}" style="padding: 2px 10px 2px ${padding}px">
         <div class="${DISPLAY_BTN}"></div>
-        <div class="title-wrapper">
+        <div class="${TITLE_WRAPPER}">
           <div class="${TITLE}">${title}</div>
         </div>
-        <div class="${REMOVE_BTN}"></div>
-        <div class="${NEW_BTN}"></div>
+        <div class="${BTN_WRAPPER}">
+          <div class="${REMOVE_BTN}"></div>
+          <div class="${NEW_BTN}"></div>
+        </div>
       </div>
     </div>
   `;

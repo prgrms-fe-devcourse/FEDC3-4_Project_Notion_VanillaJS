@@ -83,8 +83,7 @@ export const initRouter = (onRoute) => {
     const { id, title } = e.detail;
 
     //해당 document-block의 title을 찾아서 innerText를 바꿔주는 거지.
-    const documentBlockArr =
-      e.target.document.body.querySelectorAll(".document-block");
+    const documentBlockArr = e.target.document.body.querySelectorAll(".document-block");
 
     let currentDocumentBlock = null;
 
