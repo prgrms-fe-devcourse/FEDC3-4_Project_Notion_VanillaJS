@@ -13,7 +13,7 @@ export default function Editor({
 
   $editor.innerHTML = `
       <input type="text" name="title" class="title" placeholder="${UNTITLED}"/>
-      <textarea name="content" class="content" placeholder="내용을 입력하세요."</textarea>
+      <textarea name="content" class="content" placeholder="내용을 입력하세요."></textarea>
   `;
 
   $target.appendChild($editor);
@@ -21,7 +21,7 @@ export default function Editor({
   this.state = initialState;
 
   this.setState = (nextState) => {
-    this.state = nextState;
+    this.state = { ...this.state, ...nextState };
     this.render();
   };
 

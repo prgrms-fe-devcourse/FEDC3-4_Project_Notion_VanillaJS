@@ -16,6 +16,13 @@ main {
     'Segoe UI Symbol';
 }
 
+button {
+  border: transparent;
+  border-radius: 5px;
+  background: none;
+  cursor: pointer;
+}
+
 .sidebar {
   display: flex;
   flex-direction: column;
@@ -31,15 +38,28 @@ main {
 .sidebar button {
   color: #a3a29d;
   padding: 3px;
-  border: transparent;
-  border-radius: 5px;
-  background: none;
-  cursor: pointer;
 }
 
 .sidebar button.add,
 .sidebar button.delete {
   color: inherit;
+}
+
+.document-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-top: 12px;
+}
+
+.document-header .title {
+  padding-left: 20px;
+  font-size: 14px;
+}
+
+.document-header .buttons {
+  padding-right: 20px;
 }
 
 .document-list {
@@ -57,6 +77,10 @@ main {
 }
 .document-list li:not(.no-subpages):active {
   background-color: #d7d7d5;
+}
+
+.document-list li.selected {
+  background-color: #f1f1f0;
 }
 
 .document-list .no-subpages {
@@ -148,6 +172,7 @@ main {
   font-size: 16px;
   height: 400px;
   resize: none;
+  line-height: 1.8rem;
 }
 .editor .content::placeholder {
   color: #9c9c98;

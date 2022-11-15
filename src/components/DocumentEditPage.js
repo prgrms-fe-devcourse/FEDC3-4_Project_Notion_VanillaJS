@@ -1,9 +1,10 @@
 import Editor from './Editor.js';
+import DocumentHeader from './DocumentHeader.js';
 
 import { fetchDocuments } from '../utils/api.js';
 import { NEW, NEW_PARENT, ROUTE_DOCUMENTS } from '../utils/constants.js';
 import { isNew, setDocumentTitle } from '../utils/helper.js';
-import { getItem, removeItem, setItem } from '../utils/storage.js';
+import { getItem, removeItem } from '../utils/storage.js';
 
 export default function DocumentEditPage({ $target, initialState }) {
   isNew(new.target);
@@ -13,28 +14,35 @@ export default function DocumentEditPage({ $target, initialState }) {
 
   this.state = initialState;
 
-  let documentLocalSaveKey = `temp-document-${this.state.documentId}`;
-
-  const savedDocument = getItem(documentLocalSaveKey, {
-    title: '',
-    content: '',
+  const documentHeader = new DocumentHeader({
+    $target: $page,
+    initialState: {
+      documentId: this.state.documentId,
+      title: this.state.document.title,
+    },
+    onRemove: async (documentId) => {
+      if (confirm('페이지를 삭제하시겠습니까?')) {
+        await fetchDocuments(documentId, {
+          method: 'DELETE',
+        });
+        // TODO: 로컬스토리지의 opened-item에서 해당 id 삭제해야 함
+      }
+    },
   });
 
   let timer = null;
 
   const editor = new Editor({
     $target: $page,
-    initialState: savedDocument,
+    initialState: {
+      title: '',
+      content: '',
+    },
     onEditing: (document) => {
       if (timer !== null) {
         clearTimeout(timer);
       }
       timer = setTimeout(async () => {
-        setItem(documentLocalSaveKey, {
-          ...document,
-          tempSaveDate: new Date(),
-        });
-
         if (this.state.documentId === NEW) {
           const createdDocument = await fetchDocuments('', {
             method: 'POST',
@@ -43,56 +51,65 @@ export default function DocumentEditPage({ $target, initialState }) {
               parent: getItem(NEW_PARENT, null),
             }),
           });
-          removeItem(NEW_PARENT);
+
           history.replaceState(
             null,
             null,
             `${ROUTE_DOCUMENTS}/${createdDocument.id}`
           );
-          removeItem(documentLocalSaveKey);
+          removeItem(NEW_PARENT);
 
           this.setState({
+            ...this.state,
             documentId: createdDocument.id,
           });
         } else {
-          await fetchDocuments(document.id, {
+          const editedDocument = await fetchDocuments(this.state.documentId, {
             method: 'PUT',
             body: JSON.stringify(document),
           });
-          removeItem(documentLocalSaveKey);
+
+          this.setState({
+            ...this.state,
+            documentId: editedDocument.id,
+            document: editedDocument,
+          });
         }
-      }, 2000);
+      }, 1000);
     },
   });
 
   this.setState = async (nextState) => {
-    if (
-      this.state.documentId === nextState.documentId &&
-      !this.state.document
-    ) {
-      this.state = nextState;
+    if (this.state.documentId === nextState.documentId) {
+      this.state = { ...this.state, ...nextState };
       editor.setState(
         this.state.document || {
           title: '',
           content: '',
         }
       );
+      documentHeader.setState({
+        documentId: this.state.documentId,
+        title: this.state.document.title || '',
+      });
       this.render();
       return;
     }
 
-    documentLocalSaveKey = `temp-document-${nextState.documentId}`;
-    this.state = nextState;
+    this.state = { ...this.state, ...nextState };
 
     if (this.state.documentId === NEW) {
-      const document = getItem(documentLocalSaveKey, {
+      editor.setState({
         title: '',
         content: '',
       });
-      editor.setState(document);
+      documentHeader.setState({
+        documentId: this.state.documentId,
+        title: '',
+      });
       this.render();
     } else {
-      await fetchDocument();
+      await loadDocument();
     }
   };
 
@@ -101,27 +118,8 @@ export default function DocumentEditPage({ $target, initialState }) {
     setDocumentTitle(this.state.document?.title || '');
   };
 
-  const fetchDocument = async () => {
-    const { documentId } = this.state;
-    const document = await fetchDocuments(documentId);
-
-    const tempDocument = getItem(documentLocalSaveKey, {
-      title: '',
-      content: '',
-    });
-
-    if (
-      tempDocument.tempSaveDate &&
-      tempDocument.tempSaveDate > document.updatedAt
-    ) {
-      if (confirm('저장되지 않은 임시 데이터가 있습니다. 불러올까요?')) {
-        this.setState({
-          ...this.state,
-          document: tempDocument,
-        });
-        return;
-      }
-    }
+  const loadDocument = async () => {
+    const document = await fetchDocuments(this.state.documentId);
 
     this.setState({
       ...this.state,
