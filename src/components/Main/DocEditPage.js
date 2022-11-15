@@ -3,7 +3,7 @@ import DocEditHeader from "./DocEditHeader.js";
 import DocEditFooter from "./DocEditFooter.js";
 import { makeElement } from "../../util/templates.js";
 import { getDocument, editDocument } from "../api.js";
-import { getItem, removeItem, setItem } from "../../util/localStorage.js";
+import { local } from "../../util/storage.js";
 import { debounce } from "../../util/helper.js";
 
 export default function DocEditPage({
@@ -40,12 +40,12 @@ export default function DocEditPage({
   const tempSave = (document) => {
     docTempSaveKey = `tempSave-${this.state}`;
 
-    setItem(docTempSaveKey, {
+    local.setItem(docTempSaveKey, {
       ...document,
       tempSaveAt: new Date(),
     });
 
-    const docTempSave = getItem(docTempSaveKey, {
+    const docTempSave = local.getItem(docTempSaveKey, {
       title: "",
       content: "",
     });
@@ -62,7 +62,7 @@ export default function DocEditPage({
       },
     });
     
-    removeItem(docTempSaveKey);
+    local.removeItem(docTempSaveKey);
     await this.setState(this.state);
   };
 
