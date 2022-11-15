@@ -18,7 +18,7 @@ export default function PostList({
    overflow: auto;
    scroll: no;
    white-space: nowrap;
-   height: 95vh;
+   height: 98vh;
    backgroundColor: #c8c8c8;   
   `;
 

@@ -12,7 +12,7 @@ export default function PostPage({ $target, initialState }) {
   $postPage.className = "PostPage";
 
   $postPage.style.width = "20%";
-  $postPage.style.height = "98vh";
+  $postPage.style.height = "100vh";
   $postPage.style.backgroundColor = "#dcdcdc";
 
   new LinkButton({
