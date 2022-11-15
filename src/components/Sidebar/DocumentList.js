@@ -111,21 +111,15 @@ export default function DocumentList({
 					const createdDocument = await createDocument({ parent: id });
 					const nextRootDocumentsAfterCreateAction = await getRootDocuments();
 					onClickDocumentItem(nextRootDocumentsAfterCreateAction);
-					historyPush(`${createdDocument.id}?currentPath=${currentPath} > ${createdDocument.title}`);
-					document.querySelector('.selected')?.classList.remove('selected')
-					document.querySelector(`[data-id='${createdDocument.id}']`).classList.add('selected');
+					historyPush(
+						`${createdDocument.id}?currentPath=${currentPath} > ${createdDocument.title}`
+					);
+
 					break;
 			}
 		}
 
 		// todo : 현재 클릭한 것은 background-color를 바꾸는 등 focus 되도록 하자.
-		if (!action && id) {
-			historyPush(`${id}?currentPath=${currentPath}`);
-			// $documentList.querySelectorAll('.document-item').forEach(($documentItem) => {
-			// 	$documentItem.classList.remove('selected');
-			// })
-			document.querySelector('.selected')?.classList.remove('selected')
-			target.closest('[data-id]').classList.add('selected');
-		}
+		if (!action && id) historyPush(`${id}?currentPath=${currentPath}`);
 	});
 }

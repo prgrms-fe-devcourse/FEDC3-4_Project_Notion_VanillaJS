@@ -28,46 +28,64 @@ export default function App({ $target, initialState }) {
 	this.route = async () => {
 		const { pathname, search } = window.location;
 		// todo : 이 부분 좀 억지같다...
-		if (pathname === '/') document.querySelector('header').classList.add('selected');
 		const [, id] = pathname.split('/');
 		// todo : 모듈화 필요
 		const queryString = new URLSearchParams(search);
-		const { title, content } = await getContentOfDocument(id);
 
-		post.focus();
-		post.setState({
-			id,
-			currentPath: queryString.get('currentPath') || 'Metamong',
-			title,
-			content,
-		});
+		// todo : 존재하지 않는 id이면 Home으로 리다이렉팅 필요
+		if (id) {
+			const {
+				title,
+				content,
+				documents: subDocuments,
+			} = await getContentOfDocument(id);
+
+			post.focus();
+			post.setState({
+				id,
+				currentPath: queryString.get('currentPath'),
+				title,
+				content,
+				subDocuments,
+			});
+		} else {
+			post.setState({
+				...post.state,
+				id: undefined,
+				currentPath: 'Metamong',
+				subDocuments: [],
+			});
+		}
+		
+		// console.log(document.querySelector(`[data-id='${id}']`))
+		document.querySelector('.selected')?.classList.remove('selected');
+		if (pathname === '/') document.querySelector('header').classList.add('selected');
+		else document.querySelector(`[data-id='${id}']`).classList.add('selected');
 	};
 
 	this.init = async () => {
-		this.route();
 		const rootDocuments = await getRootDocuments();
 		sidebar.setState(rootDocuments);
+		this.route();
 	};
 
 	const sidebar = new Sidebar({
 		$target: $main,
-		onClickAddButton: async () => {
+		onClickRootAddButton: async () => {
 			const createdDocument = await createDocument({ title: '제목 없음' });
 			const nextRootDocuments = await getRootDocuments();
 			this.setState({
 				...this.state,
 				rootDocuments: nextRootDocuments,
 			});
-			historyPush(`${createdDocument.id}?currentPath=${createdDocument.title}`)
-			document.querySelector('.selected').classList.remove('selected');
-			document.querySelector(`[data-id='${createdDocument.id}']`).classList.add('selected');
+			historyPush(`${createdDocument.id}?currentPath=${createdDocument.title}`);
 		},
 		onClickDocumentItem: (nextRootDocuments) => {
 			this.setState({
 				...this.state,
-				rootDocuments: nextRootDocuments
-			})
-		}
+				rootDocuments: nextRootDocuments,
+			});
+		},
 	});
 	const post = new Post({
 		$target: $main,

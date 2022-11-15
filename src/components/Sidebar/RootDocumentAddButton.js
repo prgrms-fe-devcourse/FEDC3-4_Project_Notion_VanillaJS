@@ -1,6 +1,6 @@
 import { createElement } from '../../utils/createElement.js';
 
-export default function RootDocumentAddButton({ $target, onClickAddButton }) {
+export default function RootDocumentAddButton({ $target, onClickRootAddButton }) {
 	const $div = createElement({
 		element: 'div',
 		$target,
@@ -17,6 +17,6 @@ export default function RootDocumentAddButton({ $target, onClickAddButton }) {
 	this.render();
 
 	$div.addEventListener('click', () => {
-		onClickAddButton()
+		onClickRootAddButton()
 	});
 }

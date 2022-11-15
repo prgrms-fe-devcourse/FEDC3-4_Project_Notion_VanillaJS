@@ -25,8 +25,6 @@ export default function Header({ $target, initialState }) {
 	this.init = () => {
 		if ($target.tagName === 'NAV') {
 			$header.addEventListener('click', () => {
-				document.querySelector('.selected')?.classList.remove('selected');
-				$header.classList.add('selected');
 				historyPush('/');
 			});
 		}

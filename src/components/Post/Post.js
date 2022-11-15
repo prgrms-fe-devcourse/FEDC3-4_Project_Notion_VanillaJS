@@ -2,13 +2,15 @@ import { createElement } from '../../utils/createElement.js';
 import Header from '../shared/Header.js';
 import NotFound from './NotFound.js';
 import PostEditor from './PostEditor.js';
+import SubDocumentList from './SubDocumentList.js';
 
 /**
  * state: {
  * 	id: string | number
  * 	currentPath: string,
  * 	title: string,
- * 	content: string
+ * 	content: string,
+ * 	subDocuments: array
  * }
  */
 export default function Post({ $target, initialState, onChangeTitle }) {
@@ -21,8 +23,14 @@ export default function Post({ $target, initialState, onChangeTitle }) {
 
 	this.setState = (nextState) => {
 		this.state = nextState;
-		const { id, currentPath, title, content } = this.state;
+		const { id, currentPath, subDocuments } = this.state;
 		header.setState(currentPath);
+		subDocumentList.setState({
+			...subDocumentList.state,
+			id,
+			currentPath,
+			subDocumentList: subDocuments
+		})
 
 		// todo : 야매로 한 것 같다...
 		if (id) {
@@ -54,6 +62,11 @@ export default function Post({ $target, initialState, onChangeTitle }) {
 			onChangeTitle(id, changedCurrentPath);
 		},
 	});
+	
+	const subDocumentList = new SubDocumentList({
+		$target: $article,
+		initialState: this.state?.subDocuments
+	})
 
 	const notFound = new NotFound({ $target: $article });
 }
