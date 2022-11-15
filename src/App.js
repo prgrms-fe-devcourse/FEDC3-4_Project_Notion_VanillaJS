@@ -2,11 +2,13 @@ import Post from './components/Post/Post.js';
 import Sidebar from './components/SideBar/SideBar.js';
 import {
 	createDocument,
+	deleteDocument,
 	getContentOfDocument,
 	getRootDocuments,
 } from './utils/api/apis.js';
 import { createElement } from './utils/createElement.js';
 import { initRouter, historyReplace, historyPush } from './utils/router.js';
+import { getItem, OPENED_DOCUMENT_ITEMS, setItem } from './utils/storage.js';
 
 /**
  * state: {
@@ -27,7 +29,6 @@ export default function App({ $target, initialState }) {
 
 	this.route = async () => {
 		const { pathname, search } = window.location;
-		// todo : 이 부분 좀 억지같다...
 		const [, id] = pathname.split('/');
 		// todo : 모듈화 필요
 		const queryString = new URLSearchParams(search);
@@ -39,7 +40,7 @@ export default function App({ $target, initialState }) {
 				content,
 				documents: subDocuments,
 			} = await getContentOfDocument(id);
-
+			console.log(subDocuments);
 			post.focus();
 			post.setState({
 				id,
@@ -57,7 +58,7 @@ export default function App({ $target, initialState }) {
 			});
 		}
 		
-		// console.log(document.querySelector(`[data-id='${id}']`))
+		// todo : 모듈화 필요
 		document.querySelector('.selected')?.classList.remove('selected');
 		if (pathname === '/') document.querySelector('header').classList.add('selected');
 		else document.querySelector(`[data-id='${id}']`).classList.add('selected');
@@ -65,12 +66,16 @@ export default function App({ $target, initialState }) {
 
 	this.init = async () => {
 		const rootDocuments = await getRootDocuments();
-		sidebar.setState(rootDocuments);
+		this.setState({
+			...this.state,
+			rootDocuments
+		})
 		this.route();
 	};
 
 	const sidebar = new Sidebar({
 		$target: $main,
+		// todo : 모듈화 필요
 		onClickRootAddButton: async () => {
 			const createdDocument = await createDocument({ title: '제목 없음' });
 			const nextRootDocuments = await getRootDocuments();
@@ -80,12 +85,45 @@ export default function App({ $target, initialState }) {
 			});
 			historyPush(`${createdDocument.id}?currentPath=${createdDocument.title}`);
 		},
-		onClickDocumentItem: (nextRootDocuments) => {
+		onClickDocumentItemAddButton: async (id, currentPath) => {
+			const openedDocumentItemIds = getItem(OPENED_DOCUMENT_ITEMS, []);
+			if (!openedDocumentItemIds.includes(id)) setItem(OPENED_DOCUMENT_ITEMS, [...openedDocumentItemIds, id]);
+			const createdDocument = await createDocument({ parent: id });
+			const nextRootDocuments = await getRootDocuments();
 			this.setState({
 				...this.state,
-				rootDocuments: nextRootDocuments,
-			});
+				rootDocuments: nextRootDocuments
+			})
+			historyPush(`${createdDocument.id}?currentPath=${currentPath} > ${createdDocument.title}`)
 		},
+		onClickDocumentItemDeleteButton: async (id) => {
+			const openedDocumentItemIds = getItem(OPENED_DOCUMENT_ITEMS, []);
+			const [, currentId] = window.location.pathname.split('/');
+			const removedOpenedDocumentItemIdIndex = openedDocumentItemIds.findIndex((openedDocumentItemId) => openedDocumentItemId === id);
+			if (removedOpenedDocumentItemIdIndex !== -1) openedDocumentItemIds.splice(removedOpenedDocumentItemIdIndex, 1);
+			setItem(OPENED_DOCUMENT_ITEMS, [...openedDocumentItemIds]);
+			await deleteDocument(id);
+			const nextRootDocuments = await getRootDocuments();
+			this.setState({
+				...this.state,
+				rootDocuments: nextRootDocuments
+			})
+			if (id === currentId) historyPush('/');
+		},
+		onClickDocumentItemToggleButton: (id) => {
+			const openedDocumentItemIds = getItem(OPENED_DOCUMENT_ITEMS, []);
+			if (openedDocumentItemIds.includes(id)) {
+				const removedOpenedDocumentItemIdIndex = openedDocumentItemIds.findIndex((openedDocumentItemId) => openedDocumentItemId === id)
+				if (removedOpenedDocumentItemIdIndex !== -1) openedDocumentItemIds.splice(removedOpenedDocumentItemIdIndex, 1);
+				setItem(OPENED_DOCUMENT_ITEMS, [...openedDocumentItemIds]);
+			} else {
+				setItem(OPENED_DOCUMENT_ITEMS, [...openedDocumentItemIds, id]);
+			}
+			
+			this.setState({
+				...this.state,
+			})
+		}
 	});
 	const post = new Post({
 		$target: $main,
