@@ -17,7 +17,6 @@ export const getDocumentDetail = async (documentId) => {
 
 export const updateDocument = async (documentId, data) => {
   const response = await request(`/documents/${documentId}`, "PUT", data);
-  console.log(response);
   return response;
 };
 

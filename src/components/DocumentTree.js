@@ -34,7 +34,8 @@ function DocumentTree({ $target, initialState }) {
 
         if (answer) {
           deleteDocumet(documentId);
-          this.init();
+          // 비동기 처리 문제, 다시 확인하기
+          this.getData();
         }
       },
 

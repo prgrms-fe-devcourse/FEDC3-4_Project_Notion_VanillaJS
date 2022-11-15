@@ -14,7 +14,7 @@ function DocumentEditor({ $target, initialState, onChange }) {
 
   this.render = () => {
     const { title, content, documents } = this.state.data;
-
+    console.log(documents);
     if (!title && !content) {
       $editor.innerHTML = `
         <h1>loading..</h1>
@@ -29,6 +29,12 @@ function DocumentEditor({ $target, initialState, onChange }) {
       <textarea class="editor-text" autofocus="true">${
         content ? content : "아직 내용이 없습니다."
       }</textarea>
+      <div class="child-documents-wrapper">
+        <p>📌하위 문서 목록</p>
+          ${documents
+            .map(({ id, title }) => `<a href="/documents/${id}">${title}</a>`)
+            .join("")}
+      </div>
     `;
   };
 

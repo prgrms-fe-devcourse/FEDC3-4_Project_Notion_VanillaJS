@@ -11,7 +11,8 @@ function DocumentEditPage({ $target }) {
   const $tree = document.createElement("section");
   $tree.className = "document-tree";
   $editPage.appendChild($tree);
-  new DocumentTree({ $target: $tree });
+
+  const documentTree = new DocumentTree({ $target: $tree });
 
   const $editor = document.createElement("section");
   $editor.className = "document-editor";
@@ -32,12 +33,10 @@ function DocumentEditPage({ $target }) {
           data: {},
         },
         onChange: (newTitle, newContent) => {
-          updateDocument(documentId, {
+          this.updateData(documentId, {
             title: newTitle,
             content: newContent,
           });
-
-          this.getData(documentId);
         },
       });
     }
@@ -48,6 +47,13 @@ function DocumentEditPage({ $target }) {
     this.documentEditor.setState({
       data,
     });
+  };
+
+  this.updateData = async (documentId, data) => {
+    await updateDocument(documentId, data);
+    this.getData(documentId);
+    documentTree.getData();
+    return;
   };
 
   this.init = () => {
