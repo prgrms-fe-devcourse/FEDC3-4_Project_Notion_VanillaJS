@@ -46,6 +46,9 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
         clearTimeout(timer);
       }
 
+      const $loading = document.createElement("div");
+      $postEditPage.appendChild($loading);
+
       timer = setTimeout(async () => {
         const isNew = this.state.postId === "new";
         if (isNew) {
@@ -87,6 +90,7 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
 
           removeItem(postLocalSaveKey);
 
+          // 의존성?
           navi.setState({
             ...post,
             postId: post.id,
@@ -94,6 +98,11 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
 
           listUpdate();
         }
+
+        $loading.innerHTML = `<p>저장완료</p>`;
+        setTimeout(() => {
+          $loading.innerHTML = ``;
+        }, 3000);
       }, 1000);
     },
   });
@@ -115,7 +124,8 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
     }
 
     if (this.state.postId !== nextState.postId) {
-      postLocalSaveKey = `temp-post-${nextState.postId}`; // 지금 누른거로 바꿈.
+      // 지금 누른거로 바꿈.
+      postLocalSaveKey = `temp-post-${nextState.postId}`;
       this.state = nextState;
 
       // 새로운 문서를 만들 경우.
