@@ -21,14 +21,17 @@ export default function Editor({
 
   this.setState = (nextState) => {
     this.state = nextState;
-    if (this.state.title === "제목 없음" && this.state.content === "") {
+    if (
+      (this.state.title === "제목 없음" || this.state.title === "") &&
+      this.state.content === ""
+    ) {
       $editor.querySelector("[name=title]").value = "";
       $editor.querySelector("[name=title]").placeholder =
         "제목을 입력해주세요.";
 
       $editor.querySelector("[name=content]").value = "";
       $editor.querySelector("[name=content]").placeholder =
-        "제목을 먼저 입력해주세요. 내용을 수정하시면 1초뒤에 문서가 자동 저장됩니다.";
+        "내용을 수정하시면 1초뒤에 문서가 자동 저장됩니다.";
     } else {
       $editor.querySelector("[name=title]").value = this.state.title;
       $editor.querySelector("[name=content]").value = this.state.content;

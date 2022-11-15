@@ -99,7 +99,7 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
           listUpdate();
         }
 
-        $loading.innerHTML = `<p>저장완료</p>`;
+        $loading.innerHTML = `${Date()}<h1>저장완료</h1>`;
         setTimeout(() => {
           $loading.innerHTML = ``;
         }, 3000);
