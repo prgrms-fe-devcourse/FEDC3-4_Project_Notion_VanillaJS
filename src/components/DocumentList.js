@@ -4,12 +4,12 @@ import {
   NEW_PARENT,
   ROUTE_DOCUMENTS,
   UNTITLED,
+  ADD,
 } from '../utils/constants.js';
 import { isNew } from '../utils/helper.js';
 import { getItem, setItem } from '../utils/storage.js';
 
 const DOCUMENT_ITEM = 'document-item';
-const ADD = 'add';
 const DELETE = 'delete';
 const OPENED_ITEM = 'opened-item';
 
@@ -72,7 +72,7 @@ export default function DocumentList({ $target, initialState, onRemove }) {
               </li>
               ${
                 isBlock && documents.length
-                  ? renderDocuments(documents, depth + 1)
+                  ? renderDocuments(documents, depth + 2)
                   : `<li 
                       class="no-subpages" 
                       style="text-indent: ${generateTextIndent(
@@ -91,7 +91,7 @@ export default function DocumentList({ $target, initialState, onRemove }) {
     if (!Array.isArray(this.state)) return;
 
     $documentList.innerHTML = `
-      ${this.state.length > 0 ? renderDocuments(this.state, 1) : ''}
+      ${this.state.length > 0 ? renderDocuments(this.state, 0) : ''}
     `;
   };
 
@@ -112,8 +112,6 @@ export default function DocumentList({ $target, initialState, onRemove }) {
     }
 
     if (!target.classList.contains('toggle')) return;
-
-    console.log(target);
 
     if (target.classList.contains('open')) {
       const index = openedItems.indexOf(String(id));

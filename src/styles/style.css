@@ -17,9 +17,10 @@ main {
 }
 
 .sidebar {
+  display: flex;
+  flex-direction: column;
   width: 230px;
   height: 100%;
-  padding: 8px;
   color: rgba(25, 23, 17, 0.6);
   font-weight: 500;
   font-size: 14px;
@@ -27,19 +28,28 @@ main {
   box-shadow: rgb(0 0 0 / 2%) -1px 0px 0px 0px inset;
 }
 
-.main-page {
-  width: calc(100% - 230px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.sidebar button {
+  color: #a3a29d;
+  padding: 3px;
+  border: transparent;
+  border-radius: 5px;
+  background: none;
+  cursor: pointer;
+}
+
+.sidebar button.add,
+.sidebar button.delete {
+  color: inherit;
 }
 
 .document-list {
-  width: 100%;
+  margin: 2px;
 }
 
 .document-list li {
+  margin: 2px;
   padding: 5px;
+  border-radius: 3px;
 }
 .document-list li:not(.no-subpages):hover {
   background-color: #ebebea;
@@ -57,21 +67,41 @@ main {
   display: none;
 }
 
+.document-list button:hover {
+  background-color: #dededd;
+}
+
 .document-list .block {
   display: inline;
 }
 
-.document-list button {
+.document-add-button.document-list-bottom {
+  display: flex;
+  padding: 5px 0;
+}
+
+.document-add-button.document-list-bottom button {
   color: inherit;
-  padding: 3px 5px;
-  border: transparent;
-  border-radius: 5px;
-  background: none;
+  margin: 0 5px 0 15px;
+}
+
+.document-add-button.sidebar-bottom {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  width: inherit;
+  padding: 12px 0;
+  border-top: 1.5px solid #ededec;
+}
+
+.document-add-button.document-list-bottom:hover,
+.document-add-button.sidebar-bottom:hover {
+  background-color: #ebebea;
   cursor: pointer;
 }
 
-.document-list button:hover {
-  background-color: #dededd;
+.document-add-button.sidebar-bottom button {
+  margin: 0 10px;
 }
 
 .document-edit-page {
