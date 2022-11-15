@@ -54,7 +54,7 @@ export default function PostList({
   $postList.addEventListener("click", (e) => {
     const $li = e.target.closest("li");
     const { name } = e.target;
-    const id = $li.dataset.id;
+    const id = $li?.dataset.id;
 
     if (name) {
       if (name === "remove") {
