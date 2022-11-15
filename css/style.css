@@ -11,10 +11,9 @@ COMMON
 #container {
   height: 100vh;
   margin-bottom: 4rem;
-  padding: 1rem 2.5rem 2.5rem;
   display: flex;
   flex: 1 1 0%;
-  justify-content: space-between;
+  background: white;
 }
 
 #sidebar-container {
@@ -22,15 +21,230 @@ COMMON
   height: 100%;
   flex-grow: 0;
   flex-shrink: 0;
-  border: 2px solid black;
+  background: rgba(251, 251, 250);
+  box-shadow: rgb(0, 0, 0 / 2%) -1px 0px 0px 0px inset;
+  color: rgba(25, 23, 17, 0.6);
+  font-weight: 500;
+
+  display: flex;
+  flex-direction: column;
 }
 
 #editor-container {
   width: 100%;
   height: 100%;
-  border: 2px solid black;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+}
+
+/*
+SIDEBAR_PAGE
+=============================*/
+
+/* Header */
+#sidebar-header {
+  display: flex;
+  align-items: center;
+  height: 45px;
+  width: 100%;
+  cursor: pointer;
+}
+
+#sidebar-header:hover {
+  background: rgba(55, 53, 47, 0.08);
+}
+
+#sidebar-header .document-block-inner {
+  width: 100%;
+  min-height: 27px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.25rem;
+  margin: 1px auto;
+  overflow: hidden;
+}
+
+#sidebar-header .document-block-inner .title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#sidebar-header .document-block-inner .new-btn::after {
+  flex-shrink: 0;
+  flex-grow: 0;
+  width: 22px;
+  height: 22px;
+  margin-right: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Font Awesome */
+  font-family: FontAwesome;
+  content: "\2b";
+  font-weight: 900;
+  color: #949087;
+}
+
+/* Documents */
+#sidebar-document-list-container {
+  padding: 6px 0 20px 0;
+  box-shadow: rgb(55 53 47 / 9%) 0px 1px 0px inset;
+  overflow: hidden auto;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.4rem;
+}
+
+#sidebar-document-list-container .document-section .document-block {
+  width: 100%;
+  color: inherit;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+#sidebar-document-list-container .document-list-block {
+  overflow: hidden;
+}
+
+#sidebar-document-list-container .document-block:hover .remove-btn,
+#sidebar-document-list-container .document-block:hover .new-btn {
+  display: block;
+}
+
+#sidebar-document-list-container .document-block:hover .title-wrapper {
+  padding-right: 30px;
+  text-overflow: clip;
+}
+
+#sidebar-document-list-container .documen-section {
+  width: 100%;
+}
+
+#sidebar-document-list-container .document-block-inner {
+  width: 100%;
+  padding: 2px 10px 2px 5px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  flex: 1 1 auto;
+}
+
+#sidebar-document-list-container .document-block-inner .title-wrapper {
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#sidebar-document-list-container .document-block-inner .title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#sidebar-document-list-container .document-block-inner .display-btn::before {
+  flex-shrink: 0;
+  flex-grow: 0;
+  width: 22px;
+  height: 22px;
+  margin-right: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Font Awesome */
+  font-family: FontAwesome;
+  content: "\f054";
+  font-weight: 500;
+  color: rgba(25, 23, 17, 0.6);
+  transform: rotateZ(0deg);
+}
+
+#sidebar-document-list-container .document-block-inner .remove-btn::after {
+  flex-shrink: 0;
+  flex-grow: 0;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  margin-right: 3px;
+  align-items: center;
+  justify-content: center;
+  /* Font Awesome */
+  font-family: FontAwesome;
+  content: "\f1f8";
+  font-weight: 900;
+  color: #949087;
+}
+
+#sidebar-document-list-container .document-block-inner .remove-btn {
+  display: none;
+  position: absolute;
+  right: 22px;
+}
+
+#sidebar-document-list-container .document-block-inner .new-btn::after {
+  flex-shrink: 0;
+  flex-grow: 0;
+  width: 22px;
+  height: 22px;
+  margin-right: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Font Awesome */
+  font-family: FontAwesome;
+  content: "\2b";
+  font-weight: 900;
+  color: #949087;
+}
+
+#sidebar-document-list-container .document-block-inner .new-btn {
+  display: none;
+  position: absolute;
+  right: 0;
+}
+
+/* Document Footer */
+#sidebar-footer {
+  flex-shrink: 0;
+  flex-grow: 0;
+  margin-top: auto;
+  cursor: pointer;
+  box-shadow: rgb(55 53 47 / 9%) 0px -1px 0px;
+}
+
+#sidebar-footer .document-block-inner {
+  width: 100%;
+  height: 45px;
+  min-height: 27px;
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  margin: 1px auto;
+  color: rgba(55, 53, 47, 0.65);
+}
+
+#sidebar-footer .document-block-inner .new-btn::after {
+  flex-shrink: 0;
+  flex-grow: 0;
+  width: 22px;
+  height: 22px;
+  margin-right: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Font Awesome */
+  font-family: FontAwesome;
+  content: "\2b";
+  font-weight: 900;
+  color: #949087;
 }
 
 /*
@@ -58,72 +272,4 @@ header input {
 #editor-container .editor textarea {
   width: 100%;
   height: 100%;
-}
-
-/*
-DOCUMENT-PAGE
-============================== */
-
-/* DOCUMENT BLOCK */
-.document-block {
-  margin-left: 5px;
-  margin-right: 5px;
-  font-size: 0.9rem;
-}
-
-.document-block-inner {
-  width: 100%;
-  padding: 2px 10px 2px 5px;
-  margin-top: 1px;
-  margin-bottom: 1px;
-  display: flex;
-  overflow: hidden;
-  text-overflow: clip;
-}
-
-.document-block-inner .display-btn::before {
-  flex-shrink: 0;
-  flex-grow: 0;
-  width: 22px;
-  height: 22px;
-  margin-right: 3px;
-  /* Font Awesome */
-  font-family: FontAwesome;
-  content: "\f1b0";
-  font-weight: 900;
-  color: #949087;
-}
-
-.document-block-inner .remove-btn::after {
-  flex-shrink: 0;
-  flex-grow: 0;
-  width: 22px;
-  height: 22px;
-  margin-right: 3px;
-  /* Font Awesome */
-  font-family: FontAwesome;
-  content: "\f1b0";
-  font-weight: 900;
-  color: #949087;
-}
-
-.document-block-inner .new-btn::after {
-  flex-shrink: 0;
-  flex-grow: 0;
-  width: 22px;
-  height: 22px;
-  margin-right: 3px;
-  /* Font Awesome */
-  font-family: FontAwesome;
-  content: "\f1b0";
-  font-weight: 900;
-  color: #949087;
-}
-
-.document-block-inner .title {
-  align-items: center;
-  display: flex;
-  flex: 1 1 auto;
-  overflow: hidden;
-  text-overflow: clip;
 }

@@ -29,8 +29,8 @@ export const styleObj = {
   PADDING_INCREMENT: 20,
 };
 
-export const DOCUMENT_HEADER_CONTENT = "워크 스페이스";
-export const DOCUMENT_FOOTER_CONTENT = "새 문서 만들기";
+export const DOCUMENT_HEADER_CONTENT = "Notion";
+export const DOCUMENT_FOOTER_CONTENT = "New Doc";
 export const DISABLED_ID = -1;
 export const DEFAULT_ID = "new";
 
