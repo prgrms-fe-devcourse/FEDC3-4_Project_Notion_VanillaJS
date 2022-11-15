@@ -41,7 +41,11 @@ export default function Editor({
       this.setState(nextState);
       onEditing(this.state);
 
-      const $span = document.querySelector(`[data-id='${this.state.id}']`);
+      // editor에서 title 입력 시 document list에도 바로 반영
+      const $span = document
+        .querySelector(`[data-id='${this.state.id}']`)
+        .querySelector('span');
+
       if (name === 'title' && value) {
         $span.textContent = value;
       } else if (name === 'title') {
