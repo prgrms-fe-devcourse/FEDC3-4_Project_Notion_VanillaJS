@@ -15,7 +15,11 @@ import templates from '../../utils/templates.js';
 /**
  * state: array
  */
-export default function DocumentList({ $target, initialState = [], onClickDocumentItem }) {
+export default function DocumentList({
+	$target,
+	initialState = [],
+	onClickDocumentItem,
+}) {
 	const $documentList = createElement({
 		element: 'div',
 		$target,
@@ -51,12 +55,12 @@ export default function DocumentList({ $target, initialState = [], onClickDocume
 
 	$documentList.addEventListener('click', async (event) => {
 		event.stopPropagation();
-		
+
 		const { target } = event;
 		if (target.className === 'no-sub-document') return;
-		
+
 		const { action } = target.dataset;
-		const { id, currentPath } = target.closest('[class=document-item]').dataset;
+		const { id, currentPath } = target.closest('[data-id]').dataset;
 
 		if (action) {
 			const storedOpenedDocumentsItems = getItem(OPENED_DOCUMENT_ITEMS, []);
@@ -98,7 +102,7 @@ export default function DocumentList({ $target, initialState = [], onClickDocume
 					await deleteDocument(id);
 					const nextRootDocumentsAfterDeleteAction = await getRootDocuments();
 					// this.setState(nextRootDocumentsAfterDeleteAction);
-					onClickDocumentItem(nextRootDocumentsAfterDeleteAction)
+					onClickDocumentItem(nextRootDocumentsAfterDeleteAction);
 					if (id === currentId) historyPush('/');
 					break;
 				case 'add':
@@ -114,6 +118,13 @@ export default function DocumentList({ $target, initialState = [], onClickDocume
 		}
 
 		// todo : 현재 클릭한 것은 background-color를 바꾸는 등 focus 되도록 하자.
-		if (!action && id) historyPush(`${id}?currentPath=${currentPath}`);
+		if (!action && id) {
+			historyPush(`${id}?currentPath=${currentPath}`);
+			// $documentList.querySelectorAll('.document-item').forEach(($documentItem) => {
+			// 	$documentItem.classList.remove('selected');
+			// })
+			document.querySelector('.selected')?.classList.remove('selected')
+			target.closest('[data-id]').classList.add('selected');
+		}
 	});
 }

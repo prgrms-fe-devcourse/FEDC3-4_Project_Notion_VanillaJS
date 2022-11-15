@@ -1,6 +1,7 @@
 :root {
 	/* color */
 	--sidebar-background-color: rgb(251, 251, 250);
+	--document-item-selected-background-color: #0000000a;
 	--document-item-hover-background-color: rgba(0, 0, 0, 0.04);
 	--document-item-img-hover-background-color: rgba(55, 53, 47, 0.08);
 
@@ -9,6 +10,7 @@
 	--padding-normal: 1rem;
 
 	/* margin */
+	--margin-very-small: 0.5rem;
 	--margin-small: 0.75rem;
 	--margin-normal: 1rem;
 	--margin-large: 1.25rem;
@@ -54,6 +56,7 @@ nav {
 	width: 300px;
 	height: 100%;
 	background-color: var(--sidebar-background-color);
+	padding-right: var(--padding-normal);
 
 	display: flex;
 	flex-direction: column;
@@ -101,7 +104,8 @@ nav {
 
 .document-item__title {
 	width: 100%;
-
+	margin-left: var(--margin-very-small);
+	
 	display: block;
 	white-space: nowrap;
 	overflow: hidden;
@@ -143,6 +147,10 @@ nav {
 
 .toggled:hover {
 	transform: rotate(90deg) scale(1.25);
+}
+
+.selected {
+	background-color: var(--document-item-selected-background-color);
 }
 
 img[data-action='delete']:hover,

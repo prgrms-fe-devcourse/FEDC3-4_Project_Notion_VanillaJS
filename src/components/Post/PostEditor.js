@@ -46,7 +46,7 @@ export default function PostEditor({
 	this.render = () => {
 		const { title, content } = this.state;
 		$title.value = title;
-		$content.innerHTML = content;
+    $content.innerHTML = content;
 	};
 
 	this.focus = () => {

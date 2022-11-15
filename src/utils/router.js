@@ -15,6 +15,10 @@ const initRouter = (onRoute) => {
 			history.replaceState(null, null, nextUrl);
 		}
 	});
+	
+	window.addEventListener('popstate', () => {
+		onRoute();
+	})
 };
 
 const historyPush = (nextUrl) => {

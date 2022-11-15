@@ -27,6 +27,8 @@ export default function App({ $target, initialState }) {
 
 	this.route = async () => {
 		const { pathname, search } = window.location;
+		// todo : 이 부분 좀 억지같다...
+		if (pathname === '/') document.querySelector('header').classList.add('selected');
 		const [, id] = pathname.split('/');
 		// todo : 모듈화 필요
 		const queryString = new URLSearchParams(search);

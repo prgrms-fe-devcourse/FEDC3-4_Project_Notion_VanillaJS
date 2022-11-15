@@ -8,7 +8,7 @@ const templates = {
     return (
       `
         <div class='document-item-container' title='${title}'>
-          <div data-id='${id}' data-current-path='${title}' class='document-item'>
+          <div data-id='${id}' data-current-path='${title}' class='document-item ${isSelected ? 'selected' : ''}'>
             <img data-action='toggle' src='./src/assets/images/toggleButton.svg' class='${isOpen ? 'toggled' : 'not-toggled'}'>
             <div class='document-item__title'>${title}</div>
             <div class='document-item__buttons'>
@@ -36,7 +36,7 @@ const makeSubDocumentList = (path, subDocumentList, openedDocumentItems) => {
         return (
           `
             <div class='document-item-container' title='${title}'>
-              <div data-id='${id}' data-current-path='${path.join(' > ')} > ${title}' class='document-item'>
+              <div data-id='${id}' data-current-path='${path.join(' > ')} > ${title}' class='document-item ${isSelected ? 'selected' : ''}'>
                 <img data-action='toggle' src='./src/assets/images/toggleButton.svg' class='${isOpen ? 'toggled' : 'not-toggled'}'>
                 <div class='document-item__title'>${title}</div>
                 <div class='document-item__buttons'>
