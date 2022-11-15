@@ -6,7 +6,7 @@ import {
 	getRootDocuments,
 } from './utils/api/apis.js';
 import { createElement } from './utils/createElement.js';
-import { initRouter, historyReplace } from './utils/router.js';
+import { initRouter, historyReplace, historyPush } from './utils/router.js';
 
 /**
  * state: {
@@ -52,12 +52,15 @@ export default function App({ $target, initialState }) {
 	const sidebar = new Sidebar({
 		$target: $main,
 		onClickAddButton: async () => {
-			await createDocument({ title: '제목 없음' });
+			const createdDocument = await createDocument({ title: '제목 없음' });
 			const nextRootDocuments = await getRootDocuments();
 			this.setState({
 				...this.state,
 				rootDocuments: nextRootDocuments,
 			});
+			historyPush(`${createdDocument.id}?currentPath=${createdDocument.title}`)
+			document.querySelector('.selected').classList.remove('selected');
+			document.querySelector(`[data-id='${createdDocument.id}']`).classList.add('selected');
 		},
 		onClickDocumentItem: (nextRootDocuments) => {
 			this.setState({

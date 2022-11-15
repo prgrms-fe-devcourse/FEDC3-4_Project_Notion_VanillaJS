@@ -3,7 +3,7 @@ import changeCurrentPath from '../../utils/changeCurrentPath.js';
 import { createElement } from '../../utils/createElement.js';
 import debounce from '../../utils/debounce.js';
 
-const INIT_DEBOUNCE_TIME = 750;
+const INIT_DEBOUNCE_TIME = 250;
 
 /**
  * state: {
@@ -46,8 +46,21 @@ export default function PostEditor({
 
 	this.render = () => {
 		const { title, content } = this.state;
+    // todo : 모듈화하고 rich content 작업 시작하자.
+    //
+    // console.log(content.split('<div>'));
+    // const richContent = content.split('<div>').map(line => {
+    //   if (line.indexOf('## ') === 0) return `<h2>${line.substring(3)}</h2>`
+      
+    //   const newLine = 
+    //   return `<div>${line}`
+    // }).join('')
+    //
 		$title.value = title;
-		$content.innerHTML = content;
+    //
+		// $content.innerHTML = richContent;
+    //
+    $content.innerHTML = content;
 	};
 
 	this.focus = () => {

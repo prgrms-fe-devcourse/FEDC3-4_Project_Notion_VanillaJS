@@ -10,13 +10,13 @@ export default function RootDocumentAddButton({ $target, onClickAddButton }) {
 	this.render = () => {
 		$div.innerHTML = `
 			<img data-action='add' src='./src/assets/images/addButton.svg'>
-			<p>새 문서 만들기</p>
+			<div>새 문서 만들기</div>
 		`;
 	};
 
 	this.render();
 
-	$div.addEventListener('click', async (event) => {
+	$div.addEventListener('click', () => {
 		onClickAddButton()
 	});
 }

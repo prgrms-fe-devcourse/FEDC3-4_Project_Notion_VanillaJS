@@ -101,7 +101,6 @@ export default function DocumentList({
 					setItem(OPENED_DOCUMENT_ITEMS, [...storedOpenedDocumentsItems]);
 					await deleteDocument(id);
 					const nextRootDocumentsAfterDeleteAction = await getRootDocuments();
-					// this.setState(nextRootDocumentsAfterDeleteAction);
 					onClickDocumentItem(nextRootDocumentsAfterDeleteAction);
 					if (id === currentId) historyPush('/');
 					break;
@@ -109,10 +108,12 @@ export default function DocumentList({
 					// todo : 새로 생성된 문서로 바로 작성하러 갈 수 있도록 추가해줄까?
 					if (!storedOpenedDocumentsItems.includes(id))
 						setItem(OPENED_DOCUMENT_ITEMS, [...storedOpenedDocumentsItems, id]);
-					await createDocument({ parent: id });
+					const createdDocument = await createDocument({ parent: id });
 					const nextRootDocumentsAfterCreateAction = await getRootDocuments();
-					// this.setState(nextRootDocumentsAfterCreateAction);
 					onClickDocumentItem(nextRootDocumentsAfterCreateAction);
+					historyPush(`${createdDocument.id}?currentPath=${currentPath} > ${createdDocument.title}`);
+					document.querySelector('.selected')?.classList.remove('selected')
+					document.querySelector(`[data-id='${createdDocument.id}']`).classList.add('selected');
 					break;
 			}
 		}
