@@ -1,0 +1,160 @@
+/* App */
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style-type: none;
+  cursor: pointer;
+}
+
+img {
+  height: 100%;
+  transition: all .5s;
+}
+
+button {
+  background-color: unset;
+  border: unset;
+  border-radius: 5%;
+  margin: 0;
+  padding: 0;
+}
+
+button:hover {
+  background-color: #ccc;
+  cursor: default;
+}
+
+#app {
+  display: flex;
+}
+
+.hidden {
+  width: 0px !important;
+  height: 0px !important;
+  visibility: hidden;
+}
+
+.icon {
+  content: "";
+  background-size: 12px;
+  background-repeat: no-repeat;
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  transition: transform 0.5s;
+  opacity: 0.65;
+  cursor: pointer;
+}
+
+.icon:hover {
+  opacity: 1;
+}
+
+/* Sidebar */
+
+.sidebar .documents-header {
+  font-size: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.documents-header h1 {
+  font-size: 24px;
+  margin: 15px 0;
+  cursor: pointer;
+}
+
+.sidebar {
+  width: 20%;
+  padding: 0.5rem;
+  flex-shrink: 0;
+}
+
+ul.document-list {
+  transition: all 0.5s;
+}
+
+.close {
+  display: none;
+}
+
+.open {
+  display: block;
+}
+
+.document-item {
+  display: flex;
+  height: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px;
+}
+
+.document-item:hover {
+  background-color: #eee;
+}
+
+.dropdown-documents-button {
+  background-image: url(/assets/image/arrow.png);
+}
+
+.remove-document-button {
+  background-image: url(/assets/image/close.png);
+}
+
+.add-sub-document-button {
+  background-image: url(/assets/image/plus.png);
+}
+
+.add-document-button {
+  background-image: url(/assets/image/plus.png);
+}
+
+.rotate-90 {
+  transform: rotate(90deg);
+}
+
+.no-sub-documents {
+  cursor: default;
+  user-select: none;
+}
+
+/* DocumetPage */
+
+.editor {
+  width: 720px;
+  margin: 0 auto;
+  padding: 0.5rem;
+}
+
+.editor .document-title {
+  border: 0px;
+  font-size: 48px;
+  padding: 0.5rem;
+}
+
+.editor .document-content {
+  margin-top: 1rem;
+  border: 0px;
+  padding: 0.5rem;
+  resize: none;
+}
+
+input,
+textarea {
+  width: 100%;
+}
+
+textarea {
+  height: 400px;
+}
+
+.document-page {
+  width: 100%;
+  margin-top: 10px;
+}

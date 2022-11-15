@@ -43,10 +43,10 @@ export default function App({ $app }) {
     onDocumentClick: async (id) => {
       push(`/documents/${id}`);
     },
-    onAddSubDocumentButtonClick: async (parentId) => {
+    onAddSubDocumentButtonClick: (parentId) => {
       postDocumnet(Number(parentId));
     },
-    onRemoveDocumentButtonClick: async (id) => {
+    onRemoveDocumentButtonClick: (id) => {
       deleteDocument(Number(id))
     }
   });
@@ -75,17 +75,11 @@ export default function App({ $app }) {
     this.setState({ ...this.state, documents });
   };
 
-  const getDocument = async (id) => {
-    const selectedDocument = await request(`/documents/${id}`);
-    this.setState({ ...this.state, selectedDocument });
-  }
-
   const postDocumnet = async (parent) => {
     const { id } = await request(`/documents`, {
       method: 'POST',
       body: JSON.stringify({ parent, title: '' })
     });
-    getDocuments();
     push(`/documents/${id}`);
   }
 
@@ -104,13 +98,18 @@ export default function App({ $app }) {
     if (this.state.selectedDocument.id === id) push('/');
   }
 
-  const route = () => {
+  const route = async () => {
     const { pathname } = window.location;
     if (pathname === '/') {
       this.setState({ ...this.state, selectedDocument: { ...this.state.selectedDocument, id: null } })
     } else if (pathname.indexOf('/documents/') === 0) {
       const [, , id] = pathname.split('/');
-      if (this.state.selectedDocument.id !== id) getDocument(id);
+      const nextState = {}
+      if (this.state.selectedDocument.id !== Number(id)) {
+        nextState['selectedDocument'] = await request(`/documents/${id}`);
+      }
+     nextState['documents'] = await request('/documents');
+      this.setState({...this.state, ...nextState });
     }
   }
 
