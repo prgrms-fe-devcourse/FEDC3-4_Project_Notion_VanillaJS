@@ -4,6 +4,7 @@ export default function Editor({
   onEditing,
 }) {
   const $editor = document.createElement("div");
+  $editor.setAttribute("class", "editor");
   $target.appendChild($editor);
 
   this.state = initialState;
