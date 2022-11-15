@@ -113,7 +113,7 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
     // 새로운 게시물을 작성하다가 새로고침이 되어도 작성중인 내용이 사라지지않는다.
     if (this.state.postId === "new" && nextState.postId === "new") {
       const tempPost = await getItem(postLocalSaveKey, {
-        title: "",
+        title: "제목 없음",
         content: "",
       });
 
@@ -141,7 +141,7 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
       // 새로운 문서를 만들 경우.
       if (this.state.postId === "new") {
         const post = getItem(postLocalSaveKey, {
-          title: "새 문서의 제목을 입력하세요.",
+          title: "제목 없음",
           content: "",
         });
 
@@ -165,7 +165,7 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
     if (this.state.post) {
       editor.setState(
         this.state.post || {
-          title: "새 문서의 제목을 입력하세요.",
+          title: "제목 없음",
           content: "",
         }
       );
@@ -184,8 +184,12 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
         metohd: "GET",
       });
 
+      // API에서 post를 받아올 때 글의 내용이 없으면 null로 내려온다.
+      // ""과 null은 자료형이 일치 하지 않으므로 자료형을 일치 시켜준다.
+      if (post.content === null) post.content = "";
+
       const tempPost = await getItem(postLocalSaveKey, {
-        title: "",
+        title: "제목 없음",
         content: "",
       });
 

@@ -30,7 +30,7 @@ export default function PostPage({ $target, initialState }) {
       const test = await request("documents", {
         method: "POST",
         body: JSON.stringify({
-          title: "새 문서",
+          title: "제목 없음",
           parent: id,
         }),
       });
