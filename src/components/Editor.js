@@ -22,7 +22,9 @@ export default function Editor({ $target, initialState, onEditing }) {
 
   this.render = () => {
     $editor.querySelector("[name=title]").value = this.state.title;
+    $editor.querySelector("[name=title]").placeholder = "제목을 입력해주세요";
     $editor.querySelector("[name=content]").value = this.state.content;
+    $editor.querySelector("[name=content]").placeholder = "내용을 입력해주세요";
   };
 
   this.render();
