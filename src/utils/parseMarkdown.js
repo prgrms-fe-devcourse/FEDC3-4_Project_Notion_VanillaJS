@@ -1,6 +1,5 @@
 export const parseMarkdown = (text) => {
   //ul
-  console.log(text);
   text = text.replace(/^\s*\n\*/gm, "<ul>\n*");
   text = text.replace(/^(\*.+)\s*\n([^\*])/gm, "$1\n</ul>\n\n$2");
   text = text.replace(/^\*(.+)/gm, "<li>$1</li>");

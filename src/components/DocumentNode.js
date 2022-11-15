@@ -13,7 +13,6 @@ function DocumentNode({ $target, initialState, onClick, onDelete, onSelect }) {
 
   this.render = () => {
     const { data } = this.state;
-
     $node.innerHTML = `
       <ul class="tree-node">
         ${data
@@ -21,16 +20,32 @@ function DocumentNode({ $target, initialState, onClick, onDelete, onSelect }) {
             const $li = document.createElement("li");
             $li.dataset.documentId = id;
             $li.className = "node-item";
+
             $li.innerHTML = `
-            ${title}
-            <button class="delete-button" data-parent-id="${id}">-</button>
-            <button class="add-button" data-parent-id="${id}">+</button>
+            <section class="tree-node-li">
+              <div class="node-title">
+                <span class="material-symbols-outlined">keyboard_arrow_right</span>
+                <span>${title}</span>
+              </div>
+              <div class="node-button-group">
+                <button class="delete-button" data-parent-id="${id}">
+                  <span class="material-symbols-outlined">
+                    more_horiz
+                  </span>
+                </button>
+                <button class="add-button" data-parent-id="${id}">
+                  <span class="material-symbols-outlined">
+                    add
+                  </span>
+                </button>
+              </div>
+            </section>
             `;
 
             if (documents.length > 0) {
-              new DocumentNode({
+              this.documentNode = new DocumentNode({
                 $target: $li,
-                initialState: { data: documents },
+                initialState: { data: documents, isDisplay: false },
               });
             }
 
@@ -74,7 +89,7 @@ function DocumentNode({ $target, initialState, onClick, onDelete, onSelect }) {
       const { documentId } = $li.dataset;
       // 여기서 라우터 변경을 한 후 이동한 페이지에서 api 요청해서 문서 정보 불러오기
       if (documentId) {
-        onSelect(parseInt(documentId));
+        // onSelect(parseInt(documentId));
         navigate(`/document/${documentId}`);
       }
     }

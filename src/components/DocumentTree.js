@@ -27,7 +27,7 @@ function DocumentTree({ $target, initialState }) {
     `;
     new DocumentNode({
       $target: $tree,
-      initialState: { data: this.state.data },
+      initialState: { data: this.state.data, isDisplay: false },
       onClick: (parentId) => this.onClick(parentId),
       onDelete: (documentId) => {
         const answer = confirm("문서를 정말 삭제하시겠습니까?");
@@ -39,9 +39,9 @@ function DocumentTree({ $target, initialState }) {
         }
       },
 
-      onSelect: (documentId) => {
-        getDocumentDetail(documentId);
-      },
+      // onSelect: (documentId) => {
+      //   getDocumentDetail(documentId);
+      // },
     });
   };
 
