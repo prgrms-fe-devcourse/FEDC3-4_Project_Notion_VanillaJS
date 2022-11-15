@@ -73,10 +73,11 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
       return;
     }
     this.state = nextState;
-    markupList.setState(this.state.post);
+
     this.render();
 
     if (this.state.post) {
+      markupList.setState(this.state.post);
       editor.setState(this.state.post);
     }
   };

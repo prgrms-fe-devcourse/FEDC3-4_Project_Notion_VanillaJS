@@ -2,7 +2,7 @@ import { push } from "./router.js";
 
 export default function MarkUpList({ $target, initialState }) {
   const $markUpList = document.createElement("div");
-  $markUpList.classList.add("MarkUpList");
+  $markUpList.classList.add("markUpList");
   $target.appendChild($markUpList);
 
   this.state = initialState;
@@ -19,7 +19,9 @@ export default function MarkUpList({ $target, initialState }) {
         .map(
           ({ id, title, documents }) => `
       <div class='documentsTree'>
+      
         <li data-id="${id}">
+        <img class="svg" src="../icon/chevron-right-solid.svg" />
         ${title}
         </li>
         ${documents.map((document) => markUpList([document], text)).join("")}
@@ -43,7 +45,6 @@ export default function MarkUpList({ $target, initialState }) {
   $markUpList.addEventListener("click", (e) => {
     const $li = e.target.closest("li");
     const id = $li.dataset.id;
-    console.log($li);
     if ($li) {
       push(`/documents/${id}`);
     }
