@@ -2,7 +2,12 @@
 import { setItem, getItem } from '../../lib/storage.js';
 import { $, $createElement, ListItem, validateState } from '../../lib/utils.js';
 // 폴더 add 버튼, 삭제 버튼, 리스트 아이템 클릭
-export default function TextList({ $target, initialState, addChildDocument }) {
+export default function TextList({
+  $target,
+  initialState,
+  addChildDocument,
+  removeState,
+}) {
   const $list = $createElement('div');
   const $ul = $createElement('ul');
   $list.className = 'list';
@@ -114,7 +119,17 @@ export default function TextList({ $target, initialState, addChildDocument }) {
       addChildDocument();
     };
 
-    const removeDocument = () => {};
+    // 더블 클릭 방지
+    let accessableCount = 1;
+    const removeDocument = () => {
+      accessableCount -= accessableCount;
+      if (accessableCount < 0) {
+        return;
+      } else {
+        removeState(id);
+      }
+      accessableCount += 1;
+    };
 
     if (e.target === toggler) {
       toggleList();

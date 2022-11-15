@@ -19,9 +19,21 @@ export default function App({ $target }) {
     });
   };
 
+  const getData = async () => {
+    const data = await request('/documents', {
+      method: 'GET',
+    });
+    const nextState = [...data];
+    this.setState({
+      ...this.state,
+      list: nextState,
+    });
+  };
+
   const sidebarContainer = new SideBarContainer({
     $target,
     initialState: {},
+    getData,
   });
 
   const editorContainer = new EditorContainer({
@@ -57,8 +69,7 @@ export default function App({ $target }) {
           parent: id,
         }),
       });
-
-      getData();
+      await getData();
     },
 
     switchFullScreen: (title, text) => {
@@ -67,22 +78,8 @@ export default function App({ $target }) {
         title,
         text,
       });
-
-      console.log(this.state);
     },
   });
 
-  const getData = async () => {
-    const data = await request('/documents', {
-      method: 'GET',
-    });
-
-    const nextState = [...data];
-    this.setState({
-      ...this.state,
-      list: nextState,
-    });
-    console.log($target.childNodes);
-  };
   getData();
 }

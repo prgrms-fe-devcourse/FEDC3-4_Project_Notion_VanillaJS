@@ -1,3 +1,4 @@
+import { request } from '../../api/request.js';
 import { USER_NAME } from '../../lib/constants.js';
 import { $, showModal } from '../../lib/utils.js';
 
@@ -5,7 +6,7 @@ import Footer from './Footer.js';
 import Header from './Header.js';
 import TextList from './TextList.js';
 
-export default function SideBarContainer({ $target, initialState }) {
+export default function SideBarContainer({ $target, initialState, getData }) {
   const $sideBar = document.createElement('div');
   $sideBar.className = 'sideBar-container';
   $target.appendChild($sideBar);
@@ -35,6 +36,12 @@ export default function SideBarContainer({ $target, initialState }) {
     },
     addChildDocument: () => {
       showModal();
+    },
+    removeState: async (id) => {
+      await request(`/documents/${id}`, {
+        method: 'DELETE',
+      });
+      await getData();
     },
   });
 
