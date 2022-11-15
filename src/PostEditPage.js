@@ -110,13 +110,23 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
   this.setState = async (nextState) => {
     //console.log(this.state, nextState);
 
-    // 첫 게시물 작성시 <-- 수정필요.
+    // 새로운 게시물을 작성하다가 새로고침이 되어도 작성중인 내용이 사라지지않는다.
     if (this.state.postId === "new" && nextState.postId === "new") {
-      this.state = nextState;
-      editor.setState({
-        title: "오늘의 첫번째 게시글을 작성해보세요.",
-        content: "새 문서의 내용을 입력하세요.",
+      const tempPost = await getItem(postLocalSaveKey, {
+        title: "",
+        content: "",
       });
+
+      if (tempPost.title !== "" || tempPost.content !== "") {
+        this.state = {
+          ...this.state,
+          post: tempPost,
+        };
+      } else {
+        this.state = nextState;
+      }
+
+      editor.setState(this.state.post);
 
       navi.setState(this.state);
       this.render();
@@ -132,7 +142,7 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
       if (this.state.postId === "new") {
         const post = getItem(postLocalSaveKey, {
           title: "새 문서의 제목을 입력하세요.",
-          content: "문서의 내용을 변경하면 문서가 생성되고 저장됩니다.",
+          content: "",
         });
 
         navi.setState(this.state);
