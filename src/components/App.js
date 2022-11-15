@@ -22,8 +22,8 @@ class App {
     if (!this.isMount) {
       this.isMount = true;
 
-      new PostPage({ $target: this.$main });
       new SidebarPage({ $target: this.$main });
+      new PostPage({ $target: this.$main });
     }
   }
 }
