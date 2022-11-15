@@ -34,32 +34,33 @@ export default function ModalContainer({
   // 이름 다시 지어야 됨 생각
   const processByTitle = () => {
     const { id } = this.state;
-    const text = $modalContainer ? $('[name=text]', $modalContainer) : '';
     const title = $modalContainer ? $('[name=title]', $modalContainer) : '';
+    const content = $modalContainer ? $('[name=content]', $modalContainer) : '';
     const titleValue = title.value + '';
+    const contentValue = content.value + '';
 
     titleValue === '' || titleValue === '제목없음'
       ? clearUntitledDocument()
-      : postDocument(titleValue, id);
+      : postDocument(titleValue, contentValue, id);
 
     title.value = '';
-    text.value = '';
+    content.value = '';
     onClose();
   };
 
   // editor로
   const sendStatesToEditor = () => {
     const { id } = this.state;
-    const text = $modalContainer ? $('[name=text]', $modalContainer) : '';
     const title = $modalContainer ? $('[name=title]', $modalContainer) : '';
-    const textValue = text.value + '';
+    const content = $modalContainer ? $('[name=content]', $modalContainer) : '';
     const titleValue = title.value + '';
+    const contentValue = content.value + '';
 
-    switchFullScreen(titleValue, textValue);
-    postDocument(titleValue, id);
+    switchFullScreen(titleValue, contentValue);
+    postDocument(titleValue, contentValue, id);
 
     title.value = '';
-    text.value = '';
+    content.value = '';
     onClose();
   };
 

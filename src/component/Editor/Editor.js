@@ -1,6 +1,6 @@
 export default function Editor({ $target, initialState }) {
   const $editor = document.createElement('div');
-  $editor.className = 'editor-content';
+  $editor.className = 'editor-contents';
 
   $target.appendChild($editor);
 
@@ -11,7 +11,7 @@ export default function Editor({ $target, initialState }) {
     this.render();
   };
 
-  const editorContent = (title = '', text = '') => {
+  const editorContent = (title = '', content = '') => {
     return `
          <input
             class="editor-title"
@@ -22,11 +22,11 @@ export default function Editor({ $target, initialState }) {
             placeholder="제목 없음"
           />
           <textarea
-            class="editor-text"
-            name="text"
-            id="text"
+            class="editor-content"
+            name="content"
+            id="content"
             placeholder="내용을 입력하세요..😁"
-          >${text}</textarea>
+          >${content}</textarea>
     `;
   };
 
@@ -34,7 +34,7 @@ export default function Editor({ $target, initialState }) {
     if (!this.state) {
       $editor.innerHTML = editorContent();
     } else {
-      $editor.innerHTML = editorContent(this.state.title, this.state.text);
+      $editor.innerHTML = editorContent(this.state.title, this.state.content);
     }
   };
 

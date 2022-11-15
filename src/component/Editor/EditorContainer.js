@@ -5,7 +5,7 @@ export default function EditorContainer({ $target, initialState }) {
   $editorContainer.className = 'editor-container';
   $target.appendChild($editorContainer);
 
-  this.state = { ...initialState, title: '', text: '' };
+  this.state = { ...initialState, title: '', content: '' };
 
   this.setState = (nextState) => {
     this.state = nextState;
@@ -16,7 +16,7 @@ export default function EditorContainer({ $target, initialState }) {
     $target: $editorContainer,
     initialState: {
       title: this.state.title,
-      text: this.state.text,
+      content: this.state.content,
     },
   });
 }

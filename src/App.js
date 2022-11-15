@@ -15,7 +15,7 @@ export default function App({ $target }) {
     sidebarContainer.setState(this.state);
     editorContainer.setState({
       title: this.state.title,
-      text: this.state.text,
+      content: this.state.content,
     });
   };
 
@@ -34,6 +34,13 @@ export default function App({ $target }) {
     $target,
     initialState: {},
     getData,
+    setEditor: (title, content) => {
+      this.setState({
+        ...this.state,
+        title,
+        content: content ? content : '',
+      });
+    },
   });
 
   const editorContainer = new EditorContainer({
@@ -61,15 +68,24 @@ export default function App({ $target }) {
     },
 
     // 타이틀이 있으면 해당 RootDocument 추가
-    postDocument: async (title, id) => {
-      await request('/documents', {
+    postDocument: async (title, text, id) => {
+      const postData = await request('/documents', {
         method: 'POST',
         body: JSON.stringify({
           title,
           parent: id,
         }),
       });
+
       await getData();
+
+      await request(`/documents/${postData.id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          title,
+          content: text,
+        }),
+      });
     },
 
     switchFullScreen: (title, text) => {

@@ -6,7 +6,8 @@ export default function TextList({
   $target,
   initialState,
   addChildDocument,
-  removeState,
+  requestRemoveDocument,
+  requestDocumentDetail,
 }) {
   const $list = $createElement('div');
   const $ul = $createElement('ul');
@@ -48,6 +49,7 @@ export default function TextList({
     const toggler = $('.toggler', $li);
     const addChildBtn = $('.add-child-btn', $li);
     const removeBtn = $('.remove-btn', $li);
+    const textTitle = $(`.text-title`, $li);
     const childState = childList
       ? childList.filter((item) => item.id === +id)[0]
       : list.filter((item) => item.id === +id)[0];
@@ -131,12 +133,19 @@ export default function TextList({
       accessableCount += 1;
     };
 
+    const showDocument = () => {};
+
     if (e.target === toggler) {
       toggleList();
-    } else if (e.target === addChildBtn) {
+    }
+    if (e.target === addChildBtn) {
       addDocument();
-    } else if (e.target === removeBtn) {
-      removeDocument();
+    }
+    if (e.target === removeBtn) {
+      requestRemoveDocument(id);
+    }
+    if (e.target === textTitle) {
+      requestDocumentDetail(id);
     }
   });
 }

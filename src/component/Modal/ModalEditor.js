@@ -16,9 +16,9 @@ export default function ModalEditor({ $target, setParentId }) {
             placeholder="제목 없음"
           />
           <textarea
-            class="editor-text"
-            name="text"
-            id="text"
+            class="editor-content"
+            name="content"
+            id="content"
             placeholder="내용을 입력하세요...😁"
           ></textarea>
         `;
@@ -32,8 +32,7 @@ export default function ModalEditor({ $target, setParentId }) {
 
     if (nameValue === 'title') {
       const value = e.target.value;
-      const $label = $(`[for=new]`, document);
-      const $span = $('span', $label);
+      const $span = $('[data-id=new]', document);
       $span.textContent = value;
 
       const $ul = $span.closest('ul');
