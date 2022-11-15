@@ -1,3 +1,5 @@
+import { push } from '../utils/router.js';
+
 export default function DocumentList({ $target, initialState }) {
   const $div = document.createElement('div');
   $div.className = 'document-list';
@@ -14,12 +16,12 @@ export default function DocumentList({ $target, initialState }) {
     $div.innerHTML = `
       ${this.state
         .map(
-          ({ title }) => `
+          ({ id, title }) => `
             <div class='document'>
             <button>
                 <img class='toggle' />
             </button>
-            <span>${title}</span>
+            <span data-id=${id}>${title}</span>
             <button>
                 <img class='delete' />
             </button>
@@ -33,7 +35,8 @@ export default function DocumentList({ $target, initialState }) {
     `;
 
     document.querySelectorAll('.toggle').forEach(($img) => {
-      $img.setAttribute('src', '../../assets/down.png');
+      console.log($img.getAttribute('class'));
+      $img.setAttribute('src', '../../assets/right.png');
     });
 
     document.querySelectorAll('.delete').forEach(($img) => {
@@ -42,6 +45,13 @@ export default function DocumentList({ $target, initialState }) {
 
     document.querySelectorAll('.plus').forEach(($img) => {
       $img.setAttribute('src', '../../assets/plus.png');
+    });
+
+    $div.querySelectorAll('span').forEach(($span) => {
+      $span.addEventListener('click', (e) => {
+        const { id } = e.target.dataset;
+        push(`/documents/${id}`);
+      });
     });
   };
 
