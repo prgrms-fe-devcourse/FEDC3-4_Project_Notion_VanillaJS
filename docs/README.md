@@ -8,8 +8,8 @@
   - [ ] document 우측에 위치한 `+`버튼을 클릭하면, 클릭한 document 하위에 새 document를 생성하고, 편집기로 커서가 이동한다.
   - [ ] document 우측에 위치한 `X`버튼을 클릭하면, 해당 document가 삭제된다.
   - [x] document를 클릭하면, 오른쪽에 document의 content를 볼 수 있다.
-- [ ] 오른쪽은 해당 document의 content 편집할 수 있는 편집기가 있다.
-  - [ ] 편집기는 지속적으로 서버에 저장된다 (Document Save API 이용해 자동저장 구현)
+- [x] 오른쪽은 해당 document의 content 편집할 수 있는 편집기가 있다.
+  - [x] 편집기는 지속적으로 서버에 저장된다 (Document Save API 이용해 자동저장 구현)
 - [ ] 처음 들어왔을 때, documenut가 있다면 Root document를 보여준다.
   - [ ] document가 없다면, 문서를 추가하는 버튼을 보여준다.
 - [ ] URL 접근 시, 왼쪽엔 해당 document, 오른쪽엔, document content를 보여준다.

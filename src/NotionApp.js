@@ -1,6 +1,6 @@
 import Editor from './components/Editor.js';
 import NavBar from './components/NavBar.js';
-import { fetchDocumentContents, fetchDocumentList } from './utils/api.js';
+import { fetchDocumentContents, fetchDocumentList, request } from './utils/api.js';
 
 export default function NotionApp({ $container }) {
   this.state = {
@@ -24,12 +24,29 @@ export default function NotionApp({ $container }) {
     initialState: this.state.documentList,
     onSelect: (id) => {
       loadDocumentContents(id);
+      history.pushState(null, null, `/documents/${id}`);
     },
   });
 
   const editor = new Editor({
     $container,
     initialState: this.state.documentContent,
+    onEdit: async (documentContent) => {
+      const { id, title, content } = documentContent;
+      const newContent = { title, content };
+
+      this.setDocumentContent({
+        ...this.state,
+        documentContent,
+      });
+      // TODO: title 바뀌면, list 반영해야함
+      await request(`/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(newContent),
+      });
+      // 서버와 동기화
+      await loadDocumentContents(id);
+    },
   });
 
   const turnOn = async () => {

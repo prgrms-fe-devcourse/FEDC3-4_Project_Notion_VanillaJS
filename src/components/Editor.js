@@ -1,4 +1,4 @@
-export default function Editor({ $container, initialState }) {
+export default function Editor({ $container, initialState, onEdit }) {
   const $editor = document.createElement('section');
   $editor.id = 'editor';
   $container.appendChild($editor);
@@ -10,19 +10,31 @@ export default function Editor({ $container, initialState }) {
     this.render();
   };
 
+  $editor.innerHTML = `
+		<input type="text" id="title" value=${this.state ? this.state.title : ''}></input>
+		<textarea id="content">${this.state ? this.state.content : ''}</textarea> 
+	`;
+
   this.render = () => {
-    if (!this.state) {
-      $editor.innerHTML = `
-		<button>페이지 만들기</button>
-		`;
-    } else {
-      const { title, content } = this.state;
-      $editor.innerHTML = `
-	    <input type="text" value=${title} />
-			<textarea id="content">${content}</textarea> 
-	  `;
-    }
+    $editor.querySelector('input').value = this.state.title;
+    $editor.querySelector('textarea').value = this.state.content;
   };
 
-  this.render();
+  let timer = null;
+  $editor.addEventListener('input', (e) => {
+    const { id, value } = e.target;
+    if (!id) return;
+
+    if (timer) {
+      clearTimeout(timer);
+    }
+
+    timer = setTimeout(() => {
+      const newState = {
+        ...this.state,
+        [id]: value,
+      };
+      onEdit(newState);
+    }, 2500);
+  });
 }
