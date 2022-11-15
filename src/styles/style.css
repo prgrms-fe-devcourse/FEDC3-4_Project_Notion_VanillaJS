@@ -26,13 +26,16 @@
   cursor: pointer;
 }
 
-.add-button {
-  all: unset;
-  color: gray;
+.tree-subtitle-wrapper {
+  display: flex;
+}
+
+.add-root-button,
+.add-button,
+.delete-button {
   background-color: lightblue;
-  width: 12px;
-  padding: 0 3px;
   border-radius: 4px;
+  border: none;
 }
 
 .editor-text {

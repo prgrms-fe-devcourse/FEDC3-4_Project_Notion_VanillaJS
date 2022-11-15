@@ -1,6 +1,6 @@
 import { navigate } from "../utils/router.js";
 
-function DocumentNode({ $target, initialState, onClick, onSelect }) {
+function DocumentNode({ $target, initialState, onClick, onDelete, onSelect }) {
   const $node = document.createElement("article");
   $target.appendChild($node);
 
@@ -22,7 +22,8 @@ function DocumentNode({ $target, initialState, onClick, onSelect }) {
             $li.dataset.documentId = id;
             $li.className = "node-item";
             $li.innerHTML = `
-            ${title}${id}
+            ${title}
+            <button class="delete-button" data-parent-id="${id}">-</button>
             <button class="add-button" data-parent-id="${id}">+</button>
             `;
 
@@ -54,6 +55,15 @@ function DocumentNode({ $target, initialState, onClick, onSelect }) {
 
       if (parentId) {
         onClick(parseInt(parentId));
+      }
+      return;
+    }
+
+    if ($button?.className === "delete-button") {
+      const { parentId } = $button.dataset;
+
+      if (parentId) {
+        onDelete(parseInt(parentId));
       }
       return;
     }

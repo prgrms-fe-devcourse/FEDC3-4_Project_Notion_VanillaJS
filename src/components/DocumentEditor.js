@@ -15,7 +15,12 @@ function DocumentEditor({ $target, initialState, onChange }) {
   this.render = () => {
     const { title, content, documents } = this.state.data;
 
-    // 로딩 처리 해주기
+    if (!title && !content) {
+      $editor.innerHTML = `
+        <h1>loading..</h1>
+      `;
+      return;
+    }
 
     $editor.innerHTML = `
       <input class="editor-document-title" value="${

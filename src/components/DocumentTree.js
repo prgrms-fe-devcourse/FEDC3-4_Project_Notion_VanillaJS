@@ -1,5 +1,6 @@
 import {
   createNewDocument,
+  deleteDocumet,
   getDocumentDetail,
   getRootDocuments,
 } from "../utils/fetchData.js";
@@ -19,34 +20,31 @@ function DocumentTree({ $target, initialState }) {
 
   this.render = () => {
     $tree.innerHTML = `
-      <h1>트리</h1>
+      <div class="tree-subtitle-wrapper">
+        <h4>문서 목록</h4>
+        <button class="add-root-button">+</button>
+      </div>
     `;
     new DocumentNode({
       $target: $tree,
       initialState: { data: this.state.data },
-      onClick: (parentId) => {
-        const title = prompt("새로운 문서의 제목을 입력해주세요");
+      onClick: (parentId) => this.onClick(parentId),
+      onDelete: (documentId) => {
+        const answer = confirm("문서를 정말 삭제하시겠습니까?");
 
-        if (title === null) return;
-        if (!title.trim()) {
-          alert("올바른 제목을 입력해주세요.");
-          return;
+        if (answer) {
+          deleteDocumet(documentId);
+          this.init();
         }
-
-        const data = {
-          title: title.trim(),
-          parent: parentId,
-        };
-
-        createNewDocument(data);
       },
+
       onSelect: (documentId) => {
         getDocumentDetail(documentId);
       },
     });
   };
 
-  this.init = async () => {
+  this.getData = async () => {
     const data = await getRootDocuments();
     this.setState({
       ...this.state,
@@ -54,7 +52,33 @@ function DocumentTree({ $target, initialState }) {
     });
   };
 
-  this.init();
+  $tree.addEventListener("click", (e) => {
+    const $button = e.target.closest("button");
+
+    if ($button?.className === "add-root-button") {
+      this.onClick(null);
+    }
+  });
+
+  this.onClick = (parentId) => {
+    const title = prompt("새로운 문서의 제목을 입력해주세요");
+
+    if (title === null) return;
+    if (!title.trim()) {
+      alert("올바른 제목을 입력해주세요.");
+      return;
+    }
+
+    const data = {
+      title: title.trim(),
+      parent: parentId,
+    };
+
+    createNewDocument(data);
+    this.getData();
+  };
+
+  this.getData();
 }
 
 export default DocumentTree;
