@@ -28,7 +28,7 @@ export default function Editor({
 
       $editor.querySelector("[name=content]").value = "";
       $editor.querySelector("[name=content]").placeholder =
-        "내용을 입력하시면 1초뒤에 문서가 생성되고 저장됩니다.";
+        "제목을 먼저 입력해주세요. 내용을 입력하시면 1초뒤에 문서가 생성되고 저장됩니다.";
     } else {
       $editor.querySelector("[name=title]").value = this.state.title;
       $editor.querySelector("[name=content]").value = this.state.content;

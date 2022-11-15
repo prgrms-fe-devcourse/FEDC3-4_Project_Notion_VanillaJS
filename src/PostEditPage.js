@@ -87,6 +87,11 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
 
           removeItem(postLocalSaveKey);
 
+          navi.setState({
+            ...post,
+            postId: post.id,
+          });
+
           listUpdate();
         }
       }, 1000);
