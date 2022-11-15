@@ -20,8 +20,8 @@ export const request = async (url, options = {}) => {
   }
 };
 
-export const fetchDocuments = async (documentId = '', options) =>
+export const fetchDocuments = async (documentId, options) =>
   request(
-    `${API_END_POINT}/documents${documentId.length ? `/${documentId}` : ''}`,
+    `${API_END_POINT}/documents${documentId ? `/${documentId}` : ''}`,
     options
   );

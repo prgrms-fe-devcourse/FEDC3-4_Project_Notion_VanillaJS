@@ -14,10 +14,16 @@ export default function Sidebar({ $target }) {
   const documentList = new DocumentList({
     $target: $sidebar,
     initialState: [],
+    onRemove: async (documentId) => {
+      await fetchDocuments(documentId, {
+        method: 'DELETE',
+      });
+      this.render();
+    },
   });
 
   this.render = async () => {
-    const documents = await fetchDocuments();
+    const documents = await fetchDocuments(null);
     documentList.setState(documents);
   };
 

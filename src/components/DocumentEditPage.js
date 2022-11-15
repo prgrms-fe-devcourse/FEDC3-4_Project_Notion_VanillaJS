@@ -1,7 +1,7 @@
 import Editor from './Editor.js';
 
 import { fetchDocuments } from '../utils/api.js';
-import { NEW, NEWPARENT, ROUTE_DOCUMENTS } from '../utils/constants.js';
+import { NEW, NEW_PARENT, ROUTE_DOCUMENTS } from '../utils/constants.js';
 import { isNew, setDocumentTitle } from '../utils/helper.js';
 import { getItem, removeItem, setItem } from '../utils/storage.js';
 
@@ -40,10 +40,10 @@ export default function DocumentEditPage({ $target, initialState }) {
             method: 'POST',
             body: JSON.stringify({
               title: document.title,
-              parent: getItem(NEWPARENT, null),
+              parent: getItem(NEW_PARENT, null),
             }),
           });
-          removeItem(NEWPARENT);
+          removeItem(NEW_PARENT);
           history.replaceState(
             null,
             null,
