@@ -11,9 +11,15 @@ export default function PostPage({ $target, initialState }) {
   const $postPage = document.createElement("div");
   $postPage.className = "PostPage";
 
-  $postPage.style.width = "20%";
-  $postPage.style.height = "100vh";
-  $postPage.style.backgroundColor = "#dcdcdc";
+  $postPage.style = `
+    width: 20%;
+    height: 100vh;
+    background-color: #dcdcdc;
+  `;
+
+  // $postPage.style.width = "20%";
+  // $postPage.style.height = "100vh";
+  // $postPage.style.backgroundColor = "#dcdcdc";
 
   new LinkButton({
     $target: $postPage,

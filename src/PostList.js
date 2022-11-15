@@ -15,8 +15,7 @@ export default function PostList({
   $postList.className = "postList";
 
   $postList.style = `   
-   overflow: auto;
-   scroll: no;
+   overflow: auto;   
    white-space: nowrap;
    height: 98vh;
    backgroundColor: #c8c8c8;   
@@ -97,7 +96,13 @@ export default function PostList({
       push(`/posts/${id}`);
 
       const $ul = $li.childNodes[5];
-      if (!$ul) return;
+      if (!$ul) {
+        setItem(id, {
+          id: id,
+          visible: "none",
+        });
+        return;
+      }
 
       // localStorage를 사용해서 하위목록들이 보여질지 아닐지 결정.
       if ($ul.style.display === "") {
