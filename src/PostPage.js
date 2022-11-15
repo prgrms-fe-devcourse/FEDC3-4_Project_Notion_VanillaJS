@@ -11,15 +11,21 @@ export default function PostPage({ $target, initialState }) {
   const $postPage = document.createElement("div");
   $postPage.className = "PostPage";
 
+  // CSS
   $postPage.style = `
     width: 20%;
     height: 100vh;
     background-color: #dcdcdc;
   `;
 
-  // $postPage.style.width = "20%";
-  // $postPage.style.height = "100vh";
-  // $postPage.style.backgroundColor = "#dcdcdc";
+  this.setState = async () => {
+    const posts = await request("documents", {
+      method: "GET",
+    });
+    postList.setState(posts);
+
+    // setState마다 render()를 진행하면 화면이 깜빡거리는 것처럼 보임.
+  };
 
   new LinkButton({
     $target: $postPage,
@@ -96,20 +102,9 @@ export default function PostPage({ $target, initialState }) {
     },
   });
 
-  this.setState = async () => {
-    const posts = await request("documents", {
-      method: "GET",
-    });
-    postList.setState(posts);
-
-    // setState마다 render()를 진행하면 화면이 깜빡거리는 것처럼 보임.
-    //this.render();
-  };
-
   this.render = async () => {
     $target.appendChild($postPage);
   };
 
   this.render();
-  //$target.appendChild($postPage);
 }

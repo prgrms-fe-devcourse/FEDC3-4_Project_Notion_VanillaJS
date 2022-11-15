@@ -8,7 +8,7 @@ export default function App({ $target, initialState }) {
 
   this.state = initialState;
 
-  this.setState = (nextState) => {};
+  // this.setState = (nextState) => {};
 
   // 모든 문서 구조에 대한 정보가 필요함.
   const postPage = new PostPage({
@@ -34,9 +34,6 @@ export default function App({ $target, initialState }) {
   });
 
   this.route = async () => {
-    // 비우기 코드
-    //$target.innerHTML = "";
-
     const { pathname } = window.location;
 
     if (pathname === "/") {

@@ -36,18 +36,7 @@ export default function Editor({
       $editor.querySelector("[name=title]").value = this.state.title;
       $editor.querySelector("[name=content]").value = this.state.content;
     }
-    //this.render();
   };
-
-  // let isInit = false;
-
-  // this.render = () => {
-  //   // 얘도 밖으로 뺴도 될듯..?
-  //   if (!isInit) {
-  //     isInit = true;
-  //   }
-  // };
-  // this.render();
 
   $editor.addEventListener("keyup", (e) => {
     const { target } = e;

@@ -11,17 +11,13 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
   const $postEditPage = document.createElement("div");
   $postEditPage.className = "postEditPage";
 
+  // CSS
   $postEditPage.style.width = "60%";
   $postEditPage.style.margin = "30px";
 
   this.state = initialState;
 
   let postLocalSaveKey = `temp-post-${this.state.postId}`;
-
-  // const post = getItem(postLocalSaveKey, {
-  //   title: "",
-  //   content: "",
-  // });
 
   let timer = null;
 
@@ -108,8 +104,6 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
   });
 
   this.setState = async (nextState) => {
-    //console.log(this.state, nextState);
-
     // 새로운 게시물을 작성하다가 새로고침이 되어도 작성중인 내용이 사라지지않는다.
     if (this.state.postId === "new" && nextState.postId === "new") {
       const tempPost = await getItem(postLocalSaveKey, {
@@ -172,10 +166,6 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
     }
   };
 
-  this.render = () => {
-    $target.appendChild($postEditPage);
-  };
-
   const fetchPost = async () => {
     const { postId } = this.state;
 
@@ -224,4 +214,8 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
       link: "/",
     },
   });
+
+  this.render = () => {
+    $target.appendChild($postEditPage);
+  };
 }
