@@ -45,6 +45,90 @@ button {
   color: inherit;
 }
 
+.document-list {
+  margin: 2px;
+}
+
+.document-list li {
+  display: flex;
+  margin: 2px;
+  padding: 3px 5px;
+  border-radius: 3px;
+}
+.document-list li:not(.no-subpages) {
+  cursor: pointer;
+}
+.document-list li:not(.no-subpages):hover {
+  background-color: #ebebea;
+}
+.document-list li:not(.no-subpages):active {
+  background-color: #d7d7d5;
+}
+
+.document-list li.selected {
+  background-color: #f1f1f0;
+}
+
+.document-list p.document-item {
+  display: block;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 4px;
+}
+
+.document-list p.document-item.block {
+  width: 140px;
+}
+
+.document-list .no-subpages {
+  font-weight: 400;
+}
+
+.document-list button:hover {
+  background-color: #dededd;
+}
+
+.document-list .buttons {
+  display: none;
+}
+
+.document-list .buttons.block {
+  display: block;
+  float: left;
+}
+
+.document-add-button.document-list-bottom {
+  display: flex;
+  padding: 5px 0;
+  cursor: pointer;
+}
+
+.document-add-button.document-list-bottom button {
+  color: inherit;
+  margin: 0 10px;
+}
+
+.document-add-button.sidebar-bottom {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  width: inherit;
+  padding: 12px 0;
+  border-top: 1.5px solid #ededec;
+  cursor: pointer;
+}
+
+.document-add-button.document-list-bottom:hover,
+.document-add-button.sidebar-bottom:hover {
+  background-color: #ebebea;
+}
+
+.document-add-button.sidebar-bottom button {
+  margin: 0 10px;
+}
+
 .document-header {
   display: flex;
   justify-content: space-between;
@@ -60,72 +144,6 @@ button {
 
 .document-header .buttons {
   padding-right: 20px;
-}
-
-.document-list {
-  margin: 2px;
-}
-
-.document-list li {
-  margin: 2px;
-  padding: 5px;
-  border-radius: 3px;
-}
-.document-list li:not(.no-subpages):hover {
-  background-color: #ebebea;
-  cursor: pointer;
-}
-.document-list li:not(.no-subpages):active {
-  background-color: #d7d7d5;
-}
-
-.document-list li.selected {
-  background-color: #f1f1f0;
-}
-
-.document-list .no-subpages {
-  font-weight: 400;
-}
-
-.document-list .buttons {
-  display: none;
-}
-
-.document-list button:hover {
-  background-color: #dededd;
-}
-
-.document-list .block {
-  display: inline;
-}
-
-.document-add-button.document-list-bottom {
-  display: flex;
-  padding: 5px 0;
-}
-
-.document-add-button.document-list-bottom button {
-  color: inherit;
-  margin: 0 5px 0 15px;
-}
-
-.document-add-button.sidebar-bottom {
-  display: flex;
-  position: fixed;
-  bottom: 0;
-  width: inherit;
-  padding: 12px 0;
-  border-top: 1.5px solid #ededec;
-}
-
-.document-add-button.document-list-bottom:hover,
-.document-add-button.sidebar-bottom:hover {
-  background-color: #ebebea;
-  cursor: pointer;
-}
-
-.document-add-button.sidebar-bottom button {
-  margin: 0 10px;
 }
 
 .document-edit-page {

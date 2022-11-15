@@ -12,6 +12,8 @@ import { getItem, setItem } from '../utils/storage.js';
 
 const DOCUMENT_ITEM = 'document-item';
 const OPENED_ITEM = 'opened-item';
+const BLOCK = 'block';
+const NONE = 'none';
 
 export default function DocumentList({ $target, initialState, onRemove }) {
   isNew(new.target);
@@ -60,24 +62,26 @@ export default function DocumentList({ $target, initialState, onRemove }) {
                 class="${DOCUMENT_ITEM}" 
                 style="text-indent: ${generateTextIndent(depth)}px">
                 ${renderButton(id)}
-                ${title.length > 0 ? title : UNTITLED}
-                <span class="buttons">
+                <p class="${DOCUMENT_ITEM}">${
+              title.length > 0 ? title : UNTITLED
+            }</p>
+                <div class="buttons">
                   <button class="${DELETE}" type="button">
                     <i class="fa-regular fa-trash-can ${DELETE}"></i>
                   </button>
                   <button class="${ADD}" type="button">
                     <i class="fa-solid fa-plus ${ADD}"></i>
                   </button>
-                </span>
+                </div>
               </li>
               ${
-                isBlock && documents.length
+                documents.length
                   ? renderDocuments(documents, depth + 2)
                   : `<li 
                       class="no-subpages" 
                       style="text-indent: ${generateTextIndent(
                         depth + 2
-                      )}px; display: ${isBlock ? 'block' : 'none'};">
+                      )}px; display: ${isBlock ? BLOCK : NONE};">
                       하위 페이지 없음
                     </li>`
               }
@@ -103,7 +107,7 @@ export default function DocumentList({ $target, initialState, onRemove }) {
     let { id } = $li.dataset;
     id = parseInt(id);
     const openedItems = getItem(OPENED_ITEM, []);
-    if (target.className === DOCUMENT_ITEM) {
+    if (target.classList.contains(DOCUMENT_ITEM)) {
       push(`${ROUTE_DOCUMENTS}/${id}`);
     } else if (target.classList.contains(ADD)) {
       setItem(NEW_PARENT, id);
@@ -134,9 +138,11 @@ export default function DocumentList({ $target, initialState, onRemove }) {
     if (!$li) return;
 
     for (const node of $li.children) {
-      if (node.classList.contains('buttons')) {
-        node.classList.toggle('block');
-        return;
+      if (
+        node.classList.contains('buttons') ||
+        node.classList.contains(DOCUMENT_ITEM)
+      ) {
+        node.classList.toggle(BLOCK);
       }
     }
   };
