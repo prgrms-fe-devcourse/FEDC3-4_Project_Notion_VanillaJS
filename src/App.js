@@ -16,10 +16,10 @@ export default function App({ $target }) {
   });
 
   this.route = () => {
-    $target.innerHTML = "";
     const { pathname } = window.location;
 
     if (pathname === "/") {
+      $target.innerHTML = "";
       postsPage.setState();
     } else if (pathname.indexOf("/posts/") === 0) {
       const [, , postId] = pathname.split("/");
