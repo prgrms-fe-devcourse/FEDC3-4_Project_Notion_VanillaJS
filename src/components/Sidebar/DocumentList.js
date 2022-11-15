@@ -15,7 +15,7 @@ import templates from '../../utils/templates.js';
 /**
  * state: array
  */
-export default function DocumentList({ $target, initialState = [] }) {
+export default function DocumentList({ $target, initialState = [], onClickDocumentItem }) {
 	const $documentList = createElement({
 		element: 'div',
 		$target,
@@ -78,7 +78,8 @@ export default function DocumentList({ $target, initialState = [] }) {
 					} else {
 						setItem(OPENED_DOCUMENT_ITEMS, [...storedOpenedDocumentsItems, id]);
 					}
-					this.setState([...this.state]);
+					// this.setState([...this.state]);
+					onClickDocumentItem([...this.state]);
 					break;
 				case 'delete':
 					// todo : 만약 현재 작성 중인 페이지를 없애려고 한다면 home으로 돌아가게 만들자. -> good
@@ -96,7 +97,8 @@ export default function DocumentList({ $target, initialState = [] }) {
 					setItem(OPENED_DOCUMENT_ITEMS, [...storedOpenedDocumentsItems]);
 					await deleteDocument(id);
 					const nextRootDocumentsAfterDeleteAction = await getRootDocuments();
-					this.setState(nextRootDocumentsAfterDeleteAction);
+					// this.setState(nextRootDocumentsAfterDeleteAction);
+					onClickDocumentItem(nextRootDocumentsAfterDeleteAction)
 					if (id === currentId) historyPush('/');
 					break;
 				case 'add':
@@ -105,7 +107,8 @@ export default function DocumentList({ $target, initialState = [] }) {
 						setItem(OPENED_DOCUMENT_ITEMS, [...storedOpenedDocumentsItems, id]);
 					await createDocument({ parent: id });
 					const nextRootDocumentsAfterCreateAction = await getRootDocuments();
-					this.setState(nextRootDocumentsAfterCreateAction);
+					// this.setState(nextRootDocumentsAfterCreateAction);
+					onClickDocumentItem(nextRootDocumentsAfterCreateAction);
 					break;
 			}
 		}

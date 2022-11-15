@@ -57,6 +57,12 @@ export default function App({ $target, initialState }) {
 				rootDocuments: nextRootDocuments,
 			});
 		},
+		onClickDocumentItem: (nextRootDocuments) => {
+			this.setState({
+				...this.state,
+				rootDocuments: nextRootDocuments
+			})
+		}
 	});
 	const post = new Post({
 		$target: $main,

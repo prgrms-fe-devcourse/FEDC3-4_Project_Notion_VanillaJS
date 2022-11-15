@@ -210,7 +210,6 @@ article {
 .editor-content {
 	margin-top: var(--margin-normal);
 	height: 600px;
-	/* border: 1px solid var(--document-item-img-hover-background-color); */
 	width: 75%;
 }
 

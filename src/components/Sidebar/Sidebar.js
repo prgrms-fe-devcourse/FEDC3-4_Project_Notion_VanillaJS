@@ -6,11 +6,12 @@ import RootDocumentAddButton from './RootDocumentAddButton.js';
 /**
  * state: array
  */
-export default function Sidebar({ $target, initialState, onClickAddButton }) {
+export default function Sidebar({ $target, initialState, onClickAddButton, onClickDocumentItem }) {
 	const $nav = createElement({ element: 'nav', $target });
 	const header = new Header({ $target: $nav, initialState: 'Metamong' });
 	const documentList = new DocumentList({
 		$target: $nav,
+		onClickDocumentItem
 	});
 	const rootDocumentAddButton = new RootDocumentAddButton({
 		$target: $nav,
