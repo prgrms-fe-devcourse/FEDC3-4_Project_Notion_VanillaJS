@@ -59,10 +59,7 @@ export default function PostList({
 
     if (name) {
       if (name === "remove") {
-        const $list = e.target.closest(".documentsTree");
-        $list.querySelectorAll("li").forEach((e) => {
-          onRemove(e.dataset.id);
-        });
+        onRemove(id);
         return;
       } else {
         onAddDocument(id, name);
