@@ -103,7 +103,7 @@ export default function DocumentList({ $target, initialState, onDocumentClick, o
           <div class="${DOCUMENT_ITEM}" style="padding-left: ${depth * 20}px">
             <div class="${DOCUMENT_TITLE}">
               <span class="icon ${DROPDOWN_DOCUMENTS_BUTTON}${isOpen ? ' rotate-90' : ''}"></span>
-              ${title.trim() === '' ? 'Untitled' : title}
+              ${title.trim()  === '' ? 'Untitled' : title}
             </div>
             <div class="${DOCUMENT_BUTTON_GROUP} hidden">
               <span class="icon ${REMOVE_DOCUMENT_BUTTON}"></span>

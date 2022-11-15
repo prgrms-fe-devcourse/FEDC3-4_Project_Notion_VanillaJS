@@ -5,7 +5,7 @@ import { request } from "../util/api.js";
 import DocumentList from "./DocumentList.js";
 import Editor from "./Editor.js";
 
-const SAVE_NOW_KEYS = ['Enter', '.'];
+const SAVE_NOW_KEYS = ['Enter', '.', 'Tab', undefined];
 
 export default function App({ $app }) {
 
@@ -56,7 +56,7 @@ export default function App({ $app }) {
   const editor = new Editor({
     $target: $app,
     initialState: this.state.selectedDocument,
-    onKeyup: (document, key) => {
+    onEdit: (document, key) => {
       const time = SAVE_NOW_KEYS.includes(key) ? 0 : 2000;
 
       if (editorKeyupTimeoutId !== null) {
@@ -64,7 +64,8 @@ export default function App({ $app }) {
       }
 
       editorKeyupTimeoutId = setTimeout(() => {
-        updateDocument(document)
+        const { id } = this.state.selectedDocument
+        updateDocument(id, document);
         getDocuments();
       }, time);
     }
@@ -83,10 +84,10 @@ export default function App({ $app }) {
     push(`/documents/${id}`);
   }
 
-  const updateDocument = async ({ id, title, content }) => {
+  const updateDocument = async (id, document) => {
     await request(`/documents/${id}`, {
       method: 'PUT',
-      body: JSON.stringify({ title, content })
+      body: JSON.stringify(document)
     });
   }
 
@@ -108,8 +109,8 @@ export default function App({ $app }) {
       if (this.state.selectedDocument.id !== Number(id)) {
         nextState['selectedDocument'] = await request(`/documents/${id}`);
       }
-     nextState['documents'] = await request('/documents');
-      this.setState({...this.state, ...nextState });
+      nextState['documents'] = await request('/documents');
+      this.setState({ ...this.state, ...nextState });
     }
   }
 

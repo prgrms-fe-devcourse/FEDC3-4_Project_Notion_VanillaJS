@@ -1,4 +1,4 @@
-export default function Editor({ $target, initialState, onKeyup }) {
+export default function Editor({ $target, initialState, onEdit }) {
   const $element = document.createElement('form');
   $element.className = 'editor hidden'
   $element.innerHTML = `
@@ -16,18 +16,25 @@ export default function Editor({ $target, initialState, onKeyup }) {
     this.render();
   }
 
+  $element.addEventListener('focusout', (e) => {
+    editDocument(e)
+  });
+
   $element.addEventListener('keyup', (e) => {
-    const { name } = e.target;
-    if (this.state[name] !== undefined) {
-      const document = { ...this.state };
-      document[name] = e.target.value;
-      onKeyup(document, e.key)
-    }
+    editDocument(e)
   });
 
   $element.addEventListener('submit', (e) => {
     e.preventDefault();
   });
+  
+  const editDocument = (e) => {
+    const { name } = e.target;
+    if (this.state[name] === undefined) return;
+    const document = {};
+    document[name] = e.target.value;
+    onEdit(document, e.key)
+  }
 
   this.render = () => {
     const { id, title, content } = this.state;
