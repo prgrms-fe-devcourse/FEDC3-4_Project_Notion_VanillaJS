@@ -54,7 +54,7 @@ export default function SideBarContainer({
       });
 
       const { title, content } = documentDetail;
-      setEditor(title, content);
+      setEditor(id, title, content);
     },
   });
 

@@ -128,12 +128,10 @@ export default function TextList({
       if (accessableCount < 0) {
         return;
       } else {
-        removeState(id);
+        requestRemoveDocument(id);
       }
       accessableCount += 1;
     };
-
-    const showDocument = () => {};
 
     if (e.target === toggler) {
       toggleList();
@@ -142,7 +140,7 @@ export default function TextList({
       addDocument();
     }
     if (e.target === removeBtn) {
-      requestRemoveDocument(id);
+      removeDocument(id);
     }
     if (e.target === textTitle) {
       requestDocumentDetail(id);

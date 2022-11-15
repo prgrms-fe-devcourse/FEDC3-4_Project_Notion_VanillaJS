@@ -1,14 +1,18 @@
-export default function Editor({ $target, initialState }) {
+import { $ } from '../../lib/utils.js';
+
+export default function Editor({ $target, initialState, onEditing }) {
   const $editor = document.createElement('div');
   $editor.className = 'editor-contents';
 
   $target.appendChild($editor);
 
-  this.state = initialState ? initialState : {};
+  this.state = initialState;
 
   this.setState = (nextState) => {
     this.state = nextState;
-    this.render();
+    console.log(this.state);
+    $('[name=title]', $editor).value = this.state.title;
+    $('[name=content]', $editor).value = this.state.content;
   };
 
   const editorContent = (title = '', content = '') => {
@@ -31,12 +35,23 @@ export default function Editor({ $target, initialState }) {
   };
 
   this.render = () => {
-    if (!this.state) {
-      $editor.innerHTML = editorContent();
-    } else {
-      $editor.innerHTML = editorContent(this.state.title, this.state.content);
-    }
+    console.log(this.state);
+    $editor.innerHTML = editorContent(this.state.title, this.state.content);
   };
 
   this.render();
+
+  $editor.addEventListener('keyup', (e) => {
+    const { target } = e;
+    const nameValue = target.getAttribute('name');
+
+    if (this.state[nameValue] !== undefined) {
+      const nextState = {
+        ...this.state,
+        [nameValue]: target.value,
+      };
+      console.log(nextState);
+      onEditing(nextState);
+    }
+  });
 }
