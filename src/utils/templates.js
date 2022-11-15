@@ -1,7 +1,7 @@
 const $home = () => {
 	return `
 		<div class="home">
-			<h1>🔳 JooNotion에 오신걸 환영합니다!</h1>
+			<h1>🔳 JooNotion</h1>
 		</div>
 	`;
 };
@@ -18,7 +18,7 @@ const $editPost = ({ title, content }) => {
  * @param {*} post
  * @returns
  */
-// const $onLoadList = (post) => {
+// const $onLoadParentList = (post) => {
 // 	return `
 // 	<li class="post-list" data-id="${post.id}">
 // 		<div>
@@ -34,12 +34,10 @@ const $editPost = ({ title, content }) => {
 // 	</li>
 // 	`;
 // };
-const $onLoadList = (post) => {
+
+const $listContent = (post) => {
 	return `
-	<li class="post-list ${
-		post.documents.length > 0 ? "toggle-tree" : ""
-	}" data-id="${post.id}">
-		<div class="list-flex">
+		<div class="list-flex" data-id="${post.id}">
 			<div style="line-height:18px">
 				<span class="open-folder icon-right-open"></span>
 				<span class="post-title">
@@ -51,8 +49,51 @@ const $onLoadList = (post) => {
 				<button class="create-page-btn icon-plus-1"></button>
 			</div>
 		</div>
-	</li>
 	`;
+};
+
+const $onLoadChildList = (posts) => {
+	if (Array.isArray(posts)) {
+		return `
+		<div class="child-ul hide">
+		${posts
+			.map((post) => {
+				return `
+							${$listContent(post)}
+							${
+								post.documents.length > 0
+									? `${$onLoadChildList(post.documents)}`
+									: `${$emptyPage()}`
+							}
+					`;
+			})
+			.join("")}
+			</div>
+		`;
+	}
+};
+
+const $onLoadParentList = (posts) => {
+	if (Array.isArray(posts)) {
+		return `
+			<ul>
+				${posts
+					.map((post) => {
+						return `
+							<li class="post-list">
+								${$listContent(post)}
+								${
+									post.documents.length > 0
+										? `${$onLoadChildList(post.documents)}`
+										: `${$emptyPage()}`
+								}
+							</li>
+						`;
+					})
+					.join("")}
+			</ul>
+			`;
+	}
 };
 
 /**
@@ -73,9 +114,9 @@ const $sideNavHeader = () => {
  */
 const $emptyPage = () => {
 	return `
-		<li class="empty">
+		<div class="child-ul hide">
 			하위 페이지가 없습니다.
-		</li>
+		</div>
 	`;
 };
 
@@ -119,7 +160,7 @@ export {
 	$home,
 	$editPost,
 	$sideNavHeader,
-	$onLoadList,
+	$onLoadParentList,
 	$emptyPage,
 	$createPostBtn,
 	$createPostModal,
