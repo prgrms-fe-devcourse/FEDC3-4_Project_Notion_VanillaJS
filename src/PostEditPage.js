@@ -4,7 +4,7 @@ import { getItem, removeItem, setItem } from "./storage.js";
 
 export default function PostEditPage({ $target, initialState, listUpdate }) {
   const $page = document.createElement("div");
-  $page.className = "editPage";
+  $page.classList.add("editPage");
 
   this.state = initialState;
 

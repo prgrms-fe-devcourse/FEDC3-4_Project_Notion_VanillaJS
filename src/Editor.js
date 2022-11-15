@@ -22,12 +22,11 @@ export default function Editor({
   this.render = () => {
     $editor.innerHTML = `
     <input type="text" name="title" class="title" value="${this.state.title}"/>
-    <textarea name="content" class="content">${this.state.content}</textarea>
+    <textarea name="content" class="content" placeholder="내용을 입력하세요.">${this.state.content}</textarea>
     `;
   };
 
   this.render();
-
   $editor.addEventListener("keyup", (e) => {
     const { target } = e;
 

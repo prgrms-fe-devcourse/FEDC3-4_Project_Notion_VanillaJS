@@ -8,7 +8,6 @@ body {
 }
 #app {
   display: flex;
-  flex: 1;
 }
 
 .editor {
@@ -19,11 +18,11 @@ body {
   justify-content: center;
   height: 100vh;
   text-align: center;
-  top: 10px;
+  top: -40px;
 }
 
 .listPage {
-  width: 400px;
+  width: 300px;
   height: 100vh;
   border-right: 1px solid rgb(245, 245, 237);
   background-color: rgb(251, 251, 250);
@@ -49,5 +48,96 @@ p {
 }
 
 .postList {
-  padding: 20px;
+  padding-top: 10px;
+  color: rgb(116, 115, 111);
+}
+
+.postList li {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  padding-left: 1em;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.postList .documentsTree .addBtn {
+  margin-left: auto;
+}
+
+.postList li:hover {
+  background-color: rgb(232, 232, 230);
+  color: rgb(55, 53, 47);
+  font-weight: bold;
+}
+
+.postList .documentsTree .svg {
+  height: 10px;
+  width: 10px;
+  color: rgb(116, 115, 111);
+}
+
+.postList ul {
+  list-style-type: none;
+  padding-left: 0px;
+}
+
+.documentsTree {
+  padding-left: 0.5em;
+}
+
+/* .clickList {
+  background-color: rgb(232, 232, 230);
+  color: rgb(55, 53, 47);
+  font-weight: bold;
+} */
+
+.postList .pageBtn {
+  width: 100%;
+  text-align: left;
+  padding: 10px 0px 10px 20px;
+  font-size: 15px;
+}
+
+button {
+  font-size: 18px;
+  background-color: transparent;
+  border: none;
+  color: rgb(116, 115, 111);
+}
+
+button:hover {
+  background-color: rgb(218, 218, 216);
+  cursor: pointer;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+}
+
+.user h3 {
+  margin: 0px;
+  padding: 10px 0 0px 20px;
+}
+
+.user h5 {
+  margin: 0px;
+  padding: 10px 0 0px 20px;
+}
+
+.header .logo {
+  padding-left: 10px;
+}
+
+.title {
+  border: none;
+  border-bottom: solid 1px rgb(216, 216, 211);
+  color: rgb(117, 115, 111);
+  font-size: 40px;
+  margin-bottom: 30px;
+}
+
+.content {
+  border: 1px solid rgb(216, 216, 211);
 }

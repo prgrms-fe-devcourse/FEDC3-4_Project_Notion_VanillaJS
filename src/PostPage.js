@@ -5,7 +5,7 @@ import Header from "./Header.js";
 
 export default function PostPage({ $target, editUpdate }) {
   const $page = document.createElement("div");
-  $page.className = "listPage";
+  $page.classList.add("listPage");
 
   new Header({
     $target: $page,

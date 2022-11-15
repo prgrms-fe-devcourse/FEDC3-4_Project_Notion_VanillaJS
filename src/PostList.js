@@ -7,7 +7,7 @@ export default function PostList({
   onAddDocument,
 }) {
   const $postList = document.createElement("div");
-  $postList.className = "postList";
+  $postList.classList.add("postList");
   $target.appendChild($postList);
 
   this.state = initialState;
@@ -23,14 +23,18 @@ export default function PostList({
       ${list
         .map(
           ({ id, title, documents }) => `
-      <li data-id="${id}">${title}
-      <button name="add"> + </button>
-      <button name="remove"> - </button>
-      ${documents
-        .map((document) => markUpDocumentList([document], text))
-        .join("")}
-      </li>
-      
+      <div class='documentsTree'>
+        
+        <li data-id="${id}">
+        <img class="svg" src="../icon/chevron-right-solid.svg" />
+        ${title}
+        <button name="add" class="addBtn"> + </button>
+        <button name="remove"class="removeBtn"> - </button>
+        </li>
+        ${documents
+          .map((document) => markUpDocumentList([document], text))
+          .join("")}
+      </div>
       `
         )
         .join("")}
@@ -42,8 +46,8 @@ export default function PostList({
 
   this.render = () => {
     const documentsList = markUpDocumentList(this.state, "");
-    const documentAddBtn = `<button name="add"> + 페이지 추가하기 </button>`;
-    $postList.innerHTML = `<div>${documentsList}${documentAddBtn}</div>`;
+    const documentAddBtn = `<button name="add" class="pageBtn"> + 페이지 추가하기 </button>`;
+    $postList.innerHTML = `<div class="list">${documentsList}${documentAddBtn}</div>`;
   };
 
   this.render();
@@ -52,13 +56,13 @@ export default function PostList({
     const $li = e.target.closest("li");
     const { name } = e.target;
     const id = $li?.dataset.id ? $li.dataset.id : null;
+
     if (name) {
       if (name === "remove") {
-        const node = $li.querySelector("ul");
-        if (node) {
-          node.querySelectorAll("li").forEach((e) => onRemove(e?.dataset.id));
-        }
-        onRemove(id);
+        const $list = e.target.closest(".documentsTree");
+        $list.querySelectorAll("li").forEach((e) => {
+          onRemove(e.dataset.id);
+        });
         return;
       } else {
         onAddDocument(id, name);
