@@ -30,4 +30,5 @@ export default function App({ $target }) {
   this.route()
 
   initRouter(() => this.route())
+  window.addEventListener('popstate', () => this.route());
 }
