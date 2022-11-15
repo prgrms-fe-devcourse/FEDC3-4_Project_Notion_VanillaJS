@@ -1,4 +1,4 @@
-export default function NavBar({ $container, initialState }) {
+export default function NavBar({ $container, initialState, onSelect }) {
   const $nav = document.createElement('nav');
   $container.appendChild($nav);
 
@@ -21,7 +21,7 @@ export default function NavBar({ $container, initialState }) {
       .map(
         ({ id, title, documents }) =>
           `
-		<details data-id=${id}>
+		<details data-id=${id} style="padding: 0 0 0 10px">
 		  <summary>${title}
 		    <button id="delete-btn">X</button>
 		    <button id="add-btn">+</button>
@@ -34,4 +34,27 @@ export default function NavBar({ $container, initialState }) {
   };
 
   this.render();
+
+  $nav.addEventListener('click', (e) => {
+    const $document = e.target.closest('details');
+    if (!$document) return;
+
+    const { id } = $document.dataset;
+    if (!id) return;
+
+    const eventType = e.target.id;
+    switch (eventType) {
+      case 'add-btn':
+        console.log('추가예정', id);
+        // onAdd(id);
+        break;
+      case 'delete-btn':
+        console.log('삭제예정', id);
+        // onDelete(id);
+        break;
+      default:
+        console.log('세부컨텐츠 보여줌', id);
+        onSelect(id);
+    }
+  });
 }

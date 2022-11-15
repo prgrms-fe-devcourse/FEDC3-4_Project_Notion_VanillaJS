@@ -21,3 +21,7 @@ export const request = async (url, option = {}) => {
 export const fetchDocumentList = async () => {
   return await request('/');
 };
+
+export const fetchDocumentContents = async (documentId) => {
+  return await request(`/${documentId}`);
+};
