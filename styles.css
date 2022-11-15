@@ -1,0 +1,17 @@
+#app {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+}
+
+#editor {
+  display: flex;
+  flex-direction: column;
+}
+
+#content {
+  height: 100vh;
+}
+
+.hide {
+  display: none;
+}
