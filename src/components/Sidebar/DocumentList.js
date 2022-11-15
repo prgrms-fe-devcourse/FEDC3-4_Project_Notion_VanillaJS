@@ -51,9 +51,12 @@ export default function DocumentList({ $target, initialState = [] }) {
 
 	$documentList.addEventListener('click', async (event) => {
 		event.stopPropagation();
+		
 		const { target } = event;
+		if (target.className === 'no-sub-document') return;
+		
 		const { action } = target.dataset;
-		const { id, currentPath } = target.closest('div').dataset;
+		const { id, currentPath } = target.closest('[class=document-item]').dataset;
 
 		if (action) {
 			const storedOpenedDocumentsItems = getItem(OPENED_DOCUMENT_ITEMS, []);

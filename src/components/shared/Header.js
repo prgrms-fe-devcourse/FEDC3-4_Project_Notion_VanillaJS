@@ -5,7 +5,7 @@ export default function Header({ $target, initialState }) {
 	const $header = createElement({
 		element: 'header',
 		$target,
-		content: initialState || 'Metamong',
+		content: initialState || '',
 	});
 	if ($target.tagName === 'NAV') $header.classList.add('sidebar-header');
 

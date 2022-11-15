@@ -11,6 +11,7 @@
 	/* margin */
 	--margin-small: 0.75rem;
 	--margin-normal: 1rem;
+	--margin-large: 1.25rem;
 
 	/* border-radius */
 	--border-radius-small: 4px;
@@ -53,6 +54,10 @@ nav {
 	width: 300px;
 	height: 100%;
 	background-color: var(--sidebar-background-color);
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
 
 .sidebar-header {
@@ -64,10 +69,14 @@ nav {
 }
 
 .document-list__root {
+	height: 100%;
+	padding-left: var(--padding-normal);
+	justify-self: start;
+	overflow-x: hidden;
+	overflow-y: auto;
+
 	display: flex;
 	flex-direction: column;
-
-	padding-left: var(--padding-normal);
 }
 
 .document-list {
@@ -83,26 +92,69 @@ nav {
 }
 
 .document-item {
-	height: 30px;
+	height: 2rem;
+
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 }
 
-.document-item > img {
-	width: 1rem;
+.document-item__title {
+	width: 100%;
+
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+
+	justify-self: start;
+}
+
+.document-item__buttons {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .document-item:hover {
 	background-color: var(--document-item-hover-background-color);
 }
 
-img {
+.document-item img {
 	border-radius: var(--border-radius-small);
-	height: 75%;
+	width: 1.25rem;
+	height: 1.25rem;
+	transition: all 0.25s;
 }
 
-img:hover {
+.toggled {
+	transform: rotate(90deg);
+}
+
+.not-toggled {
+	transform: rotate(0deg);
+}
+
+.toggled:hover,
+.not-toggled:hover {
 	background-color: var(--document-item-img-hover-background-color);
+	transform: scale(1.25);
+}
+
+.toggled:hover {
+	transform: rotate(90deg) scale(1.25);
+}
+
+img[data-action='delete']:hover,
+img[data-action='add']:hover {
+	background-color: var(--document-item-img-hover-background-color);
+	transform: scale(1.25);
+}
+
+.no-sub-document {
+	margin-left: var(--margin-large);
+	color: #19171199;
+	cursor: default;
 }
 
 .root-document-add-button {
