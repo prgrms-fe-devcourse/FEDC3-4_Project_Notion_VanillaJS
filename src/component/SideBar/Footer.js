@@ -17,7 +17,6 @@ export default function Footer({ $target, addRootDocument, holdListScroll }) {
   this.render();
   const $addBtn = $('.add-root-btn');
   $addBtn.addEventListener('click', () => {
-    console.log($('.modal-container'));
     addRootDocument();
     holdListScroll();
   });

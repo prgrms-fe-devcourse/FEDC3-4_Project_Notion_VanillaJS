@@ -1,4 +1,5 @@
 // state => DocumentList가 올 것
+import { setItem, getItem } from '../../lib/storage.js';
 import { $, $createElement, ListItem, validateState } from '../../lib/utils.js';
 // 폴더 add 버튼, 삭제 버튼, 리스트 아이템 클릭
 export default function TextList({ $target, initialState, addChildDocument }) {
@@ -6,7 +7,6 @@ export default function TextList({ $target, initialState, addChildDocument }) {
   const $ul = $createElement('ul');
   $list.className = 'list';
 
-  console.log($target);
   $target.appendChild($list);
   $list.appendChild($ul);
 
@@ -34,14 +34,19 @@ export default function TextList({ $target, initialState, addChildDocument }) {
   $ul.addEventListener('click', (e) => {
     const { list } = this.state;
     const $li = e.target.closest('li');
+    const $parentLi = $li.parentNode.closest('li');
+    const parentId = $parentLi ? $parentLi.getAttribute('id') : '';
+    const childList = getItem(parentId) ? getItem(parentId) : null;
 
     if (!$li) return;
     const id = $li.getAttribute('id');
     const toggler = $('.toggler', $li);
     const addChildBtn = $('.add-child-btn', $li);
     const removeBtn = $('.remove-btn', $li);
-    const childState = list.filter((item) => item.id === +id)[0];
-    const $ul = $('ul', $li);
+    const childState = childList
+      ? childList.filter((item) => item.id === +id)[0]
+      : list.filter((item) => item.id === +id)[0];
+    const $childUl = $('ul', $li);
 
     // toggle list 기능 구현
     const toggleList = () => {
@@ -51,7 +56,7 @@ export default function TextList({ $target, initialState, addChildDocument }) {
         if (childState.documents.length === 0) return;
         if (toggler.classList.contains('active')) {
           // active 지우고, 밑의 childNodes를 삭제한다
-          $li.removeChild($ul);
+          $li.removeChild($childUl);
         } else {
           // 아닐 경우 List를 돔에 추가한다.
           $li.insertAdjacentHTML(
@@ -64,12 +69,14 @@ export default function TextList({ $target, initialState, addChildDocument }) {
             </ul>`
           );
         }
+        setItem($li.getAttribute('id'), childState.documents);
         toggler.classList.toggle('active');
       }
     };
 
     // add Button 누르기
     const addDocument = () => {
+      // 해결책, child로 내렸던 것들을 기억하기? state로 or storage에 저장해놓기? 해당 id 를 키로해서 저장해논다?
       if (!childState) return;
       const { documents } = childState;
       if (validateState(documents)) {
@@ -80,13 +87,16 @@ export default function TextList({ $target, initialState, addChildDocument }) {
             title: '제목없음',
           },
         ];
-        if ($ul) {
-          $ul.innerHTML = `
+        // documents가 있을 경우 => 해당 documents 들로 ul을 초기화
+        if ($childUl) {
+          $childUl.innerHTML = `
             ${newChildDocuments
               .map(({ id, title }) => `${ListItem(id, title)}`)
               .join('')}
           `;
-        } else {
+        }
+        // documents가 없을 경우 => li의 뒤에 새로운 ul태그를 만들어서 넣어줌
+        else {
           $li.insertAdjacentHTML(
             'beforeend',
             `<ul>
@@ -98,13 +108,13 @@ export default function TextList({ $target, initialState, addChildDocument }) {
           );
         }
       }
+      // setItem('List', $ul.innerHTML);
+      setItem($li.getAttribute('id'), childState.documents);
       toggler.classList.toggle('active');
       addChildDocument();
     };
 
-    const removeDocument = () => {
-      console.log(e.target);
-    };
+    const removeDocument = () => {};
 
     if (e.target === toggler) {
       toggleList();

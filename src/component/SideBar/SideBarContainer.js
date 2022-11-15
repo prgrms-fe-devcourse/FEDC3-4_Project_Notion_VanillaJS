@@ -1,5 +1,5 @@
 import { USER_NAME } from '../../lib/constants.js';
-import { $ } from '../../lib/utils.js';
+import { $, showModal } from '../../lib/utils.js';
 
 import Footer from './Footer.js';
 import Header from './Header.js';
@@ -21,28 +21,6 @@ export default function SideBarContainer({ $target, initialState }) {
     }
   };
 
-  const addDocument = (id = '') => {
-    const $modal = $('#modal');
-    $modal.classList.add('show-modal');
-
-    const newData = {
-      id: 'new',
-      title: '제목없음',
-    };
-
-    if (id.length > 0) {
-      const nextState = {
-        list: [],
-      };
-    }
-
-    const nextState = {
-      list: [...this.state.list, newRootData],
-    };
-
-    this.setState(nextState);
-  };
-
   new Header({
     $target: $sideBar,
     initialState: {
@@ -56,16 +34,14 @@ export default function SideBarContainer({ $target, initialState }) {
       list: this.state,
     },
     addChildDocument: () => {
-      const $modal = $('#modal');
-      $modal.classList.add('show-modal');
+      showModal();
     },
   });
 
   new Footer({
     $target: $sideBar,
     addRootDocument: () => {
-      const $modal = $('#modal');
-      $modal.classList.add('show-modal');
+      showModal();
 
       const newRootData = {
         id: 'new',

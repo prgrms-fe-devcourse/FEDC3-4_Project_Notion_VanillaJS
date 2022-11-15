@@ -2,8 +2,6 @@ export default function Editor({ $target, initialState }) {
   const $editor = document.createElement('div');
   $editor.className = 'editor-content';
 
-  console.log($target, $editor);
-
   $target.appendChild($editor);
 
   this.state = initialState ? initialState : {};
