@@ -1,3 +1,5 @@
+import { push } from "../../utils/router.js";
+
 export default function Header({ $target, initialState }) {
   const $header = document.createElement("div");
   $header.classList.add("header");
@@ -17,4 +19,12 @@ export default function Header({ $target, initialState }) {
   };
 
   this.render();
+
+  $header.addEventListener("click", (e) => {
+    const $user = e.target.closest(".header");
+
+    if ($user) {
+      push("/");
+    }
+  });
 }

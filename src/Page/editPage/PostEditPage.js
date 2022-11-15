@@ -2,6 +2,7 @@ import { request } from "../../utils/api.js";
 import Editor from "./Editor.js";
 import MarkUpList from "./MarkUpList.js";
 import { getItem, removeItem, setItem } from "../../utils/storage.js";
+import StartPage from "./StartPage.js";
 
 export default function PostEditPage({ $target, initialState, listUpdate }) {
   const $page = document.createElement("div");

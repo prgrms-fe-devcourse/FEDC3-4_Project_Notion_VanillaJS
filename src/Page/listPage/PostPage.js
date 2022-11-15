@@ -22,8 +22,7 @@ export default function PostPage({ $target, editUpdate }) {
       await request(`/documents/${id}`, {
         method: "DELETE",
       });
-      history.pushState(null, null, "/");
-      location.reload();
+      push("/");
     },
     onAddDocument: async (id, name) => {
       if (name === "add") {

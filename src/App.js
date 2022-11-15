@@ -1,4 +1,5 @@
 import PostEditPage from "./Page/editPage/PostEditPage.js";
+import StartPage from "./Page/editPage/StartPage.js";
 import PostPage from "./Page/listPage/PostPage.js";
 import { initRouter } from "./utils/router.js";
 
@@ -8,6 +9,10 @@ export default function App({ $target }) {
 
   $target.appendChild($postListContainer);
   $target.appendChild($postEditContainer);
+
+  const startPage = new StartPage({
+    $target: $postEditContainer,
+  });
 
   const postPage = new PostPage({
     $target: $postListContainer,
@@ -28,13 +33,14 @@ export default function App({ $target }) {
   });
 
   this.route = () => {
+    $postEditContainer.innerHTML = "";
     const { pathname } = window.location;
     if (pathname.indexOf("/documents/") === 0) {
       const [, , postId] = pathname.split("/");
-      postPage.render();
       postEditPage.setState({ postId });
     } else {
       postPage.render();
+      startPage.render();
     }
   };
 
