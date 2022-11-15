@@ -1,21 +1,22 @@
 import Icon from './icons/index.js';
 import { setItem } from '../utils/storage.js';
-import { STORAGE_KEY, TEXT, DEGREE } from '../utils/constants.js';
+import { STORAGE_KEY, TEXT, DEGREE, ICON, EVENT } from '../utils/constants.js';
 
 export default function Navigator({
   target,
   initialState = { openedDocuments: [], documents: [] },
-  onClickAddDocument,
-  onClickDeleteDocument,
+  addDocument,
+  deleteDocument,
+  openDocument,
 }) {
   const navigator = document.createElement('div');
   navigator.classList.add('navigator', 'flex-item');
 
-  const documentIcon = Icon({ icon: 'document' });
-  const chevronIcon = Icon({ icon: 'chevron' });
-  const chevronDownIcon = Icon({ icon: 'chevron', rotateDegree: DEGREE.OPENED });
-  const plusIcon = Icon({ icon: 'plus' });
-  const trashIcon = Icon({ icon: 'trash' });
+  const documentIcon = Icon({ icon: ICON.DOCUMENT });
+  const chevronIcon = Icon({ icon: ICON.CHEVRON });
+  const chevronDownIcon = Icon({ icon: ICON.CHEVRON, rotateDegree: DEGREE.OPENED });
+  const plusIcon = Icon({ icon: ICON.PLUS });
+  const trashIcon = Icon({ icon: ICON.TRASH });
 
   target.appendChild(navigator);
   this.state = initialState;
@@ -39,7 +40,7 @@ export default function Navigator({
             };'>
                 <div class='icon-wrapper'>${isOpened ? chevronDownIcon : chevronIcon}</div>
                 <div class='icon-wrapper'>${documentIcon}</div>
-                <div class='title-wrapper'>${title}</div>
+                <div class='title-wrapper' id='id-${id}'>${title}</div>
                 <div class='visible-when-hover'>
                   <div class='icon-wrapper document-delete'>${trashIcon}</div>
                   <div class='icon-wrapper document-add'>${plusIcon}</div>
@@ -56,7 +57,8 @@ export default function Navigator({
   this.setEvent = () => {
     const chevrons = navigator.querySelectorAll('.chevron');
     [].forEach.call(chevrons, (chevron) => {
-      chevron.addEventListener('click', (e) => {
+      chevron.addEventListener(EVENT.CLICK, (e) => {
+        e.stopPropagation();
         const currentDocument = chevron.closest('.document');
         const isClosed = chevron.style.transform === `rotateZ(${DEGREE.CLOSED}deg)`;
         const nextChildren = currentDocument.nextElementSibling;
@@ -95,27 +97,42 @@ export default function Navigator({
 
     const $addDocuments = navigator.querySelectorAll('.document-add');
     [].forEach.call($addDocuments, ($addDocument) => {
-      $addDocument.addEventListener('click', (e) => {
+      $addDocument.addEventListener(EVENT.CLICK, (e) => {
+        e.stopPropagation();
         const targetDocumentId = e.target.closest('.document').getAttribute('key');
-        onClickAddDocument(targetDocumentId);
+        addDocument(targetDocumentId);
       });
     });
 
     const $deleteDocuments = navigator.querySelectorAll('.document-delete');
     [].forEach.call($deleteDocuments, ($deleteDocument) => {
-      $deleteDocument.addEventListener('click', (e) => {
+      $deleteDocument.addEventListener(EVENT.CLICK, (e) => {
+        e.stopPropagation();
         const targetDocumentId = e.target.closest('.document').getAttribute('key');
         const openedDocuments = this.state.openedDocuments.filter(
           (key) => key !== targetDocumentId,
         );
         this.setState({ openedDocuments });
         setItem(STORAGE_KEY.OPENED_DOCUMENTS, this.state.openedDocuments);
-        onClickDeleteDocument(targetDocumentId);
+        deleteDocument(targetDocumentId);
       });
     });
 
+    const $documents = navigator.querySelectorAll('.document.document-item');
+    [].forEach.call($documents, ($document) => {
+      $document.addEventListener(
+        EVENT.CLICK,
+        (e) => {
+          e.stopImmediatePropagation();
+          const targetDocumentId = $document.getAttribute('key');
+          openDocument(targetDocumentId);
+        },
+        false,
+      );
+    });
+
     const $scroller = navigator.querySelector('.scroller');
-    $scroller.addEventListener('scroll', (e) => {
+    $scroller.addEventListener(EVENT.SCROLL, (e) => {
       const { scrollTop, offsetHeight, scrollHeight } = e.target;
       if (scrollTop === 0 || scrollTop + offsetHeight === scrollHeight) {
         $scroller.style.boxShadow = 'transparent 0px 0px 0px inset';

@@ -9,5 +9,7 @@ new App({
   target: root,
   initialState: {
     openedDocuments,
+    documents: [],
+    document: {},
   },
 });
