@@ -12,7 +12,7 @@
   - [x] 편집기는 지속적으로 서버에 저장된다 (Document Save API 이용해 자동저장 구현)
 - [ ] 처음 들어왔을 때, documenut가 있다면 Root document를 보여준다.
   - [ ] document가 없다면, 문서를 추가하는 버튼을 보여준다.
-- [ ] URL 접근 시, 왼쪽엔 해당 document, 오른쪽엔, document content를 보여준다.
+- [x] URL 접근 시, 왼쪽엔 해당 document, 오른쪽엔, document content를 보여준다.
   - `조건` URL: /documents/{documentId}
 
 <br />

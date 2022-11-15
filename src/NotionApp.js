@@ -25,6 +25,7 @@ export default function NotionApp({ $container }) {
     onSelect: (id) => {
       loadDocumentContents(id);
       history.pushState(null, null, `/documents/${id}`);
+      route();
     },
   });
 
@@ -68,5 +69,17 @@ export default function NotionApp({ $container }) {
     });
   };
 
+  const route = () => {
+    const { pathname } = window.location;
+
+    if (pathname.includes('/documents/')) {
+      const [, , documentId] = pathname.split('/');
+      loadDocumentContents(documentId);
+    }
+  };
+
+  window.addEventListener('popstate', () => route());
+
   turnOn();
+  route();
 }
