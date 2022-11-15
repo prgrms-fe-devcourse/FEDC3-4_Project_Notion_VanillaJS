@@ -1,5 +1,5 @@
 import { ERROR_MESSAGE } from '../constants.js';
-import { getUserId } from './getUserId.js';
+import { getUserIdToAdress } from './getUserIdToAdress.js';
 
 export const initLocalStorage = (id) => {
   const getItems = localStorage.getItem(id);
@@ -12,7 +12,7 @@ export const initLocalStorage = (id) => {
 
 export const setLocalStorage = ({ id, value }) => {
   try {
-    const userId = getUserId();
+    const userId = getUserIdToAdress();
     const localList = JSON.parse(initLocalStorage(userId));
     localList[id] = value;
     localStorage.setItem(userId, JSON.stringify(localList));
@@ -23,7 +23,7 @@ export const setLocalStorage = ({ id, value }) => {
 
 export const getLocalStorage = (id) => {
   try {
-    const userId = getUserId();
+    const userId = getUserIdToAdress();
     const localList = JSON.parse(initLocalStorage(userId));
 
     if (localList[id]) {
@@ -36,7 +36,7 @@ export const getLocalStorage = (id) => {
 
 export const removeLocalStorage = (id) => {
   try {
-    const userId = getUserId();
+    const userId = getUserIdToAdress();
     const localList = JSON.parse(initLocalStorage(userId));
     delete localList[id];
     localStorage.setItem(userId, JSON.stringify(localList));

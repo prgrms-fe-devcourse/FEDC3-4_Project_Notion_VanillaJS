@@ -1,29 +1,29 @@
 import { routeChange } from './router.js';
-import { getUserId } from './getUserId.js';
+import { getUserIdToAdress } from './getUserIdToAdress.js';
 import { API_END_POINT } from '../../endpoint.js';
-import { BASE_USERNAME, CONTENT_TYPE, ERROR_MESSAGE } from '../constants.js';
+import { BASE_INIT_USERNAME, CONTENT_TYPE, ERROR_MESSAGE } from '../constants.js';
 
 export const getDocumentAll = async () => {
-  const userId = getUserId();
+  const userId = getUserIdToAdress();
   const res = await fetch(`${API_END_POINT}`, {
     headers: {
-      'x-username': userId ? userId : BASE_USERNAME,
+      'x-username': userId ? userId : BASE_INIT_USERNAME,
       'Content-Type': CONTENT_TYPE,
     },
   });
 
   if (!res.ok) {
-    throw new Error(ERROR_MESSAGE.NOT_COLLECT_NETWORK, e);
+    throw new Error(ERROR_MESSAGE.NOT_COLLECT_NETWORK, res);
   }
 
   return await res.json();
 };
 
 export const getDocumentById = async ({ id }) => {
-  const userId = getUserId();
+  const userId = getUserIdToAdress();
   const res = await fetch(`${API_END_POINT}${id}`, {
     headers: {
-      'x-username': userId ? userId : BASE_USERNAME,
+      'x-username': userId ? userId : BASE_INIT_USERNAME,
       'Content-Type': CONTENT_TYPE,
     },
   });
@@ -38,11 +38,11 @@ export const getDocumentById = async ({ id }) => {
 };
 
 export const postDocument = async ({ title, parent = null }) => {
-  const userId = getUserId();
+  const userId = getUserIdToAdress();
   const res = await fetch(`${API_END_POINT}`, {
     method: 'POST',
     headers: {
-      'x-username': userId ? userId : BASE_USERNAME,
+      'x-username': userId ? userId : BASE_INIT_USERNAME,
       'Content-Type': CONTENT_TYPE,
     },
     body: JSON.stringify({
@@ -52,39 +52,39 @@ export const postDocument = async ({ title, parent = null }) => {
   });
 
   if (!res.ok) {
-    throw new Error(ERROR_MESSAGE.NOT_COLLECT_NETWORK, e);
+    throw new Error(ERROR_MESSAGE.NOT_COLLECT_NETWORK, res);
   }
 
   return await res.json();
 };
 
 export const putDocument = async ({ id, title, content }) => {
-  const userId = getUserId();
+  const userId = getUserIdToAdress();
   const res = await fetch(`${API_END_POINT}${id}`, {
     method: 'PUT',
     headers: {
-      'x-username': userId ? userId : BASE_USERNAME,
+      'x-username': userId ? userId : BASE_INIT_USERNAME,
       'Content-Type': CONTENT_TYPE,
     },
     body: JSON.stringify({ title, content }),
   });
 
   if (!res.ok) {
-    throw new Error(ERROR_MESSAGE.NOT_COLLECT_NETWORK, e);
+    throw new Error(ERROR_MESSAGE.NOT_COLLECT_NETWORK, res);
   }
 };
 
 export const deleteDocument = async ({ id }) => {
-  const userId = getUserId();
+  const userId = getUserIdToAdress();
   const res = await fetch(`${API_END_POINT}${id}`, {
     method: 'DELETE',
     headers: {
-      'x-username': userId ? userId : BASE_USERNAME,
+      'x-username': userId ? userId : BASE_INIT_USERNAME,
       'Content-Type': CONTENT_TYPE,
     },
   });
 
   if (!res.ok) {
-    throw new Error(ERROR_MESSAGE.NOT_COLLECT_NETWORK, e);
+    throw new Error(ERROR_MESSAGE.NOT_COLLECT_NETWORK, res);
   }
 };
