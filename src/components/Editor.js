@@ -16,8 +16,8 @@ export default function Editor({
 
   this.setState = (nextState) => {
     this.state = nextState;
-    $editor.querySelector("[name=title]").value = this.state.title;
-    $editor.querySelector("[name=content]").value = this.state.content;
+    $editor.querySelector("[name=title]").value === "제목 없음" ? "" : this.state.title;
+    $editor.querySelector("[name=content]").value === "" ? "" : this.state.content;
     this.render();
   };
 
@@ -25,7 +25,7 @@ export default function Editor({
     if (!init) {
       $editor.innerHTML = `
         <input class="editor-input" type="text" placeholder="제목을 입력하세요" name="title" value="${this.state.title}" />
-        <textarea class="editor-content" name="content">${this.state.content}</textarea>
+        <textarea class="editor-content" name="content" placeholder="여기에 내용을 입력하세요">${this.state.content}</textarea>
       `;
     }
     init = true;
