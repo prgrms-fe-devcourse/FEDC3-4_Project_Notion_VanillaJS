@@ -20,6 +20,7 @@
     top: 0;
     width: 42px;
     height: 24px;
+    border: 1px solid var(--text-secondary);
     border-radius: 24px;
     background-color: var(--color-primary);
 
@@ -37,7 +38,7 @@
       top: 50%;
       transform: translateY(-50%);
       border-radius: 100%;
-      transition: 0.4s;
+      transition: $transition-time;
       background-color: var(--color-secondary);
 
       i {
@@ -75,6 +76,12 @@
 .editor {
   display: flex;
   flex-direction: column;
+
+  .title, .content {
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    border: 1px solid var(--text-secondary);
+  }
 
   .title {
     height: 34px;

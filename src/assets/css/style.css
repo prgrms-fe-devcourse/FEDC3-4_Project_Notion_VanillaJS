@@ -56,27 +56,27 @@ i[class^="xi"] span {
   --background-color: rgb(255, 255, 238);
   --text-primary: rgb(25, 25, 23);
   --text-secondary: rgb(76, 76, 71);
-  --text-rgba: 25, 25, 23;
+  --text-rgb: 25, 25, 23;
   --font-family: 'NotoSansKR', 'sans-serif';
   --color-primary: rgb(220, 200, 156);
   --color-secondary: rgb(255, 250, 225);
   --color-primary-rgb: 220, 200, 156;
   --color-secondary-rgb: 255, 250, 225; }
 
-html[data-mode='light'] {
+html[data-scheme='light'] {
   --background-color: rgb(255, 255, 238);
   --text-primary: rgb(25, 25, 23);
   --text-secondary: rgb(76, 76, 71); }
 
-html[data-mode='dark'] {
+html[data-scheme='dark'] {
   --background-color: rgb(51, 51, 47);
   --text-primary: rgb(255, 255, 238);
-  --text-rgba: 255, 255, 238;
+  --text-rgb: 255, 255, 238;
   --text-secondary: rgb(229, 229, 214);
-  --color-primary: rgb(51, 51, 47);
-  --color-secondary: rgb(255, 250, 225);
-  --color-primary-rgb: 51, 51, 47;
-  --color-secondary-rgb: 255, 250, 225; }
+  --color-primary: rgb(127, 127, 119);
+  --color-secondary: rgb(51, 51, 47);
+  --color-primary-rgb: 127, 127, 119;
+  --color-secondary-rgb: 51, 51, 47; }
 
 body {
   background-color: var(--background-color);
@@ -84,7 +84,8 @@ body {
   font-family: var(--font-family);
   font-size: 14px;
   position: relative;
-  overscroll-behavior-y: none; }
+  overscroll-behavior-y: none;
+  min-width: 730px; }
 
 body::before {
   content: '';
@@ -110,7 +111,7 @@ body::before {
   overflow: hidden;
   box-sizing: border-box;
   position: relative;
-  transition: 0.4s; }
+  transition: 0.3s; }
 
 .doc-list-page.on {
   width: 300px;
@@ -150,6 +151,7 @@ body::before {
       border-radius: 5px 0 0 5px; }
       .doc-list li.list-item .container .title {
         display: inline-block;
+        width: 100%;
         max-width: 160px;
         position: relative;
         overflow: hidden;
@@ -163,9 +165,9 @@ body::before {
           width: 18px;
           height: 18px;
           border-radius: 3px;
-          transition: 0.4s; }
+          transition: 0.3s; }
         .doc-list li.list-item .container .title i:hover {
-          background-color: rgba(var(--color-primary-rgb), 0.7); }
+          background-color: rgba(var(--color-secondary-rgb), 0.7); }
         .doc-list li.list-item .container .title i.on {
           transform: rotate(90deg);
           transform-origin: center; }
@@ -185,9 +187,9 @@ body::before {
             top: 50%;
             transform: translate(-50%, -50%); }
         .doc-list li.list-item .container .btn-container button:hover {
-          background-color: rgba(var(--color-primary-rgb), 0.7); }
+          background-color: rgba(var(--color-secondary-rgb), 0.7); }
   .doc-list li.list-item > .container:hover {
-    background-color: rgba(var(--color-primary-rgb), 0.4); }
+    background-color: rgba(var(--color-primary-rgb), 0.6); }
     .doc-list li.list-item > .container:hover .btn-container {
       display: inline-block; }
   .doc-list li.list-item.on > .container {
@@ -196,15 +198,21 @@ body::before {
     padding-left: 15px;
     height: 0;
     overflow: hidden;
-    transition: 0.4s; }
+    transition: 0.3s; }
   .doc-list ul.parent.on {
     height: max-content; }
 
 .doc-list-footer {
   padding-top: 20px;
   color: var(--text-secondary); }
-  .doc-list-footer .add-root > i {
-    margin-right: 5px; }
+  .doc-list-footer .add-root {
+    height: 30px;
+    width: 100%;
+    border-radius: 3px; }
+    .doc-list-footer .add-root i {
+      margin-right: 5px; }
+  .doc-list-footer .add-root:hover {
+    background-color: rgba(var(--color-primary-rgb), 0.4); }
 
 .doc-edit-page {
   position: relative;
@@ -226,6 +234,7 @@ body::before {
     top: 0;
     width: 42px;
     height: 24px;
+    border: 1px solid var(--text-secondary);
     border-radius: 24px;
     background-color: var(--color-primary); }
     .doc-edit-header label input {
@@ -240,7 +249,7 @@ body::before {
       top: 50%;
       transform: translateY(-50%);
       border-radius: 100%;
-      transition: 0.4s;
+      transition: 0.3s;
       background-color: var(--color-secondary); }
       .doc-edit-header label .toggle i {
         position: absolute;
@@ -263,6 +272,10 @@ body::before {
 .editor {
   display: flex;
   flex-direction: column; }
+  .editor .title, .editor .content {
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    border: 1px solid var(--text-secondary); }
   .editor .title {
     height: 34px;
     text-indent: 5px;

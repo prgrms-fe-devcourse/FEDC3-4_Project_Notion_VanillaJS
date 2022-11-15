@@ -5,7 +5,7 @@
   overflow: hidden;
   box-sizing: border-box;
   position: relative;
-  transition: 0.4s;
+  transition: $transition-time;
 }
 
 .doc-list-page.on {
@@ -59,6 +59,7 @@
 
       .title {
         display: inline-block;
+        width: 100%;
         max-width: 160px;
         position: relative;
         overflow: hidden;
@@ -73,11 +74,12 @@
           width: 18px;
           height: 18px;
           border-radius: 3px;
-          transition: 0.4s;
+          transition: $transition-time;
+          
         }
 
         i:hover {
-          background-color: rgba(var(--color-primary-rgb), 0.7);
+          background-color: rgba(var(--color-secondary-rgb), 0.7);
         }
 
         i.on {
@@ -109,7 +111,7 @@
         }
 
         button:hover {
-          background-color: rgba(var(--color-primary-rgb), 0.7);
+          background-color: rgba(var(--color-secondary-rgb), 0.7);
         }
 
       }
@@ -117,7 +119,7 @@
   }
 
   li.list-item > .container:hover {
-    background-color: rgba(var(--color-primary-rgb), 0.4);
+    background-color: rgba(var(--color-primary-rgb), 0.6);
 
     .btn-container {
       display: inline-block;
@@ -133,7 +135,7 @@
     padding-left: 15px;
     height: 0;
     overflow: hidden;
-    transition: 0.4s;
+    transition: $transition-time;
   }
 
   ul.parent.on {
@@ -146,7 +148,18 @@
   padding-top: 20px;
   color: var(--text-secondary);
 
-  .add-root > i {
-    margin-right: 5px;
+  .add-root {
+    height: 30px;
+    width: 100%;
+    border-radius: 3px;
+
+    i {
+      margin-right: 5px;
+    }
+  }
+
+
+  .add-root:hover {
+    background-color: rgba(var(--color-primary-rgb), 0.4);
   }
 }
