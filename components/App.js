@@ -4,8 +4,11 @@ import { initRouter, push } from "../util/route.js";
 import { request } from "../util/api.js";
 import DocumentList from "./DocumentList.js";
 import Editor from "./Editor.js";
+import Modal from "./Modal.js";
 
 const SAVE_NOW_KEYS = ['Enter', '.', 'Tab', undefined];
+
+const NETWORK_ERROR_MODAL = 'network-error-modal'
 
 export default function App({ $app }) {
 
@@ -64,6 +67,7 @@ export default function App({ $app }) {
       }
 
       editorKeyupTimeoutId = setTimeout(() => {
+        
         const { id } = this.state.selectedDocument
         updateDocument(id, document);
         getDocuments();
@@ -114,7 +118,26 @@ export default function App({ $app }) {
     }
   }
 
+  const createNetworkErrorModal = () => {
+    new Modal({ 
+      $target: $app, 
+      className: NETWORK_ERROR_MODAL,
+      text: '네트워크 연결이 해제되었습니다. 네트워크 상태를 확인해주세요!'
+    });
+  }
+
+  window.addEventListener("offline", (e) => {
+    createNetworkErrorModal();
+  });
+  
+  window.addEventListener("online", (e) => {
+    const $modal = $app.querySelector(`.${NETWORK_ERROR_MODAL}`)
+    if ($modal) $app.removeChild($modal);
+    route();
+  });
+
   (() => {
+    if (!window.navigator.onLine) createNetworkErrorModal();
     getDocuments();
     initRouter(() => route());
   })();
