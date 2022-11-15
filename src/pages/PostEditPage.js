@@ -116,12 +116,4 @@ export default function PostEditPage({ $target, initialState }) {
   };
 
   this.render();
-
-  new LinkButton({
-    $target: $page,
-    initialState: {
-      text: "목록으로 이동",
-      link: "/",
-    },
-  });
 }
