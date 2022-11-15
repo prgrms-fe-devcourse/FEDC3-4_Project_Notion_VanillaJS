@@ -44,11 +44,16 @@
   border: none;
   cursor: pointer;
 }
+.eidtor-wrapper {
+  display: flex;
+  width: 100vw;
+}
 
 .editor-text {
-  width: 100vw;
+  width: 50vw;
   height: 80vh;
   font-size: 20px;
+  padding: 16px;
 }
 
 .document-editor {
@@ -67,4 +72,18 @@
 .child-documents-wrapper {
   display: flex;
   flex-direction: column;
+}
+
+.modal {
+  display: none;
+}
+
+.activate {
+  display: block;
+  width: 200px;
+  height: 50px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  background-color: lightblue;
 }

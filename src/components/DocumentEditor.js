@@ -1,3 +1,5 @@
+import { parseMarkdown } from "../utils/parseMarkdown.js";
+
 function DocumentEditor({ $target, initialState, onChange }) {
   const $editor = document.createElement("section");
   $editor.className = "document-editor";
@@ -14,7 +16,7 @@ function DocumentEditor({ $target, initialState, onChange }) {
 
   this.render = () => {
     const { title, content, documents } = this.state.data;
-    console.log(documents);
+
     if (!title && !content) {
       $editor.innerHTML = `
         <h1>loading..</h1>
@@ -26,9 +28,15 @@ function DocumentEditor({ $target, initialState, onChange }) {
       <input class="editor-document-title" value="${
         title ? title : "제목을 입력하세요."
       }"/>
-      <textarea class="editor-text" autofocus="true">${
-        content ? content : "아직 내용이 없습니다."
-      }</textarea>
+      <article class="eidtor-wrapper">
+        <div class="editor-text" autofocus="true" contenteditable="true">${
+          content ? content : "아직 내용이 없습니다."
+        }</div>
+        <div>
+          ${parseMarkdown(content)}
+        </div>
+      </article>
+
       <div class="child-documents-wrapper">
         <p>📌하위 문서 목록</p>
           ${documents
@@ -40,10 +48,31 @@ function DocumentEditor({ $target, initialState, onChange }) {
 
   this.render();
 
-  $editor.addEventListener("keyup", (e) => {
-    const $textarea = e.target.closest("textarea");
+  //   <div class="mention-modal">
+  //   모달
+  //   <input class="mention-modal-input">
+  // </div>
 
-    if ($textarea) {
+  // const mentionPage = () => {
+  //   console.log("페이지 멘션");
+  //   const $modal = document.querySelector(".mention-modal");
+  //   const $input = document.querySelector(".mention-modal-input");
+  //   $modal.classList.add("activate");
+  //   $input.autofocus = "true";
+
+  //   $input.addEventListener("keyup", (e) => {
+
+  //   })
+  // };
+  // if (e.key === "@") {
+  //   mentionPage();
+  //   return;
+  // }
+
+  $editor.addEventListener("keyup", (e) => {
+    const $div = e.target.closest("div");
+
+    if ($div) {
       const $title = document.querySelector(".editor-document-title");
 
       if (this.debounce) {
@@ -51,8 +80,8 @@ function DocumentEditor({ $target, initialState, onChange }) {
       }
 
       this.debounce = setTimeout(() => {
-        onChange($title.value, $textarea.value);
-      }, 5000);
+        onChange($title.value, $div.innerText);
+      }, 2000);
 
       return;
     }
@@ -61,13 +90,14 @@ function DocumentEditor({ $target, initialState, onChange }) {
 
     if ($input) {
       const $content = document.querySelector(".editor-text");
+
       if (this.debounce) {
         clearTimeout(this.debounce);
       }
 
       this.debounce = setTimeout(() => {
         onChange($input.value, $content.value);
-      }, 5000);
+      }, 2000);
     }
   });
 }
