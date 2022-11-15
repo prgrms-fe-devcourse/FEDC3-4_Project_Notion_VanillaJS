@@ -2,6 +2,7 @@ import { request } from "../api.js";
 import { getItem, removeItem, setItem } from "../storage.js";
 import ChildDocument from "./ChildDocument.js";
 import Editor from "./Editor.js";
+import TopBar from "./TopBar.js";
 
 export default function EditPage({ $target, initialState, getTitleChange }) {
   const $editPage = document.createElement("div");
@@ -12,6 +13,8 @@ export default function EditPage({ $target, initialState, getTitleChange }) {
   let postLocalSaveKey = `temp-post-${this.state.documents.id}`;
 
   let timer = null;
+
+  const topBar = new TopBar({ $target: $editPage, initialState: this.state });
 
   const editor = new Editor({
     $target: $editPage,
@@ -40,7 +43,9 @@ export default function EditPage({ $target, initialState, getTitleChange }) {
 
   this.setState = async (nextState) => {
     this.state = nextState;
+    console.log(this.state);
     this.render();
+    // topBar.setState(this.state);
     editor.setState(this.state);
     childDocument.setState(this.state);
   };
