@@ -1,11 +1,7 @@
 import { isConstructor } from '../../Helpers/checkError.js';
+import { debounceFunction } from '../../Helpers/debounce.js';
 
-export default function DocumentEditor({
-  $target,
-  initialState,
-  saveDocumentEvent,
-  saveLocalStorageEvent,
-}) {
+export default function DocumentEditor({ $target, initialState, saveApi, saveLocalStorage }) {
   isConstructor(new.target);
 
   this.state = initialState;
@@ -56,17 +52,15 @@ export default function DocumentEditor({
     }
   });
 
-  let setDebounce;
+  debounceFunction({
+    $target,
+    type: 'input',
+    cycle: 1000,
+    callback: saveApi,
+  });
+
   $target.addEventListener('input', (e) => {
-    saveLocalStorageEvent({ $target: e.target });
-
-    if (setDebounce) {
-      clearTimeout(setDebounce);
-    }
-
-    setDebounce = setTimeout(() => {
-      saveDocumentEvent({ $target: e.target });
-    }, 1000);
+    saveLocalStorage({ $target: e.target });
   });
 
   this.render();

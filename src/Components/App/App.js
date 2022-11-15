@@ -92,7 +92,7 @@ export default function App({ $target }) {
       routeChange(`/${userId}/documents/${id}`);
     },
 
-    userNameButtonEvent: () => {
+    changeUserEvent: () => {
       const { pathname } = location;
       const [, baseId] = pathname.split('/');
       const userId = prompt('변경할 ID를 입력해주세요', baseId);
@@ -123,7 +123,7 @@ export default function App({ $target }) {
       title: '최상단 부분에 글쓰기 입니다.',
       content: '여기에 입력하세요',
     },
-    saveDocumentEvent: async ({ $target }) => {
+    saveApi: async ({ $target }) => {
       const $editor = $target.closest('[data-id]');
       const id = $editor.dataset.id;
       const arr = $editor.querySelectorAll('[contenteditable=true]');
@@ -151,7 +151,7 @@ export default function App({ $target }) {
       }
       removeLocalStorage(id);
     },
-    saveLocalStorageEvent: ({ $target }) => {
+    saveLocalStorage: ({ $target }) => {
       const $editor = $target.closest('[data-id]');
       const id = $editor.dataset.id;
       const arr = $editor.querySelectorAll('[contenteditable=true]');

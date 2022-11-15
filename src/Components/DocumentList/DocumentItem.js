@@ -1,6 +1,6 @@
 export const documentItem = ({ id, title }) => {
   return `
-          <li data-id="${id}" class="p-1 pl-2">
+          <li data-id="${id}" class="py-1 pl-2">
             <div class="grid grid-flow-col justify-between hover:bg-gray-400">
               <div class="truncate">
                 <button id="showChildDocumentButton">🔽</button>

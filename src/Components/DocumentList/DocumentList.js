@@ -1,5 +1,5 @@
 import { isConstructor } from '../../Helpers/checkError.js';
-import DocumentDetailedList from './RenderDocumentItems.js';
+import RenderDocumentItems from './RenderDocumentItems.js';
 import { documentUser } from './documentUser.js';
 import { newPageButton } from './newPageButton.js';
 
@@ -11,7 +11,7 @@ export default function DocumentList({
   showChildDocumentEvent,
   hideChildDocumentEvent,
   setEditorEvent,
-  userNameButtonEvent,
+  changeUserEvent,
   newPageEvent,
 }) {
   isConstructor(new.target);
@@ -20,21 +20,18 @@ export default function DocumentList({
         <div class="overflow-y-scroll border-t border-b border-gray-400">
           <div class="h-[80vh]">
             <nav class="">
-              <ul class="m-0 my-1 p-0" id="documentList">
+              <ul class="m-0 my-1 p-1" id="documentList">
               </ul>
             </nav>
           </div>
         </div>
         ${newPageButton()}
   `;
-  const documentDetailedList = new DocumentDetailedList({
+
+  new RenderDocumentItems({
     $target: $target.querySelector('#documentList'),
     initialState,
   });
-
-  this.setState = async (nextState) => {
-    documentDetailedList.setState(nextState);
-  };
 
   const setEvent = {
     title: ($target) => setEditorEvent({ $target }),
@@ -42,12 +39,11 @@ export default function DocumentList({
     deleteDocumentButton: ($target) => deleteDocumentEvent({ $target }),
     showChildDocumentButton: ($target) => showChildDocumentEvent({ $target }),
     hideChildDocumentButton: ($target) => hideChildDocumentEvent({ $target }),
-    userNameButton: () => userNameButtonEvent(),
+    userNameButton: () => changeUserEvent(),
     newPageButton: () => newPageEvent(),
   };
 
   $target.addEventListener('click', (e) => {
-    console.log(e.target.id);
     if (e.target.id) {
       setEvent?.[e.target.id](e.target);
     }
