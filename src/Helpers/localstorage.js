@@ -6,14 +6,14 @@ export const initLocalStorage = (id) => {
   if (!getItems) {
     localStorage.setItem(id, JSON.stringify({}));
   }
+
   return getItems;
 };
 
 export const setLocalStorage = ({ id, value }) => {
   try {
     const userId = getUserId();
-    const item = initLocalStorage(userId);
-    const localList = JSON.parse(item);
+    const localList = JSON.parse(initLocalStorage(userId));
     localList[id] = value;
     localStorage.setItem(userId, JSON.stringify(localList));
   } catch (e) {
@@ -24,14 +24,11 @@ export const setLocalStorage = ({ id, value }) => {
 export const getLocalStorage = (id) => {
   try {
     const userId = getUserId();
-    const item = initLocalStorage(userId);
-    const localList = JSON.parse(item);
+    const localList = JSON.parse(initLocalStorage(userId));
 
     if (localList[id]) {
       return localList[id];
     }
-
-    return;
   } catch (e) {
     throw new Error(ERROR_MESSAGE.NOT_VALID_LOCALDATA, e);
   }
@@ -40,8 +37,7 @@ export const getLocalStorage = (id) => {
 export const removeLocalStorage = (id) => {
   try {
     const userId = getUserId();
-    const item = initLocalStorage(userId);
-    const localList = JSON.parse(item);
+    const localList = JSON.parse(initLocalStorage(userId));
     delete localList[id];
     localStorage.setItem(userId, JSON.stringify(localList));
   } catch (e) {

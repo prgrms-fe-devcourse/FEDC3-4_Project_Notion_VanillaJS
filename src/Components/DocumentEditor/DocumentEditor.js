@@ -46,17 +46,17 @@ export default function DocumentEditor({ $target, initialState, saveApi, saveLoc
     document.execCommand(style);
   };
 
-  $target.addEventListener('click', (e) => {
-    if (e.target.closest('#editorMenu') && e.target.id) {
-      setStyle(e.target.id);
-    }
-  });
-
   debounceFunction({
     $target,
     type: 'input',
     cycle: 1000,
     callback: saveApi,
+  });
+
+  $target.addEventListener('click', (e) => {
+    if (e.target.closest('#editorMenu') && e.target.id) {
+      setStyle(e.target.id);
+    }
   });
 
   $target.addEventListener('input', (e) => {

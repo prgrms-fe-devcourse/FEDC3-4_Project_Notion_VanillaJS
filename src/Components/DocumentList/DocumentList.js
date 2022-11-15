@@ -2,6 +2,7 @@ import { isConstructor } from '../../Helpers/checkError.js';
 import RenderDocumentItems from './RenderDocumentItems.js';
 import { documentUser } from './documentUser.js';
 import { newPageButton } from './newPageButton.js';
+import { getUserId } from '../../Helpers/getUserId.js';
 
 export default function DocumentList({
   $target,
@@ -15,8 +16,10 @@ export default function DocumentList({
   newPageEvent,
 }) {
   isConstructor(new.target);
+  const userId = getUserId();
+
   $target.innerHTML = `
-        ${documentUser()}
+        ${documentUser(userId)}
         <div class="overflow-y-scroll border-t border-b border-gray-400">
           <div class="h-[80vh]">
             <nav class="">

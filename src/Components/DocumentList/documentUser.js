@@ -1,9 +1,6 @@
 import { BASE_USERNAME } from '../../constants.js';
-import { getUserId } from '../../Helpers/getUserId.js';
 
-export const documentUser = () => {
-  const userId = getUserId();
-
+export const documentUser = (userId) => {
   return `
   <div>
     <div class="flex items-center justify-between p-3 hover:bg-gray-400" id="userNameButton">
