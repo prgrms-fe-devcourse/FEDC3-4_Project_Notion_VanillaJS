@@ -10,15 +10,17 @@ body {
   background-color: #edece9;
   height: 100vh;
   width: 270px;
-  overflow: auto;
+  resize: horizontal;
+  overflow: hidden;
 }
 
 .document-list {
-  width: 100%;
+  width: auto;
   overflow: hidden;
   color: rgba(25, 23, 17, 0.6);
   display: flex;
   flex-direction: column;
+  white-space: nowrap;
 }
 
 .header {
@@ -32,10 +34,16 @@ ul {
 
 li {
   box-sizing: content-box;
+  overflow: hidden;
   list-style: none;
   margin: 5px 0 5px 0;
   align-items: center;
   font-size: 15px;
+}
+
+.focusable {
+  background-color: #edece9;
+  transition: background-color 0.2s ease-out 100ms;
 }
 
 .focusable:hover {
@@ -99,6 +107,30 @@ button {
 .editor-container {
   display: flex;
   flex-direction: column;
+  -webkit-animation: fade 0.5s;
+  animation: fade 0.5s;
+}
+
+@-webkit-keyframes fade {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(0);
+  }
 }
 
 .editor-input {
