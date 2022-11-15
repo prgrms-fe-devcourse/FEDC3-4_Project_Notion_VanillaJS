@@ -97,12 +97,11 @@ export default function DocumentList({
       }
     } else if ($div) {
       const { id } = $div.dataset;
-      // by 민형, id가 no-router가 아니라면 경로 이동 아니면 페이지 추가 evnet_221114
-      if (id !== "no-router") {
-        push(`/documents/${id}`);
-      } else {
+      if (id === "not render") {
         const className = $div.classList.item(1);
         if (className === "rootplus") onRootPlus(className);
+      } else if (id) {
+        push(`/documents/${id}`);
       }
     }
   });

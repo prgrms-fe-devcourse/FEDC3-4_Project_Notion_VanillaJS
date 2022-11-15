@@ -57,11 +57,8 @@ export default function Editor({ $editorPageTarget, initialState, onEditing }) {
 
         // by 민형, 처음 페이지를 추가했을 때 title을 제목 없음으로 넘겨주는데 "제목 없음"을 value로 설정하면 placeholder가 작동 안 함_221115
         // "제목 없음" document로 왔을 때도 tile이 ""로 수정되어야 함, 수정되지 않으면 이전 document의 title이 render
-        if (title === "제목 없음") {
-          $editorPageTarget.querySelector("[name=title]").value = "";
-        } else {
-          $editorPageTarget.querySelector("[name=title]").value = title;
-        }
+        $editorPageTarget.querySelector("[name=title]").value =
+          title === "제목 없음" ? "" : title;
         $editorPageTarget.querySelector("[name=content]").value = content;
 
         documents.forEach((doc) => {
