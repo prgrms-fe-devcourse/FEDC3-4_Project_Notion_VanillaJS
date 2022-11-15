@@ -1,0 +1,36 @@
+import {
+  classNameObj,
+  DOCUMENT_HEADER_CONTENT,
+  ERROR_NEW_KEYWORD_MISSING,
+  styleObj,
+} from "../utils/constants.js";
+import { hasNewTarget } from "../utils/error.js";
+import { routeCreateDocument } from "../utils/router.js";
+
+const { DOCUMENT_BLOCK, DOCUMENT_BLOCK_INNER, NEW_BTN } = classNameObj;
+
+export default function DocumentHeader({ $target }) {
+  if (!hasNewTarget(new.target)) throw new Error(ERROR_NEW_KEYWORD_MISSING);
+
+  const $header = document.createElement("div");
+  $header.setAttribute("id", "sidebar-header");
+  $target.appendChild($header);
+
+  const CONTENT = DOCUMENT_HEADER_CONTENT;
+  const DEFAULT_PADDING = styleObj.DEFAULT_PADDING;
+
+  this.render = () => {
+    $header.innerHTML = `
+      <div class="${DOCUMENT_BLOCK_INNER}" style="padding: 2px 10px 2px ${DEFAULT_PADDING}px">
+        <div> ${CONTENT} </div>
+        <div class="${NEW_BTN}"></div>
+      </div>
+    `;
+  };
+
+  this.render();
+
+  $header.addEventListener("click", () => {
+    routeCreateDocument({ id: null });
+  });
+}
