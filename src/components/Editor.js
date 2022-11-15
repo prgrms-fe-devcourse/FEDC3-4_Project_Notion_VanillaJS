@@ -16,8 +16,11 @@ export default function Editor({
 
   this.setState = (nextState) => {
     this.state = nextState;
-    $editor.querySelector("[name=title]").value === "제목 없음" ? "" : this.state.title;
-    $editor.querySelector("[name=content]").value === "" ? "" : this.state.content;
+    $editor.querySelector("[name=title]").value = this.state.title;
+    $editor.querySelector("[name=content]").value = this.state.content;
+    if ($editor.querySelector("[name=title]").value === "제목 없음") {
+      $editor.querySelector("[name=title]").value = "";
+    }
     this.render();
   };
 
