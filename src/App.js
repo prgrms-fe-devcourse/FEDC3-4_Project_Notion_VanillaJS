@@ -3,7 +3,6 @@ import PostEdit from "./components/PostEdit.js";
 import PostsPage from "./components/PostsPage.js";
 import HomePage from "./pages/HomePage.js";
 import { initRouter } from "./routes/router.js";
-import { getItem } from "./utils/storage.js";
 
 export default function App({ $target }) {
 	const $postListContainer = document.createElement("div");
@@ -18,7 +17,6 @@ export default function App({ $target }) {
 	$target.appendChild($homeContainer);
 	$target.appendChild($postEditContainer);
 
-	const ADD_POST_SAVE_KEY = "add-new-post";
 	this.state = {
 		id: "",
 		title: "",
@@ -42,10 +40,10 @@ export default function App({ $target }) {
 		},
 	});
 
+	postsPage.setState();
 	this.init = async () => {
 		const { pathname } = window.location;
 		if (pathname === "/") {
-			postsPage.setState();
 			$postEditContainer.style.display = "none";
 		} else if (pathname.indexOf("/documents/") === 0) {
 			$postEditContainer.style.display = "flex";
@@ -57,16 +55,13 @@ export default function App({ $target }) {
 					...this.state,
 					id,
 				});
-				postsPage.setState();
+				// postsPage.setState();
 			} else {
 				const post = await request(`/documents/${id}`, {
 					method: "GET",
 				});
-				postsPage.setState();
-				postEdit.setState({
-					...getItem(ADD_POST_SAVE_KEY),
-					post,
-				});
+				// postsPage.setState();
+				postEdit.setState(post);
 			}
 		}
 	};
