@@ -5,6 +5,7 @@ import { makeElement } from "../../util/templates.js";
 import { getDocument, editDocument } from "../api.js";
 import { local } from "../../util/storage.js";
 import { debounce } from "../../util/helper.js";
+import { push } from "../router.js";
 
 export default function DocEditPage({
   $target,
@@ -19,25 +20,29 @@ export default function DocEditPage({
 
   let docTempSaveKey = `tempSave-${this.state}`;
 
+  const document = local.getItem(docTempSaveKey, {
+    title: "",
+    content: "",
+  });
+
   new DocEditHeader({
     $target: $page,
-    onToggle: () => {},
   });
 
   const editor = new Editor({
     $target: $page,
-    initialState: [],
-    onEdit: debounce(async (document) => {
-      const tempDoc = tempSave(document);
-      autoSave(tempDoc);
-    }, 1000),
+    initialState: document,
+    onEdit: (document) => {
+      const tempDoc = setTempSave(document);
+      setAutoSave(tempDoc);
+    },
   });
 
   new DocEditFooter({
     $target: $page,
   });
 
-  const tempSave = (document) => {
+  const setTempSave = (document) => {
     docTempSaveKey = `tempSave-${this.state}`;
 
     local.setItem(docTempSaveKey, {
@@ -53,29 +58,45 @@ export default function DocEditPage({
     return docTempSave;
   };
 
-  const autoSave = async (tempDoc) => {
-    const editedDoc = await editDocument({
+  const setAutoSave = debounce(async (tempDoc) => {
+    await editDocument({
       documentId: this.state,
       document: {
         title: tempDoc.title,
         content: tempDoc.content,
       },
     });
-    
+    push(this.state);
     local.removeItem(docTempSaveKey);
-    await this.setState(this.state);
-  };
+  }, 1000);
 
   this.setState = async (nextState) => {
     this.state = nextState;
+    docTempSaveKey = `tempSave-${this.state}`;
+
     if (!nextState) {
       editor.init();
     } else {
       const currentDoc = await getDocument(this.state);
-      editor.setState({
-        title: currentDoc.title,
-        content: currentDoc.content,
+      const tempDoc = local.getItem(docTempSaveKey, {
+        title: "",
+        content: "",
       });
+
+      if (tempDoc.tempSaveAt && tempDoc.tempSaveAt > currentDoc.updatedAt) {
+        if (confirm("Unsaved work found! Would you like to retrieve?")) {
+          editor.setState({
+            title: tempDoc.title,
+            content: tempDoc.content,
+          });
+          return;
+        }
+      } else {
+        editor.setState({
+          title: currentDoc.title,
+          content: currentDoc.content,
+        });
+      }
     }
   };
 }
