@@ -2,7 +2,7 @@ import { request } from './api/request.js';
 import EditorContainer from './component/Editor/EditorContainer.js';
 import ModalContainer from './component/Modal/ModalContainer.js';
 import SideBarContainer from './component/SideBar/SideBarContainer.js';
-import { $ } from './lib/utils.js';
+// import { $ } from './lib/utils.js';
 
 export default function App({ $target }) {
   this.state = {
@@ -49,12 +49,12 @@ export default function App({ $target }) {
     },
 
     // 타이틀이 있으면 해당 RootDocument 추가
-    postRootDocument: async (title) => {
+    postDocument: async (title, id) => {
       await request('/documents', {
         method: 'POST',
         body: JSON.stringify({
           title,
-          parent: null,
+          parent: id,
         }),
       });
 
@@ -82,6 +82,7 @@ export default function App({ $target }) {
       ...this.state,
       list: nextState,
     });
+    console.log($target.childNodes);
   };
   getData();
 }

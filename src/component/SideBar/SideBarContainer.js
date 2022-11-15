@@ -1,4 +1,3 @@
-import { request } from '../../api/request.js';
 import { USER_NAME } from '../../lib/constants.js';
 import { $ } from '../../lib/utils.js';
 
@@ -22,6 +21,28 @@ export default function SideBarContainer({ $target, initialState }) {
     }
   };
 
+  const addDocument = (id = '') => {
+    const $modal = $('#modal');
+    $modal.classList.add('show-modal');
+
+    const newData = {
+      id: 'new',
+      title: '제목없음',
+    };
+
+    if (id.length > 0) {
+      const nextState = {
+        list: [],
+      };
+    }
+
+    const nextState = {
+      list: [...this.state.list, newRootData],
+    };
+
+    this.setState(nextState);
+  };
+
   new Header({
     $target: $sideBar,
     initialState: {
@@ -34,11 +55,15 @@ export default function SideBarContainer({ $target, initialState }) {
     initialState: {
       list: this.state,
     },
+    addChildDocument: () => {
+      const $modal = $('#modal');
+      $modal.classList.add('show-modal');
+    },
   });
 
   new Footer({
     $target: $sideBar,
-    addRootDocument: async () => {
+    addRootDocument: () => {
       const $modal = $('#modal');
       $modal.classList.add('show-modal');
 
@@ -46,6 +71,7 @@ export default function SideBarContainer({ $target, initialState }) {
         id: 'new',
         title: '제목없음',
       };
+
       const nextState = {
         list: [...this.state.list, newRootData],
       };

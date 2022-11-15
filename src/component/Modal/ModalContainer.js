@@ -7,7 +7,7 @@ export default function ModalContainer({
   $target,
   initialState,
   clearUntitledDocument,
-  postRootDocument,
+  postDocument,
   switchFullScreen,
 }) {
   const $modalContainer = document.createElement('section');
@@ -33,13 +33,14 @@ export default function ModalContainer({
 
   // 이름 다시 지어야 됨 생각
   const processByTitle = () => {
+    const { id } = this.state;
     const text = $modalContainer ? $('[name=text]', $modalContainer) : '';
     const title = $modalContainer ? $('[name=title]', $modalContainer) : '';
     const titleValue = title.value + '';
 
     titleValue === '' || titleValue === '제목없음'
       ? clearUntitledDocument()
-      : postRootDocument(titleValue);
+      : postDocument(titleValue, id);
 
     title.value = '';
     text.value = '';
@@ -48,13 +49,14 @@ export default function ModalContainer({
 
   // editor로
   const sendStatesToEditor = () => {
+    const { id } = this.state;
     const text = $modalContainer ? $('[name=text]', $modalContainer) : '';
     const title = $modalContainer ? $('[name=title]', $modalContainer) : '';
     const textValue = text.value + '';
     const titleValue = title.value + '';
 
     switchFullScreen(titleValue, textValue);
-    postRootDocument(titleValue);
+    postDocument(titleValue, id);
 
     title.value = '';
     text.value = '';
@@ -63,7 +65,15 @@ export default function ModalContainer({
 
   // Component 부분
   new Header({ $target: $modal, onClose, processByTitle, sendStatesToEditor });
-  new ModalEditor({ $target: $modal });
+  new ModalEditor({
+    $target: $modal,
+    setParentId: (id) => {
+      this.setState({
+        ...this.state,
+        id,
+      });
+    },
+  });
 
   // modal 창 밖 클릭 시 모달창 나가기
   window.addEventListener('click', (e) => {
@@ -72,6 +82,7 @@ export default function ModalContainer({
     }
   });
 
+  // 처음에 esc 누르면 모달창 나가기
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       processByTitle();
