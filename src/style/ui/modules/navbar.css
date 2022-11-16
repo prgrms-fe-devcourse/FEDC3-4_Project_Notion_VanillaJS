@@ -47,3 +47,11 @@
     width: inherit;
     /*padding-left: 20px;*/
 }
+
+.delete-btn {
+    font-size: 18px;
+}
+
+.add-btn {
+    font-size: 18px;
+}

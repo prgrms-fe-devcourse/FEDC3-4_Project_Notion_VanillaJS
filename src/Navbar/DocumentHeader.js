@@ -22,7 +22,7 @@ function DocumentHeader({ target, initialState }) {
 
     // 해당 제목클릭 했을때 page 이동
     const onClickHeader = () => {
-        header.addEventListener('click', async e => {
+        header.addEventListener('click', async (e) => {
             const homeBtn = targetClosest(e, '.home-btn');
             if (homeBtn) {
                 route('/');
@@ -33,6 +33,7 @@ function DocumentHeader({ target, initialState }) {
         });
     };
     this.render();
+
     onClickHeader();
 }
 

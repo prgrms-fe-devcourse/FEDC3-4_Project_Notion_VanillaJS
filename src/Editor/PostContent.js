@@ -5,7 +5,7 @@ function PostContent({ div, initialState, onChangeContent }) {
     const editorContent = createElement('div');
     this.state = initialState;
 
-    this.setState = nextState => {
+    this.setState = (nextState) => {
         this.state = nextState;
         const { content } = this.state;
 
@@ -27,7 +27,7 @@ function PostContent({ div, initialState, onChangeContent }) {
     };
 
     const onKeyUpContent = () => {
-        editorContent.addEventListener('keyup', e => {
+        editorContent.addEventListener('keyup', (e) => {
             const { name } = e.target;
             const contentValue = e.target.value;
             isString(contentValue);

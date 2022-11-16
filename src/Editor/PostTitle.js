@@ -7,7 +7,7 @@ function PostTitle({ div, initialState, onChangeTitle }) {
 
     div.appendChild(editorTitle);
 
-    this.setState = nextState => {
+    this.setState = (nextState) => {
         this.state = nextState;
         // null 나오는게 맞음 헤더 버튼 눌렀을 때
         const { title } = this.state;
@@ -24,7 +24,7 @@ function PostTitle({ div, initialState, onChangeTitle }) {
     };
 
     const onKeyupEditorTitle = () => {
-        editorTitle.addEventListener('keyup', e => {
+        editorTitle.addEventListener('keyup', (e) => {
             const { name } = e.target;
             const titleValue = e.target.value;
 
