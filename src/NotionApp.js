@@ -17,6 +17,10 @@ export default function NotionApp({ $container }) {
     $container,
     initialState: this.state.documentList,
     onSelect: (id) => {
+      this.setDocumentList({
+        ...this.state,
+        currentDocumentId: id,
+      });
       history.pushState(null, null, `/documents/${id}`);
       route();
     },
