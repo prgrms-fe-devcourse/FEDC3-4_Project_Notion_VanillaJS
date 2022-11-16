@@ -63,7 +63,9 @@ export default function DocumentList({
             <ul>
               <li 
                 data-id="${id}" 
-                class="${DOCUMENT_ITEM}" 
+                class="${DOCUMENT_ITEM} ${
+              id === this.state.selectedId ? 'selected' : ''
+            }" 
                 style="padding-left: ${generateTextIndent(depth)}px">
                 ${renderButton(id)}
                 <p class="${DOCUMENT_ITEM}">
@@ -114,6 +116,7 @@ export default function DocumentList({
 
     if (target.classList.contains(DOCUMENT_ITEM)) {
       push(`${ROUTE_DOCUMENTS}/${id}`);
+      this.render();
     } else if (target.classList.contains(ADD)) {
       setItem(NEW_PARENT, id);
       onAdd(id);

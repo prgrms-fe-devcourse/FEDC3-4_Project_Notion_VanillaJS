@@ -89,11 +89,14 @@ export default function App({ $target }) {
       });
 
       sidebar.render();
-    }, 800);
+    }, 1000);
   };
 
   const sidebar = new Sidebar({
     $target,
+    initialState: {
+      selectedId: null,
+    },
     onAdd,
     onDelete,
   });
@@ -120,6 +123,11 @@ export default function App({ $target }) {
       const [, , documentId] = pathname.split('/');
       documentEditPage.setState({
         documentId: isNaN(documentId) ? documentId : parseInt(documentId),
+      });
+
+      if (isNaN(documentId)) return;
+      sidebar.setState({
+        selectedId: parseInt(documentId),
       });
     }
   };

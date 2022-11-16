@@ -77,6 +77,10 @@ button {
   background-color: #f1f1f0;
 }
 
+.document-list li.selected p {
+  font-weight: 600;
+}
+
 .document-list p.document-item {
   display: block;
   width: 100%;
