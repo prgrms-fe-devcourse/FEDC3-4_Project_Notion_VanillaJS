@@ -1,4 +1,4 @@
-export default function DocsList({ $target, initialState }) {
+export default function DocsList({ $target, initialState, onClick }) {
   const $docsList = document.createElement("div");
 
   $docsList.className = "docs-list";
@@ -12,18 +12,19 @@ export default function DocsList({ $target, initialState }) {
     this.render();
   };
 
-  this.makeMarkup = (docsList) => {
+  this.setMarkup = (docsList) => {
     const markup = `
       <ul>
         ${docsList
           .map((doc) => {
-            return `<li data-id=${doc.id}> ${doc.title} </li>
+            return `<li data-id=${doc.id}> ${
+              doc.title
+            } <button> + </button> </li>
               ${
                 doc.documents && doc.documents.length > 0
-                  ? this.makeMarkup(doc.documents)
+                  ? this.setMarkup(doc.documents)
                   : ""
               }
-            
             `;
           })
           .join("")}
@@ -33,12 +34,28 @@ export default function DocsList({ $target, initialState }) {
   };
 
   this.render = () => {
+    $docsList.innerHTML = "";
     if (this.state.length > 0) {
-      $docsList.innerHTML = this.makeMarkup(this.state);
+      $docsList.innerHTML = this.setMarkup(this.state) + "<button> + </button>";
     } else {
       $docsList.innerHTML = `
         <span> No documents </span>
+        <button> + </button>
       `;
     }
   };
+
+  $docsList.addEventListener("click", (e) => {
+    const { target } = e;
+    const tempTitle = "문서 제목";
+    if (target.tagName === "BUTTON") {
+      const $li = target.closest("li");
+      if ($li) {
+        const { id } = $li.dataset;
+        onClick({ parent: id, title: tempTitle });
+      } else {
+        onClick({ parent: null, title: tempTitle });
+      }
+    }
+  });
 }
