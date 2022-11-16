@@ -1,21 +1,24 @@
 import PostEditPage from "./Page/editPage/PostEditPage.js";
-import StartPage from "./Page/editPage/StartPage.js";
+import StartPage from "./Page/startPage/StartPage.js";
 import PostPage from "./Page/listPage/PostPage.js";
 import { initRouter } from "./utils/router.js";
+import instanceCheck from "./utils/instanceCheck.js";
 
 export default function App({ $target }) {
+  instanceCheck(new.target);
+
   const $postListContainer = document.createElement("div");
   const $postEditContainer = document.createElement("div");
 
   $target.appendChild($postListContainer);
   $target.appendChild($postEditContainer);
 
-  const startPage = new StartPage({
-    $target: $postEditContainer,
-  });
-
   const postPage = new PostPage({
     $target: $postListContainer,
+  });
+
+  const startPage = new StartPage({
+    $target: $postEditContainer,
   });
 
   const postEditPage = new PostEditPage({

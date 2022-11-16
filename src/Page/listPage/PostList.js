@@ -1,11 +1,13 @@
 import { push } from "../../utils/router.js";
-
+import instanceCheck from "../../utils/instanceCheck.js";
 export default function PostList({
   $target,
   initialState,
   onRemove,
   onAddDocument,
 }) {
+  instanceCheck(new.target);
+
   const $postList = document.createElement("div");
   $postList.classList.add("postList");
   $target.appendChild($postList);

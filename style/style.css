@@ -25,6 +25,8 @@ body {
   display: flex;
 }
 
+/* Editor */
+
 .editPage {
   width: 100vh;
   padding-top: calc(var(--padding) * 5);
@@ -35,31 +37,39 @@ body {
   text-align: center;
 }
 
+.title {
+  width: 600px;
+  height: 50px;
+  border: none;
+  border-bottom: solid 1px var(--border-line-color);
+  color: rgb(73, 73, 71);
+  font-size: 40px;
+  margin-bottom: 30px;
+}
+
+.content {
+  width: 600px;
+  height: 600px;
+  resize: none;
+  font-size: 15px;
+  border: 1px solid var(--border-line-color);
+}
+
+/* markUpList */
+
 .markUpList {
   text-align: left;
   padding-left: calc(var(--padding) * 9.5);
+  cursor: pointer;
 }
+
+/* List */
 
 .listPage {
   width: 300px;
   height: 100vh;
   border-right: 1px solid var(--border-line-color);
   background-color: var(--list-backgroud-color);
-}
-
-input {
-  width: 600px;
-  height: 50px;
-}
-
-textarea {
-  width: 600px;
-  height: 600px;
-  resize: none;
-}
-
-p {
-  margin: 0px;
 }
 
 .postList {
@@ -76,14 +86,14 @@ p {
   cursor: pointer;
 }
 
-.documentsTree .addBtn {
-  margin-left: auto;
-}
-
 .postList li:hover {
   background-color: var(--list-hover-color);
   color: var(--bold-text-color);
   font-weight: bold;
+}
+
+.documentsTree .addBtn {
+  margin-left: auto;
 }
 
 .documentsTree .svg {
@@ -128,6 +138,8 @@ button:hover {
   margin-right: 10px;
 }
 
+/* header */
+
 .header {
   display: flex;
   flex-direction: row;
@@ -151,23 +163,7 @@ button:hover {
   padding-top: var(--padding);
 }
 
-.title {
-  border: none;
-  border-bottom: solid 1px var(--border-line-color);
-  color: rgb(73, 73, 71);
-  font-size: 40px;
-  margin-bottom: 30px;
-}
-
-.content {
-  font-size: 15px;
-  border: 1px solid var(--border-line-color);
-}
-
-.markUpList {
-  cursor: pointer;
-}
-
+/* StartPage */
 .startPage {
   width: 100vh;
   padding: calc(var(--padding) * 5) 0 0 calc(var(--padding) * 9.5);

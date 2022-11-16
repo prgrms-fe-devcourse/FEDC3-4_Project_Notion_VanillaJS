@@ -1,3 +1,5 @@
+import instanceCheck from "../../utils/instanceCheck.js";
+
 export default function Editor({
   $target,
   initialState = {
@@ -6,8 +8,10 @@ export default function Editor({
   },
   onEditing,
 }) {
+  instanceCheck(new.target);
+
   const $editor = document.createElement("div");
-  $editor.className = "editor";
+  $editor.classList.add("editor");
   $target.appendChild($editor);
 
   this.state = initialState;
@@ -16,7 +20,6 @@ export default function Editor({
     this.state = nextState;
     $editor.querySelector("[name=title]").value = this.state.title;
     $editor.querySelector("[name=content]").value = this.state.content;
-    this.render;
   };
 
   this.render = () => {
@@ -27,6 +30,7 @@ export default function Editor({
   };
 
   this.render();
+
   $editor.addEventListener("keyup", (e) => {
     const { target } = e;
 

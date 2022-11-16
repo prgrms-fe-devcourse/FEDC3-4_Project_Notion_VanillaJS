@@ -2,9 +2,11 @@ import { request } from "../../utils/api.js";
 import Editor from "./Editor.js";
 import MarkUpList from "./MarkUpList.js";
 import { getItem, removeItem, setItem } from "../../utils/storage.js";
-import StartPage from "./StartPage.js";
+import instanceCheck from "../../utils/instanceCheck.js";
 
 export default function PostEditPage({ $target, initialState, listUpdate }) {
+  instanceCheck(new.target);
+
   const $page = document.createElement("div");
   $page.classList.add("editPage");
 
@@ -29,15 +31,15 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
     initialState: [],
   });
 
-  let timer = null;
+  let storageTimer = null;
   let serveTimer = null;
 
   const storageSave = (post) => {
-    if (timer !== null) {
-      clearTimeout(timer);
+    if (storageTimer !== null) {
+      clearTimeout(storageTimer);
     }
 
-    timer = setTimeout(() => {
+    storageTimer = setTimeout(() => {
       setItem(postLocalSaveKey, {
         ...post,
         tempSaveDate: new Date(),

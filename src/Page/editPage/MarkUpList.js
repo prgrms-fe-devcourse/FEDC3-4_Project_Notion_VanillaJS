@@ -1,6 +1,9 @@
 import { push } from "../../utils/router.js";
+import instanceCheck from "../../utils/instanceCheck.js";
 
 export default function MarkUpList({ $target, initialState }) {
+  instanceCheck(new.target);
+
   const $markUpList = document.createElement("div");
   $markUpList.classList.add("markUpList");
   $target.appendChild($markUpList);

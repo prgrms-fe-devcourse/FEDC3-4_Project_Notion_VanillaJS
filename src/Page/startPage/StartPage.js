@@ -1,4 +1,8 @@
+import instanceCheck from "../../utils/instanceCheck.js";
+
 export default function StartPage({ $target }) {
+  instanceCheck(new.target);
+
   const $startPage = document.createElement("div");
   $startPage.classList.add("startPage");
 

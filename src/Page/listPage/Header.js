@@ -1,6 +1,9 @@
 import { push } from "../../utils/router.js";
+import instanceCheck from "../../utils/instanceCheck.js";
 
 export default function Header({ $target, initialState }) {
+  instanceCheck(new.target);
+
   const $header = document.createElement("div");
   $header.classList.add("header");
   $target.appendChild($header);

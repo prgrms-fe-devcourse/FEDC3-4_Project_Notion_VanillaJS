@@ -2,8 +2,11 @@ import PostList from "./PostList.js";
 import { request } from "../../utils/api.js";
 import { push } from "../../utils/router.js";
 import Header from "./Header.js";
+import instanceCheck from "../../utils/instanceCheck.js";
 
-export default function PostPage({ $target, editUpdate }) {
+export default function PostPage({ $target }) {
+  instanceCheck(new.target);
+
   const $page = document.createElement("div");
   $page.classList.add("listPage");
 
@@ -43,12 +46,12 @@ export default function PostPage({ $target, editUpdate }) {
   };
 
   const fetchNewDocument = async (document) => {
-    const newRequest = await request(`/documents`, {
+    const newDocument = await request(`/documents`, {
       method: "POST",
       body: JSON.stringify(document),
     });
 
-    return await newRequest;
+    return await newDocument;
   };
 
   this.render = async () => {
