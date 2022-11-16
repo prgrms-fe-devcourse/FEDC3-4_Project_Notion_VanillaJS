@@ -1,5 +1,3 @@
-import { getUserIdToAdress } from './Helpers/getUserIdToAdress.js';
-
 // CONSTANT
 export const MINIMUM_INPUT_LENGTH = 2;
 export const CHANGE_API_DATA_TO_LOCAL_DATA =
