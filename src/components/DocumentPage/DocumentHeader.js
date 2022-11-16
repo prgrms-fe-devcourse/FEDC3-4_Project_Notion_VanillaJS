@@ -31,7 +31,7 @@ export default function DocumentHeader({ $target }) {
 
   this.render();
 
-  $header.addEventListener("click", () => {
+  $header.querySelector(`.${NEW_BTN}`).addEventListener("click", () => {
     routeCreateDocument({ id: null });
   });
 }

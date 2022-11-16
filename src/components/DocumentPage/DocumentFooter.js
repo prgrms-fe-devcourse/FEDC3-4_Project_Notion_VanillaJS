@@ -31,7 +31,7 @@ export default function DocumentFooter({ $target }) {
 
   this.render();
 
-  $footer.addEventListener("click", () => {
+  $footer.querySelector(`.${NEW_BTN}`).addEventListener("click", () => {
     routeCreateDocument({ id: null });
   });
 }
