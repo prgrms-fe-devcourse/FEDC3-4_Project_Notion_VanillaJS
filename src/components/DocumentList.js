@@ -35,11 +35,13 @@ export default function DocumentList({
             title,
             documents,
           }) => `<li class="list-item" data-id="${id}">
-          <i class="fas fa-caret-right"></i>
-          ${title}
-          <button class=create>+</button>
-          <button class=remove>-</button>
-          </li>
+                  <i class="fas fa-caret-right"></i>
+                  <span>${title}</span>
+                  <div class='btn-container'>
+                    <i class="create far fa-plus"></i>
+                    <i class="remove fas fa-trash"></i>
+                  </div>
+                </li>
             ${documents
               .map((document) => createList([document], inner))
               .join('')}
@@ -52,15 +54,15 @@ export default function DocumentList({
   }
 
   $list.addEventListener('click', (e) => {
-    const { className } = e.target;
+    const { target } = e;
     const $li = e.target.closest('li')
 
     if($li){
       const { id } = $li.dataset;
       
-      if(className === "remove"){
+      if(target.classList.contains('remove')){
         onRemoveDocument(id);
-      }else if(className === "create"){
+      }else if(target.classList.contains('create')){
         onCreateDocument(id)
       }else{
         onSelect(id);

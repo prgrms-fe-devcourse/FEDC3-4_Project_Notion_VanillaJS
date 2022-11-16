@@ -49,12 +49,14 @@ li {
 }
 
 .list-container {
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   overflow: scroll;
-
+  position: relative;
+  
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -64,11 +66,47 @@ li {
 }
 
 .list-wrap {
+  overflow: hidden;
+  width: 100%;
   margin-left: 10px;
 }
 
+.list-wrap .list-item {
+  margin: 0;
+  padding: 8px 0;
+}
+
 .list-item {
-  margin: 12px 0;
+  transition: all 300ms ease-out;
+}
+
+.list-item:hover {
+  background-color: #d4d3cf;
+}
+
+.list-item span {
+  overflow: hidden;
+}
+
+.list-item .btn-container {
+  display: inline;
+  position: absolute;
+  right: 12px;
+  visibility: hidden;
+}
+
+.list-item:hover .btn-container{
+  visibility: visible;
+}
+
+.remove,
+.create {
+  color: #6e6d6d;
+}
+
+.remove:hover, 
+.create:hover {
+  color: #ed8734;
 }
 
 .footer {
@@ -94,21 +132,6 @@ li {
 .footer:hover {
   color: #ed8734;
 }
-
-/* li {
-  list-style: none;
-  padding: 4px 0px 4px 4px;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-ul li:before,
-li li:before {
-  content: ">";
-  display: inline-block;
-  vertical-align: middle;
-  padding: 0px 4px 5px 0px;
-} */
 
 /* eidt */
 .edit {
