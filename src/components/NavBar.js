@@ -63,6 +63,7 @@ export default function NavBar({ $container, initialState, onSelect, onAdd }) {
         break;
       case 'add':
         console.log('추가예정', id);
+        setItem(DOCUMENT_ISOEPN_LOCAL_KEY, [...getItem(DOCUMENT_ISOEPN_LOCAL_KEY, []), id]);
         onAdd(id);
         break;
       case 'delete':
