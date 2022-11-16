@@ -2,6 +2,7 @@ import { request } from "../utils/api.js";
 import { isNew } from "../utils/isNew.js";
 import Editor from "./Editor.js";
 import Footer from "./Footer.js";
+import Saving from "./Saving.js";
 
 export default function EditorPage({ $target, initialState, onChange }) {
   isNew(EditorPage, this);
@@ -17,14 +18,20 @@ export default function EditorPage({ $target, initialState, onChange }) {
 
   let timer = null;
 
+  const saving = new Saving({
+    $target: $page,
+    initialState: null,
+  });
+
   const editor = new Editor({
     $target: $page,
     initialState: post,
     onEditing: async (post) => {
       if (timer !== null) {
+        saving.setState(true);
         clearTimeout(timer);
+        clearInterval(timer);
       }
-
       timer = setTimeout(async () => {
         const id = window.location.pathname.split("/")[2];
         await request(`/documents/${id}`, {
@@ -34,7 +41,9 @@ export default function EditorPage({ $target, initialState, onChange }) {
             content: post.content,
           }),
         });
+        saving.setState(false);
         onChange();
+        timer = setInterval(() => saving.setState("remove"), 500);
       }, 500);
     },
   });
