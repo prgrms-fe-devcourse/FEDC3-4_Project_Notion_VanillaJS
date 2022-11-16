@@ -2,9 +2,8 @@ import request from '../../api/index.js';
 import createElementHelper from '../../utils/helpers.js';
 
 class SidebarPage {
-  constructor($target, props) {
-    this.props = props;
-    this.state = props.documentsListData;
+  constructor({ $target, initialState, onClickDoucmentList }) {
+    this.state = initialState;
 
     this.$target = $target;
     this.$navigation = createElementHelper('nav', '.sidebar-container');
@@ -12,7 +11,7 @@ class SidebarPage {
     this.$navigationBody = createElementHelper('ul', '.sidebar-body');
     this.$navigationFooter = createElementHelper('footer', '.sidebar-footer');
 
-    this.onToggleDocumentList = this.onToggleDocumentList.bind(this);
+    this.bindToggleDocumentList(onClickDoucmentList);
   }
 
   setState(nextState) {
@@ -40,15 +39,16 @@ class SidebarPage {
     this.$target.append(this.$navigation);
 
     // bindEventHandler
-    this.$navigationBody.addEventListener('click', this.onToggleDocumentList);
   }
 
-  async onToggleDocumentList(event) {
-    const { target } = event; // type === 'string'
+  bindToggleDocumentList(onClickDoucmentList) {
+    this.$navigationBody.addEventListener('click', async event => {
+      const { target } = event; // type === 'string'
 
-    const data = await request(`documents/${target.dataset.id}`);
+      const data = await request(`documents/${target.dataset.id}`);
 
-    this.props.onParentSetState(data, event);
+      onClickDoucmentList(data, event);
+    });
   }
 }
 

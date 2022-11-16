@@ -1,7 +1,10 @@
 import request from '../api/index.js';
+import { getItem, setItem } from '../utils/storage.js';
 
 import PostPage from './posts/PostPage.js';
 import SidebarPage from './sidebar/SidebarPage.js';
+
+const NOTION_CURRENT_STATE = 'NOTION_CURRENT_STATE';
 
 class App {
   constructor($target) {
@@ -9,31 +12,70 @@ class App {
 
     this.state = {
       allList: [],
-      currentList: {
+      currentList: getItem(NOTION_CURRENT_STATE, {
         id: '',
         title: '',
         content: '',
-        documents: [],
-      },
+      }),
     };
 
-    this.initialization();
+    let timer = null;
 
-    this.postPage = new PostPage(this.$target, {
-      documentListData: this.state.currentList,
+    this.postPage = new PostPage({
+      $target: this.$target,
+      initialState: this.state.currentList,
+
+      onInputTitle: async postState => {
+        const currentListIndex = this.state.allList.findIndex(
+          documentList => documentList.id === postState.id
+        );
+        const nextState = {
+          currentList: {
+            id: postState.id,
+            title: postState.title,
+            content: postState.content,
+          },
+          allList: this.state.allList,
+        };
+        nextState.allList[currentListIndex] = nextState.currentList;
+
+        this.setState(nextState);
+
+        if (timer !== null) {
+          clearTimeout(timer);
+        }
+        timer = setTimeout(async () => {
+          setItem(NOTION_CURRENT_STATE, postState);
+
+          await request(`documents/${postState.id}`, {
+            method: 'PUT',
+            body: JSON.stringify({
+              title: postState.title,
+              content: postState.content,
+            }),
+          });
+        }, 500);
+      },
     });
-    this.sidebarPage = new SidebarPage(this.$target, {
-      documentsListData: this.state.allList,
 
-      onParentSetState: data => {
-        const { id, title, content, documents } = data;
+    this.sidebarPage = new SidebarPage({
+      $target: this.$target,
+      initialState: this.state.allList,
+
+      onClickDoucmentList: data => {
+        const { id, title, content } = data;
+        const nextcurrentListState = { id, title, content };
 
         this.setState({
           allList: [...this.state.allList],
-          currentList: { id, title, content, documents },
+          currentList: nextcurrentListState,
         });
+
+        setItem(NOTION_CURRENT_STATE, nextcurrentListState);
       },
     });
+
+    this.initialization();
   }
 
   setState(nextState) {
