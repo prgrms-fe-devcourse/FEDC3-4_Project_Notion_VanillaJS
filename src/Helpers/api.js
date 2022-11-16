@@ -1,7 +1,7 @@
 import { routeChange } from './router.js';
 import { ERROR_MESSAGE, API_HEADER } from '../constants.js';
 import { getUserIdToAdress } from './getUserIdToAdress.js';
-import { API_END_POINT } from '../../endpoint.js';
+// import { API_END_POINT } from '../../endpoint.js';
 
 export const getDocumentAll = async () => {
   const userId = getUserIdToAdress();
