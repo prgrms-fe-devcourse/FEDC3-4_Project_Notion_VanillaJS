@@ -1,4 +1,4 @@
-import App from './src/Components/App/App.js';
+import App from './Components/App/App.js';
 
 const $app = document.querySelector('.app');
 $app.className = 'h-screen grid grid-cols-5';
