@@ -1,5 +1,6 @@
 import { request } from "./Api.js";
 import { push } from "./router.js";
+import { setItem } from "./Storage.js";
 
 export default function Navi({ $target, initialState }) {
   const $navi = document.createElement("div");
@@ -16,7 +17,6 @@ export default function Navi({ $target, initialState }) {
 
   // 찾고 싶은 문서의 id를 받아온다.
   // DFS로 해당 id의 문서를 찾는다.
-  // 경로를 역순으로 반환하여 $navi 에 그린다.
   this.render = () => {
     $target.prepend($navi);
 
@@ -26,6 +26,15 @@ export default function Navi({ $target, initialState }) {
       `;
       return;
     }
+
+    // 선택된 문서 사이드바에 표시하기.
+    // CSS 상속 무효화랑 같이 써야할듯 || li 안에 p태그로 제목 집어넣기
+    // const $selected = document.querySelector(
+    //   `[data-id="${this.state.postId}"]`
+    // );
+    // const $changeTest = document.createElement("div");
+    // $changeTest.innerHTML = `<p style="color:red;">${$selected.innerText}</p>`;
+    // $selected.innerText = "선택";
 
     const { postId } = this.state;
     fetchPosts(Number(postId));
@@ -45,6 +54,8 @@ export default function Navi({ $target, initialState }) {
         postChildren = temp[1];
       }
     });
+
+    test(postPath);
 
     $navi.innerHTML = `
     <p> 파일 경로:          
@@ -105,6 +116,16 @@ export default function Navi({ $target, initialState }) {
           node: e,
           path: nextPath,
         });
+      });
+    }
+  };
+
+  // breadcrumb으로 이동했을 때 해당 파일의 위치까지 사이드 바 도 열릴 수 있도록 한다.
+  const test = (postPath) => {
+    for (let i = 0; i < postPath.length - 1; i++) {
+      setItem(postPath[i].id, {
+        id: postPath[i].id,
+        visible: "",
       });
     }
   };

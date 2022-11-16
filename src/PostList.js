@@ -47,26 +47,27 @@ export default function PostList({
   };
 
   // 재귀적
-  // isInit 같은거 설정해서 첫 로드때는 다 닫혀있게 만들어도 좋을듯
+  let selectedPostId = null; // 현재 선택된 문서의 id
   this.makeList = (docList, depth = 0) => {
     return docList
       .map(
         (cur) =>
           `<li class="title" data-id="${cur.id}" title="${
             cur.title
-          }" style="list-style:none; background-color:initial;">
-          ${this.visible(cur.id) === "none" ? "▶" : "▼"}
-          ${cur.title}
-          <button class="add" style="position:sticky; right:25px;">+</button>
-          <button class="delete" style="position:sticky; right:1px;">x</button>          
-          ${
-            cur.documents.length > 0
-              ? `<ul style="display:${this.visible(cur.id)};">${this.makeList(
-                  cur.documents,
-                  depth + 1
-                )}</ul>`
-              : ""
-          }          
+          }" style="list-style:none; background-color:initial;">            
+            <p class="title" style="margin:0; display:inline-block; background-color:${
+              cur.id === selectedPostId ? `green;` : `transparent;`
+            }">${this.visible(cur.id) === "none" ? "▶" : "▼"}${cur.title}</p>
+            <button class="add" style="position:sticky; right:25px;">+</button>
+            <button class="delete" style="position:sticky; right:1px;">x</button>          
+            ${
+              cur.documents.length > 0
+                ? `<ul style="display:${this.visible(cur.id)};">${this.makeList(
+                    cur.documents,
+                    depth + 1
+                  )}</ul>`
+                : ""
+            }          
           </li>`
       )
       .join("");
@@ -82,9 +83,12 @@ export default function PostList({
     const name = target.className;
 
     if (name === "title") {
+      selectedPostId = +id;
+      console.log(typeof selectedPostId);
       push(`/posts/${id}`);
 
-      const $ul = $li.childNodes[5];
+      const $ul = $li.childNodes[7];
+
       if (!$ul) {
         setItem(id, {
           id: id,
@@ -96,12 +100,14 @@ export default function PostList({
       // localStorage를 사용해서 하위목록들이 보여질지 아닐지 결정.
       if ($ul.style.display === "") {
         $ul.style.display = "none";
+
         setItem(id, {
           id: id,
           visible: "none",
         });
       } else {
         $ul.style.display = "";
+
         setItem(id, {
           id: id,
           visible: "",

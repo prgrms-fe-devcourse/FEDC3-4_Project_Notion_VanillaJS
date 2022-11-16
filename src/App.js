@@ -42,8 +42,8 @@ export default function App({ $target, initialState }) {
       await postPage.setState();
     } else if (pathname.indexOf("/posts/") === 0) {
       const [, , postId] = pathname.split("/");
-      await postPage.setState();
       await postEditPage.setState({ postId });
+      await postPage.setState();
     }
   };
 

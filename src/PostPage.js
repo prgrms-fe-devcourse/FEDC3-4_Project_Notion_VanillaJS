@@ -52,7 +52,7 @@ export default function PostPage({ $target, initialState }) {
         id: id,
         visible: "",
       });
-      postList.render();
+      //postList.render();
 
       push(`/posts/${test.id}`);
     },
