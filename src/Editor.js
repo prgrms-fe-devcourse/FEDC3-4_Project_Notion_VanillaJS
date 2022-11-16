@@ -14,7 +14,7 @@ export default function Editor({
 
   this.state = initialState;
 
-  $editor.innerHTML = `
+  $editor.innerHTML = `      
       <input type="text" name="title" style="width:95%;display:flex" value="${this.state.title}" />
       <textarea name="content" style="width:95%; height:600px">${this.state.content}</textarea>
     `;
@@ -27,7 +27,7 @@ export default function Editor({
     ) {
       $editor.querySelector("[name=title]").value = "";
       $editor.querySelector("[name=title]").placeholder =
-        "제목을 입력해주세요.";
+        "제목을 입력하지 않으면 자동으로 '제목 없음'이 제목이 됩니다.";
 
       $editor.querySelector("[name=content]").value = "";
       $editor.querySelector("[name=content]").placeholder =

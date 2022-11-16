@@ -15,7 +15,7 @@ export const initRouter = (onRoute) => {
     const { nextUrl } = e.detail;
 
     if (nextUrl) {
-      history.replaceState(null, null, nextUrl);
+      // history.replaceState(null, null, nextUrl);
       onRoute();
     }
   });

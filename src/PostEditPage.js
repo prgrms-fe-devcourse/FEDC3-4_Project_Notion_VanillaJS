@@ -43,9 +43,6 @@ export default function PostEditPage({ $target, initialState }) {
         clearTimeout(timer);
       }
 
-      const $loading = document.createElement("div");
-      $postEditPage.appendChild($loading);
-
       timer = setTimeout(async () => {
         const isNew = this.state.postId === "new";
         if (isNew) {
@@ -121,8 +118,8 @@ export default function PostEditPage({ $target, initialState }) {
       }
 
       editor.setState(this.state.post);
-
       navi.setState(this.state);
+
       this.render();
       return;
     }
@@ -140,9 +137,9 @@ export default function PostEditPage({ $target, initialState }) {
         });
 
         navi.setState(this.state);
+        editor.setState(post);
 
         this.render();
-        editor.setState(post);
       } else {
         // 이미 존재하는 문서일 경우.
         await fetchPost();
@@ -214,6 +211,9 @@ export default function PostEditPage({ $target, initialState }) {
       link: "/",
     },
   });
+
+  const $loading = document.createElement("div");
+  $postEditPage.appendChild($loading);
 
   this.render = () => {
     $target.appendChild($postEditPage);

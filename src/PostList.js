@@ -26,6 +26,7 @@ export default function PostList({
     this.state = nextState;
 
     if (postId) this.postId = +postId.postId;
+    else this.postId = null; // 선택된 문서가 없다.
 
     this.render();
   };
