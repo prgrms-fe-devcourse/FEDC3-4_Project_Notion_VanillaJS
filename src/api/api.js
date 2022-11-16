@@ -1,12 +1,13 @@
 const API_ROOT = ({ path }) =>
 	`https://kdt-frontend.programmers.co.kr/documents${path}`;
-const UESR_NAME = 'yangsangwoo';
+
+const USER = 'yangsangwoo';
 
 const returnOptions = ({ method, content }) => {
 	return {
 		method,
 		headers: {
-			'x-username': UESR_NAME,
+			'x-username': USER,
 			[method === 'POST' || method === 'PUT' ? 'Content-Type' : 'Accept']:
 				'application/json',
 		},

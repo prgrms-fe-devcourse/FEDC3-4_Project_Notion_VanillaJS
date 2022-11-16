@@ -1,2 +1,2 @@
-export { Documents } from './Documents';
-export { SideBar } from './SideBar';
+export { SideBar } from './SideBar/SideBar.js';
+export { DocumentPage } from './DocumentPage/DocumentPage.js';

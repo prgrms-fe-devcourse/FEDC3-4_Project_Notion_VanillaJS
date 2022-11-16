@@ -1,82 +1,76 @@
-import LIST_API from './api/documentApi';
-import { push } from './router';
-import { removeDocument } from './util';
-import { useState } from './util/useState';
-import { SideBar, Documents } from './pages';
+import { SideBar, DocumentPage } from './pages/index.js';
+import LIST_API from './api/documentApi.js';
+import { $, removeDocument } from './util/index.js';
+import { push } from './router.js';
+class App {
+    constructor({ $target, initialState }) {
+        this.openState = [];
+        this.$target = $target; 
 
-export function App({ $target, initialState }) {
-	const state = new useState({
-		documentList: initialState,
-		opneDocumetList: [],
-	});
+        this.sideBar = new SideBar({
+            $target: this.$target,
+            documents: initialState,
+            onClickDocument: this.onClickDocument.bind(this),
+            onAddDocument: this.onAddDocument.bind(this),
+            onDeleteDocument: this.onDeleteDocument.bind(this),
+        });
 
-	this.$target = $target;
+        this.documentPage = new DocumentPage({
+            $target: this.$target,
+            onGetOneDocument: this.onGetOneDocument.bind(this),
+            onEditDocument: this.onEditDocument.bind(this),
+        });
+    }
 
-	this.sidebar = new SideBar({ $target });
-	this.documents = new Documents({ $target });
+    async onGetAllDocument() {
+        return await LIST_API.getAllDocuments();
+    } 
 
-	this.onGetAllDocuments = async () => {
-		return await LIST_API.getAllDocuments();
-	};
+    async onGetOneDocument({ docId }) { 
+        return await LIST_API.getOneDocument({ id: docId });
+    }
 
-	this.onGetOneDocument = async ({ id }) => {
-		return await LIST_API.getOneDocument({ id });
-	};
+    async onClickDocument({ docId }) {
+        await LIST_API.getOneDocument({ id: docId });
 
-	this.onCreateDocument = async ({ id }) => {
-		const doc = await LIST_API.createDocument({
-			content: { title: '', parent: id },
-		});
-		const docs = await this.onGetAllDocuments();
+        if (this.openState.includes(docId)) {
+            const idx = this.openState.indexOf(docId);
 
-		state.setState({
-			documentList: [...docs, doc],
-			opneDocumetList: [...state.getState().opneDocumetList, doc],
-		});
+            this.openState.splice(idx, 1);
+        } else {
+            this.openState.push(docId);
+        }
 
-		push({ nextUrl: `/documents/${doc.id}` });
-	};
+        push({ nextUrl: `/documents/${docId}` });
+    }
 
-	this.onDleleteDocument = async ({ id }) => {
-		await LIST_API.deleteDocument({ id });
-		const docs = await this.onGetAllDocuments();
+    async onAddDocument({ docId }) {
+        const doc = await LIST_API.createDocument({ content: { title: "", parent: docId } });
+        const docs = await this.onGetAllDocument();
 
-		state.setState({
-			documentList: docs,
-			opneDocumetList: state
-				.getState()
-				.opneDocumetList.filter(doc => doc.id !== id),
-		});
-	};
+        this.sideBar.setState({ nextState: docs, openState: this.openState });
+        push({ nextUrl: `/documents/${doc.id}` });
+    }
 
-	this.onEditDocument = async ({ id, content }) => {
-		const doc = await LIST_API.editDocument({ id, content });
-		const $doc = $(`[data-id="${id}"]`);
-		$doc.innerHTML = doc.content.title;
-		removeDocument(`documents/${id}`);
-	};
+    async onDeleteDocument({ docId }) { 
+        await LIST_API.deleteDocument({ id: docId });
+        const docs = await this.onGetAllDocument(); 
 
-	this.onClickDocument = async ({ id }) => {
-		await LIST_API.getAllDocuments({ id });
+        this.sideBar.setState({ nextState: docs, openState: this.openState });
+    }
 
-		if (!state.getState().opneDocumetList.find(doc => doc.id === id)) {
-			const doc = await this.onGetOneDocument({ id });
-			state.setState({
-				opneDocumetList: [...state.getState().opneDocumetList, doc],
-			});
-		}
+    async onEditDocument({ docId, content }) {
+        const doc = await LIST_API.editDocument({ id: docId, content });
+        const $doc = $({selector: `[data-index="${docId}"] > span`});
 
-		push({ nextUrl: `/documents/${id}` });
-	};
+        $doc.innerText = doc.title;
+        removeDocument(`document-${docId}`);
+    }
 
-	this.render = () => {
-		this.sidebar.render();
-		this.documents.render();
-	};
-
-	// 구독할 컴포넌트를 등록한다(render함수를 등록해야함)
-	state.listen(() => {
-		// this.setState(state.getState());
-		// this.render함수를 넣자
-	});
+    render() {
+        this.sideBar.render();
+        this.documentPage.render();
+    }
 }
+
+export default App;
