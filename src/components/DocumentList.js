@@ -1,9 +1,13 @@
 import { push } from '../utils/router.js';
+import { request } from '../utils/api.js';
+import { documentLi } from '../utils/render.js';
 
 export default function DocumentList({ $target, initialState }) {
   const $div = document.createElement('div');
+  const $ul = document.createElement('ul');
   $div.className = 'document-list';
   $target.appendChild($div);
+  $div.appendChild($ul);
 
   this.state = initialState;
 
@@ -13,47 +17,92 @@ export default function DocumentList({ $target, initialState }) {
   };
 
   this.render = () => {
-    $div.innerHTML = `
-      ${this.state
-        .map(
-          ({ id, title }) => `
-            <div class='document'>
-            <button>
-                <img class='toggle' />
-            </button>
-            <span data-id=${id}>${title}</span>
-            <button>
-                <img class='delete' />
-            </button>
-            <button>
-                <img class='plus' />
-            </button>
-            </div>
-          `
-        )
-        .join('')}
+    $ul.innerHTML = `
+      ${this.state.map(({ id, title }) => `${documentLi(id, title)}`).join('')}
     `;
-
-    document.querySelectorAll('.toggle').forEach(($img) => {
-      console.log($img.getAttribute('class'));
-      $img.setAttribute('src', '../../assets/right.png');
-    });
-
-    document.querySelectorAll('.delete').forEach(($img) => {
-      $img.setAttribute('src', '../../assets/delete.png');
-    });
-
-    document.querySelectorAll('.plus').forEach(($img) => {
-      $img.setAttribute('src', '../../assets/plus.png');
-    });
-
-    $div.querySelectorAll('span').forEach(($span) => {
-      $span.addEventListener('click', (e) => {
-        const { id } = e.target.dataset;
-        push(`/documents/${id}`);
-      });
-    });
   };
 
   this.render();
+
+  $ul.addEventListener('click', (e) => {
+    const $list = e.target.closest('li');
+    const $div = e.target.closest('div');
+
+    const { className } = e.target;
+    const { id } = $div.dataset;
+
+    const onSet = async () => {
+      if (id !== undefined) {
+        push(`/documents/${id}`);
+
+        // 현재 선택된 document 리스트 bold 처리
+        $ul.querySelectorAll('div').forEach(($div) => {
+          $div.classList.remove('bold');
+        });
+
+        $div.classList.add('bold');
+      }
+    };
+
+    const onToggle = async () => {
+      e.target.classList.toggle('toggle-active');
+
+      const getDocuments = await request(`/documents/${id}`);
+      const { documents } = getDocuments;
+
+      const $ulChild = document.createElement('ul');
+      $ulChild.className = 'document-children';
+      $list.appendChild($ulChild);
+
+      // toggle on/off 처리
+      if (e.target.classList.contains('toggle-active')) {
+        // 하위 리스트가 있을 때와 없을 때의 처리
+        if (documents.length > 0) {
+          $ulChild.innerHTML = `
+            ${documents
+              .map(({ id, title }) => `${documentLi(id, title)}`)
+              .join('')}
+          `;
+        } else {
+          $ulChild.innerHTML = `
+            <li style='pointer-events: none;'>
+              <div class='document'>
+                <span class='no-child' style='color: #a7a7a7;'>${`하위 페이지 없음`}</span>
+              </div>
+            </li>
+          `;
+        }
+      } else {
+        $list.querySelectorAll('ul').forEach(($ul) => {
+          $ul.remove();
+        });
+      }
+    };
+
+    const onRemove = () => {};
+
+    const onAdd = async () => {
+      if (id !== undefined) {
+        const document = {
+          title: '제목 없음',
+          parent: id,
+        };
+        await request(`/documents`, {
+          method: 'POST',
+          body: JSON.stringify(document),
+        });
+      }
+      onToggle();
+    };
+
+    if (className === 'toggle' || className === 'toggle toggle-active') {
+      onToggle();
+    } else if (className === 'delete') {
+      onRemove();
+    } else if (className === 'plus add') {
+      onAdd();
+    } else {
+      onSet();
+    }
+  });
 }
