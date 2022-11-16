@@ -3,7 +3,7 @@ import Editor from './components/editor.js';
 import Blank from './components/home.js';
 import { request } from './utils/api.js';
 import { initRouter, push } from './router.js';
-import { METHOD, TEXT } from './utils/constants.js';
+import { METHOD, STORAGE_KEY, TEXT } from './utils/constants.js';
 import { setItem, getItem, removeItem } from './utils/storage.js';
 
 export default function App({ target, initialState }) {
@@ -20,6 +20,8 @@ export default function App({ target, initialState }) {
     const documents = await request('/documents');
     if (documents && documents.length) {
       this.setState({ documents });
+      navigator.setState({ openedDocuments: getItem(STORAGE_KEY.OPENED_DOCUMENTS) });
+      editor.setState({ documents });
       navigator.render();
     }
   };
@@ -44,11 +46,11 @@ export default function App({ target, initialState }) {
           return;
         }
       }
-
-      this.setState({ document });
-      editor.setState({ document });
-      editor.render();
     }
+
+    this.setState({ document });
+    editor.setState({ document });
+    editor.render();
   };
 
   this.state = initialState;
@@ -82,6 +84,10 @@ export default function App({ target, initialState }) {
         );
         if (initializedDocument) {
           await fetchDocuments();
+
+          if (parseInt(targetDocumentId) === this.state.document.id) {
+            await fetchDocument(targetDocumentId);
+          }
         }
       }
     },
@@ -89,6 +95,11 @@ export default function App({ target, initialState }) {
       const document = await request(`/documents/${targetDocumentId}`, { method: METHOD.DELETE });
       if (document) {
         await fetchDocuments();
+
+        if (this.state.document.documents.filter((doc) => doc.id === document.id).length) {
+          await fetchDocument(this.state.document.id);
+        }
+
         const { pathname } = window.location;
         if (pathname.indexOf('/documents/') === 0) {
           const [, , documentId] = pathname.split('/');
@@ -105,7 +116,7 @@ export default function App({ target, initialState }) {
 
   const editor = new Editor({
     target: wrapper,
-    initialState: { document: currentDocument },
+    initialState: { document: currentDocument, documents: this.state.documents },
     onEditing: (document) => {
       const $currentNavigatorTitle = wrapper.querySelector(`#id-${document.id}`);
       const $currentEditorHeader = wrapper.querySelector('.editor-header');
@@ -139,6 +150,13 @@ export default function App({ target, initialState }) {
           await fetchDocuments();
         }
       }, 250);
+    },
+    openDocument: async (targetDocumentId) => {
+      setItem(STORAGE_KEY.OPENED_DOCUMENTS, [
+        ...getItem(STORAGE_KEY.OPENED_DOCUMENTS),
+        targetDocumentId,
+      ]);
+      push(`/documents/${targetDocumentId}`);
     },
   });
 

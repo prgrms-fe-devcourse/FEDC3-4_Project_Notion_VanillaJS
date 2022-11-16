@@ -1,3 +1,4 @@
+import { push } from '../router.js';
 import { API_END_POINT } from '../url.js';
 import { USER_NAME } from './constants.js';
 
@@ -14,6 +15,7 @@ export const request = async (url, options = {}, data) => {
   if (res.ok) {
     return await res.json();
   } else {
+    push('/');
     throw new Error(`${res.status} Error`);
   }
 };

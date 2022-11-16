@@ -1,6 +1,7 @@
 import Icon from './icons/index.js';
 import { setItem } from '../utils/storage.js';
 import { STORAGE_KEY, TEXT, DEGREE, ICON, EVENT } from '../utils/constants.js';
+import { push } from '../router.js';
 
 export default function Navigator({
   target,
@@ -40,10 +41,12 @@ export default function Navigator({
             };'>
                 <div class='icon-wrapper'>${isOpened ? chevronDownIcon : chevronIcon}</div>
                 <div class='icon-wrapper'>${documentIcon}</div>
-                <div class='title-wrapper' id='id-${id}'>${title}</div>
-                <div class='visible-when-hover'>
-                  <div class='icon-wrapper document-delete'>${trashIcon}</div>
-                  <div class='icon-wrapper document-add'>${plusIcon}</div>
+                <div class='title-wrapper' id='id-${id}'>
+                  ${title}
+                  <div class='visible-when-hover'>
+                    <div class='icon-wrapper document-delete'>${trashIcon}</div>
+                    <div class='icon-wrapper document-add'>${plusIcon}</div>
+                  </div>
                 </div>
               </div>
               ${getDocuments(documents, depth + 1, isOpened)}
@@ -140,6 +143,9 @@ export default function Navigator({
         $scroller.style.boxShadow = 'inset 0px 1px 0px rgba(55, 53, 47, 0.09)';
       }
     });
+
+    const $header = navigator.querySelector('.navigator-header');
+    $header.addEventListener(EVENT.CLICK, (e) => push('/'));
   };
 
   this.render = () => {
