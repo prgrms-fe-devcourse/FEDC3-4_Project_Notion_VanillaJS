@@ -10,7 +10,7 @@ const NO_SUB_DOCUMENTS = 'no-sub-documents'
 
 export default function DocumentList({ $target, initialState, onDocumentClick, onAddSubDocumentButtonClick, onRemoveDocumentButtonClick }) {
   const $element = document.createElement('div');
-  $element.style = 'width: 100%;'
+  $element.style = 'width: 100%; overflow: hidden auto;'
 
   $target.appendChild($element);
 

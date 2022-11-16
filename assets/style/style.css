@@ -3,7 +3,6 @@
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
 }
 
 ul {
@@ -36,7 +35,6 @@ button:hover {
 
 #app {
   display: flex;
-  height: 100%;
 }
 
 .hidden {
@@ -67,16 +65,19 @@ button:hover {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  max-width: 100%;
+  width: 100%;
 }
 
 .sidebar .document-title :hover {
-  max-width: 90%;
+  max-width: 80%;
 }
 
 .document-button-group {
   margin-left: auto;
   flex-shrink: 0;
+  width: 28px;
+  display: flex;
+  justify-content: space-around;
 }
 
 .sidebar .documents-header {
@@ -96,13 +97,12 @@ button:hover {
 .sidebar {
   min-width: 300px;
   max-width: 25vw;
-  padding: 0.5rem;
-  flex-shrink: 0;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
+  padding: 0.5rem 0.5rem 0 0.5rem;
   position: fixed;
-  height: 100%;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 ul.document-list {
@@ -147,6 +147,7 @@ ul.document-list {
 
 .add-document-button {
   background-image: url(/assets/image/plus.png);
+  margin-right: 0.5rem;
 }
 
 .rotate-90 {
@@ -228,7 +229,9 @@ ul.document-list {
   background-color: rgb(200, 200, 200);
   height: 100%;
   cursor: col-resize;
-  margin-left: 0.5rem;
+  position: absolute;
+  top:0;
+  right: 0.5rem;
 }
 
 
@@ -259,4 +262,32 @@ ul.document-list {
 .sub-documents-link a {
   text-decoration: none;
   color: rgb(60, 70, 255)
+}
+
+
+
+
+/* body{
+  -ms-overflow-style: none;
+  }
+  
+ ::-webkit-scrollbar {
+   display: none;
+ }
+  */
+
+/* Scroll */
+::-webkit-scrollbar {
+  background: transparent;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D3D1CB;
+}
+::-webkit-scrollbar-track {
+  background: #EDECE9;
 }
