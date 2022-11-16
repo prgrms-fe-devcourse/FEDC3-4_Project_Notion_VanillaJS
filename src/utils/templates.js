@@ -9,8 +9,13 @@ const $home = () => {
 const formatTime = (time) => {
 	if (isNaN(time)) return;
 
-	const date = `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()} /
-	${time.getHours()} : ${time.getMinutes()}`;
+	const date = `
+	${time.getFullYear()}-${String(time.getMonth() + 1).padStart(2, "0")}-${String(
+		time.getDate()
+	).padStart(2, "0")} 
+	/	${String(time.getHours()).padStart(2, "0")} : ${String(
+		time.getMinutes()
+	).padStart(2, "0")}`;
 
 	return date;
 };

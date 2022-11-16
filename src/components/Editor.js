@@ -8,6 +8,10 @@ export default function Editor({ $target, initialState, onEditing }) {
 
 	$target.appendChild($editor);
 
+	this.setEditState = (nextEdit) => {
+		this.body = nextEdit;
+	};
+
 	this.setState = (nextState) => {
 		this.state = nextState;
 		this.body = nextState;
@@ -18,7 +22,6 @@ export default function Editor({ $target, initialState, onEditing }) {
 	};
 
 	this.render = () => {
-		console.log(this.state);
 		$editor.innerHTML = $editPost(this.state);
 	};
 
