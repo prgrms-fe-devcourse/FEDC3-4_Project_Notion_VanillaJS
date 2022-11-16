@@ -8,7 +8,7 @@ export const properties = {
 
 //Header
 export const DEFAULT_TITLE = "제목 없음";
-export const ROOT_TITLE = "작업 중... 👌";
+export const ROOT_TITLE = "작업 중... 💨";
 export const DEFAULT_CONTENT = "내용을 입력해주세요";
 
 //Document
@@ -33,6 +33,7 @@ export const classNameObj = {
   DOCUMENT_BLOCK_INNER: "document-block-inner",
   SIDEBAR_DOCUMENT_LIST_CONTAINER: "sidebar-list-container",
   EDITOR_TOPBAR: "topbar",
+  EDOTOR_EDITOR: "editor"
 };
 
 export const styleObj = {

@@ -3,13 +3,10 @@ import {
   DEFAULT_TITLE,
   DISABLED_ID,
   ERROR_NEW_KEYWORD_MISSING,
-  LOCAL_STORAGE_RECENT_DOCUMENT,
-  ROOT_TITLE,
 } from "./utils/constants.js";
 import { hasNewTarget } from "./utils/error.js";
 import DocumentPage from "./DocumentPage/DocumentPage.js";
 import EditPage from "./EditPage/EditPage.js";
-import { getItem } from "./utils/storage.js";
 import { request } from "../api/api.js";
 import { initRouter } from "./utils/router.js";
 

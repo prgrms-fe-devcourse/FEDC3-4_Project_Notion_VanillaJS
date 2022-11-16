@@ -1,5 +1,6 @@
 import { ERROR_NEW_KEYWORD_MISSING, DEFAULT_TITLE, DISABLED_ID, ROOT_TITLE } from "../utils/constants.js";
 import { hasId, hasNewTarget, hasTitle } from "../utils/error.js";
+import { setHeaderChange } from "../utils/router.js";
 
 export default function Header({ $target, initialState, onEditing }) {
   if (!hasNewTarget(new.target)) throw new Error(ERROR_NEW_KEYWORD_MISSING);
@@ -28,9 +29,9 @@ export default function Header({ $target, initialState, onEditing }) {
     const { title } = this.state;
     const input = $header.querySelector("input");
 
-    if (title === DEFAULT_TITLE || title === ROOT_TITLE) {
+    if (!title || title === DEFAULT_TITLE || title === ROOT_TITLE) {
       input.value = "";
-      input.placeholder = title;
+      input.placeholder = !title ? DEFAULT_TITLE : title;
     } else {
       input.value = title;
     }
@@ -56,6 +57,15 @@ export default function Header({ $target, initialState, onEditing }) {
   $header.addEventListener("input", (e) => {
     const { value } = e.target;
 
+    setHeaderChange({
+      id: this.state.id,
+      title: value,
+    });
+
     onEditing(value);
   });
+
+  $header.querySelector("input").addEventListener("focus", (e) => {
+    e.target.placeholder = "";
+  })
 }

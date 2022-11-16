@@ -1,5 +1,6 @@
 import { request } from "../../api/api.js";
 import {
+  classNameObj,
   DEFAULT_TITLE,
   EVENT_HEADER_CHANGE,
   EVENT_ROUTE_PUSH,
@@ -8,7 +9,9 @@ import {
   EVENT_ROUTE_REMOVE,
   LOCAL_STORAGE_RECENT_DOCUMENT,
 } from "./constants.js";
-import { removeItem, setItem } from "./storage.js";
+import { removeItem } from "./storage.js";
+
+const { DOCUMENT_BLOCK, TITLE } = classNameObj;
 
 export const initRouter = (onRoute) => {
   const removeAllDocument = async (document) => {
@@ -73,18 +76,12 @@ export const initRouter = (onRoute) => {
       }),
     });
 
-    setItem(LOCAL_STORAGE_RECENT_DOCUMENT, {
-      ...res,
-      tempSaveData: new Date(),
-    });
   });
 
   window.addEventListener(EVENT_HEADER_CHANGE, (e) => {
     const { id, title } = e.detail;
 
-    //해당 document-block의 title을 찾아서 innerText를 바꿔주는 거지.
-    const documentBlockArr = e.target.document.body.querySelectorAll(".document-block");
-
+    const documentBlockArr = e.target.document.body.querySelectorAll(`.${DOCUMENT_BLOCK}`);
     let currentDocumentBlock = null;
 
     documentBlockArr.forEach((e) => {
@@ -95,7 +92,7 @@ export const initRouter = (onRoute) => {
       }
     });
 
-    const currentTitleBlock = currentDocumentBlock.querySelector(".title");
+    const currentTitleBlock = currentDocumentBlock.querySelector(`.${TITLE}`);
     currentTitleBlock.innerText = title;
   });
 };
