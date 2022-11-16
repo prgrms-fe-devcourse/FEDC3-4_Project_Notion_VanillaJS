@@ -10,12 +10,12 @@ export default function Editor({
     throw new Error("new로 생성하지 않았습니다.");
   }
   const $editor = document.createElement("div");
+
+  $editor.setAttribute("class", "editor");
   $target.appendChild($editor);
 
-  // editor 렌더링이 초기 한 번만 발생하도록 하는 변수
   let isInitialize = false;
 
-  // 자동저장된 값을 불러와 사용하기 위해 필요한 초기값
   this.state = initialState;
 
   this.setState = nextState => {
@@ -30,8 +30,21 @@ export default function Editor({
   this.render = () => {
     if (!isInitialize) {
       $editor.innerHTML = `
-        <input type="text" name="title" style="width:500px;" value="${this.state.title}"/>
-        <textarea name="content" style="width:500px;height:500px;">${this.state.content}</textarea>
+        <input 
+        id="input-title" 
+        type="text" 
+        name="title" 
+        style="width:500px;" 
+        value="${this.state.title}"
+        placeholder="제목을 입력해주세요"
+        />
+        <textarea 
+        id="input-content" 
+        name="content" 
+        style="width:500px;height:500px;"
+        placeholder="내용을 입력해주세요">
+        ${this.state.content}
+        </textarea>
     `;
       isInitialize = true;
     }
@@ -42,7 +55,6 @@ export default function Editor({
     const { target } = e;
     const name = target.getAttribute("name");
 
-    // state에 존재하는 name만 사용하기 위한 방어코드
     if (this.state[name] !== undefined) {
       const nextState = {
         ...this.state,

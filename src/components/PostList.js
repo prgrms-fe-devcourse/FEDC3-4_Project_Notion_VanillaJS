@@ -1,4 +1,4 @@
-import { push } from "../utils/router.js";
+import { push } from "../../utils/router.js";
 
 export default function PostList({
   $target,
@@ -9,7 +9,9 @@ export default function PostList({
   if (!(this instanceof PostList)) {
     throw new Error("new로 생성하지 않았습니다.");
   }
+
   const $postList = document.createElement("div");
+  $postList.setAttribute("class", "post-list");
   $target.appendChild($postList);
 
   this.state = initialState;
@@ -21,10 +23,12 @@ export default function PostList({
 
   const createDocuments = ({ title, id, documents }, result) => {
     result.push(
-      `<li data-id=${id}>
+      `<li data-id=${id} class="parent-document">
       <span>▶ ${title}</span>
-      <button class="addBtn">+</button>
-      <button class="removeBtn">-</button>
+      <div> 
+        <button class="addBtn">+</button>
+        <button class="removeBtn">-</button>
+      </div>
       </li>`
     );
     if (documents.length !== 0) {

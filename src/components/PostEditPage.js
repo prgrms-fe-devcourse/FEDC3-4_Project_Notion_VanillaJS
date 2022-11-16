@@ -1,7 +1,6 @@
 import Editor from "./Editor.js";
-import LinkButton from "./LinkButton.js";
-import { getItem, removeItem, setItem } from "./storage.js";
-import { createPost, changePost, fetchPost } from "../utils/api.js";
+import { getItem, removeItem, setItem } from "../storage.js";
+import { createPost, changePost, fetchPost } from "../../utils/api.js";
 
 export default function PostEditPage({ $target, initialState }) {
   if (!(this instanceof PostEditPage)) {
@@ -14,6 +13,7 @@ export default function PostEditPage({ $target, initialState }) {
   let postLocalSaveKey = `temp-post-${this.state.postId}`;
   let timer = null;
 
+  // editor 생성
   const editor = new Editor({
     $target: $page,
     initialState: this.state.post,
@@ -106,13 +106,4 @@ export default function PostEditPage({ $target, initialState }) {
       });
     }
   };
-
-  new LinkButton({
-    $target: $page,
-    initialState: {
-      id: "go-to-list",
-      text: "목록으로",
-      link: "/",
-    },
-  });
 }

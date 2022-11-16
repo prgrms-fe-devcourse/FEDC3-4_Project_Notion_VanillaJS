@@ -1,6 +1,6 @@
 import PostPage from "./PostPage.js";
 import PostEditPage from "./PostEditPage.js";
-import { initRouter } from "../utils/router.js";
+import { initRouter } from "../../utils/router.js";
 
 export default function App({ $target }) {
   if (!(this instanceof App)) {
@@ -30,7 +30,6 @@ export default function App({ $target }) {
 
   // route 생성
   this.route = () => {
-    $target.innerHTML = "";
     const { pathname } = window.location;
 
     if (pathname === "/") {
