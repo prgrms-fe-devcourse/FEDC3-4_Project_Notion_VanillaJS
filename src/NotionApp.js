@@ -1,12 +1,11 @@
-import Editor from './components/Editor.js';
+import DocumentEditorPage from './components/DocumentEditorPage.js';
 import NavBar from './components/NavBar.js';
-import { fetchDocumentContents, fetchDocumentList, request } from './utils/api.js';
+import { fetchDocumentList } from './utils/api.js';
 
 export default function NotionApp({ $container }) {
   this.state = {
     documentList: [],
     currentDocumentId: null,
-    documentContent: null,
   };
 
   this.setDocumentList = (newState) => {
@@ -14,42 +13,31 @@ export default function NotionApp({ $container }) {
     navBar.setState(this.state.documentList);
   };
 
-  this.setDocumentContent = (newState) => {
-    this.state = newState;
-    editor.setState(this.state.documentContent);
-  };
-
   const navBar = new NavBar({
     $container,
     initialState: this.state.documentList,
     onSelect: (id) => {
-      loadDocumentContents(id);
       history.pushState(null, null, `/documents/${id}`);
       route();
     },
-  });
-
-  const editor = new Editor({
-    $container,
-    initialState: this.state.documentContent,
-    onEdit: async (documentContent) => {
-      const { id, title, content } = documentContent;
-      const newContent = { title, content };
-
-      this.setDocumentContent({
-        ...this.state,
-        documentContent,
-      });
-      // TODO: title 바뀌면, list 반영해야함
-      await request(`/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(newContent),
-      });
-      // 서버와 동기화
-      await loadDocumentContents(id);
+    onAdd: (parentId) => {
+      console.log(parentId);
+      // 실제로 title 글 쓰면 추가하자 -> 빈 editor 페이지 보여야해
+      // /documnets/new -> route에서 Editor 페이지연결해야하나?
+      // api 호출
     },
   });
 
+  const documentEditorPage = new DocumentEditorPage({
+    $container,
+    initialState: this.state.currentDocumentId,
+    onEditDocumentTitle: () => {
+      console.log(`edit title`);
+      turnOn();
+    },
+  });
+
+  // * 이름수정 ? documentList 불러오는 로직
   const turnOn = async () => {
     const documentList = await fetchDocumentList();
     this.setDocumentList({
@@ -58,23 +46,12 @@ export default function NotionApp({ $container }) {
     });
   };
 
-  const loadDocumentContents = async (documentId) => {
-    if (documentId === this.state.currentDocumentId) return;
-
-    const documentContent = await fetchDocumentContents(documentId);
-    this.setDocumentContent({
-      ...this.state,
-      currentDocumentId: documentId,
-      documentContent,
-    });
-  };
-
   const route = () => {
     const { pathname } = window.location;
 
     if (pathname.includes('/documents/')) {
       const [, , documentId] = pathname.split('/');
-      loadDocumentContents(documentId);
+      documentEditorPage.setState(documentId);
     }
   };
 

@@ -1,5 +1,5 @@
 export default function Editor({ $container, initialState, onEdit }) {
-  const $editor = document.createElement('section');
+  const $editor = document.createElement('div');
   $editor.id = 'editor';
   $container.appendChild($editor);
 
@@ -11,8 +11,8 @@ export default function Editor({ $container, initialState, onEdit }) {
   };
 
   $editor.innerHTML = `
-		<input type="text" id="title" value=${this.state ? this.state.title : ''}></input>
-		<textarea id="content">${this.state ? this.state.content : ''}</textarea> 
+		<input type="text" id="title" value=${this.state.title}></input>
+		<textarea id="content">${this.state.content}</textarea> 
 	`;
 
   this.render = () => {
