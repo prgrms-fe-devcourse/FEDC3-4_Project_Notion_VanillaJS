@@ -20,7 +20,6 @@ export default function PostList({ $target, onRemove, onPostClick, addPost }) {
 
 	$postList.addEventListener("click", (e) => {
 		const posts = this.state.posts;
-
 		const $rootLi = e.target.closest(".list-flex");
 
 		if ($rootLi.dataset.id !== undefined) {
@@ -42,7 +41,7 @@ export default function PostList({ $target, onRemove, onPostClick, addPost }) {
 					$childLi.classList.add("hide");
 				}
 			} else if (className.includes("delete-page-btn")) {
-				onRemove(posts.find((item) => item.id === parseInt(id)));
+				onRemove(id);
 			} else if (className.includes("create-page-btn")) {
 				$createPostModal.setState({
 					link: `/documents/${id}`,

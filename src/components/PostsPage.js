@@ -22,12 +22,16 @@ export default function PostsPage({ $target, initialState }) {
 		$target: $postPage,
 		initialState: [],
 
-		onRemove: async (post) => {
+		onRemove: async (id) => {
+			const post = await request(`/documents/${id}`, {
+				method: "GET",
+			});
 			if (confirm(`제목 : ${post.title}\n해당 글을 삭제할까요?`)) {
 				const res = await request(`/documents/${post.id}`, {
 					method: "DELETE",
 				});
 				this.setState();
+				push("/");
 			}
 		},
 
