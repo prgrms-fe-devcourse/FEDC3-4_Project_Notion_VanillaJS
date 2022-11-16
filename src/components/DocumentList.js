@@ -65,11 +65,11 @@ export default function DocumentList({
                   ${title.length > 0 ? title : UNTITLED}
                 </p>
                 <div class="buttons">
-                  <button class="${DELETE}" type="button">
-                    <i class="fa-regular fa-trash-can ${DELETE}"></i>
+                  <button title="삭제" class="${DELETE}" type="button">
+                    <i title="삭제" class="fa-regular fa-trash-can ${DELETE}"></i>
                   </button>
-                  <button class="${ADD}" type="button">
-                    <i class="fa-solid fa-plus ${ADD}"></i>
+                  <button title="하위 페이지 추가" class="${ADD}" type="button">
+                    <i title="하위 페이지 추가" class="fa-solid fa-plus ${ADD}"></i>
                   </button>
                 </div>
               </li>

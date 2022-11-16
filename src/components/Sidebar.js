@@ -23,7 +23,7 @@ export default function Sidebar({ $target, initialState, onAdd, onDelete }) {
   new SidebarHeader({
     $target: $sidebar,
     initialState: {
-      workspaceName: '✨ Hello Notion',
+      workspaceName: '📔 김유리의 Notion',
     },
   });
 

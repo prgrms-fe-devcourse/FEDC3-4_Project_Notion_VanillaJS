@@ -158,10 +158,7 @@ button {
   padding: 3px 5px;
   font-size: 14px;
   border-radius: 5px;
-  cursor: pointer;
-}
-.document-header .title:hover {
-  background-color: #efefef;
+  cursor: default;
 }
 
 .document-header .buttons {

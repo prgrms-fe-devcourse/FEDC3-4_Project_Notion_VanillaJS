@@ -14,14 +14,15 @@ export default function DocumentHeader({ $target, initialState, onDelete }) {
   };
 
   this.render = () => {
-    if (typeof this.state.title !== 'string') return;
+    const { title } = this.state.document;
 
-    const title = this.state.title.length > 0 ? this.state.title : UNTITLED;
     $header.innerHTML = `
-      <p class="title">${title}</p>
+      <div>
+        <span class="title">${title?.length > 0 ? title : UNTITLED}</span>
+      </div>
       <div class="buttons">
-        <button class="${DELETE}" type="button">
-            <i class="fa-regular fa-trash-can ${DELETE}"></i>
+        <button title="삭제" class="${DELETE}" type="button">
+            <i title="삭제" class="fa-regular fa-trash-can ${DELETE}"></i>
         </button>
       </div>
     `;
