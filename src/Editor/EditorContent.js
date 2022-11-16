@@ -3,6 +3,7 @@ import { isString } from '../utils/errorHandler.js';
 
 function EditorContent({ div, initialState, onChangeContent }) {
     const editorContent = createElement('div');
+    editorContent.className = 'editor-content';
     this.state = initialState;
 
     this.setState = (nextState) => {

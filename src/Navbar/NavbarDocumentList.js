@@ -1,6 +1,7 @@
 import { createElement, targetClosest, targetContains } from '../utils/dom.js';
 import { isNew } from '../utils/errorHandler.js';
 import { route } from '../utils/route.js';
+import { documentsUrl } from '../utils/util.js';
 
 function NavbarDocumentList({ target, initialState, onDelete, onAdd }) {
     isNew(new.target);
@@ -61,7 +62,7 @@ function NavbarDocumentList({ target, initialState, onDelete, onAdd }) {
                 onAdd(postId);
             } else {
                 // refactor 해야함
-                route(`/documents/${postId}`);
+                route(`${documentsUrl}/${postId}`);
             }
         });
     };

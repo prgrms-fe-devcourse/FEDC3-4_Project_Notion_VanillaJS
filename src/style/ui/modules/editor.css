@@ -53,3 +53,11 @@ button:hover {
     border-radius: 5px;
     color: black;
 }
+
+.editor-content {
+    height: 100em;
+}
+
+textarea {
+    background-color: red;
+}

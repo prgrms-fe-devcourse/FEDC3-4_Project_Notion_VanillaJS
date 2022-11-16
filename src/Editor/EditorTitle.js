@@ -3,6 +3,7 @@ import { isString } from '../utils/errorHandler.js';
 
 function EditorTitle({ div, initialState, onChangeTitle }) {
     const editorTitle = createElement('div');
+    editorTitle.className = 'editor-title';
     this.state = initialState;
 
     div.appendChild(editorTitle);

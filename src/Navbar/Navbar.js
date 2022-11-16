@@ -52,7 +52,6 @@ function Navbar({ target }) {
 
                 const que = [currentDocument];
 
-                console.log(que);
                 const queId = [currentDocument.id];
 
                 while (que.length > 0) {
@@ -63,7 +62,6 @@ function Navbar({ target }) {
                     });
 
                     for (let i of queId) {
-                        console.log(i);
                         await deleteMethod(i);
                     }
                 }

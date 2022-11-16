@@ -4,6 +4,7 @@ import { request } from '../utils/api.js';
 import { putContentMethod, putTitleMethod } from '../utils/optionsMethod.js';
 import EditorTitle from './EditorTitle.js';
 import EditorContent from './EditorContent.js';
+import { documentsUrl } from '../utils/util.js';
 
 function Editor({ target, initialState }) {
     const page = createElement('section');
@@ -36,7 +37,7 @@ function Editor({ target, initialState }) {
     this.setState = async (nextState) => {
         console.log(nextState);
         // refactor
-        const post = await request(`/documents/${nextState.postId}`);
+        const post = await request(`${documentsUrl}/${nextState.postId}`);
         isObject(post);
         postTitle.setState(post);
         postContent.setState(post);
