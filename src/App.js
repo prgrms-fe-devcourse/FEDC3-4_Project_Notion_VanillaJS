@@ -9,6 +9,9 @@ export default function App({ $target }) {
 
   const editorContainer = new EditorContainer({
     $target,
+    onChange: () => {
+      docsContainer.setState();
+    },
   });
 
   this.route = async () => {

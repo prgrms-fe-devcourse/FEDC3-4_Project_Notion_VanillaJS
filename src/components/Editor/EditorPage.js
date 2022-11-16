@@ -1,4 +1,4 @@
-export default function EditorPage({ $target, initialState }) {
+export default function EditorPage({ $target, initialState, onEditing }) {
   const $editorPage = document.createElement("div");
   $target.appendChild($editorPage);
 
@@ -17,4 +17,14 @@ export default function EditorPage({ $target, initialState }) {
     `;
   };
   this.render();
+  $editorPage.addEventListener("keyup", (e) => {
+    const { target } = e;
+    const { name } = target;
+
+    const editedDoc = {
+      ...this.state,
+      [name]: target.value,
+    };
+    onEditing(editedDoc);
+  });
 }
