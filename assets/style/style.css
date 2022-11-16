@@ -102,8 +102,8 @@ button:hover {
 /* Sidebar */
 
 .sidebar {
-  min-width: 300px;
-  width: 300px;
+  min-width: 260px;
+  width: 260px;
   max-width: 25vw;
   padding: 0.5rem 0.5rem 0 0.5rem;
   position: fixed;
@@ -142,6 +142,7 @@ button:hover {
   align-items: center;
   justify-content: space-between;
   padding: 4px;
+  font-size: 13px;
 }
 
 .sidebar .document-list .document-item:hover {
@@ -206,7 +207,7 @@ button:hover {
   padding: 0.5rem;
   resize: none;
   min-height: 600px;
-} 
+}
 
 .editor [contenteditable] {
   outline: 0px solid transparent;
