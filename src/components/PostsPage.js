@@ -1,6 +1,7 @@
+import { ACTIVE_LIST_KEY } from "../../config.js";
 import { request } from "../api/api.js";
 import { push } from "../routes/router.js";
-import { getItem, removeItem, setItem } from "../utils/storage.js";
+import { setItem } from "../utils/storage.js";
 import CreatePostButton from "./CreatePostButton.js";
 import PostList from "./PostList.js";
 import SideNavHeader from "./SideNavHeader.js";
@@ -12,8 +13,8 @@ export default function PostsPage({ $target, initialState }) {
 
 	this.setState = async () => {
 		const posts = await request("/documents");
-		postList.setState(posts);
 		this.render();
+		postList.setState(posts);
 	};
 
 	new SideNavHeader({ $target: $postPage });
@@ -31,14 +32,21 @@ export default function PostsPage({ $target, initialState }) {
 		},
 
 		onPostClick: async (id) => {
-			console.log(id);
+			setItem(ACTIVE_LIST_KEY, id);
 			push(`/documents/${id}`);
+		},
+
+		addPost: () => {
+			this.setState();
 		},
 	});
 
 	new CreatePostButton({
-		$target: $postPage,
-		initialState: { link: "/documents/new" },
+		$target,
+		initialState: { link: "/documents/new", modalOpen: false },
+		addPost: () => {
+			this.setState();
+		},
 	});
 
 	this.render = () => {

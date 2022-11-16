@@ -1,6 +1,4 @@
-import { ACTIVE_LIST_KEY } from "../../config.js";
-import { getItem } from "../utils/storage.js";
-import { $emptyPage, $onLoadParentList } from "../utils/templates.js";
+import { $onLoadParentList } from "../utils/templates.js";
 import CreatePostModal from "./modal/CreatePostModal.js";
 
 export default function PostList({ $target, onRemove, onPostClick, addPost }) {
@@ -20,7 +18,6 @@ export default function PostList({ $target, onRemove, onPostClick, addPost }) {
 		$postList.innerHTML = `${$onLoadParentList(this.state.posts)}`;
 	};
 
-	// 리스트들 중 하나 클릭
 	$postList.addEventListener("click", (e) => {
 		const posts = this.state.posts;
 
