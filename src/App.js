@@ -41,6 +41,7 @@ export default function App({ $app }) {
 
   const $aside = $app.querySelector('aside');
   const $main = $app.querySelector('main');
+  let selectedTitle;
   const documentList = new DocumentList({
     $target: $aside,
     initialState: getDocumentAll(),
@@ -96,7 +97,16 @@ export default function App({ $app }) {
     },
 
     setEditorEvent: async ({ $target }) => {
-      const documentId = $target.closest('[data-id]').dataset.id;
+      const $parant = $target.closest('[data-id]');
+      const $text = $parant.querySelector('SPAN');
+      const documentId = $parant.dataset.id;
+      if (selectedTitle) {
+        selectedTitle.classList.remove('font-black');
+        selectedTitle.classList.remove('text-lg');
+      }
+      selectedTitle = $text;
+      $text.classList.add('font-black');
+      $text.classList.add('text-lg');
       isNumber(documentId);
       const userId = getUserIdToAdress();
       routeChange(`/FEDC3-4_Project_Notion_VanillaJS/${userId}/documents/${documentId}`);
