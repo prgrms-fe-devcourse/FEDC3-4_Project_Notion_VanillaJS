@@ -130,6 +130,7 @@ export default function App({ $app }) {
   });
 
   this.route = async () => {
+    console.log(location.pathname);
     const [, userId, document, documentId] = location.pathname.split('/');
     if (!userId) {
       initLocalStorage(BASE_INIT_USERNAME);
