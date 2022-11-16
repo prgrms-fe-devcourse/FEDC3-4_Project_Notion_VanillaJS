@@ -18,8 +18,8 @@ export default function SubDocumentsLink({ $target, initialState, onLinkClick })
   })
 
   this.render = () => {
-    const { documents } = this.state;
-    if (documents.length === 0) {
+    const { id, documents } = this.state;
+    if (id === null || documents.length === 0) {
       $element.innerHTML = '';
       return;
     };
