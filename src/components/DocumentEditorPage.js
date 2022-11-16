@@ -1,4 +1,4 @@
-import { fetchDocumentContents, request } from '../utils/api.js';
+import { request } from '../utils/api.js';
 import { documentContentDefaultValue } from '../utils/constants.js';
 import Editor from './Editor.js';
 
@@ -18,7 +18,7 @@ export default function DocumentEditorPage({ $container, initialState, onEditDoc
     if (nextDocumentId === this.currentDocumentId) return;
 
     this.currentDocumentId = nextDocumentId;
-    const documentContent = await fetchDocumentContents(nextDocumentId);
+    const documentContent = await request(`/${nextDocumentId}`);
     editor.setState(documentContent);
   };
 

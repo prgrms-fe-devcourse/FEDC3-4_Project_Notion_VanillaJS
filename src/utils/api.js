@@ -17,11 +17,3 @@ export const request = async (url, option = {}) => {
     console.log(e.message);
   }
 };
-
-export const fetchDocumentList = async () => {
-  return await request('/');
-};
-
-export const fetchDocumentContents = async (documentId) => {
-  return await request(`/${documentId}`);
-};
