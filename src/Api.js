@@ -15,7 +15,7 @@ export const request = async (url, options = {}) => {
     }
     throw new Error(`${options.method} fetch fail`);
   } catch (e) {
-    alert(`${e.message} 메인 화면으로 이동합니다.`);
+    alert(`${e.message} 다시 시도해 주세요.`);
     push("/");
   }
 };

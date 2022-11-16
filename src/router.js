@@ -1,5 +1,5 @@
 const ROUTE_CHANGE_EVENT_NAME = "route-change";
-const UPDATE_TEST = "move-test";
+const UPDATE = "view-update";
 
 export const initRouter = (onRoute) => {
   window.addEventListener(ROUTE_CHANGE_EVENT_NAME, (e) => {
@@ -11,7 +11,7 @@ export const initRouter = (onRoute) => {
     }
   });
 
-  window.addEventListener(UPDATE_TEST, (e) => {
+  window.addEventListener(UPDATE, (e) => {
     const { nextUrl } = e.detail;
 
     if (nextUrl) {
@@ -33,7 +33,7 @@ export const push = (nextUrl) => {
 
 export const update = (nextUrl) => {
   window.dispatchEvent(
-    new CustomEvent(UPDATE_TEST, {
+    new CustomEvent(UPDATE, {
       detail: {
         nextUrl,
       },

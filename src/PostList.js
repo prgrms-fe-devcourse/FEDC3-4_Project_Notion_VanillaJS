@@ -131,6 +131,7 @@ export default function PostList({
     const $p = target.closest("p");
 
     if (!$p) return;
+
     originColor = $p.style.backgroundColor;
 
     $p.style.backgroundColor = "#bebebe";

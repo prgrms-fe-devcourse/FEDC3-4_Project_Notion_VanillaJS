@@ -49,7 +49,7 @@ export default function Navi({ $target, initialState }) {
       }
     });
 
-    test(postPath);
+    pathOpen(postPath);
 
     $navi.innerHTML = `
     <p> 파일 경로:          
@@ -115,7 +115,7 @@ export default function Navi({ $target, initialState }) {
   };
 
   // breadcrumb으로 이동했을 때 해당 파일의 위치까지 사이드 바 도 열릴 수 있도록 한다.
-  const test = (postPath) => {
+  const pathOpen = (postPath) => {
     for (let i = 0; i < postPath.length - 1; i++) {
       setItem(postPath[i].id, {
         id: postPath[i].id,

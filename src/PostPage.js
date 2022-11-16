@@ -40,7 +40,7 @@ export default function PostPage({ $target, initialState }) {
     $target: $postPage,
     initialState,
     postAdd: async (id) => {
-      const test = await request("documents", {
+      const createdPost = await request("documents", {
         method: "POST",
         body: JSON.stringify({
           title: "제목 없음",
@@ -54,7 +54,8 @@ export default function PostPage({ $target, initialState }) {
         visible: "",
       });
 
-      push(`/posts/${test.id}`);
+      // editor도 갱신하기 위해서.
+      push(`/posts/${createdPost.id}`);
     },
     postDelete: async (id) => {
       const { pathname } = window.location;
@@ -83,9 +84,8 @@ export default function PostPage({ $target, initialState }) {
           removeItem(id);
           removeItem(`temp-post-${id}`);
 
+          // breadcrum을 갱신시키기 위헤서 현재 보고있는 문서로push
           history.replaceState(null, null, "/");
-
-          // breadcrum을 갱신시키기 위헤서 현재 보고있는 문서로 재라우팅 시킨다.
           push(`/posts/${postId}`);
         }
         return;
