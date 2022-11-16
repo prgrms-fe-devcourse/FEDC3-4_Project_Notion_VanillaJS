@@ -31,7 +31,11 @@ export default function NotionApp({ $container }) {
         body: JSON.stringify({ title: '제목없음', parent: parentId }),
       });
       history.pushState(null, null, `/documents/${createDocument.id}`);
-      // FIXME: 제목없음 추가 후, 수정할 때 -> 제목 반영안됨
+      this.setState({
+        ...this.state,
+        currentDocumentId: createDocument.id,
+      });
+      // FIXME: (간헐적)제목없음 추가 후, 수정할 때 -> 제목 반영안됨(간헐적인데..어떤 상황에서 발생하는지 꼼꼼히 뜯어보기)
       fetchDocumentList();
       route();
     },
@@ -47,7 +51,12 @@ export default function NotionApp({ $container }) {
           )
         );
         deleteIsOpenState(removeIdList);
-        // TODO: 지우고나서, removeIdList에 route가 있다면? -> route replace 첫번째꺼로?
+
+        if (removeIdList.includes(Number(this.state.currentDocumentId))) {
+          // TODO: this.state.documentList이 없을 때 => 삭제한 게 유일한 문서였을 때, 어떻게 처리할 건지
+          history.replaceState(null, null, `/documents/${this.state.documentList[0].id}`);
+          route();
+        }
         fetchDocumentList();
       }
     },
