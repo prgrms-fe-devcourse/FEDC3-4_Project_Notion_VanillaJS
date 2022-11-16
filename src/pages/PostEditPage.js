@@ -119,6 +119,4 @@ export default function PostEditPage({ $target, initialState }) {
   this.render = () => {
     $target.appendChild($page);
   };
-
-  this.render();
 }

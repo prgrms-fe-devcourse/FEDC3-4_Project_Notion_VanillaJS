@@ -44,6 +44,6 @@ export default function PostsPage({ $target }) {
   };
 
   this.render = () => {
-    $target.prepend($page);
+    $target.appendChild($page);
   };
 }
