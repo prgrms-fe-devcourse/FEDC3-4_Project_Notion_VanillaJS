@@ -15,7 +15,7 @@ export default function PostsPage({ $target }) {
       this.setState();
       push(`/posts/${createdPost.id}`);
     },
-    onDelete: async(postId) => {
+    onDelete: async (postId) => {
       await deletePost(postId);
       this.setState();
       history.replaceState(null, null, "/");
@@ -29,9 +29,10 @@ export default function PostsPage({ $target }) {
   new LinkButton({
     $target: $page,
     initialState: {
-      text: "페이지 추가",
+      text: "+ 새 페이지",
       link: "/posts/new",
     },
+    className: "page-create",
   });
 
   this.setState = async () => {

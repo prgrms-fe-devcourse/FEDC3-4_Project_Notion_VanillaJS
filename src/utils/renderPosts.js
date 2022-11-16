@@ -6,14 +6,18 @@ export const renderPosts = (root, posts, sub) => {
     let $li = document.createElement("li");
     $li.setAttribute("data-id", post.id);
     $li.innerHTML = `
-      ${post.title ? post.title : "제목 없음"}
-      ${
-        !sub
-          ? `
-        <button class="post-create">+</button>
-        <button class="post-delete">x</button>`
-          : ""
-      }
+      <div class="post">
+        <div>    
+          <button class="toggle-button">&#9656;</button>
+          <span class="post-title">${post.title ? post.title : "제목 없음"}</span>
+        </div>
+        ${!sub? `
+            <div class="button-group">
+              <button class="post-create">&#10010;</button>
+              <button class="post-delete">&#10006;</button>
+            </div>` : ""
+        }
+      </div>
     `;
 
     $ul.appendChild($li);

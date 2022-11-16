@@ -1,9 +1,10 @@
 import { push } from "../utils/router.js";
 
-export default function LinkButton({ $target, initialState }) {
+export default function LinkButton({ $target, initialState, className }) {
   this.state = initialState;
 
   const $linkButton = document.createElement("button");
+  $linkButton.setAttribute("class", className);
   $target.appendChild($linkButton);
 
   this.render = () => {
