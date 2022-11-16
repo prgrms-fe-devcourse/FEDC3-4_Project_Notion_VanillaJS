@@ -123,9 +123,14 @@ export default function Editor({
     $editor.innerHTML = `
       ${modalTemplate()}
       <div class="selected-post-title">
-        <div class="title" spellcheck="true" contenteditable="true" placeholder="제목 없음" >
-          <div class="editable-element">${title}</div>
-        </div>
+        ${
+          title
+            ? `<div class="title" spellcheck="true" contenteditable="true" placeholder="제목 없음">
+                <div class="editable-element">${title}</div>
+              </div>`
+            : `<div class="title" spellcheck="true" contenteditable="true" placeholder="제목 없음"></div>`
+        }
+        
       </div>
       <div class="selected-post-content">
         ${

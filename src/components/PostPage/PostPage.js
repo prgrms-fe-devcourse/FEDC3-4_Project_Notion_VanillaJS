@@ -2,9 +2,10 @@ import PostPageHeader from "./PostPageHeader.js";
 import Editor from "./Editor.js";
 
 import { modifyDocuments } from "../../api/api.js";
-import { customEvent } from "../../utils/custom-event.js";
+
 import { validateInstance } from "../../utils/validation.js";
 import { debounce } from "../../utils/debounce.js";
+import { customEvent } from "../../utils/custom-event.js";
 
 export default function PostPage({ $target, initialState }) {
   validateInstance(new.target);

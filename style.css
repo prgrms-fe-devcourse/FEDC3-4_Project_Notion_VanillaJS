@@ -347,7 +347,7 @@ address {
 }
 .sidebar-nav {
   width: 100%;
-  height: calc(100vh - 96px);
+  height: calc(100vh - 104px);
   padding: 0 4px;
   overflow-y: auto;
   overscroll-behavior: contain;

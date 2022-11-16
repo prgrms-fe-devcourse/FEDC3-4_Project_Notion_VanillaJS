@@ -1,7 +1,7 @@
-import { OPENED_LIST, STATE } from "../../utils/constants.js";
+import { validateInstance } from "../../utils/validation.js";
 import { getItem } from "../../utils/storage.js";
 import { customEvent } from "../../utils/custom-event.js";
-import { validateInstance } from "../../utils/validation.js";
+import { OPENED_LIST, STATE } from "../../utils/constants.js";
 
 export default function SidebarBody({
   $target,

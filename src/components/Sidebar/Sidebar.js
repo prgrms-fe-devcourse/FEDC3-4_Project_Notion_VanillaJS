@@ -1,17 +1,18 @@
-import SidebarNav from "./SidebarNav.js";
-import SidebarFooter from "./SidebarFooter.js";
-import SidebarHeader from "./SidebarHeader.js";
-
 import {
   createDocument,
   deleteDocument,
   getDocumentContent,
   getRootDouments,
 } from "../../api/api.js";
+
+import SidebarHeader from "./SidebarHeader.js";
+import SidebarNav from "./SidebarNav.js";
+import SidebarFooter from "./SidebarFooter.js";
+
+import { validateInstance } from "../../utils/validation.js";
 import { setItem, getItem } from "../../utils/storage.js";
 import { OPENED_LIST, STATE } from "../../utils/constants.js";
 import { addEvent } from "../../utils/custom-event.js";
-import { validateInstance } from "../../utils/validation.js";
 
 export default function Sidebar({ $target, initialState = [] }) {
   validateInstance(new.target);
