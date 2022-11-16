@@ -1,4 +1,4 @@
-import { request } from "../utils/api.js";
+import { createPost, deletePost, fetchPostList } from "../utils/api.js";
 import PostList from "../components/PostList.js";
 import LinkButton from "../components/LinkButton.js";
 import { push } from "../utils/router.js";
@@ -11,20 +11,12 @@ export default function PostsPage({ $target }) {
     $target: $page,
     initialState: [],
     onCreate: async (parent) => {
-      const createdPost = await request(`/documents`, {
-        method: "POST",
-        body: JSON.stringify({
-          title: "제목 없음",
-          parent,
-        }),
-      });
+      const createdPost = await createPost(parent);
       this.setState();
       push(`/posts/${createdPost.id}`);
     },
-    onDelete: async (id) => {
-      await request(`/documents/${id}`, {
-        method: "DELETE",
-      });
+    onDelete: async(postId) => {
+      await deletePost(postId);
       this.setState();
       history.replaceState(null, null, "/");
       const $page = document.querySelector(".post-edit-page");
@@ -43,7 +35,7 @@ export default function PostsPage({ $target }) {
   });
 
   this.setState = async () => {
-    const posts = await request("/documents");
+    const posts = await fetchPostList();
     postList.setState(posts);
     this.render();
   };

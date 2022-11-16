@@ -1,4 +1,4 @@
-import { request } from "../utils/api.js";
+import { createPost, fetchPost, updatePost } from "../utils/api.js";
 import Editor from "../components/Editor.js";
 import { getItem, removeItem, setItem } from "../utils/storage.js";
 
@@ -30,10 +30,7 @@ export default function PostEditPage({ $target, initialState }) {
           tempSaveDate: new Date(),
         });
 
-        await request(`/documents/${post.id}`, {
-          method: "PUT",
-          body: JSON.stringify(post),
-        });
+        await updatePost(post);
 
         const prevPost = this.state.post;
         if (prevPost.title !== post.title) {
@@ -50,11 +47,11 @@ export default function PostEditPage({ $target, initialState }) {
     },
   });
 
-  const fetchPost = async () => {
+  const setPost = async () => {
     const { postId } = this.state;
 
     if (postId !== "new") {
-      const post = await request(`/documents/${postId}`);
+      const post = await fetchPost(postId);
       const tempPost = getItem(postLocalSaveKey, {
         title: "",
         content: "",
@@ -76,24 +73,13 @@ export default function PostEditPage({ $target, initialState }) {
     }
   };
 
-  const createPost = async () => {
-    const createdPost = await request("/documents", {
-      method: "POST",
-      body: JSON.stringify({
-        title: "제목 없음",
-        content: "",
-      }),
-    });
-
-    history.replaceState(null, null, `/posts/${createdPost.id}`);
-    this.setState({
-      postId: createdPost.id,
-    });
-  };
-
-  this.setState = (nextState) => {
+  this.setState = async (nextState) => {
     if (nextState.postId === "new") {
-      createPost();
+      const createdPost = await createPost();
+      history.replaceState(null, null, `/posts/${createdPost.id}`);
+      this.setState({
+        postId: createdPost.id,
+      });
       return;
     }
 
@@ -109,7 +95,7 @@ export default function PostEditPage({ $target, initialState }) {
         this.render();
         editor.setState(post);
       }
-      fetchPost();
+      setPost();
       window.dispatchEvent(new CustomEvent("update-tree"));
       return;
     }
