@@ -7,6 +7,7 @@ import {
   EVENT_ROUTE_CREATE,
   EVENT_ROUTE_PUT,
   EVENT_ROUTE_REMOVE,
+  SLASH_DOCUMENTS,
 } from "./constants.js";
 
 const { DOCUMENT_BLOCK, TITLE } = classNameObj;
@@ -17,7 +18,7 @@ export const initRouter = (onRoute) => {
       removeAllDocument(subDocument);
     }
 
-    await request(`/documents/${document.id}`, {
+    await request(`${SLASH_DOCUMENTS}/${document.id}`, {
       method: "DELETE",
     });
   };
@@ -31,7 +32,7 @@ export const initRouter = (onRoute) => {
     if (!nextUrl) return;
 
     history.pushState(null, null, nextUrl);
-    onRoute(parentId);
+    onRoute({ parentId });
   });
 
   window.addEventListener(EVENT_ROUTE_REMOVE, async (e) => {
@@ -39,17 +40,17 @@ export const initRouter = (onRoute) => {
 
     if (!id) return;
 
-    const removedDocument = await request(`/documents/${id}`);
+    const removedDocument = await request(`${SLASH_DOCUMENTS}/${id}`);
 
     await removeAllDocument(removedDocument);
 
-    routePush(`${parentId ? `/documents/${parentId}` : "/"}`);
+    routePush(`${parentId ? `${SLASH_DOCUMENTS}/${parentId}` : "/"}`);
   });
 
   window.addEventListener(EVENT_ROUTE_CREATE, async (e) => {
     const { id } = e.detail;
 
-    const createNewDocument = await request("/documents", {
+    const createNewDocument = await request(`${SLASH_DOCUMENTS}`, {
       method: "POST",
       body: JSON.stringify({
         title: DEFAULT_TITLE,
@@ -59,13 +60,13 @@ export const initRouter = (onRoute) => {
     });
     console.log(createNewDocument);
 
-    routePush(`/documents/${createNewDocument.id}`, id);
+    routePush(`${SLASH_DOCUMENTS}/${createNewDocument.id}`, id);
   });
 
   window.addEventListener(EVENT_ROUTE_PUT, async (e) => {
     const { id, title, content } = e.detail;
 
-    await request(`/documents/${id}`, {
+    await request(`${SLASH_DOCUMENTS}/${id}`, {
       method: "PUT",
       body: JSON.stringify({
         title,
@@ -110,7 +111,10 @@ export const setHeaderChange = ({ id, title }) => {
 export const routePush = (nextUrl, parentId) => {
   window.dispatchEvent(
     new CustomEvent(EVENT_ROUTE_PUSH, {
-      detail: { nextUrl, parentId },
+      detail: {
+        nextUrl,
+        parentId
+      },
     })
   );
 };

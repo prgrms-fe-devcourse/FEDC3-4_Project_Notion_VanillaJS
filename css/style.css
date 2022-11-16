@@ -14,6 +14,8 @@ Variables
   --display-icon: "\f054";
   --remove-icon: "\f1f8";
   --new-icon: "\2b";
+  --scrollbar-thumb: #D3D1CB;
+  --scrollbar-track: #EDECE9;
 }
 
 /*
@@ -21,6 +23,10 @@ GLOBAL
 ============================ */
 html {
   font-size: 100%;
+}
+
+body {
+  overflow: hidden;
 }
 
 /*
@@ -54,6 +60,20 @@ COMMON
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: transparent;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
 }
 
 /*
@@ -134,8 +154,6 @@ SIDEBAR_PAGE
 #sidebar-list-container .document-block:hover .remove-btn,
 #sidebar-list-container .document-block:hover .new-btn {
   display: flex;
-  /* align-items: center; */
-  /*justify-content: center;*/
 }
 
 #sidebar-list-container .document-block:hover .title-wrapper {
@@ -186,6 +204,7 @@ SIDEBAR_PAGE
   justify-content: center;
   width: 20px;
   height: 20px;
+  padding-top: 2px;
 }
 
 #sidebar-list-container .document-block-inner .btn-wrapper {
@@ -204,14 +223,6 @@ SIDEBAR_PAGE
   height: 20px;
   padding-right: 3px;
 }
-/*
-#sidebar-list-container .document-block-inner .remove-btn {
-  right: 22px;
-}
-
-#sidebar-list-container .document-block-inner .new-btn {
-  right: 0;
-} */
 
 #sidebar-list-container .document-block-inner .display-btn::before {
   flex-shrink: 0;

@@ -4,6 +4,7 @@ import {
   DISABLED_ID,
   ERROR_NEW_KEYWORD_MISSING,
   REMOVED_DOC_STATE,
+  SLASH_DOCUMENTS,
 } from "./utils/constants.js";
 import { hasNewTarget } from "./utils/error.js";
 import DocumentPage from "./DocumentPage/DocumentPage.js";
@@ -28,21 +29,21 @@ export default function App({ $target }) {
     },
   });
 
-  this.route = async (parentId) => {
+  this.route = async () => {
     const { pathname } = location;
-    const documentsList = await request("/documents");
+    const documentsList = await request(`${SLASH_DOCUMENTS}`);
 
     documentPage.setState(documentsList);
     if (pathname === "/") {
       editPage.setState(DEFAULT_STATE);
-    } else if (pathname.indexOf("/documents") === 0) {
+    } else if (pathname.indexOf(`${SLASH_DOCUMENTS}`) === 0) {
       const [, , documentId] = pathname.split("/");
-      const document = await request(`/documents/${documentId}`);
+      const document = await request(`${SLASH_DOCUMENTS}/${documentId}`);
 
       if (document) {
-        editPage.setState({ ...document, parentId });
+        editPage.setState({ ...document});
       } else {
-        editPage.setState({ ...REMOVED_DOC_STATE, parentId })
+        editPage.setState({ ...REMOVED_DOC_STATE})
       }
 
     }

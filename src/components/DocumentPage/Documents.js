@@ -1,4 +1,4 @@
-import { classNameObj, ERROR_NEW_KEYWORD_MISSING, LOCAL_STORAGE_DISPLAY, styleObj } from "../utils/constants.js";
+import { classNameObj, ERROR_NEW_KEYWORD_MISSING, LOCAL_STORAGE_DISPLAY, SLASH_DOCUMENTS, styleObj } from "../utils/constants.js";
 import { hasNewTarget, isValidArray } from "../utils/error.js";
 import { routeCreateDocument, routePush, routeRemoveDocument } from "../utils/router.js";
 import { getItem, setItem } from "../utils/storage.js";
@@ -19,6 +19,7 @@ const {
   DOCUMENT_LIST_BLOCK,
   DOCUMENT_SECTION,
   SIDEBAR_DOCUMENT_LIST_CONTAINER,
+  SCROLLBAR
 } = classNameObj;
 
 export default function Documents({ $target, initialState }) {
@@ -27,6 +28,7 @@ export default function Documents({ $target, initialState }) {
   //tags
   const $sidebar = document.createElement("div");
   $sidebar.setAttribute("id", SIDEBAR_DOCUMENT_LIST_CONTAINER);
+  $sidebar.setAttribute("class", SCROLLBAR)
   $target.appendChild($sidebar);
 
 
@@ -64,11 +66,11 @@ export default function Documents({ $target, initialState }) {
     const { classList } = target;
     const { id } = target.closest(`.${DOCUMENT_BLOCK}`).dataset;
     const documentSection = target.closest(`.${DOCUMENT_SECTION}`);
+    const parentId = documentSection.parentNode.dataset.id;
 
     if (classList[0] === TITLE || classList[0] === TITLE_WRAPPER) {
-      const parentId = documentSection.parentNode.dataset.id;
 
-      routePush(`/documents/${id}`, parentId);
+      routePush(`${SLASH_DOCUMENTS}/${id}`, parentId);
     } else if (classList[0] === DISPLAY_BTN) {
       sidebarDisplayBtnClick(id, target, displayMap);
     } else if (classList[0] === NEW_BTN) {
@@ -86,8 +88,6 @@ export default function Documents({ $target, initialState }) {
 
       routeCreateDocument({ id });
     } else if (classList[0] === REMOVE_BTN) {
-      const parentId = documentSection.parentNode.dataset.id;
-
       routeRemoveDocument({ id, parentId });
     }
   });

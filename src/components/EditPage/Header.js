@@ -1,6 +1,7 @@
 import { ERROR_NEW_KEYWORD_MISSING, DEFAULT_TITLE, DISABLED_ID, ROOT_TITLE } from "../utils/constants.js";
 import { hasId, hasNewTarget, hasTitle } from "../utils/error.js";
 import { setHeaderChange } from "../utils/router.js";
+import { classNameObj } from "../utils/constants.js";
 
 export default function Header({ $target, initialState, onEditing }) {
   if (!hasNewTarget(new.target)) throw new Error(ERROR_NEW_KEYWORD_MISSING);
@@ -43,7 +44,7 @@ export default function Header({ $target, initialState, onEditing }) {
     if (!isInit) {
       const { title } = this.state;
       $header.innerHTML = `
-        <div class="input-wrapper">
+        <div class="${classNameObj.INPUT_WRAPPER}">
           <input type="text"${!title.length ? `placeholder="${DEFAULT_TITLE}"` : `value="${title}"`}/>
         </div>
       `;

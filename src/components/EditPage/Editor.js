@@ -40,7 +40,7 @@ export default function Editor({ $target, initialState, onEditing }) {
   this.render = () => {
     if (!isInit) {
       $editor.innerHTML = `
-        <textarea>${this.state.content}</textarea>
+        <textarea class="${classNameObj.SCROLLBAR}">${this.state.content}</textarea>
       `;
     }
   };
