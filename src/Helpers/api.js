@@ -3,6 +3,8 @@ import { ERROR_MESSAGE, API_HEADER } from '../constants.js';
 import { getUserIdToAdress } from './getUserIdToAdress.js';
 // import { API_END_POINT } from '../../endpoint.js';
 
+const API_END_POINT = process.env.API_END_POINT;
+
 export const getDocumentAll = async () => {
   const userId = getUserIdToAdress();
   const res = await fetch(`${API_END_POINT}`, {
