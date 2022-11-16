@@ -4,7 +4,7 @@ import {
   UNTITLED,
   ADD,
   DELETE,
-  OPENED_ITEM,
+  OPENED_ITEMS,
   NEW_PARENT,
 } from '../utils/constants.js';
 import { isNew } from '../utils/helper.js';
@@ -38,7 +38,7 @@ export default function DocumentList({
   let isBlock = false;
 
   const renderButton = (id) => {
-    const openedItems = getItem(OPENED_ITEM, []);
+    const openedItems = getItem(OPENED_ITEMS, []);
     if (openedItems.includes(id)) {
       isBlock = true;
       return `
@@ -131,18 +131,18 @@ export default function DocumentList({
   });
 
   const toggleOpen = (target, id) => {
-    const openedItems = getItem(OPENED_ITEM, []);
+    const openedItems = getItem(OPENED_ITEMS, []);
 
     if (target.classList.contains('open')) {
       const index = openedItems.indexOf(id);
-      setItem(OPENED_ITEM, [
+      setItem(OPENED_ITEMS, [
         ...openedItems.slice(0, index),
         ...openedItems.slice(index + 1),
       ]);
       target.classList.toggle('open');
     } else {
       if (openedItems.indexOf(id) > -1) return;
-      setItem(OPENED_ITEM, [...openedItems, id]);
+      setItem(OPENED_ITEMS, [...openedItems, id]);
       target.classList.toggle('open');
     }
 

@@ -5,7 +5,7 @@ import {
   DEFAULT_DOCUMENT_ID,
   NEW,
   NEW_PARENT,
-  OPENED_ITEM,
+  OPENED_ITEMS,
   ROUTE_DOCUMENTS,
 } from '../utils/constants.js';
 import { isNew, setDocumentTitle } from '../utils/helper.js';
@@ -53,10 +53,10 @@ export default function App({ $target }) {
       method: 'DELETE',
     });
 
-    const openedItems = getItem(OPENED_ITEM, []);
+    const openedItems = getItem(OPENED_ITEMS, []);
     const index = openedItems.indexOf(documentId);
     if (index > -1) {
-      setItem(OPENED_ITEM, [
+      setItem(OPENED_ITEMS, [
         ...openedItems.slice(0, index),
         ...openedItems.slice(index + 1),
       ]);
