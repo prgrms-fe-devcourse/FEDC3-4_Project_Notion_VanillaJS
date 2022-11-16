@@ -44,6 +44,8 @@ export default function App({ $bodyPage, initalState }) {
         if (this.state.id !== parseInt(id)) {
           // 3
           editorPage.editorPageSetState({ id });
+          // by 민형, 다른 페이지로 이동 시 기존의 state 제거_221116
+          this.setState();
         }
       }
     }

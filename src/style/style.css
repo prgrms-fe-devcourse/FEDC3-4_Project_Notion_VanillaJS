@@ -65,6 +65,14 @@ body {
   background-color: rgba(80, 80, 80, 0.2);
 }
 
+.select li i:first-child {
+  transition: all 0.3s ease;
+}
+
+.select li i:first-child:hover {
+  color: yellowgreen;
+}
+
 .list-container__list li i:nth-child(2) {
   color: green;
   margin-right: 5px;

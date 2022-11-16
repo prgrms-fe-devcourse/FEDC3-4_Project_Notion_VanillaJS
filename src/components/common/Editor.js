@@ -1,4 +1,11 @@
-export default function Editor({ $editorPageTarget, initialState, onEditing }) {
+import {
+  removeSameDocument,
+  editorRender,
+  subDocumentRender,
+  sameDocumentRender,
+} from "../../js/relatedEditor.js";
+
+export default function Editor({ $editorPageTarget, onEditing }) {
   const $editor = document.createElement("div");
 
   $editor.innerHTML = `
@@ -20,12 +27,6 @@ export default function Editor({ $editorPageTarget, initialState, onEditing }) {
     documentTitleData: [],
   };
 
-  // by 민형, 다른 페이지로 이동 시 same document 알림 text 제거_221115
-  const removeSameDocument = (prevId, nextId) => {
-    if (prevId !== nextId)
-      document.querySelector(".editor-same__link").style.display = "none";
-  };
-
   this.editorSetState = (nextState) => {
     removeSameDocument(this.editorState.editorData.id, nextState.editorData.id);
 
@@ -33,12 +34,6 @@ export default function Editor({ $editorPageTarget, initialState, onEditing }) {
     this.editorState.documentIdData = nextState.documentIdData;
     this.editorState.documentTitleData = nextState.documentTitleData;
     this.render();
-  };
-
-  const indexRender = (status) => {
-    $editorPageTarget.querySelector("[name=title]").style.display = status;
-    $editorPageTarget.querySelector("[name=content]").style.display = status;
-    $editorPageTarget.querySelector("[name=icon]").style.display = status;
   };
 
   this.render = () => {
@@ -51,9 +46,9 @@ export default function Editor({ $editorPageTarget, initialState, onEditing }) {
 
       // by 민형, index 페이지 일 경우_221113
       if (title === "not render") {
-        indexRender("none");
+        editorRender($editorPageTarget, "none");
       } else {
-        indexRender("block");
+        editorRender($editorPageTarget, "block");
 
         // by 민형, 처음 페이지를 추가했을 때 title을 제목 없음으로 넘겨주는데 "제목 없음"을 value로 설정하면 placeholder가 작동 안 함_221115
         // "제목 없음" document로 왔을 때도 tile이 ""로 수정되어야 함, 수정되지 않으면 이전 document의 title이 render
@@ -61,28 +56,9 @@ export default function Editor({ $editorPageTarget, initialState, onEditing }) {
           title === "제목 없음" ? "" : title;
         $editorPageTarget.querySelector("[name=content]").value = content;
 
-        documents.forEach((doc) => {
-          const $linkDiv = document.createElement("div");
-          $linkDiv.classList.add("editor-subdocument");
-
-          const $i = document.createElement("i");
-          $i.innerHTML = `<i class="fa-solid fa-link"></i>`;
-
-          const $link = document.createElement("a");
-          $link.textContent = doc.title;
-          $link.href = `/documents/${doc.id}`;
-
-          $linkDiv.appendChild($i);
-          $linkDiv.appendChild($link);
-
-          $editorPageTarget
-            .querySelector("[name=editor-subdocuments]")
-            .appendChild($linkDiv);
-        });
+        subDocumentRender($editorPageTarget, documents);
       }
     }
-    // by 민형, 서버에서 데이터를 먼저 불러오므로 먼저 render_221112
-    // console.log("ediotr render");
   };
 
   this.render();
@@ -93,25 +69,12 @@ export default function Editor({ $editorPageTarget, initialState, onEditing }) {
       const newTitle = e.target.value;
       if (newTitle !== undefined) {
         document.querySelector(".editor-same__link").style.display = "none";
+        // by 민형, 기존의 title과 동일한 document title을 입력했을 경우_221116
         if (this.editorState.documentTitleData.includes(newTitle)) {
           const coinCildeIndex =
             this.editorState.documentTitleData.indexOf(newTitle);
           const coinCildeId = this.editorState.documentIdData[coinCildeIndex];
-          const { pathname } = location;
-          const [, , pathId] = pathname.split("/");
-
-          if (parseInt(pathId) !== coinCildeId) {
-            $editorPageTarget.querySelector(
-              "[name=documentlink]"
-            ).href = `/documents/${coinCildeId}`;
-            $editorPageTarget.querySelector(
-              "[name=documentlink]"
-            ).textContent = `기존 "${newTitle}" document가 있으니 해당 text 클릭을 통해 이동 부탁드립니다!`;
-
-            document.querySelector(".editor-same__link").style.display = "flex";
-            document.querySelector(".editor-same__link i").style.display =
-              "block";
-          }
+          sameDocumentRender($editorPageTarget, newTitle, coinCildeId);
         }
 
         const nextState = {

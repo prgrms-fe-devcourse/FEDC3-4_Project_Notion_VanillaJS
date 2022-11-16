@@ -1,6 +1,6 @@
 import Editor from "../common/Editor.js";
 import { request } from "../../js/api.js";
-import { push } from "../../router/router.js";
+import { bringData } from "../../js/bringAllData.js";
 
 export default function EditorPage({ $bodyPage, initialState, onEdit }) {
   const $editorPage = document.createElement("div");
@@ -14,43 +14,10 @@ export default function EditorPage({ $bodyPage, initialState, onEdit }) {
     documentTitleData: [],
   };
 
-  const bringAllList = (list, type) => {
-    const bringData = [];
-    const stack = [list];
-
-    while (stack.length > 0) {
-      const nextList = stack.pop();
-
-      if (nextList.documents) {
-        for (let i = nextList.documents.length - 1; i >= 0; i--) {
-          stack.push(nextList.documents[i]);
-        }
-      }
-
-      if (type === "id") bringData.push(nextList.id);
-      else bringData.push(nextList.title);
-    }
-
-    return bringData;
-  };
-
-  const bringData = async () => {
-    const bringIdData = [];
-    const bringTitleData = [];
-    const documentListData = await request("/documents", { method: "GET" });
-    documentListData.forEach((doc) => {
-      bringIdData.push(...bringAllList(doc, "id"));
-    });
-    documentListData.forEach((doc) => {
-      bringTitleData.push(...bringAllList(doc, "title"));
-    });
-
-    return [bringIdData, bringTitleData];
-  };
-
   this.editorPageSetState = async (nextState) => {
     this.editorPageState.editorData = nextState;
 
+    // by 민형, 동일 document check 구현을 위한 작업_221116
     const bringAllData = await bringData();
     this.editorPageState.documentIdData = bringAllData[0];
     this.editorPageState.documentTitleData = bringAllData[1];
@@ -96,7 +63,7 @@ export default function EditorPage({ $bodyPage, initialState, onEdit }) {
       // Editor에 setState를 통해 render
       // Editor는 render시에 tex가 not render라면 화면을 지움
       editor.editorSetState({
-        editorData: { title: "not render" },
+        editorData: { id: 0, title: "not render" },
         documentIdData: [],
         documentTitleData: [],
       });

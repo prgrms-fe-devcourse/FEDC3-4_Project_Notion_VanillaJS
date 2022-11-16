@@ -6,6 +6,8 @@ export default function DocumentListPage({ $bodyPage, initialState }) {
   const $documentListPage = document.createElement("div");
   $documentListPage.classList.add("list-container");
 
+  // by 민형, Editor에서 입력할 때 마다 initialState에 수정된 데이터가 전달됨_221116
+  // Editor에 입력시 list에 바로 반영되는 기능 구현에만 사용
   this.documentListState = initialState;
 
   this.documentListSetState = (nextState) => {
@@ -16,7 +18,7 @@ export default function DocumentListPage({ $bodyPage, initialState }) {
 
   const documentList = new DocumentList({
     $documentListPage,
-    initialState: this.documentListState,
+    initialState: { originEdit: [], updateEdit: {} },
     onPlus: async (id) => {
       const res = await request(`/documents`, {
         method: "POST",

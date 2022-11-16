@@ -14,8 +14,8 @@ export default function DocumentList({
   $documentListPage.appendChild($listPage);
 
   this.listState = {
-    originEdit: [],
-    updateEdit: {},
+    originEdit: initialState.originEdit,
+    updateEdit: initialState.updateEdit,
   };
 
   this.listSetState = (nextState) => {
@@ -27,9 +27,11 @@ export default function DocumentList({
   let foldData;
   let selectIndex;
   const listMarkUp = (list, width) => {
+    // by 민형, fold 기능 구현을 위한 작업_221116
     selectIndex += 1;
     foldData.push({ width });
 
+    // by 민형, 실시간으로 list tile을 수정하는 기능 구현을 위한 작업_221116
     let title;
     if (this.listState.updateEdit && this.listState.updateEdit.id === list.id) {
       title = this.listState.updateEdit.title;
@@ -37,6 +39,7 @@ export default function DocumentList({
       title = list.title;
     }
 
+    // by 민형, 현재 선택된 document를 구별하기 위한 작업_221116
     const { pathname } = location;
     const [, , pathId] = pathname.split("/");
     const containerClassName =
@@ -46,7 +49,7 @@ export default function DocumentList({
 
     return `<div class="${containerClassName}" data-id="${list.id}">
       <li class="list" style="margin-left: ${width}px;">
-        <i class="fa-solid fa-chevron-down" data-id="${list.id}" data-index-id="${selectIndex}"></i>
+        <i class="fa-solid fa-chevron-down fold" data-id="${list.id}" data-index-id="${selectIndex}"></i>
         <i class="fa-brands fa-pagelines fa-lg"></i>
         <span class="list-container__lists--txt">${title}<span>
       </li>
@@ -92,14 +95,13 @@ export default function DocumentList({
         </a>
         <ul>
           ${this.listState.originEdit.map((list) => listRender(list)).join("")}
-            <div class="list-container__list rootplus" data-id="no-router">
-              <i class="fa-solid fa-plus"></i>
-              <span>페이지 추가</span>
-            </div>
+          <div class="list-container__list rootplus" data-id="no-router">
+            <i class="fa-solid fa-plus"></i>
+            <span>페이지 추가</span>
+          </div>
         </ul>
         `;
     }
-    // console.log("list render");
   };
 
   $documentListPage.addEventListener("click", (e) => {
@@ -107,14 +109,15 @@ export default function DocumentList({
     const $div = e.target.closest("div");
 
     if ($i) {
+      // by 민형, id는 추가 및 삭제 기능 구현에 이용, indexId는 fold 기능 구현에 이용_221116
       const { id, indexId } = $i.dataset;
-      const className = $i.classList.item(2) || $i.getAttribute("class");
+      const className = $i.classList.item(2);
 
-      if (className === "fa-solid fa-chevron-down") {
-        $i.setAttribute("class", "fa-solid fa-chevron-right");
+      if (className === "fold") {
+        $i.setAttribute("class", "fa-solid fa-chevron-right unfold");
         changeFold({ foldData, indexId, status: "none" });
-      } else if (className === "fa-solid fa-chevron-right") {
-        $i.setAttribute("class", "fa-solid fa-chevron-down");
+      } else if (className === "unfold") {
+        $i.setAttribute("class", "fa-solid fa-chevron-down fold");
         changeFold({ foldData, indexId, status: "flex" });
       } else if (className === "plus") {
         onPlus(id);
