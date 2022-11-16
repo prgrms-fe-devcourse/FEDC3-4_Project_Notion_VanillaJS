@@ -1,6 +1,6 @@
 import DocumentEditorPage from './components/DocumentEditorPage.js';
 import NavBar from './components/NavBar.js';
-import { fetchDocumentList, request } from './utils/api.js';
+import { request } from './utils/api.js';
 
 export default function NotionApp({ $container }) {
   this.state = {
@@ -8,7 +8,7 @@ export default function NotionApp({ $container }) {
     currentDocumentId: null,
   };
 
-  this.setDocumentList = (newState) => {
+  this.setState = (newState) => {
     this.state = newState;
     navBar.setState(this.state.documentList);
   };
@@ -17,7 +17,7 @@ export default function NotionApp({ $container }) {
     $container,
     initialState: this.state.documentList,
     onSelect: (id) => {
-      this.setDocumentList({
+      this.setState({
         ...this.state,
         currentDocumentId: id,
       });
@@ -30,7 +30,7 @@ export default function NotionApp({ $container }) {
         body: JSON.stringify({ title: '제목없음', parent: parentId }),
       });
       history.pushState(null, null, `/documents/${createDocument.id}`);
-      turnOn();
+      fetchDocumentList();
       route();
     },
   });
@@ -41,14 +41,13 @@ export default function NotionApp({ $container }) {
     onEditDocumentTitle: () => {
       // TODO: content 수정 시에도 여기 호출됨 -> title만 수정됐을 때, 호출되도록**
       console.log(`edit title`);
-      turnOn();
+      fetchDocumentList();
     },
   });
 
-  // * 이름수정 ? documentList 불러오는 로직
-  const turnOn = async () => {
-    const documentList = await fetchDocumentList();
-    this.setDocumentList({
+  const fetchDocumentList = async () => {
+    const documentList = await request('/');
+    this.setState({
       ...this.state,
       documentList,
     });
@@ -65,6 +64,6 @@ export default function NotionApp({ $container }) {
 
   window.addEventListener('popstate', () => route());
 
-  turnOn();
+  fetchDocumentList();
   route();
 }
