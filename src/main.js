@@ -4,4 +4,5 @@ const $target = document.querySelector("#app");
 
 new App({
   $bodyPage: $target,
+  initialState: {},
 });

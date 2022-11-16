@@ -66,7 +66,11 @@ export default function DocumentListPage({ $bodyPage, initialState }) {
 
   this.sendData = async () => {
     const serverData = await request("/documents", { method: "GET" });
-    documentList.listSetState(serverData);
+
+    documentList.listSetState({
+      updateEdit: this.documentListState,
+      originEdit: serverData,
+    });
   };
 
   this.render = () => {

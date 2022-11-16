@@ -2,7 +2,7 @@ import Editor from "../common/Editor.js";
 import { request } from "../../js/api.js";
 import { push } from "../../router/router.js";
 
-export default function EditorPage({ $bodyPage, initialState }) {
+export default function EditorPage({ $bodyPage, initialState, onEdit }) {
   const $editorPage = document.createElement("div");
   $editorPage.classList.add("editor");
 
@@ -66,6 +66,7 @@ export default function EditorPage({ $bodyPage, initialState }) {
       const { pathname } = location;
       const [, , pathId] = pathname.split("/");
 
+      onEdit(editor.editorData);
       if (event !== null) {
         clearTimeout(event);
       }
@@ -75,8 +76,7 @@ export default function EditorPage({ $bodyPage, initialState }) {
           method: "PUT",
           body: JSON.stringify(editor.editorData),
         });
-        push(`/documents/${pathId}`);
-      }, 1000);
+      }, 2000);
     },
   });
 

@@ -12,14 +12,25 @@ export default function DocumentList({
 
   $documentListPage.appendChild($listPage);
 
-  this.listState = initialState;
+  this.listState = {
+    originEdit: [],
+    updateEdit: {},
+  };
 
   this.listSetState = (nextState) => {
-    this.listState = nextState;
+    this.listState.originEdit = nextState.originEdit;
+    this.listState.updateEdit = nextState.updateEdit;
     this.render();
   };
 
   const listMarkUp = (list, width) => {
+    let title;
+    if (this.listState.updateEdit && this.listState.updateEdit.id === list.id) {
+      title = this.listState.updateEdit.title;
+    } else {
+      title = list.title;
+    }
+
     const { pathname } = location;
     const [, , pathId] = pathname.split("/");
     const containerClassName =
@@ -31,7 +42,7 @@ export default function DocumentList({
       <li class="list" style="margin-left: ${width}px;">
         <i class="fa-solid fa-chevron-right" data-id="${list.id}"></i>
         <i class="fa-brands fa-pagelines fa-lg"></i>
-        <span class="list-container__lists--txt">${list.title}<span>
+        <span class="list-container__lists--txt">${title}<span>
       </li>
       <div data-id="${list.id}"> 
         <i class="fa-solid fa-plus plus" data-id="${list.id}"></i>
@@ -65,14 +76,14 @@ export default function DocumentList({
   };
 
   this.render = () => {
-    if (Array.isArray(this.listState)) {
+    if (Array.isArray(this.listState.originEdit)) {
       $listPage.innerHTML = `
         <a href="/index.html" class="home">
           <i class="fa-solid fa-user"></i>
           <div>민형 박의 Notion</div>
         </a>
         <ul>
-          ${this.listState.map((list) => listRender(list)).join("")}
+          ${this.listState.originEdit.map((list) => listRender(list)).join("")}
             <div class="list-container__list rootplus" data-id="no-router">
               <i class="fa-solid fa-plus"></i>
               <span>페이지 추가</span>
@@ -97,7 +108,7 @@ export default function DocumentList({
       }
     } else if ($div) {
       const { id } = $div.dataset;
-      if (id === "not render") {
+      if (id === "no-router") {
         const className = $div.classList.item(1);
         if (className === "rootplus") onRootPlus(className);
       } else if (id) {
