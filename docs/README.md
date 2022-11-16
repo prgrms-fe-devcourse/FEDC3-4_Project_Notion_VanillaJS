@@ -9,6 +9,7 @@
   - [x] document 우측에 위치한 `X`버튼을 클릭하면, 해당 document가 삭제된다.
     - `조건` 하위 document가 있다면, 하위 document까지 다 삭제된다.
   - [x] document를 클릭하면, 오른쪽에 document의 content를 볼 수 있다.
+  - [x] 트리 맨 아래, 페이지 추가하기를 누르면, root에 페이지가 추가된다.
 - [x] 오른쪽은 해당 document의 content 편집할 수 있는 편집기가 있다.
   - [x] 편집기는 지속적으로 서버에 저장된다 (Document Save API 이용해 자동저장 구현)
   - [x] 편집기 제목이 수정됐을 때, 지속적으로 반영된다.

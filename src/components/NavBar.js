@@ -1,5 +1,6 @@
 import { getItem, setItem } from '../utils/storage.js';
 import DocumentList from './DocumentList.js';
+import NewDocumentButton from './NewDocumentButton.js';
 
 export default function NavBar({ $container, initialState, onSelect, onAdd, onDelete }) {
   const $nav = document.createElement('nav');
@@ -28,12 +29,19 @@ export default function NavBar({ $container, initialState, onSelect, onAdd, onDe
 		<ul>
 			${DocumentList(this.state)}
 		</ul>
+		<button type="button" id="root-add">페이지 추가하기</button>
 	`;
   };
 
   this.render();
 
   $nav.addEventListener('click', (e) => {
+    if (!e.target || !e.target.id) return;
+
+    if (e.target.id === 'root-add') {
+      onAdd(null);
+    }
+
     const $document = e.target.closest('li');
     if (!$document) return;
 
