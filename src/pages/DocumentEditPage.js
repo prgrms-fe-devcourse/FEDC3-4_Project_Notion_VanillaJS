@@ -15,7 +15,7 @@ function DocumentEditPage({ $target }) {
   const documentTree = new DocumentTree({ $target: $tree });
 
   const $editor = document.createElement("section");
-  $editor.className = "document-editor";
+  $editor.className = "document-editor-wrapper";
   $editPage.appendChild($editor);
 
   this.state = {
@@ -38,7 +38,7 @@ function DocumentEditPage({ $target }) {
         data,
       });
 
-      new DocumentEditor({
+      this.documentEditor = new DocumentEditor({
         $target: $editor,
         initialState: {
           data: this.state.data,
@@ -55,7 +55,13 @@ function DocumentEditPage({ $target }) {
 
   this.updateData = async (documentId, data) => {
     await updateDocument(documentId, data);
-    this.getData(documentId);
+
+    const newData = await getDocumentDetail(documentId);
+
+    this.documentEditor.setState({
+      data: newData,
+    });
+
     documentTree.getData();
     return;
   };

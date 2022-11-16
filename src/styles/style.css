@@ -4,9 +4,13 @@
   height: 100vh;
 }
 
+.document-editor-wrapper {
+  display: flex;
+  width: 100vw;
+}
+
 .document-editor {
   background-color: antiquewhite;
-  width: 100vw;
 }
 
 .document-tree {
@@ -82,7 +86,7 @@
 
 .eidtor-wrapper {
   display: flex;
-  width: 100vw;
+  /* width: 100vw; */
 }
 
 .editor-text {

@@ -1,4 +1,5 @@
 import { parseMarkdown } from "../utils/parseMarkdown.js";
+import EditorPreview from "./EditorPreview.js";
 
 function DocumentEditor({ $target, initialState, onChange }) {
   const $editor = document.createElement("section");
@@ -11,8 +12,18 @@ function DocumentEditor({ $target, initialState, onChange }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
-    this.render();
+    editorPreview.setState({
+      data: this.state.data.content,
+    });
+    // this.render();
   };
+
+  const editorPreview = new EditorPreview({
+    $target,
+    initialState: {
+      data: this.state.data.content,
+    },
+  });
 
   this.render = () => {
     const { title, content, documents } = this.state.data;
@@ -32,9 +43,6 @@ function DocumentEditor({ $target, initialState, onChange }) {
         <div class="editor-text" autofocus="true" contenteditable="true">${
           content ? content : "아직 내용이 없습니다."
         }</div>
-        <div>                                                                                                                                                                                                                                                                                               
-          ${content ? parseMarkdown(content) : "아직 내용이 없습니다."}
-        </div>
       </article>
 
       <div class="child-documents-wrapper">
@@ -60,7 +68,7 @@ function DocumentEditor({ $target, initialState, onChange }) {
 
       this.debounce = setTimeout(() => {
         onChange($title.value, $div.innerText);
-      }, 2000);
+      }, 1000);
 
       return;
     }
@@ -76,7 +84,7 @@ function DocumentEditor({ $target, initialState, onChange }) {
 
       this.debounce = setTimeout(() => {
         onChange($input.value, $content.value);
-      }, 2000);
+      }, 1000);
     }
   });
 }
