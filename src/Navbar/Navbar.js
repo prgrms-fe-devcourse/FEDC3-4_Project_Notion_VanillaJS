@@ -44,21 +44,28 @@ function Navbar({ target }) {
                     });
                 }
             };
+
+            // 현재 하위 document 가 3개 이상이면 하위 document 값이 삭제가 안되고 있음
+            // 하위 document 2개씩만 삭제되는 현상
             const handlerDelete = async () => {
                 const currentDocument = findCurrentId();
+
                 const que = [currentDocument];
+
+                console.log(que);
                 const queId = [currentDocument.id];
-                const current = que.shift();
 
                 while (que.length > 0) {
+                    const current = que.shift();
                     current.documents.forEach((el) => {
                         que.push(el);
                         queId.push(el.id);
                     });
-                }
 
-                for (let i of queId) {
-                    await deleteMethod(i);
+                    for (let i of queId) {
+                        console.log(i);
+                        await deleteMethod(i);
+                    }
                 }
             };
 
