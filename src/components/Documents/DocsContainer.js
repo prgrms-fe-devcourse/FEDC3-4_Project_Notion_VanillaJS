@@ -4,6 +4,7 @@ import DocsList from "./DocsList.js";
 export default function DocsContainer({ $target }) {
   const $docsContainer = document.createElement("aside");
   $docsContainer.className = "docs-container";
+  $target.appendChild($docsContainer);
 
   const docsList = new DocsList({
     $target: $docsContainer,
@@ -26,9 +27,5 @@ export default function DocsContainer({ $target }) {
   this.setState = async () => {
     const documents = await request("/documents");
     docsList.setState(documents);
-  };
-
-  this.render = () => {
-    $target.appendChild($docsContainer);
   };
 }

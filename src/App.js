@@ -15,9 +15,7 @@ export default function App({ $target }) {
   });
 
   this.route = async () => {
-    $target.innerHTML = "";
     const { pathname } = window.location;
-    this.render();
 
     docsContainer.setState();
     if (pathname === "/") {
@@ -26,11 +24,6 @@ export default function App({ $target }) {
       const [, , docId] = pathname.split("/");
       editorContainer.setState({ id: docId });
     }
-  };
-
-  this.render = () => {
-    docsContainer.render();
-    editorContainer.render();
   };
 
   this.route();

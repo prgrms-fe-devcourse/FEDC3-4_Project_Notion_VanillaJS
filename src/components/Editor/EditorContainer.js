@@ -5,6 +5,7 @@ import { push } from "../utils/router/router.js";
 export default function EditorContainer({ $target, onChange }) {
   const $editorContainer = document.createElement("main");
   $editorContainer.className = "editor-container";
+  $target.appendChild($editorContainer);
 
   let timer = null;
 
@@ -56,9 +57,5 @@ export default function EditorContainer({ $target, onChange }) {
       const doc = await request(`/documents/${id}`);
       $ediotr.setState(doc);
     }
-  };
-
-  this.render = () => {
-    $target.appendChild($editorContainer);
   };
 }

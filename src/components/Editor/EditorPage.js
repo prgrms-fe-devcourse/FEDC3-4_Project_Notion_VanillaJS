@@ -25,6 +25,7 @@ export default function EditorPage({ $target, initialState, onEditing }) {
       ...this.state,
       [name]: target.value,
     };
+    this.setState(editedDoc);
     onEditing(editedDoc);
   });
 }
