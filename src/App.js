@@ -1,23 +1,22 @@
 import { request } from "./api.js";
 import EditPage from "./components/EditPage.js";
-import PostPage from "./components/PostPage.js";
+import PostPage from "./components/Sidebar.js";
 import { initRouter } from "./router.js";
 import { push } from "./router.js";
 
 export default function App({ $target }) {
-  const $notionListContainer = document.createElement("div");
-  $notionListContainer.className = "notionListcontainer";
+  const $sidebarContainer = document.createElement("div");
+  $sidebarContainer.className = "sidebarContainer";
 
   const $editorContainer = document.createElement("div");
   $editorContainer.className = "editor-container";
 
-  $target.appendChild($notionListContainer);
+  $target.appendChild($sidebarContainer);
   $target.appendChild($editorContainer);
 
   this.state = {
     documents: [],
     editor: null,
-    selectedId: null,
   };
 
   this.setState = (nextState) => {
@@ -25,7 +24,7 @@ export default function App({ $target }) {
   };
 
   const postPage = new PostPage({
-    $target: $notionListContainer,
+    $target: $sidebarContainer,
     getSelectedId: (id) => {},
   });
 
@@ -44,7 +43,6 @@ export default function App({ $target }) {
     this.setState({ documents: documentList });
 
     if (pathname === "/") {
-      //display 임시방편
       $editorContainer.style.display = "none";
       postPage.render();
     } else if (pathname.indexOf("/documents/") === 0) {
@@ -54,9 +52,8 @@ export default function App({ $target }) {
         push("/");
         return;
       }
-      //특정 document
       const editor = await request(`/${id}`);
-      this.setState({ ...this.state, editor: editor, selectedId: id });
+      this.setState({ ...this.state, editor: editor });
       editPage.setState(this.state.editor);
     }
   };

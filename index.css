@@ -140,7 +140,7 @@ input[name="title"]{
   height: 100%;
 }
 
-.notionListcontainer {
+.sidebarContainer {
   flex-grow: 0;
   flex-shrink: 0;
   position: relative;

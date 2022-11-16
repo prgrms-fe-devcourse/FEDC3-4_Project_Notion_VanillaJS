@@ -8,10 +8,10 @@ export default function PostList({
   onAdd,
   onDelete,
 }) {
-  const $postList = document.createElement("div");
-  $postList.className = "notion-list";
+  const $docList = document.createElement("div");
+  $docList.className = "notion-list";
 
-  $target.appendChild($postList);
+  $target.appendChild($docList);
 
   this.state = initialState;
 
@@ -20,9 +20,9 @@ export default function PostList({
     this.render();
   };
 
-  const Rendering = (postLists) => {
+  const Rendering = (notionList) => {
     return `
-    ${postLists
+    ${notionList
       .map(({ id, title, documents }) => {
         const display = getItem(`notion-${id}`) || "none";
         return `
@@ -32,7 +32,7 @@ export default function PostList({
               <span data-id="${id}" name="text" class="title">  ${title}</span>
             </span>
             <span class="plus-minus-wrapper">
-              <button name="add">+</button> <button name="delete">-</button>
+              <button name="add">➕</button> <button name="delete">➖</button>
             </span>
             ${
               documents.length !== 0
@@ -49,14 +49,14 @@ export default function PostList({
   };
 
   this.render = () => {
-    $postList.innerHTML = `<ul class="postList">${Rendering(
-      this.state.documents
-    )}</ul>`;
+    $docList.innerHTML = `
+    <ul class="postList">${Rendering(this.state.documents)}</ul>
+    `;
   };
 
   this.render();
 
-  $postList.addEventListener("click", (e) => {
+  $docList.addEventListener("click", (e) => {
     const $li = e.target.closest("li");
     const { id } = $li.dataset;
     const name = e.target.closest("[name]");
