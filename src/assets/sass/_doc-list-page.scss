@@ -6,11 +6,11 @@
   box-sizing: border-box;
   position: relative;
   transition: $transition-time;
-}
 
-.doc-list-page.on {
-  width: 300px;
-  padding: 20px;
+  &.on {
+    width: 300px;
+    padding: 20px;
+  }
 }
 
 .doc-list-header {
@@ -18,11 +18,11 @@
   margin-bottom: 40px;
 
   h1 {
-    color: var(--text-primary)
+    color: var(--text-primary);
   }
 
   p {
-    color: var(--text-secondary)
+    color: var(--text-secondary);
   }
 
   .menu {
@@ -50,7 +50,7 @@
     display: block;
     position: relative;
     line-height: 30px;
-    
+
     .container {
       display: block;
       position: relative;
@@ -75,21 +75,18 @@
           height: 18px;
           border-radius: 3px;
           transition: $transition-time;
-          
-        }
 
-        i:hover {
-          background-color: rgba(var(--color-secondary-rgb), 0.7);
-        }
+          &:hover {
+            background-color: rgba(var(--color-secondary-rgb), 0.7);
+          }
 
-        i.on {
-          transform: rotate(90deg);
-          transform-origin: center;
+          &.on {
+            transform: rotate(90deg);
+            transform-origin: center;
+          }
         }
       }
 
-
-  
       .btn-container {
         position: absolute;
         right: 5px;
@@ -108,27 +105,27 @@
             top: 50%;
             transform: translate(-50%, -50%);
           }
-        }
 
-        button:hover {
-          background-color: rgba(var(--color-secondary-rgb), 0.7);
+          &:hover {
+            background-color: rgba(var(--color-secondary-rgb), 0.7);
+          }
         }
-
       }
     }
   }
 
-  li.list-item > .container:hover {
-    background-color: rgba(var(--color-primary-rgb), 0.6);
+  li.list-item {
+    > .container:hover {
+      background-color: rgba(var(--color-primary-rgb), 0.6);
 
-    .btn-container {
-      display: inline-block;
+      .btn-container {
+        display: inline-block;
+      }
     }
-  }
-  
 
-  li.list-item.on > .container{
-    background-color: var(--color-primary);
+    &.on > .container {
+      background-color: var(--color-primary);
+    }
   }
 
   ul.parent {
@@ -136,12 +133,11 @@
     height: 0;
     overflow: hidden;
     transition: $transition-time;
-  }
 
-  ul.parent.on {
-    height: max-content
+    &.on {
+      height: max-content;
+    }
   }
-
 }
 
 .doc-list-footer {
@@ -156,10 +152,9 @@
     i {
       margin-right: 5px;
     }
-  }
-
-
-  .add-root:hover {
-    background-color: rgba(var(--color-primary-rgb), 0.4);
+    
+    &:hover {
+      background-color: rgba(var(--color-primary-rgb), 0.4);
+    }
   }
 }

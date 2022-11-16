@@ -9,70 +9,6 @@
   box-sizing: border-box;
 }
 
-.doc-edit-header {
-  position: relative;
-  width: 100%;
-  margin-bottom: 40px;
-
-  label {
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 42px;
-    height: 24px;
-    border: 1px solid var(--text-secondary);
-    border-radius: 24px;
-    background-color: var(--color-primary);
-
-    input {
-      position: absolute;
-      display: none;
-    }
-
-    .toggle {
-      position: absolute;
-      cursor: pointer;
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      top: 50%;
-      transform: translateY(-50%);
-      border-radius: 100%;
-      transition: $transition-time;
-      background-color: var(--color-secondary);
-
-      i {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        color: var(--text-secondary);
-      }
-
-      i:first-child {
-        display: none;
-      }
-
-      i:last-child {
-        display: inline-block;
-      }
-    }
-
-    input:checked + .toggle {
-      background-color: var(--color-secondary);
-      left: calc(100% - 21px);
-
-      i:first-child {
-        display: inline-block;
-      }
-
-      i:last-child {
-        display: none;
-      }
-    }
-  }
-}
-
 .editor {
   display: flex;
   flex-direction: column;
@@ -81,12 +17,21 @@
     background-color: var(--background-color);
     color: var(--text-primary);
     border: 1px solid var(--text-secondary);
+    opacity: 1;
+  }
+
+  .title:disabled, .content:disabled {
+    opacity: 0.3;
   }
 
   .title {
     height: 34px;
     text-indent: 5px;
     font-size: 1.5em;
+
+    &::placeholder {
+      opacity: 0.5;
+    }
   }
 
   .content {

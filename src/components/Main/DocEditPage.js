@@ -1,5 +1,5 @@
 import Editor from "./Editor.js";
-import DocEditHeader from "./DocEditHeader.js";
+import SchemeToggle from "./SchemeToggle.js";
 import DocEditFooter from "./DocEditFooter.js";
 import { makeElement } from "../../util/templates.js";
 import { getDocument, editDocument } from "../api.js";
@@ -25,7 +25,7 @@ export default function DocEditPage({
     content: "",
   });
 
-  new DocEditHeader({
+  new SchemeToggle({
     $target: $page,
   });
 

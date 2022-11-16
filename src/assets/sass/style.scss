@@ -60,6 +60,7 @@ body::before {
   position: relative;
 }
 
+@import '_toggle.scss';
 @import '_doc-list-page.scss';
 @import '_doc-edit-page.scss';
 
@@ -73,6 +74,6 @@ body::before {
  align-items: center;
 
  p {
-  color: rgba(var(--text-rgba), 0.5);
+  color: rgba(var(--text-rgb), 0.5);
  }
 }

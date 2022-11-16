@@ -104,6 +104,50 @@ body::before {
   height: 100vh;
   position: relative; }
 
+.toggle-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 40px; }
+  .toggle-container label {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 42px;
+    height: 24px;
+    border: 1px solid var(--text-secondary);
+    border-radius: 24px;
+    background-color: var(--color-primary); }
+    .toggle-container label input {
+      position: absolute;
+      display: none; }
+      .toggle-container label input:checked + .toggle {
+        left: calc(100% - 21px); }
+        .toggle-container label input:checked + .toggle i:first-child {
+          display: inline-block; }
+        .toggle-container label input:checked + .toggle i:last-child {
+          display: none; }
+    .toggle-container label .toggle {
+      position: absolute;
+      cursor: pointer;
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: 100%;
+      transition: 0.3s;
+      background-color: var(--color-secondary); }
+      .toggle-container label .toggle i {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        color: var(--text-secondary); }
+      .toggle-container label .toggle i:first-child {
+        display: none; }
+      .toggle-container label .toggle i:last-child {
+        display: inline-block; }
+
 .doc-list-page {
   background-color: var(--background-color);
   width: 50px;
@@ -112,10 +156,9 @@ body::before {
   box-sizing: border-box;
   position: relative;
   transition: 0.3s; }
-
-.doc-list-page.on {
-  width: 300px;
-  padding: 20px; }
+  .doc-list-page.on {
+    width: 300px;
+    padding: 20px; }
 
 .doc-list-header {
   position: relative;
@@ -166,11 +209,11 @@ body::before {
           height: 18px;
           border-radius: 3px;
           transition: 0.3s; }
-        .doc-list li.list-item .container .title i:hover {
-          background-color: rgba(var(--color-secondary-rgb), 0.7); }
-        .doc-list li.list-item .container .title i.on {
-          transform: rotate(90deg);
-          transform-origin: center; }
+          .doc-list li.list-item .container .title i:hover {
+            background-color: rgba(var(--color-secondary-rgb), 0.7); }
+          .doc-list li.list-item .container .title i.on {
+            transform: rotate(90deg);
+            transform-origin: center; }
       .doc-list li.list-item .container .btn-container {
         position: absolute;
         right: 5px;
@@ -186,8 +229,8 @@ body::before {
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%); }
-        .doc-list li.list-item .container .btn-container button:hover {
-          background-color: rgba(var(--color-secondary-rgb), 0.7); }
+          .doc-list li.list-item .container .btn-container button:hover {
+            background-color: rgba(var(--color-secondary-rgb), 0.7); }
   .doc-list li.list-item > .container:hover {
     background-color: rgba(var(--color-primary-rgb), 0.6); }
     .doc-list li.list-item > .container:hover .btn-container {
@@ -199,8 +242,8 @@ body::before {
     height: 0;
     overflow: hidden;
     transition: 0.3s; }
-  .doc-list ul.parent.on {
-    height: max-content; }
+    .doc-list ul.parent.on {
+      height: max-content; }
 
 .doc-list-footer {
   padding-top: 20px;
@@ -211,8 +254,8 @@ body::before {
     border-radius: 3px; }
     .doc-list-footer .add-root i {
       margin-right: 5px; }
-  .doc-list-footer .add-root:hover {
-    background-color: rgba(var(--color-primary-rgb), 0.4); }
+    .doc-list-footer .add-root:hover {
+      background-color: rgba(var(--color-primary-rgb), 0.4); }
 
 .doc-edit-page {
   position: relative;
@@ -224,62 +267,22 @@ body::before {
   height: 100vh;
   box-sizing: border-box; }
 
-.doc-edit-header {
-  position: relative;
-  width: 100%;
-  margin-bottom: 40px; }
-  .doc-edit-header label {
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 42px;
-    height: 24px;
-    border: 1px solid var(--text-secondary);
-    border-radius: 24px;
-    background-color: var(--color-primary); }
-    .doc-edit-header label input {
-      position: absolute;
-      display: none; }
-    .doc-edit-header label .toggle {
-      position: absolute;
-      cursor: pointer;
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      top: 50%;
-      transform: translateY(-50%);
-      border-radius: 100%;
-      transition: 0.3s;
-      background-color: var(--color-secondary); }
-      .doc-edit-header label .toggle i {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        color: var(--text-secondary); }
-      .doc-edit-header label .toggle i:first-child {
-        display: none; }
-      .doc-edit-header label .toggle i:last-child {
-        display: inline-block; }
-    .doc-edit-header label input:checked + .toggle {
-      background-color: var(--color-secondary);
-      left: calc(100% - 21px); }
-      .doc-edit-header label input:checked + .toggle i:first-child {
-        display: inline-block; }
-      .doc-edit-header label input:checked + .toggle i:last-child {
-        display: none; }
-
 .editor {
   display: flex;
   flex-direction: column; }
   .editor .title, .editor .content {
     background-color: var(--background-color);
     color: var(--text-primary);
-    border: 1px solid var(--text-secondary); }
+    border: 1px solid var(--text-secondary);
+    opacity: 1; }
+  .editor .title:disabled, .editor .content:disabled {
+    opacity: 0.3; }
   .editor .title {
     height: 34px;
     text-indent: 5px;
     font-size: 1.5em; }
+    .editor .title::placeholder {
+      opacity: 0.5; }
   .editor .content {
     font-family: var(--font-family);
     padding: 5px;
@@ -296,6 +299,6 @@ body::before {
   justify-content: center;
   align-items: center; }
   .footer p {
-    color: rgba(var(--text-rgba), 0.5); }
+    color: rgba(var(--text-rgb), 0.5); }
 
 /*# sourceMappingURL=style.css.map */
