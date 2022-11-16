@@ -1,6 +1,6 @@
 import DocumentEditorPage from './components/DocumentEditorPage.js';
 import NavBar from './components/NavBar.js';
-import { fetchDocumentList } from './utils/api.js';
+import { fetchDocumentList, request } from './utils/api.js';
 
 export default function NotionApp({ $container }) {
   this.state = {
@@ -24,11 +24,14 @@ export default function NotionApp({ $container }) {
       history.pushState(null, null, `/documents/${id}`);
       route();
     },
-    onAdd: (parentId) => {
-      console.log(parentId);
-      // 실제로 title 글 쓰면 추가하자 -> 빈 editor 페이지 보여야해
-      // /documnets/new -> route에서 Editor 페이지연결해야하나?
-      // api 호출
+    onAdd: async (parentId) => {
+      const createDocument = await request('/', {
+        method: 'POST',
+        body: JSON.stringify({ title: '제목없음', parent: parentId }),
+      });
+      history.pushState(null, null, `/documents/${createDocument.id}`);
+      turnOn();
+      route();
     },
   });
 
@@ -36,6 +39,7 @@ export default function NotionApp({ $container }) {
     $container,
     initialState: this.state.currentDocumentId,
     onEditDocumentTitle: () => {
+      // TODO: content 수정 시에도 여기 호출됨 -> title만 수정됐을 때, 호출되도록**
       console.log(`edit title`);
       turnOn();
     },

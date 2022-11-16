@@ -1,7 +1,6 @@
 export default function Editor({ $container, initialState, onEdit }) {
   const $editor = document.createElement('div');
   $editor.id = 'editor';
-  $container.appendChild($editor);
 
   this.state = initialState;
 
@@ -11,11 +10,12 @@ export default function Editor({ $container, initialState, onEdit }) {
   };
 
   $editor.innerHTML = `
-		<input type="text" id="title" value=${this.state.title}></input>
-		<textarea id="content">${this.state.content}</textarea> 
+		<input type="text" id="title" placeholder="제목을 입력하세요" value=${this.state.title}></input>
+		<textarea id="content" placeholder="내용을 입력하세요">${this.state.content}</textarea> 
 	`;
 
   this.render = () => {
+    $container.appendChild($editor);
     $editor.querySelector('input').value = this.state.title;
     $editor.querySelector('textarea').value = this.state.content;
   };

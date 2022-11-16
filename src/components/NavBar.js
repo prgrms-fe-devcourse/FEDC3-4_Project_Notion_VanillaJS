@@ -1,23 +1,24 @@
 import { getItem, setItem } from '../utils/storage.js';
 import DocumentList from './DocumentList.js';
 
-export default function NavBar({ $container, initialState, onSelect }) {
+export default function NavBar({ $container, initialState, onSelect, onAdd }) {
   const $nav = document.createElement('nav');
   $container.appendChild($nav);
   const DOCUMENT_ISOEPN_LOCAL_KEY = 'isOpen';
 
   this.state = initialState;
 
-  const addIsOpenState = (documents) => {
-    const openDocuments = getItem(DOCUMENT_ISOEPN_LOCAL_KEY, []);
+  const addIsOpenState = (documents, openDocuments) => {
     return documents.map((document) => ({
       ...document,
+      documents: documents.length ? addIsOpenState(document.documents, openDocuments) : documents,
       isOpen: openDocuments.includes(String(document.id)),
     }));
   };
 
   this.setState = (newState) => {
-    this.state = addIsOpenState(newState);
+    const openDocuments = getItem(DOCUMENT_ISOEPN_LOCAL_KEY, []);
+    this.state = addIsOpenState(newState, openDocuments);
     this.render();
   };
 
@@ -62,7 +63,7 @@ export default function NavBar({ $container, initialState, onSelect }) {
         break;
       case 'add':
         console.log('추가예정', id);
-        // onAdd(id);
+        onAdd(id);
         break;
       case 'delete':
         console.log('삭제예정', id);
