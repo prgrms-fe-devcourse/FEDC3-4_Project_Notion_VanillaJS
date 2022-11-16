@@ -27,7 +27,10 @@ export default function PostsPage({ $target }) {
       });
       this.setState();
       history.replaceState(null, null, "/");
-      document.querySelector(".post-edit-page").remove();
+      const $page = document.querySelector(".post-edit-page");
+      if ($page) {
+        $page.remove();
+      }
     },
   });
 
