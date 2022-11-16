@@ -2,6 +2,7 @@ const createElement = ({
 	element,
 	$target,
 	className = '',
+	id = '',
 	content = '',
 	attributes,
 }) => {
@@ -9,6 +10,7 @@ const createElement = ({
 	$element.textContent = content;
 
 	if (className) $element.className = className;
+	if (id) $element.id = id;
 	if ($target) $target.appendChild($element);
 	if (attributes) {
 		Object.entries(attributes).forEach(([key, value]) => {

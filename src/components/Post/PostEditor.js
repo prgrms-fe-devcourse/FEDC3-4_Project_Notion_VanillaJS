@@ -2,6 +2,7 @@ import { updateDocument } from '../../utils/api/apis.js';
 import changeCurrentPath from '../../utils/changeCurrentPath.js';
 import { createElement } from '../../utils/createElement.js';
 import debounce from '../../utils/debounce.js';
+import makeRichContent from '../../utils/makeRichContent.js';
 
 const INIT_DEBOUNCE_TIME = 250;
 
@@ -46,21 +47,8 @@ export default function PostEditor({
 
 	this.render = () => {
 		const { title, content } = this.state;
-    // todo : 모듈화하고 rich content 작업 시작하자.
-    //
-    // console.log(content.split('<div>'));
-    // const richContent = content.split('<div>').map(line => {
-    //   if (line.indexOf('## ') === 0) return `<h2>${line.substring(3)}</h2>`
-      
-    //   const newLine = 
-    //   return `<div>${line}`
-    // }).join('')
-    //
 		$title.value = title;
-    //
-		// $content.innerHTML = richContent;
-    //
-    $content.innerHTML = content;
+		$content.innerHTML = content;
 	};
 
 	this.focus = () => {
@@ -76,6 +64,10 @@ export default function PostEditor({
 
 			await updateDocument(id, { title: changedTitle });
 			onChangeTitleAndCurrentPath(id, changedCurrentPath);
+			this.setState({
+				...this.state,
+				title: changedTitle,
+			});
 		}, INIT_DEBOUNCE_TIME)
 	);
 
@@ -85,4 +77,11 @@ export default function PostEditor({
 			await updateDocument(this.state.id, { content: $content.innerHTML });
 		}, INIT_DEBOUNCE_TIME)
 	);
+
+	$content.addEventListener('input', (event) => {
+		const currentNode = window.getSelection().anchorNode;
+		const parentNode = currentNode.parentNode;
+
+		makeRichContent($content, currentNode, parentNode);
+	});
 }

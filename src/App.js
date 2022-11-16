@@ -29,7 +29,6 @@ export default function App({ $target, initialState }) {
 
 	this.route = async () => {
 		const { pathname, search } = window.location;
-		console.log(pathname.split('/'));
 		const [, , id] = pathname.split('/');
 		// todo : 모듈화 필요
 		const queryString = new URLSearchParams(search);
