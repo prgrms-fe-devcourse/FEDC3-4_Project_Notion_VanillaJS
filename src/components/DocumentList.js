@@ -1,3 +1,5 @@
+import DocumentAddButton from './DocumentAddButton.js';
+
 import { push } from '../utils/router.js';
 import {
   ROUTE_DOCUMENTS,
@@ -86,12 +88,23 @@ export default function DocumentList({
           .join('')}
     `;
 
+  const documentAddButton = new DocumentAddButton({
+    $target: $documentList,
+    initialState: {
+      position: 'document-list-bottom',
+      text: '페이지 추가',
+    },
+    onAdd,
+  });
+
   this.render = () => {
     const { documents } = this.state;
 
     $documentList.innerHTML = `
       ${documents.length > 0 ? renderDocuments(documents, 1) : ''}
     `;
+
+    documentAddButton.render();
   };
 
   $documentList.addEventListener('click', (e) => {

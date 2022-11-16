@@ -121,13 +121,17 @@ export default function App({ $target }) {
 
     if (pathname === '/') {
       setDocumentTitle('Notion');
-    } else if (pathname.indexOf(ROUTE_DOCUMENTS) === 0) {
-      const [, , documentId] = pathname.split('/');
-      documentEditPage.setState({
-        documentId: isNaN(documentId) ? documentId : parseInt(documentId),
-      });
+      return;
+    }
 
-      if (isNaN(documentId)) return;
+    if (pathname.indexOf(ROUTE_DOCUMENTS) !== 0) return;
+
+    const [, , documentId] = pathname.split('/');
+    documentEditPage.setState({
+      documentId: isNaN(documentId) ? documentId : parseInt(documentId),
+    });
+
+    if (!isNaN(documentId)) {
       sidebar.setState({
         selectedId: parseInt(documentId),
       });

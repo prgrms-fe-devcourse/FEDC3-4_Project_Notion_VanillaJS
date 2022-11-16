@@ -11,14 +11,14 @@ export default function Sidebar({ $target, initialState, onAdd, onDelete }) {
   const $sidebar = document.createElement('div');
   $sidebar.className = 'sidebar';
 
+  $target.appendChild($sidebar);
+
   this.state = initialState;
 
   this.setState = (nextState) => {
     this.state = { ...this.state, ...nextState };
     this.render();
   };
-
-  $target.appendChild($sidebar);
 
   new SidebarHeader({
     $target: $sidebar,
@@ -37,16 +37,7 @@ export default function Sidebar({ $target, initialState, onAdd, onDelete }) {
     onDelete,
   });
 
-  new DocumentAddButton({
-    $target: $sidebar,
-    initialState: {
-      position: 'document-list-bottom',
-      text: '페이지 추가',
-    },
-    onAdd,
-  });
-
-  new DocumentAddButton({
+  const documentAddButton = new DocumentAddButton({
     $target: $sidebar,
     initialState: {
       position: 'sidebar-bottom',
@@ -61,6 +52,7 @@ export default function Sidebar({ $target, initialState, onAdd, onDelete }) {
       documents,
       selectedId: this.state.selectedId,
     });
+    documentAddButton.render();
   };
 
   this.render();
