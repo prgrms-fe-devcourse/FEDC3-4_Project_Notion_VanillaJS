@@ -12,7 +12,7 @@ export default function EditorPage({ $target, initialState, onEditing }) {
 
   this.render = () => {
     $editorPage.innerHTML = `
-      <input type="text" name="title" ></input>
+      <input type="text" name="title" maxlength="30" ></input>
       <textarea name="content"></textarea>
     `;
   };

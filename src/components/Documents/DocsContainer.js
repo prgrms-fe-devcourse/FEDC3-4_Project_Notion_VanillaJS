@@ -1,4 +1,5 @@
 import { request } from "../../api/request.js";
+import { push } from "../utils/router/router.js";
 import DocsList from "./DocsList.js";
 
 export default function DocsContainer({ $target }) {
@@ -20,7 +21,7 @@ export default function DocsContainer({ $target }) {
       await request(`/documents/${id}`, {
         method: "DELETE",
       });
-      this.setState();
+      push("/");
     },
   });
 
