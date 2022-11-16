@@ -37,7 +37,6 @@ export default function DocumentPage({ $target, initialState }) {
 
     this.state = nextState;
 
-    //document set state
     documents.setState(this.state);
 
     if (!isInit) {

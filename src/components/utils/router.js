@@ -7,7 +7,6 @@ import {
   EVENT_ROUTE_CREATE,
   EVENT_ROUTE_PUT,
   EVENT_ROUTE_REMOVE,
-  LOCAL_STORAGE_RECENT_DOCUMENT,
 } from "./constants.js";
 import { removeItem } from "./storage.js";
 
@@ -44,7 +43,6 @@ export const initRouter = (onRoute) => {
     const removedDocument = await request(`/documents/${id}`);
 
     await removeAllDocument(removedDocument);
-    removeItem(LOCAL_STORAGE_RECENT_DOCUMENT);
 
     routePush(`${parentId ? `/documents/${parentId}` : "/"}`);
   });
@@ -68,7 +66,7 @@ export const initRouter = (onRoute) => {
   window.addEventListener(EVENT_ROUTE_PUT, async (e) => {
     const { id, title, content } = e.detail;
 
-    const res = await request(`/documents/${id}`, {
+    await request(`/documents/${id}`, {
       method: "PUT",
       body: JSON.stringify({
         title,
@@ -81,16 +79,18 @@ export const initRouter = (onRoute) => {
   window.addEventListener(EVENT_HEADER_CHANGE, (e) => {
     const { id, title } = e.detail;
 
-    const documentBlockArr = e.target.document.body.querySelectorAll(`.${DOCUMENT_BLOCK}`);
+    const documentBlockList = e.target.document.body.querySelectorAll(`.${DOCUMENT_BLOCK}`);
     let currentDocumentBlock = null;
 
-    documentBlockArr.forEach((e) => {
+    documentBlockList.forEach((e) => {
       const dataId = e.dataset.id;
 
       if (parseInt(dataId) === id) {
         currentDocumentBlock = e;
       }
     });
+
+    if (!currentDocumentBlock) return;
 
     const currentTitleBlock = currentDocumentBlock.querySelector(`.${TITLE}`);
     currentTitleBlock.innerText = title;

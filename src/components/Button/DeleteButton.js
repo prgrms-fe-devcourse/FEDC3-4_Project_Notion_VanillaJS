@@ -5,7 +5,6 @@ import { routeRemoveDocument } from "../utils/router.js";
 export default function DeleteButton({ $target, initialState }) {
   if (!hasNewTarget(new.target)) throw new Error(ERROR_NEW_KEYWORD_MISSING);
 
-  //tags
   const $button = document.createElement("div");
   $target.appendChild($button);
 
@@ -29,9 +28,7 @@ export default function DeleteButton({ $target, initialState }) {
   //event handler
   $button.addEventListener("click", async () => {
     const { id, parentId } = this.state;
-    routeRemoveDocument({
-      id,
-      parentId,
-    });
+
+    routeRemoveDocument({ id, parentId });
   });
 }

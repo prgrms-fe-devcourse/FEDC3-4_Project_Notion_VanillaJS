@@ -29,6 +29,7 @@ export default function Documents({ $target, initialState }) {
   $sidebar.setAttribute("id", SIDEBAR_DOCUMENT_LIST_CONTAINER);
   $target.appendChild($sidebar);
 
+
   //validation
   const isValidState = (state) => {
     if (!state || !isValidArray(state)) return false;
@@ -38,7 +39,7 @@ export default function Documents({ $target, initialState }) {
   //state
   this.state = isValidState(initialState) ? initialState : [];
 
-  const displayArr = getItem(LOCAL_STORAGE_DISPLAY, new Map(this.state.map((document) => [document.id, false])));
+  const displayMap = getItem(LOCAL_STORAGE_DISPLAY, new Map(this.state.map((document) => [document.id, false])));
 
   this.setState = (nextState) => {
     if (!isValidState(nextState)) return;
@@ -50,7 +51,7 @@ export default function Documents({ $target, initialState }) {
   this.render = () => {
     $sidebar.innerHTML = `
       ${this.state
-        .map((rootDocument) => createDocumentSection(rootDocument, styleObj.DEFAULT_PADDING, displayArr))
+        .map((rootDocument) => createDocumentSection(rootDocument, styleObj.DEFAULT_PADDING, displayMap))
         .join("")}
     `;
   };
@@ -69,22 +70,24 @@ export default function Documents({ $target, initialState }) {
 
       routePush(`/documents/${id}${parentId ? `?parent.id=${parentId}` : ""}`);
     } else if (classList[0] === DISPLAY_BTN) {
-      sidebarDisplayBtnClick(id, target, displayArr);
+      sidebarDisplayBtnClick(id, target, displayMap);
     } else if (classList[0] === NEW_BTN) {
+      //낙관적 업데이트
       sidebarNewDocumentBtnClick(id, target);
 
       //펼침 적용
       if (documentSection) {
         const documentListBlock = documentSection.querySelector(`.${DOCUMENT_LIST_BLOCK}`);
 
-        displayArr[id] = true;
-        setItem(LOCAL_STORAGE_DISPLAY, displayArr);
+        displayMap[id] = true;
+        setItem(LOCAL_STORAGE_DISPLAY, displayMap);
         documentListBlock.style.display = "block";
       }
 
       routeCreateDocument({ id });
     } else if (classList[0] === REMOVE_BTN) {
       const parentId = documentSection.parentNode.dataset.id;
+
       routeRemoveDocument({ id, parentId });
     }
   });

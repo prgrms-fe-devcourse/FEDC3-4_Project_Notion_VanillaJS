@@ -66,6 +66,13 @@ export default function Header({ $target, initialState, onEditing }) {
   });
 
   $header.querySelector("input").addEventListener("focus", (e) => {
+    const { value } = e.target;
+
     e.target.placeholder = "";
+
+    setHeaderChange({
+      id: this.state.id,
+      title: value,
+    });
   })
 }
