@@ -1,5 +1,6 @@
 import request from '../api/index.js';
 import { getItem, setItem } from '../utils/storage.js';
+import ModalContainer from './modal/ModalContainer.js';
 
 import PostPage from './posts/PostPage.js';
 import SidebarPage from './sidebar/SidebarPage.js';
@@ -20,6 +21,27 @@ class App {
     };
 
     let timer = null;
+
+    this.sidebarPage = new SidebarPage({
+      $target: this.$target,
+      initialState: this.state.allList,
+
+      onClickDoucmentList: data => {
+        const { id, title, content } = data;
+        const nextcurrentListState = { id, title, content };
+
+        this.setState({
+          allList: [...this.state.allList],
+          currentList: nextcurrentListState,
+        });
+
+        setItem(NOTION_CURRENT_STATE, nextcurrentListState);
+      },
+
+      onAddRootDocumentList: () => {
+        new ModalContainer({ $target: this.$target });
+      },
+    });
 
     this.postPage = new PostPage({
       $target: this.$target,
@@ -44,6 +66,7 @@ class App {
         if (timer !== null) {
           clearTimeout(timer);
         }
+
         timer = setTimeout(async () => {
           setItem(NOTION_CURRENT_STATE, postState);
 
@@ -58,24 +81,7 @@ class App {
       },
     });
 
-    this.sidebarPage = new SidebarPage({
-      $target: this.$target,
-      initialState: this.state.allList,
-
-      onClickDoucmentList: data => {
-        const { id, title, content } = data;
-        const nextcurrentListState = { id, title, content };
-
-        this.setState({
-          allList: [...this.state.allList],
-          currentList: nextcurrentListState,
-        });
-
-        setItem(NOTION_CURRENT_STATE, nextcurrentListState);
-      },
-    });
-
-    this.initialization();
+    this.readAllDoucmentList();
   }
 
   setState(nextState) {
@@ -92,10 +98,6 @@ class App {
       ...this.state,
       allList: data,
     });
-  }
-
-  async initialization() {
-    await this.readAllDoucmentList();
   }
 }
 

@@ -17,6 +17,18 @@ class PostPage {
     this.render();
   }
 
+  bindInputTitle(onInputTitle) {
+    this.$editor.addEventListener('keyup', event => {
+      const name = event.target.getAttribute('name');
+      const nextState = {
+        ...this.state,
+        [name]: event.target.value,
+      };
+
+      onInputTitle(nextState);
+    });
+  }
+
   render() {
     const { title, content } = this.state;
     const [$postTitle, $postContent] = this.$editor.children;
@@ -34,18 +46,6 @@ class PostPage {
     `;
 
     this.$target.append(this.$editor);
-  }
-
-  bindInputTitle(onInputTitle) {
-    this.$editor.addEventListener('keyup', event => {
-      const name = event.target.getAttribute('name');
-      const nextState = {
-        ...this.state,
-        [name]: event.target.value,
-      };
-
-      onInputTitle(nextState);
-    });
   }
 }
 
