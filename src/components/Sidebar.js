@@ -2,7 +2,7 @@ import Header from './Header.js';
 import DocumentList from './DocumentList.js';
 import Footer from './Footer.js';
 import { request } from '../utils/api.js';
-import { push } from '../utils/router.js'
+import { push } from '../utils/router.js';
 
 export default function Sidebar({
   $target,
@@ -34,15 +34,15 @@ export default function Sidebar({
         parent: parentId,
       };
       const newDocument = await createDocument(document);
-      push(`/documents/${newDocument.id}`)
+      push(`/documents/${newDocument.id}`);
     },
     onRemoveDocument: async (id) => {
       await request(`/documents/${id}`, {
         method: 'DELETE'
       });
-      push('/')
+      push('/');
     }
-  })
+  });
 
   new Footer({
     $target: $sidebar,
@@ -53,7 +53,7 @@ export default function Sidebar({
       };
       const newDocument = await createDocument(document);
   
-      push(`/documents/${newDocument.id}`)
+      push(`/documents/${newDocument.id}`);
     }
   });
   

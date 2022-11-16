@@ -30,14 +30,14 @@ export default function EditPage({
       timer = setTimeout(async () => {
         await updateDocument(this.state.id, document);
         await onRerendering();
-      }, 1000)
+      }, 1000);
     } 
   })
   
   const getDocument = async () => {
     const document = await request(`/documents/${this.state.id}`);
-    editor.setState(document)
-  }
+    editor.setState(document);
+  };
   
   const updateDocument = async (id, data) => {
     await request(`/documents/${id}`, {
@@ -48,6 +48,6 @@ export default function EditPage({
   
   this.render = () => {
     $target.appendChild($editPage)
-  }
+  };
   
 }

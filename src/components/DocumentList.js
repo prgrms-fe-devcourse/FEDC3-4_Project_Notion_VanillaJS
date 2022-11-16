@@ -14,17 +14,17 @@ export default function DocumentList({
   this.setState = (nextState) => {
     this.state = nextState;
     this.render();
-  }
+  };
 
   this.render = () => {
     const documentList = createList(this.state, '');
     $list.innerHTML = `${documentList}`;
-  }
+  };
 
   const createList = (data, inner) => {
     if(data.length === 0){
-      inner = `<span>문서가 없습니다.</span>`
-      return inner
+      inner = `<span>문서가 없습니다.</span>`;
+      return inner;
     }
     inner += `
     <ul class="list-wrap">
@@ -55,7 +55,7 @@ export default function DocumentList({
 
   $list.addEventListener('click', (e) => {
     const { target } = e;
-    const $li = e.target.closest('li')
+    const $li = e.target.closest('li');
 
     if($li){
       const { id } = $li.dataset;
@@ -68,6 +68,6 @@ export default function DocumentList({
         onSelect(id);
       }
     }
-  })
+  });
 
 }

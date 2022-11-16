@@ -9,7 +9,7 @@ export default function App({
   const sidebar = new Sidebar({
     $target,
     initialState: [],
-  })
+  });
   
   const editPage = new EditPage({
     $target,
@@ -17,14 +17,12 @@ export default function App({
     onRerendering: () => {
       sidebar.setState();  
     }
-  })
+  });
   
   this.route = async () => {
     $target.innerHTML = '';
     
     const { pathname } = window.location;
-    
-    console.log(pathname);
     
     if(pathname === '/'){
       sidebar.setState();
@@ -33,7 +31,7 @@ export default function App({
       await sidebar.setState();
       await editPage.setState({ id });
     }
-  }
+  };
 
   this.route();
 

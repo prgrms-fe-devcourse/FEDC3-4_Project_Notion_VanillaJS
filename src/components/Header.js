@@ -11,12 +11,12 @@ export default function Header({
     $header.innerHTML = `
       <img class="header-logo" src='../assets/Notion_app_logo.png'>
       <h1>Nation</h1>
-    `
-  }
+    `;
+  };
 
   this.render();
 
   $header.addEventListener('click', () => {
     push('/');
-  })
+  });
 }

@@ -11,7 +11,7 @@ export default function Footer({
       <i class="fas fa-plus"></i>
       <strong class="create-root">New Document</strong>
     `;
-  }
+  };
 
   this.render();
 
@@ -21,5 +21,5 @@ export default function Footer({
     if(target.className === 'create-root'){
       onCreateRootDocument();
     }
-  })
+  });
 }
