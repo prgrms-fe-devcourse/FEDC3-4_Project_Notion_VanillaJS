@@ -1,5 +1,6 @@
 import Header from './Header.js';
 import DocumentList from './DocumentList.js';
+import Footer from './Footer.js';
 import { request } from '../utils/api.js';
 import { push } from '../utils/router.js'
 
@@ -9,10 +10,6 @@ export default function Sidebar({
 }){
   const $sidebar = document.createElement('section');
   $sidebar.className = 'sidebar';
-
-  const $newButton = document.createElement('button');
-  $newButton.className = 'new-btn'
-  $newButton.textContent = 'new';
   
   this.state = initialState;
 
@@ -48,9 +45,21 @@ export default function Sidebar({
       push('/')
     }
   })
+
+  new Footer({
+    $target: $sidebar,
+    onCreateRootDocument: async () => {
+      const document = {
+        title: '',
+        parent: null,
+      };
+      const newDocument = await createDocument(document);
+  
+      push(`/documents/${newDocument.id}`)
+    }
+  });
   
   this.render = async () => {
-    $sidebar.appendChild($newButton);
     $target.appendChild($sidebar);
   };
 
@@ -64,16 +73,6 @@ export default function Sidebar({
       method: 'POST',
       body: JSON.stringify(document),
     });
-    return newDocument
+    return newDocument;
   };
-
-  $newButton.addEventListener('click', async (e) => {
-    const document = {
-      title: '',
-      parent: null,
-    };
-    const newDocument = await createDocument(document);
-
-    push(`/documents/${newDocument.id}`)
-  })
 }
