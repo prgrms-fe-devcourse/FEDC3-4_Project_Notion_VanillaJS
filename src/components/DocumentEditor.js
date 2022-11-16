@@ -14,16 +14,8 @@ function DocumentEditor({ $target, initialState, onChange }) {
     this.render();
   };
 
-  const parseContent = (text) => {
-    console.log(text);
-    const a = text.replace("/n", "<br />");
-    console.log(text, "변경후");
-    return a;
-  };
-
   this.render = () => {
     const { title, content, documents } = this.state.data;
-    console.log(content);
 
     if (!title && !content) {
       $editor.innerHTML = `
@@ -38,10 +30,10 @@ function DocumentEditor({ $target, initialState, onChange }) {
       }"/>
       <article class="eidtor-wrapper">
         <div class="editor-text" autofocus="true" contenteditable="true">${
-          content ? parseContent(content) : "아직 내용이 없습니다."
+          content ? content : "아직 내용이 없습니다."
         }</div>
-        <div>
-          ${parseMarkdown(content)}
+        <div>                                                                                                                                                                                                                                                                                               
+          ${content ? parseMarkdown(content) : "아직 내용이 없습니다."}
         </div>
       </article>
 
@@ -67,7 +59,6 @@ function DocumentEditor({ $target, initialState, onChange }) {
       }
 
       this.debounce = setTimeout(() => {
-        console.log($div.innerText);
         onChange($title.value, $div.innerText);
       }, 2000);
 

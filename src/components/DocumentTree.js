@@ -1,7 +1,6 @@
 import {
   createNewDocument,
   deleteDocumet,
-  getDocumentDetail,
   getRootDocuments,
 } from "../utils/fetchData.js";
 import DocumentNode from "./DocumentNode.js";
@@ -25,24 +24,24 @@ function DocumentTree({ $target, initialState }) {
         <button class="add-root-button">+</button>
       </div>
     `;
+
     new DocumentNode({
       $target: $tree,
-      initialState: { data: this.state.data, isDisplay: false },
+      initialState: { data: this.state.data },
       onClick: (parentId) => this.onClick(parentId),
       onDelete: (documentId) => {
         const answer = confirm("문서를 정말 삭제하시겠습니까?");
 
         if (answer) {
-          deleteDocumet(documentId);
-          // 비동기 처리 문제, 다시 확인하기
-          this.getData();
+          this.delete(documentId);
         }
       },
-
-      // onSelect: (documentId) => {
-      //   getDocumentDetail(documentId);
-      // },
     });
+  };
+
+  this.delete = async (documentId) => {
+    await deleteDocumet(documentId);
+    this.getData();
   };
 
   this.getData = async () => {
@@ -52,14 +51,6 @@ function DocumentTree({ $target, initialState }) {
       data,
     });
   };
-
-  $tree.addEventListener("click", (e) => {
-    const $button = e.target.closest("button");
-
-    if ($button?.className === "add-root-button") {
-      this.onClick(null);
-    }
-  });
 
   this.onClick = (parentId) => {
     const title = prompt("새로운 문서의 제목을 입력해주세요");
@@ -79,7 +70,19 @@ function DocumentTree({ $target, initialState }) {
     this.getData();
   };
 
-  this.getData();
+  this.init = () => {
+    this.getData();
+  };
+
+  this.init();
+
+  $tree.addEventListener("click", (e) => {
+    const $button = e.target.closest("button");
+
+    if ($button?.className === "add-root-button") {
+      this.onClick(null);
+    }
+  });
 }
 
 export default DocumentTree;

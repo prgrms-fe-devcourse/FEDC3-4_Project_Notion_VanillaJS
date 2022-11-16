@@ -1,6 +1,6 @@
 import { navigate } from "../utils/router.js";
 
-function DocumentNode({ $target, initialState, onClick, onDelete, onSelect }) {
+function DocumentNode({ $target, initialState, onClick, onDelete }) {
   const $node = document.createElement("article");
   $target.appendChild($node);
 
@@ -13,11 +13,14 @@ function DocumentNode({ $target, initialState, onClick, onDelete, onSelect }) {
 
   this.render = () => {
     const { data } = this.state;
+
     $node.innerHTML = `
       <ul class="tree-node">
+
         ${data
           .map(({ id, title, documents }) => {
             const $li = document.createElement("li");
+
             $li.dataset.documentId = id;
             $li.className = "node-item";
 
@@ -45,7 +48,9 @@ function DocumentNode({ $target, initialState, onClick, onDelete, onSelect }) {
             if (documents.length > 0) {
               this.documentNode = new DocumentNode({
                 $target: $li,
-                initialState: { data: documents, isDisplay: false },
+                initialState: {
+                  data: documents,
+                },
               });
             }
 
@@ -56,42 +61,47 @@ function DocumentNode({ $target, initialState, onClick, onDelete, onSelect }) {
       `;
   };
 
-  this.init = () => {
-    this.render();
+  this.render();
+
+  const onClickButton = ($button) => {
+    const { className } = $button;
+    const { parentId } = $button.dataset;
+
+    if (!parentId) {
+      return;
+    }
+
+    if (className === "add-button") {
+      onClick(parseInt(parentId));
+      return;
+    }
+
+    if (className === "delete-button") {
+      onDelete(parseInt(parentId));
+      return;
+    }
   };
 
-  this.init();
+  const onSelectDocument = ($li) => {
+    const { documentId } = $li.dataset;
+    if (documentId) {
+      navigate(`/document/${documentId}`);
+    }
+  };
 
   $node.addEventListener("click", (e) => {
     const $button = e.target.closest("button");
 
-    if ($button?.className === "add-button") {
-      const { parentId } = $button.dataset;
-
-      if (parentId) {
-        onClick(parseInt(parentId));
-      }
-      return;
-    }
-
-    if ($button?.className === "delete-button") {
-      const { parentId } = $button.dataset;
-
-      if (parentId) {
-        onDelete(parseInt(parentId));
-      }
+    if ($button) {
+      onClickButton($button);
       return;
     }
 
     const $li = e.target.closest("li");
 
     if ($li) {
-      const { documentId } = $li.dataset;
-      // 여기서 라우터 변경을 한 후 이동한 페이지에서 api 요청해서 문서 정보 불러오기
-      if (documentId) {
-        // onSelect(parseInt(documentId));
-        navigate(`/document/${documentId}`);
-      }
+      onSelectDocument($li);
+      return;
     }
   });
 }

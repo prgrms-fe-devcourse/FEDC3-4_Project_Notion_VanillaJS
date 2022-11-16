@@ -18,19 +18,30 @@ function DocumentEditPage({ $target }) {
   $editor.className = "document-editor";
   $editPage.appendChild($editor);
 
-  this.route = () => {
+  this.state = {
+    data: {},
+  };
+
+  this.setState = (nextState) => {
+    this.state = nextState;
+  };
+
+  this.route = async () => {
     const { pathname } = window.location;
     const [, , documentId] = pathname.split("/");
 
     if (documentId) {
       $editor.innerHTML = "";
 
-      this.getData(documentId);
+      const data = await getDocumentDetail(documentId);
+      this.setState({
+        data,
+      });
 
-      this.documentEditor = new DocumentEditor({
+      new DocumentEditor({
         $target: $editor,
         initialState: {
-          data: {},
+          data: this.state.data,
         },
         onChange: (newTitle, newContent) => {
           this.updateData(documentId, {
@@ -40,13 +51,6 @@ function DocumentEditPage({ $target }) {
         },
       });
     }
-  };
-
-  this.getData = async (documentId) => {
-    const data = await getDocumentDetail(documentId);
-    this.documentEditor.setState({
-      data,
-    });
   };
 
   this.updateData = async (documentId, data) => {
@@ -63,8 +67,6 @@ function DocumentEditPage({ $target }) {
     window.addEventListener("popstate", () => {
       route();
     });
-
-    this.route();
   };
 
   this.init();
