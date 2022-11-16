@@ -138,6 +138,7 @@ export default function DocumentList({
       ]);
       target.classList.toggle('open');
     } else {
+      if (openedItems.indexOf(id) > -1) return;
       setItem(OPENED_ITEM, [...openedItems, id]);
       target.classList.toggle('open');
     }
