@@ -28,8 +28,11 @@ export default function Editor({ $target, initialState, onEditing }) {
   this.render = () => {
     $editor.querySelector("[name=title]").value = this.state.title;
     const content = $editor.querySelector("[name=content]");
-    if (content.innerHTML.length !== 0)
+    if (this.state.content) {
       content.innerHTML = this.state.content.split("\n").join("<br/>");
+    } else {
+      content.innerHTML = "";
+    }
   };
 
   $editor.querySelector("[name=title]").addEventListener("keyup", (e) => {

@@ -141,10 +141,20 @@
         padding: 10px;
         font-size: 18px;
       }
+      .toolbar {
+        padding: 2px 5px;
+        img {
+          width: 25px;
+          height: 25px;
+          cursor: pointer;
+          margin: 2px;
+        }
+      }
 
-      textarea {
+      .content {
         outline: none;
-        border: none;
+        border: 1px solid #999999;
+        border-radius: 10px;
         width: 100%;
         padding: 10px;
         min-height: 700px;

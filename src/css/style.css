@@ -126,9 +126,19 @@
   padding: 10px;
   font-size: 18px;
 }
-#app .postEditPage .editor textarea {
+#app .postEditPage .editor .toolbar {
+  padding: 2px 5px;
+}
+#app .postEditPage .editor .toolbar img {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  margin: 2px;
+}
+#app .postEditPage .editor .content {
   outline: none;
-  border: none;
+  border: 1px solid #999999;
+  border-radius: 10px;
   width: 100%;
   padding: 10px;
   min-height: 700px;
