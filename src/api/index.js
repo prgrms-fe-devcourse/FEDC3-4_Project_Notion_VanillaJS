@@ -14,10 +14,10 @@ export const request = async (url, options = {}) => {
       throw new Error("API 처리 중");
     }
 
-    console.log(res);
-
     return res.json();
   } catch (err) {
     console.error(err);
+    history.replaceState(null, null, "/404");
+    window.location = `${window.location.origin}/404`;
   }
 };
