@@ -27,13 +27,15 @@ export default function PostList({
         const display = getItem(`notion-${id}`) || "none";
         return `
           <li data-id="${id}" name="notionListItem" id="close" class="listItem">
-            <span>
-              <button name="toggle" class="toggleBtn">&#9654;</button>
-              <span data-id="${id}" name="text" class="title">  ${title}</span>
-            </span>
-            <span class="plus-minus-wrapper">
-              <button name="add">➕</button> <button name="delete">➖</button>
-            </span>
+            <p>
+              <span>
+                <button name="toggle" class="toggleBtn">&#9654;</button>
+                <span data-id="${id}" name="text" class="title">  ${title}</span>
+              </span>
+              <span class="plus-minus-wrapper">
+                <button name="add">➕</button> <button name="delete">➖</button>
+              </span>
+            </p>
             ${
               documents.length !== 0
                 ? `<ul data-id="${id}" style="display:${display}">${Rendering(
