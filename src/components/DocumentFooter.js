@@ -35,6 +35,8 @@ export default function DocumentFooter({ $target, initialState }) {
 
   $footer.addEventListener('click', (e) => {
     const $title = e.target.closest('.title');
+    if (!$title) return;
+
     let { id } = $title.dataset;
     id = parseInt(id);
 

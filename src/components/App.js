@@ -8,7 +8,7 @@ import {
   OPENED_ITEM,
   ROUTE_DOCUMENTS,
 } from '../utils/constants.js';
-import { isNew } from '../utils/helper.js';
+import { isNew, setDocumentTitle } from '../utils/helper.js';
 import { initRouter, push } from '../utils/router.js';
 import { fetchDocuments } from '../utils/api.js';
 import { getItem, removeItem, setItem } from '../utils/storage.js';
@@ -62,30 +62,26 @@ export default function App({ $target }) {
       ]);
     }
 
-    const nextDocumentId =
-      documentEditPage.state.documentId === documentId
-        ? DEFAULT_DOCUMENT_ID
-        : documentEditPage.state.documentId;
-
-    push(`${ROUTE_DOCUMENTS}/${nextDocumentId}`);
-    documentEditPage.setState({ documentId: nextDocumentId });
+    const currentId = documentEditPage.state.documentId;
+    if (currentId === documentId) {
+      documentEditPage.setState({ documentId: DEFAULT_DOCUMENT_ID });
+      push(`${ROUTE_DOCUMENTS}/${DEFAULT_DOCUMENT_ID}`);
+    } else {
+      documentEditPage.setState({ documentId: currentId });
+    }
 
     sidebar.render();
   };
 
-  const onEdit = (document) => {
+  const onEdit = ({ id, title, content }) => {
     if (timer !== null) {
       clearTimeout(timer);
     }
     timer = setTimeout(async () => {
-      const editedDocument = await fetchDocuments(
-        documentEditPage.state.documentId,
-        {
-          method: 'PUT',
-          body: JSON.stringify(document),
-        }
-      );
-      console.log(editedDocument);
+      const editedDocument = await fetchDocuments(id, {
+        method: 'PUT',
+        body: JSON.stringify({ title, content }),
+      });
 
       documentEditPage.setState({
         documentId: editedDocument.id,
@@ -93,7 +89,7 @@ export default function App({ $target }) {
       });
 
       sidebar.render();
-    }, 1000);
+    }, 800);
   };
 
   const sidebar = new Sidebar({
@@ -118,13 +114,17 @@ export default function App({ $target }) {
   this.route = () => {
     const { pathname } = window.location;
 
-    if (pathname.indexOf(ROUTE_DOCUMENTS) === 0) {
+    if (pathname === '/') {
+      setDocumentTitle('Notion');
+    } else if (pathname.indexOf(ROUTE_DOCUMENTS) === 0) {
       const [, , documentId] = pathname.split('/');
       documentEditPage.setState({
         documentId: isNaN(documentId) ? documentId : parseInt(documentId),
       });
     }
   };
+
+  window.addEventListener('popstate', () => this.route());
 
   this.route();
 

@@ -3,8 +3,13 @@ import DocumentHeader from './DocumentHeader.js';
 import DocumentFooter from './DocumentFooter.js';
 
 import { fetchDocuments } from '../utils/api.js';
-import { NEW } from '../utils/constants.js';
+import {
+  NEW,
+  ROUTE_DOCUMENTS,
+  DEFAULT_DOCUMENT_ID,
+} from '../utils/constants.js';
 import { isNew, setDocumentTitle } from '../utils/helper.js';
+import { push } from '../utils/router.js';
 
 export default function DocumentEditPage({
   $target,
@@ -86,6 +91,11 @@ export default function DocumentEditPage({
 
   const loadDocument = async () => {
     const document = await fetchDocuments(this.state.documentId);
+    if (!document) {
+      alert('존재하지 않는 페이지입니다.');
+      push(`${ROUTE_DOCUMENTS}/${DEFAULT_DOCUMENT_ID}`);
+      return;
+    }
 
     this.setState({
       ...this.state,
