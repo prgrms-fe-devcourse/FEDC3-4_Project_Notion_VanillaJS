@@ -7,13 +7,14 @@ import Editor from "./Editor.js";
 import Modal from "./Modal.js";
 import Resizer from "./Resizer.js";
 import { SIDEBAR_WIDTH } from "../util/constants.js";
+import Content from "./Content.js";
+import SubDocumentsLink from "./SubDocumentsLink.js";
 
 const SAVE_NOW_KEYS = ['Enter', '.', 'Tab', undefined];
 
 const NETWORK_ERROR_MODAL = 'network-error-modal'
 
 export default function App({ $app }) {
-
   this.state = {
     documents: [],
     selectedDocument: {
@@ -30,6 +31,7 @@ export default function App({ $app }) {
     const { documents, selectedDocument } = this.state;
     documentList.setState({ documents, selectedDocument });
     editor.setState(selectedDocument);
+    subDocumentsLink.setState(selectedDocument);
   }
 
   const sidebar = new Sidebar({
@@ -59,12 +61,16 @@ export default function App({ $app }) {
   new Resizer({
     $target: sidebar.getElement(),
     storageKey: SIDEBAR_WIDTH
-  })
+  });
+
+  const content = new Content({
+    $target: $app
+  });
 
   let editorKeyupTimeoutId = null;
 
   const editor = new Editor({
-    $target: $app,
+    $target: content.getElement(),
     initialState: this.state.selectedDocument,
     onEdit: (document, key) => {
       const time = SAVE_NOW_KEYS.includes(key) ? 0 : 2000;
@@ -81,6 +87,15 @@ export default function App({ $app }) {
       }, time);
     }
   });
+
+  const subDocumentsLink = new SubDocumentsLink({
+    $target: content.getElement(),
+    initialState: this.state.selectedDocument,
+    onLinkClick: (id) => {
+      push(`/documents/${id}`)
+    }
+  })
+
 
   const getDocuments = async () => {
     const documents = await request('/documents');
