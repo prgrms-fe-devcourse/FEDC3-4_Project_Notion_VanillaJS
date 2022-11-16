@@ -13,15 +13,31 @@ export const API_END_POINT = '주소';
 ![제목없음](https://user-images.githubusercontent.com/97251710/201974047-05517c78-facc-4f5e-abd4-eddeda587f20.png)
 
 
-### 작동 Sample
-CSS 업데이트 이후 배포예정
+## 작동 Sample
 
-![chrome_gaUeveN331](https://user-images.githubusercontent.com/97251710/201983249-5125ac1e-6b0d-40d9-b702-d7474f97762e.gif)
+### 첫 이미지
+1. 메인 루트에서 주소이동
+2. 클릭한 게시글 굵은 글씨 전환
+3. 마우스 호버시 굵은 태두리 + 추가 삭제 버튼
+4. 왼쪽 화살표 클릭 시 하위 문서 추가
+5. 간단한 에디터 (굵기 기울기 언더바등)
+6. Debounce를 통해 api 갱신은 1초에 한번
 
-![chrome_Pw15SZVaih](https://user-images.githubusercontent.com/97251710/201983261-075967dd-397b-425e-8a69-f18b33685292.gif)
+![chrome_DVGNfzaEg6](https://user-images.githubusercontent.com/97251710/202197488-35db29e4-42bb-4d54-8c21-78d9527fce16.gif)
 
-![chrome_a5k5QR7PR5](https://user-images.githubusercontent.com/97251710/201983908-0d425d2f-5bf5-48ee-ad90-84d4bbfde39a.gif)
 
+### 두번째 이미지
+1. 유저 이름 클릭 시 이름변경 , 주소변경 , 자동 페이지 변경
+2. 새 페이지 클릭 시 자동으로 게시글 추가 + 주소변경
+
+![chrome_whLUF6AtRV](https://user-images.githubusercontent.com/97251710/202198120-00909b4a-12aa-4c13-93d0-ce2f6ca2e6dd.gif)
+
+### 세번째 이미지
+1. 통신이 정상적으로 되면 작성중인 데이터 (localStorage에 저장중)이 삭제
+2. 비정상적인 접속 종료가 되면 다음에 해당 문서 조회 시 갱신할꺼냐고 물어봄
+3. History Api를 통해 뒤로가기 등이 가능
+
+![chrome_j4nKXLKkyS](https://user-images.githubusercontent.com/97251710/202199280-879037e3-1877-4a78-8d31-319514f6601c.gif)
 
 
 
@@ -200,7 +216,6 @@ const setEvent = {
 
 ```
 
-혹시 다른 태크닉이나 조금 더 현명한 방법이 있는 지 알고 싶습니다.
-
+혹시 다른 태크닉이나 조금 더 좋은 방법이 있는 지 알고 싶습니다
 
 <!-- ## ✅ 피드백 반영사항  -->
