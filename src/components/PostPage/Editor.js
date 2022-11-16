@@ -1,5 +1,7 @@
 import { customEvent } from "../../utils/custom-event.js";
 import { validateInstance } from "../../utils/validation.js";
+import { DEFAULT_TEXT, STORAGE_KEY } from "../../utils/constants.js";
+import { setItem } from "../../utils/storage.js";
 
 export default function Editor({
   $target,
@@ -123,22 +125,21 @@ export default function Editor({
     $editor.innerHTML = `
       ${modalTemplate()}
       <div class="selected-post-title">
-        ${
-          title
-            ? `<div class="title" spellcheck="true" contenteditable="true" placeholder="제목 없음">
-                <div class="editable-element">${title}</div>
-              </div>`
-            : `<div class="title" spellcheck="true" contenteditable="true" placeholder="제목 없음"></div>`
-        }
-        
+      ${
+        title !== DEFAULT_TEXT.TITLE
+          ? `<div class="title" spellcheck="true" contenteditable="true" placeholder="${DEFAULT_TEXT.TITLE}">
+              ${title}
+            </div>`
+          : `<div class="title" spellcheck="true" contenteditable="true" placeholder="${DEFAULT_TEXT.TITLE}"></div>`
+      }
       </div>
       <div class="selected-post-content">
         ${
           content
-            ? `<div class="content" spellcheck="true" contenteditable="true" placeholder="내용을 입력하세요.">
+            ? `<div class="content" spellcheck="true" contenteditable="true" placeholder="${DEFAULT_TEXT.CONTENT}">
                 <div class="editable-element">${content}</div>
               </div>`
-            : `<div class="content" spellcheck="true" contenteditable="true" placeholder="내용을 입력하세요."></div> `
+            : `<div class="content" spellcheck="true" contenteditable="true" placeholder="${DEFAULT_TEXT.CONTENT}"></div> `
         }
       </div>
       ${
@@ -194,6 +195,7 @@ export default function Editor({
       const { id } = $childDocument.dataset;
       console.log("editor", id);
       customEvent.push(`/documents/${id}`);
+      setItem(STORAGE_KEY.SELECTED_POST, id);
     }
   });
 

@@ -19,3 +19,8 @@ export const EVENT = {
 export const ERROR = {
   NOT_INSTANCE_OF_COMPONENT: "NOT_INSTANCE_OF_COMPONENT",
 };
+
+export const DEFAULT_TEXT = {
+  TITLE: "제목 없음",
+  CONTENT: "내용을 입력하세요.",
+};

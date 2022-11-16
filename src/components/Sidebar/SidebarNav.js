@@ -1,7 +1,7 @@
 import { validateInstance } from "../../utils/validation.js";
 import { getItem, setItem } from "../../utils/storage.js";
 import { customEvent } from "../../utils/custom-event.js";
-import { STORAGE_KEY, STATE } from "../../utils/constants.js";
+import { STORAGE_KEY, STATE, DEFAULT_TEXT } from "../../utils/constants.js";
 
 export default function SidebarBody({
   $target,
@@ -69,7 +69,7 @@ export default function SidebarBody({
               <div class="icon-document">
                 <img src="/src/assets/document.svg" />
               </div>
-              <div class="title">${title ? title : "제목 없음"}</div>
+              <div class="title">${title ? title : DEFAULT_TEXT.TITLE}</div>
             </div>
             <div class="post-item-container-right hide">
               <button class="post-item-button delete-button" title="페이지 삭제">
@@ -93,17 +93,17 @@ export default function SidebarBody({
     if ($button) {
       const $postItem = $button.closest("li");
       const className = $button.classList;
-      const { id } = $postItem.dataset;
+      const id = Number($postItem.dataset.id);
 
       if (className.contains("open-button")) {
         const $svg = $button.querySelector("img");
         $svg.classList.toggle("rotate-button");
-        onOpenList(STATE.OPEN, +id);
+        onOpenList(STATE.OPEN, id);
       } else if (className.contains("create-button")) {
-        onCreateDocument(+id);
-        onOpenList(STATE.CREATE, +id);
+        onCreateDocument(id);
+        onOpenList(STATE.CREATE, id);
       } else if (className.contains("delete-button")) {
-        const deleteIdList = await onDeleteDocument(+id);
+        const deleteIdList = await onDeleteDocument(id);
         onOpenList(STATE.DELETE, deleteIdList);
       }
     } else if ($postItem) {

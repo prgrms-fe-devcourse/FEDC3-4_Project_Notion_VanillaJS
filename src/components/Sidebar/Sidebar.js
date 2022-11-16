@@ -11,7 +11,7 @@ import SidebarFooter from "./SidebarFooter.js";
 
 import { validateInstance } from "../../utils/validation.js";
 import { setItem, getItem, removeItem } from "../../utils/storage.js";
-import { STORAGE_KEY, STATE } from "../../utils/constants.js";
+import { STORAGE_KEY, STATE, DEFAULT_TEXT } from "../../utils/constants.js";
 import { addEvent } from "../../utils/custom-event.js";
 
 export default function Sidebar({ $target, initialState = [] }) {
@@ -61,7 +61,7 @@ export default function Sidebar({ $target, initialState = [] }) {
     },
     onCreateDocument: async (id) => {
       const newPost = {
-        title: `제목 없음`,
+        title: DEFAULT_TEXT.TITLE,
         parent: id,
       };
 
@@ -115,7 +115,7 @@ export default function Sidebar({ $target, initialState = [] }) {
     $target: $sidebar,
     onCreateDocument: async () => {
       const newPost = {
-        title: "제목 없음",
+        title: DEFAULT_TEXT.TITLE,
         parent: null,
       };
 

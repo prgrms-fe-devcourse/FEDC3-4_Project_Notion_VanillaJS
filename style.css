@@ -393,6 +393,7 @@ address {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding: 1px 0;
 }
 .post-item-container {
   position: relative;
