@@ -9,6 +9,7 @@ import Resizer from "./Resizer.js";
 import { SIDEBAR_WIDTH } from "../util/constants.js";
 import Content from "./Content.js";
 import SubDocumentsLink from "./SubDocumentsLink.js";
+import { validateDcouments, validateSelectedDocument } from "../util/validate.js";
 
 const SAVE_NOW_KEYS = ['Enter', '.', 'Tab', undefined];
 
@@ -26,12 +27,17 @@ export default function App({ $app }) {
   };
 
   this.setState = (nextState) => {
-    // TODO: Validate
+    this.validate(nextState);
     this.state = { ...nextState };
     const { documents, selectedDocument } = this.state;
     documentList.setState({ documents, selectedDocument });
     editor.setState(selectedDocument);
     subDocumentsLink.setState(selectedDocument);
+  }
+
+  this.validate = ({ documents, selectedDocument }) => {
+    validateDcouments(documents);
+    validateSelectedDocument(selectedDocument);
   }
 
   const sidebar = new Sidebar({
