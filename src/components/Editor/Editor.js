@@ -2,6 +2,14 @@ import { $ } from '../../util/index.js';
 import { push } from '../../router.js';
 import img from '../../public/images/document.png';
 
+/**
+ * Editor
+ *
+ * 문서를 편집하는 컴포넌트, 문서의 제목과 내용을 입력받는다.
+ * 첫 랜더링시 placeholder를 보여주고, 문서가 선택되면 해당 문서의 제목과 내용을 보여준다.
+ *
+ * @param {*} param0
+ */
 export function Editor({
 	$target,
 	compareStateWithStoredState,

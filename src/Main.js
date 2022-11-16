@@ -2,27 +2,29 @@ import App from './App.js';
 import LIST_API from './api/documentApi.js';
 import { $ } from './util/index.js';
 
+/**
+ * Main
+ *
+ * App을 랜더링하는 컴포넌트
+ *
+ */
 function Main() {
+	this.init = async () => {
+		try {
+			const $main = $({ selector: 'main' });
 
-    this.init = async () => {
+			const app = new App({
+				$target: $main,
+				initialState: await LIST_API.getAllDocuments(),
+			});
 
-        try {
-            const $main = $({ selector: 'main' });
-
-            const app = new App({
-                $target: $main,
-                initialState: await LIST_API.getAllDocuments(),
-            });
-
-            app.render();
-
-        } catch (e) {
-            alert(e.message);
-            console.error(e.message);
-        }
-    }
-
-};
+			app.render();
+		} catch (e) {
+			alert(e.message);
+			console.error(e.message);
+		}
+	};
+}
 
 const main = new Main();
 main.init();

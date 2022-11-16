@@ -2,6 +2,17 @@ import { createDOMElement } from '../../util/index.js';
 import { push } from '../../router.js';
 import img from '../../public/images/document.png';
 
+/**
+ * DocumentList
+ *
+ * 문서 목록을 랜더링하는 컴포넌트
+ *
+ * @param {HTMLDivElement} $target
+ * @param {Object} initialState
+ * @param {Function} onClickDocument
+ * @param {Function} onAddDocument
+ * @param {Function} onDeleteDocument
+ */
 export function DocumentList({
 	$target,
 	onClickDocument,
@@ -59,17 +70,27 @@ export function DocumentList({
         `;
 	};
 
+	/**
+	 * registerEvents 이벤트 핸들러
+	 *
+	 * documentList에서 일어나는 이벤트를 처리하는 함수
+	 */
 	const registerEvents = () => {
+		/**
+		 * 문서를 클릭했을 때 발생하는 이벤트
+		 */
 		$documentList.addEventListener('click', async e => {
 			const { target } = e;
 			const tagName = target.tagName;
 			const summary = target.closest('summary');
 
+			// 상단 Documents 클릭 시 루트 페이지로 이동
 			if (tagName === 'H1') {
 				push({ nextUrl: '/' });
 				return;
 			}
 
+			// 문서 클릭시 해당 문서로 이동
 			if (summary && tagName !== 'INPUT') {
 				const { index } = summary.dataset;
 				push({ nextUrl: `/documents/${index}` });
@@ -78,10 +99,12 @@ export function DocumentList({
 				return;
 			}
 
+			// 문서 추가 버튼 또는 삭제 버튼 클릭 시
 			if (tagName === 'INPUT') {
 				const { classList } = target;
 				const { index } = summary.dataset;
 
+				// 문서 삭체 버튼시
 				if (classList.contains('remove')) {
 					if (confirm('삭제하시겠습니까?')) {
 						await onDeleteDocument({ docId: index });
@@ -90,6 +113,7 @@ export function DocumentList({
 
 						alert('삭제되었습니다.');
 
+						// 상위 문서가 남아 있다면 상위 문서를 열어준다 아니라면 루트 페이지로 이동
 						if (rootParent) {
 							const routePath = rootParent.split('-').at(-1);
 							push({ nextUrl: `/documents/${routePath}` });
@@ -100,6 +124,7 @@ export function DocumentList({
 					return;
 				}
 
+				// 문서 추가 버튼시
 				if (classList.contains('add')) {
 					await onAddDocument({ docId: index });
 					return;
