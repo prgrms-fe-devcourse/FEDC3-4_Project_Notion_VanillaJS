@@ -112,9 +112,9 @@ export default function PostPageHeader({ $target, initialState, onDelete }) {
         alert("링크가 복사되었습니다. 원하는 사람에게 공유해보세요");
       } else if (name === "star") {
         const favoritesList = getItem("favoritesList", []);
-        const target = favoritesList.find((fav) => fav.id === this.state.res_content.id);
+        const isExist = favoritesList.find((fav) => fav.id === this.state.res_content.id);
 
-        if (target) {
+        if (isExist) {
           //이미 즐겨찾기에 등록된 거라면? 없애기
           setItem(
             "favoritesList",
