@@ -40,6 +40,11 @@ export default function PostEditPage({ $target, initialState }) {
         }
 
         removeItem(postLocalSaveKey);
+
+        this.setState({
+          postId: post.id + "",
+          post,
+        });
       }, 1000);
     },
   });
