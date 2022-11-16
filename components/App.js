@@ -35,6 +35,7 @@ export default function App({ $app }) {
     this.state = { ...nextState };
     const { documents, selectedDocument } = this.state;
     documentList.setState({ documents, selectedDocument });
+    content.setState(selectedDocument);
     editor.setState(selectedDocument);
     subDocumentsLink.setState(selectedDocument);
   };
@@ -141,13 +142,14 @@ export default function App({ $app }) {
     });
   }
 
-  (async () => {
+  (() => {
     const route = async () => {
       const { pathname } = window.location;
       const nextState = {};
       if (pathname === '/') {
         nextState.documents = await request('/documents');
         nextState.selectedDocument = { id: null };
+
         this.setState({ ...this.state, ...nextState });
       } else if (pathname.indexOf('/documents/') === 0) {
         const [, , id] = pathname.split('/');

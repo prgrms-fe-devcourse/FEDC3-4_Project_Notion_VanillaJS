@@ -19,11 +19,7 @@ export default function Editor({ $target, initialState, onEdit }) {
   }
 
   this.render = () => {
-    const { id, title, content } = this.state;
-    if (!id) {
-      $element.classList.add('hidden');
-      return;
-    }
+    const { title, content } = this.state;
     this.$element.classList.remove('hidden')
     this.$element.querySelector('[name=title]').innerText = title;
     this.$element.querySelector('[name=content]').innerText = content;
