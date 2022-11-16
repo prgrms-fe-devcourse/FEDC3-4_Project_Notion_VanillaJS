@@ -6,35 +6,41 @@ const $home = () => {
 	`;
 };
 
-const $editPost = ({ title, content }) => {
+const formatTime = (time) => {
+	if (isNaN(time)) return;
+
+	const date = `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()} /
+	${time.getHours()} : ${time.getMinutes()}`;
+
+	return date;
+};
+
+/**
+ * 에디터 템플릿
+ * @param {*} param0
+ * @returns
+ */
+const $editPost = ({ title, content, createdAt, updatedAt }) => {
+	content = content === null ? "" : content;
 	return `
-	<input style="font-size:30px" class="post-edit-title" type="text" name="title" placeholder="제목을 입력해주세요." value="${title}">
-	<textarea rows="20" class="post-edit-content" name="content" placeholder="내용을 입력해주세요.">${content}</textarea>
+		<div class="title-input-container">
+			<div class="title input" name="title" placeholder="글 제목을 입력해주세요." contenteditable="true">${title}</div>
+		</div>
+		<div class="post-date-container">
+			<span>생성날짜 : ${formatTime(new Date(createdAt))}</span>
+			<span>수정날짜 : ${formatTime(new Date(updatedAt))}</span>
+		</div>
+		<div class="content-input-container">
+			<div class="content input" name="content" placeholder="글 내용을 입력해주세요." contenteditable="true">${content}</div>
+		</div>
 	`;
 };
 
 /**
- * 포스트 리스트 (사이드바)
- * @param {*} post
+ * 리스트 템플릿
+ * @param {*} posts
  * @returns
  */
-// const $onLoadParentList = (post) => {
-// 	return `
-// 	<li class="post-list" data-id="${post.id}">
-// 		<div>
-// 			<span class="open-folder icon-right-open"></span>
-// 			<span class="post-title">
-// 				${post.title}
-// 			</span>
-// 		</div>
-// 		<div>
-// 			<button class="delete-page-btn icon-trash"></button>
-// 			<button class="create-page-btn icon-plus"></button>
-// 		</div>
-// 	</li>
-// 	`;
-// };
-
 const $listContent = (post) => {
 	return `
 		<div class="list-flex" data-id="${post.id}">
@@ -52,6 +58,11 @@ const $listContent = (post) => {
 	`;
 };
 
+/**
+ * 자식 리스트 출력
+ * @param {*} posts
+ * @returns
+ */
 const $onLoadChildList = (posts) => {
 	if (Array.isArray(posts)) {
 		return `
@@ -73,6 +84,11 @@ const $onLoadChildList = (posts) => {
 	}
 };
 
+/**
+ * 부모 리스트 전체 출력
+ * @param {*} posts
+ * @returns
+ */
 const $onLoadParentList = (posts) => {
 	if (Array.isArray(posts)) {
 		return `
@@ -114,7 +130,7 @@ const $sideNavHeader = () => {
  */
 const $emptyPage = () => {
 	return `
-		<div class="child-ul hide">
+		<div class="empty hide">
 			하위 페이지가 없습니다.
 		</div>
 	`;
@@ -135,6 +151,8 @@ const $createPostBtn = () => {
 /**
  * 포스트 작성 모달창
  * @returns	html
+ * 
+				<textarea style="font-size:30px" rows="2" type="text" name="title" placeholder="제목을 입력하세요."></textarea>
  */
 const $createPostModal = () => {
 	return `
@@ -142,14 +160,14 @@ const $createPostModal = () => {
 		<div class="overlay"></div>
 		<div class="modal">
 			<div class="modal-title">
-				<input type="text" name="title" placeholder="제목을 입력하세요."/>
+				<h2>📝오늘하루 어땠나요?</h2>
+				<div class="title-input-container">
+					<div class="title" name="title" placeholder="글 제목을 입력해주세요." contenteditable="true"></div>
+				</div>
 			</div>
-			<div class="modal-content">
-			<input
-					type="text"
-					name="content"
-					placeholder="내용을 입력하세요."
-				/>
+			<div class="modal-btn-container">
+				<button class="close">닫기</button>
+				<button class="create-post-btn">글 생성</button>
 			</div>
 		</div>
 	</div>
