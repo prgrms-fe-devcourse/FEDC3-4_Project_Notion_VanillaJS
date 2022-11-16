@@ -1,0 +1,58 @@
+html,
+body {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+#app {
+  display: flex;
+  height: 100vh;
+}
+
+button {
+  cursor: pointer;
+  padding: none;
+  user-select: none;
+}
+
+/*
+    sidebar 배경색: rgb(250, 250, 249)
+    sidebar hover 색: rgb(230, 230, 239)
+    sidebar 눌러진 페이지: rgb(237, 238, 236)
+*/
+
+/* sidebar */
+.sidebar {
+  position: relative;
+  width: 240px;
+  margin: 0;
+  background-color: rgb(250, 250, 249);
+}
+
+.sidebar-header {
+  /* position: fixed; */
+  padding: 0 15;
+}
+
+.sidebar-body {
+  position: relative;
+  padding: 0 15;
+}
+
+.sidebar-footer {
+  position: fixed;
+  width: 240px;
+  cursor: pointer;
+  bottom: 0;
+  border-top: 1px solid rgb(228, 228, 225);
+  padding: 1.5rem 0;
+  z-index: 3;
+}
+
+.sidebar-footer div {
+  padding: 0 15;
+}
+
+.sidebar-footer:hover {
+  background-color: rgb(230, 230, 239);
+}

@@ -1,6 +1,6 @@
 import { request } from "../../utils/api.js";
-import LinkButton from "../../utils/LinkButton.js";
-import PostList from "./PostList.js";
+import LinkButton from "../../utils/linkButton.js";
+import PostList from "./postList.js";
 
 export default function PostsPage({ $target }) {
   const $page = document.createElement("div");

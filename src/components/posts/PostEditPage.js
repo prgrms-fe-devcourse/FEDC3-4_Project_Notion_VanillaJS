@@ -1,7 +1,7 @@
 import { request } from "../../utils/api.js";
 import { getItem, removeItem, setItem } from "../../utils/storage.js";
-import LinkButton from "../../utils/LinkButton.js";
-import Editor from "./Editor.js";
+import LinkButton from "../../utils/linkButton.js";
+import Editor from "./editor.js";
 
 export default function PostEditPage({ $target, initialState }) {
   const $page = document.createElement("div");

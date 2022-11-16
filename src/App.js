@@ -1,5 +1,6 @@
-import PostsPage from "./components/posts/PostsPage.js";
-import PostEditPage from "./components/posts/PostEditPage.js";
+import Sidebar from "./components/sidebar/sidebar.js";
+import PostsPage from "./components/posts/postsPage.js";
+import PostEditPage from "./components/posts/postEditPage.js";
 import { initRouter } from "./utils/router.js";
 
 /* url 규칙
@@ -9,34 +10,36 @@ import { initRouter } from "./utils/router.js";
    /posts/new - 새 post 생성
 */
 export default function App({ $target }) {
-  const postsPage = new PostsPage({
-    $target,
-  });
+  const sidebar = new Sidebar({ $target, initialState: [] });
 
-  const postEditPage = new PostEditPage({
-    $target,
-    initialState: {
-      postId: "new",
-      post: {
-        title: "",
-        content: "",
-      },
-    },
-  });
+  // const postsPage = new PostsPage({
+  //   $target,
+  // });
 
-  this.route = () => {
-    $target.innerHTML = "";
-    const { pathname } = window.location;
+  // const postEditPage = new PostEditPage({
+  //   $target,
+  //   initialState: {
+  //     postId: "new",
+  //     post: {
+  //       title: "",
+  //       content: "",
+  //     },
+  //   },
+  // });
 
-    if (pathname === "/") {
-      postsPage.setState();
-    } else if (pathname.indexOf("/posts/") === 0) {
-      const [, , postId] = pathname.split("/");
-      postEditPage.setState({ postId });
-    }
-  };
+  // this.route = () => {
+  //   $target.innerHTML = "";
+  //   const { pathname } = window.location;
 
-  this.route();
+  //   if (pathname === "/") {
+  //     postsPage.setState();
+  //   } else if (pathname.indexOf("/posts/") === 0) {
+  //     const [, , postId] = pathname.split("/");
+  //     postEditPage.setState({ postId });
+  //   }
+  // };
 
-  initRouter(() => this.route());
+  // this.route();
+
+  // initRouter(() => this.route());
 }
