@@ -15,8 +15,8 @@ export const request = async (url, options = {}) => {
       return await res.json();
     }
 
-    throw new Error(ERROR_API_CALL);
+    // throw new Error(ERROR_API_CALL);
   } catch (e) {
-    alert(e.message);
+    // alert(e.message);
   }
 };

@@ -31,7 +31,7 @@ export const initRouter = (onRoute) => {
 
     if (!nextUrl) return;
 
-    history.replaceState(null, null, nextUrl);
+    history.pushState(null, null, nextUrl);
     onRoute();
   });
 

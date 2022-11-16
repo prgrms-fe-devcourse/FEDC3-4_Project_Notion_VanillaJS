@@ -9,6 +9,7 @@ export const properties = {
 //Header
 export const DEFAULT_TITLE = "제목 없음";
 export const ROOT_TITLE = "작업 중... 💨";
+export const REMOVED_DOC_TITLE = "삭제된 문서입니다."
 export const DEFAULT_CONTENT = "내용을 입력해주세요";
 
 //Document
@@ -49,6 +50,12 @@ export const DEFAULT_ID = "new";
 export const DEFAULT_STATE = {
   id: DISABLED_ID,
   title: ROOT_TITLE,
+  content: "",
+};
+
+export const REMOVED_DOC_STATE = {
+  id: DISABLED_ID,
+  title: REMOVED_DOC_TITLE,
   content: "",
 };
 

@@ -3,6 +3,7 @@ import {
   DEFAULT_TITLE,
   DISABLED_ID,
   ERROR_NEW_KEYWORD_MISSING,
+  REMOVED_DOC_STATE,
 } from "./utils/constants.js";
 import { hasNewTarget } from "./utils/error.js";
 import DocumentPage from "./DocumentPage/DocumentPage.js";
@@ -39,7 +40,12 @@ export default function App({ $target }) {
       const [, parentId] = search.split("=");
       const document = await request(`/documents/${documentId}`);
 
-      editPage.setState({ ...document, parentId });
+      if (document) {
+        editPage.setState({ ...document, parentId });
+      } else {
+        editPage.setState({ ...REMOVED_DOC_STATE, parentId })
+      }
+
     }
   };
 
