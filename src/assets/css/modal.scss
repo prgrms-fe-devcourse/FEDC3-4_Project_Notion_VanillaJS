@@ -1,0 +1,75 @@
+@import "./libs/vars.scss";
+@import "./libs/mixins.scss";
+
+.container-modal {
+	display: none;
+
+	.modal {
+		z-index: 2;
+		position: absolute;
+		max-width: 970px;
+		margin: 0 auto;
+		width: 100%;
+		height: 400px;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background-color: $color-post-edit-background;
+		padding: 2rem 4rem;
+		border-radius: 4px;
+		box-shadow: rgb(15 15 15 / 5%) 0px 0px 0px 1px,
+			rgb(15 15 15 / 10%) 0px 5px 10px, rgb(15 15 15 / 20%) 0px 15px 40px;
+
+		.modal-title {
+			position: relative;
+
+			h2 {
+				font-size: 1.5rem;
+				font-weight: bold;
+			}
+
+			.title-input-container {
+				position: relative;
+				margin-top: 1.5rem;
+				height: 300px;
+
+				@include input-title;
+			}
+		}
+
+		.modal-btn-container {
+			display: flex;
+			justify-content: end;
+			gap: 1rem;
+
+			button {
+				padding: 8px 1rem;
+				border-radius: 10px;
+				color: $color-white;
+				font-size: 1rem;
+			}
+
+			.close {
+				background-color: $color-modal-close-btn-background;
+			}
+
+			.create-post-btn {
+				background-color: $color-post-create-btn-background;
+			}
+		}
+	}
+
+	.overlay {
+		z-index: 1;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.4);
+	}
+}
+
+.post-modal-show {
+	display: block;
+}
