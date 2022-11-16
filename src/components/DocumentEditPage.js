@@ -56,22 +56,23 @@ export default function DocumentEditPage({
         title: this.state.document.title || '',
       });
       this.render();
-    } else {
-      this.state = { ...this.state, ...nextState };
+      return;
+    }
 
-      if (this.state.documentId === NEW) {
-        editor.setState({
-          title: '',
-          content: '',
-        });
-        documentHeader.setState({
-          documentId: this.state.documentId,
-          title: '',
-        });
-        this.render();
-      } else {
-        await loadDocument();
-      }
+    this.state = { ...this.state, ...nextState };
+
+    if (this.state.documentId === NEW) {
+      editor.setState({
+        title: '',
+        content: '',
+      });
+      documentHeader.setState({
+        documentId: this.state.documentId,
+        title: '',
+      });
+      this.render();
+    } else {
+      await loadDocument();
     }
   };
 

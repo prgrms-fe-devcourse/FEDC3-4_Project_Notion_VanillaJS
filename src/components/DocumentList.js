@@ -5,6 +5,7 @@ import {
   ADD,
   DELETE,
   OPENED_ITEM,
+  NEW_PARENT,
 } from '../utils/constants.js';
 import { isNew } from '../utils/helper.js';
 import { getItem, setItem } from '../utils/storage.js';
@@ -114,6 +115,7 @@ export default function DocumentList({
     if (target.classList.contains(DOCUMENT_ITEM)) {
       push(`${ROUTE_DOCUMENTS}/${id}`);
     } else if (target.classList.contains(ADD)) {
+      setItem(NEW_PARENT, id);
       onAdd(id);
       toggleOpen(target, id);
     } else if (target.classList.contains(DELETE)) {

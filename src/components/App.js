@@ -18,8 +18,7 @@ export default function App({ $target }) {
 
   let timer = null;
 
-  const onAdd = async (documentId) => {
-    setItem(NEW_PARENT, documentId === NEW ? null : documentId);
+  const onAdd = async () => {
     push(`${ROUTE_DOCUMENTS}/${NEW}`);
 
     const createdDocument = await fetchDocuments('', {
@@ -86,6 +85,7 @@ export default function App({ $target }) {
           body: JSON.stringify(document),
         }
       );
+      console.log(editedDocument);
 
       documentEditPage.setState({
         documentId: editedDocument.id,
@@ -111,7 +111,6 @@ export default function App({ $target }) {
         content: '',
       },
     },
-    onAdd,
     onDelete,
     onEdit,
   });
