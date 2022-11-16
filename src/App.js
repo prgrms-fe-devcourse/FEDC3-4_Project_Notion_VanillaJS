@@ -35,38 +35,48 @@ export default function App({ $target, initialState }) {
 		const queryString = new URLSearchParams(search);
 
 		// todo : 존재하지 않는 id이면 Home으로 리다이렉팅 필요
-		if (id) {
-			const {
-				title,
-				content,
-				documents: subDocuments,
-			} = await getContentOfDocument(id);
-
-			post.focus();
-			post.setState({
-				id,
-				currentPath: queryString.get('currentPath'),
-				title,
-				content,
-				subDocuments,
-			});
-		} else {
+		try {
+			if (id) {
+				const {
+					title,
+					content,
+					documents: subDocuments,
+				} = await getContentOfDocument(id);
+	
+				post.focus();
+				post.setState({
+					id,
+					currentPath: queryString.get('currentPath'),
+					title,
+					content,
+					subDocuments,
+				});
+			} else {
+				post.setState({
+					...post.state,
+					id: undefined,
+					currentPath: 'Metamong',
+					subDocuments: [],
+				});
+			}
+			
+			this.setState({
+				...this.state
+			})
+		} catch (error) {
+			history.replaceState(null, null , '/');
 			post.setState({
 				...post.state,
 				id: undefined,
 				currentPath: 'Metamong',
-				subDocuments: [],
-			});
+				subDocuments: []
+			})
+		} finally {
+			// todo : 모듈화 필요
+			document.querySelector('.selected')?.classList.remove('selected');
+			if (document.querySelector(`[data-id='${id}']`)) document.querySelector(`[data-id='${id}']`).classList.add('selected');
+			else document.querySelector('header').classList.add('selected');
 		}
-		
-		this.setState({
-			...this.state
-		})
-		
-		// todo : 모듈화 필요
-		document.querySelector('.selected')?.classList.remove('selected');
-		if (pathname === '/') document.querySelector('header').classList.add('selected');
-		else document.querySelector(`[data-id='${id}']`).classList.add('selected');
 	};
 
 	this.init = async () => {
