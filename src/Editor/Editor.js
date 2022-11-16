@@ -1,9 +1,9 @@
 import { createElement } from '../utils/dom.js';
 import { isObject } from '../utils/errorHandler.js';
 import { request } from '../utils/api.js';
-import PostTitle from './PostTitle.js';
 import { putContentMethod, putTitleMethod } from '../utils/optionsMethod.js';
-import PostContent from './PostContent.js';
+import EditorTitle from './EditorTitle.js';
+import EditorContent from './EditorContent.js';
 
 function Editor({ target, initialState }) {
     const page = createElement('section');
@@ -15,7 +15,7 @@ function Editor({ target, initialState }) {
     page.appendChild(editor);
     target.appendChild(page);
 
-    const postTitle = new PostTitle({
+    const postTitle = new EditorTitle({
         div: editor,
         initialState: initialState,
 
@@ -24,7 +24,7 @@ function Editor({ target, initialState }) {
         },
     });
 
-    const postContent = new PostContent({
+    const postContent = new EditorContent({
         div: editor,
         initialState: initialState,
 

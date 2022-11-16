@@ -2,17 +2,18 @@ import { isNew } from '../utils/errorHandler.js';
 import { createElement } from '../utils/dom.js';
 import { request } from '../utils/api.js';
 import { documentsUrl } from '../utils/util.js';
-import DocumentHeader from './DocumentHeader.js';
-import DocumentList from './DocumentList.js';
+
 import { addMethod, deleteMethod } from '../utils/optionsMethod.js';
 import { route } from '../utils/route.js';
+import NavbarDocumentList from './NavbarDocumentList.js';
+import NavbarHeader from './NavbarHeader.js';
 
 function Navbar({ target }) {
     isNew(new.target);
     const nav = createElement('nav');
     nav.className = 'sidebar';
 
-    new DocumentHeader({
+    new NavbarHeader({
         target: nav,
         initialState: {
             text: 'Notion',
@@ -22,7 +23,7 @@ function Navbar({ target }) {
         },
     });
 
-    const documentList = new DocumentList({
+    const documentList = new NavbarDocumentList({
         target: nav,
         initialState: [],
         onDelete: async (id) => {

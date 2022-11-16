@@ -1,7 +1,7 @@
 import { $, createElement } from '../utils/dom.js';
 import { isString } from '../utils/errorHandler.js';
 
-function PostTitle({ div, initialState, onChangeTitle }) {
+function EditorTitle({ div, initialState, onChangeTitle }) {
     const editorTitle = createElement('div');
     this.state = initialState;
 
@@ -42,4 +42,4 @@ function PostTitle({ div, initialState, onChangeTitle }) {
     onKeyupEditorTitle();
 }
 
-export default PostTitle;
+export default EditorTitle;

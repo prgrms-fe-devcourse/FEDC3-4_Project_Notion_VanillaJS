@@ -24,7 +24,6 @@ function App({ target }) {
             const [, , postId] = pathname.split('/');
 
             await navbarPage.setState();
-            console.log(postId);
             await postEditPage.setState({ postId });
         }
     };

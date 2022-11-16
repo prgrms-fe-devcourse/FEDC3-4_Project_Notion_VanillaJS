@@ -4,7 +4,7 @@ import { route } from '../utils/route.js';
 import { documentsUrl } from '../utils/util.js';
 import { addHeaderMethod } from '../utils/optionsMethod.js';
 
-function DocumentHeader({ target, initialState }) {
+function NavbarHeader({ target, initialState }) {
     isNew(new.target);
 
     const header = createElement('div');
@@ -37,4 +37,4 @@ function DocumentHeader({ target, initialState }) {
     onClickHeader();
 }
 
-export default DocumentHeader;
+export default NavbarHeader;

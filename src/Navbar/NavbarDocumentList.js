@@ -2,7 +2,7 @@ import { createElement, targetClosest, targetContains } from '../utils/dom.js';
 import { isNew } from '../utils/errorHandler.js';
 import { route } from '../utils/route.js';
 
-function DocumentList({ target, initialState, onDelete, onAdd }) {
+function NavbarDocumentList({ target, initialState, onDelete, onAdd }) {
     isNew(new.target);
     const postList = createElement('div');
 
@@ -68,4 +68,4 @@ function DocumentList({ target, initialState, onDelete, onAdd }) {
     this.render();
 }
 
-export default DocumentList;
+export default NavbarDocumentList;

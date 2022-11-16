@@ -1,7 +1,7 @@
 import { createElement } from '../utils/dom.js';
 import { isString } from '../utils/errorHandler.js';
 
-function PostContent({ div, initialState, onChangeContent }) {
+function EditorContent({ div, initialState, onChangeContent }) {
     const editorContent = createElement('div');
     this.state = initialState;
 
@@ -43,4 +43,4 @@ function PostContent({ div, initialState, onChangeContent }) {
     this.render();
 }
 
-export default PostContent;
+export default EditorContent;
