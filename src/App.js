@@ -34,4 +34,6 @@ export default function App({ $target }) {
   window.addEventListener("title-change", () => {
     postsPage.setState();
   });
+
+  window.addEventListener("popstate", () => this.route());
 }
