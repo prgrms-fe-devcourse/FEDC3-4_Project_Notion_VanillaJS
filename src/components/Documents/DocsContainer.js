@@ -15,6 +15,12 @@ export default function DocsContainer({ $target }) {
       });
       this.setState();
     },
+    onDelete: async ({ id }) => {
+      await request(`/documents/${id}`, {
+        method: "DELETE",
+      });
+      this.setState();
+    },
   });
 
   this.setState = async () => {
