@@ -8,6 +8,7 @@ export const NEW_TITLE = '타이틀을 입력해 주세요';
 export const NEW_CONTENT = '내용을 입력해 주세요';
 export const NEW_ROOT_ID = 'RootDocument';
 
+
 // ERROR
 export const ERROR_MESSAGE = {
   NOT_STRING: '문자열이 아닙니다.',
