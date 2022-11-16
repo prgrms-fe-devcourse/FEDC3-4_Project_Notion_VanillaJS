@@ -9,7 +9,9 @@ export const documentUser = (userId) => {
           class="mr-1 inline-flex h-5 w-5 items-center justify-center rounded bg-gray-600 text-sm text-white"
           >U</span
         >
-        <span class="font-semibold">${userId ? userId : BASE_INIT_USERNAME}</span>
+        <span class="font-semibold" data-event="userNameButton">${
+          userId ? userId : BASE_INIT_USERNAME
+        }</span>
       </div>
     </div>
     <div>

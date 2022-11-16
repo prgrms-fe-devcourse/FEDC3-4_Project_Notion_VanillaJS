@@ -140,6 +140,7 @@ export default function App({ $app }) {
       isString(userId);
       isNumber(documentId);
       checkDocumentPath(document);
+
       const documentEditor = new DocumentEditor({
         $target: $main,
         initialState: {
