@@ -29,6 +29,9 @@ body {
   height: 100vh;
   margin-left: 100px;
 }
+.button-group {
+  display: inline-block;
+}
 
 [name="title"],
 [name="content"] {

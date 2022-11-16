@@ -23,9 +23,11 @@ export default function DocsList({ $target, initialState, onAdd, onDelete }) {
         ${docsList
           .map((doc) => {
             return `<li class="item" data-id=${doc.id}> 
-              <span name="item-content"> ${doc.title} </span> 
-              <button name="add" > + </button> 
-              <button name="delete"> - </button>
+              <span name="item-content"> ${doc.title} </span>
+              <div data-group-id=${doc.id} class="button-group"">
+                <button name="add"> + </button> 
+                <button name="delete"> - </button>
+              </div>
             </li>
               ${
                 doc.documents && doc.documents.length > 0
@@ -73,7 +75,7 @@ export default function DocsList({ $target, initialState, onAdd, onDelete }) {
       const id = $li?.dataset.id;
       const selectedDocs = this.state.selectedDocs;
 
-      // toggle
+      // subList toggle
       if (selectedDocs.has(id)) {
         selectedDocs.delete(id);
       } else {
