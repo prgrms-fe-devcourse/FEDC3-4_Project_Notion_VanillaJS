@@ -28,7 +28,7 @@ function Editor({ target, initialState }) {
 
     const post = await request(`/documents/${nextState.postId}`);
     isObject(post);
-
+    postTitle.setState(post);
     this.render();
   };
 

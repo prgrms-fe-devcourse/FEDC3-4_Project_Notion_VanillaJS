@@ -60,6 +60,7 @@ function DocumentList({ target, initialState, onDelete, onAdd }) {
       } else if (targetContains(e, 'add-btn')) {
         onAdd(postId);
       } else {
+        // refactor 해야함
         route(`/documents/${postId}`);
       }
     });

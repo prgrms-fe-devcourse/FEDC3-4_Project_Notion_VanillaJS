@@ -1,4 +1,4 @@
-import { createElement } from '../utils/dom.js';
+import { $, createElement } from '../utils/dom.js';
 import { isString } from '../utils/errorHandler.js';
 
 function PostTitle({ div, initialState, onChangeTitle }) {
