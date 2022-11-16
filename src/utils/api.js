@@ -1,4 +1,4 @@
-import { API_END_POINT } from './apiUrl.js';
+import { API_END_POINT } from '../../url.js';
 
 export const request = async (url, option = {}) => {
   try {
