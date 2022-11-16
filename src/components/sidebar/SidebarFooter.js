@@ -22,10 +22,7 @@ export default function SidebarFooter({ $target, onAddButtonClick }) {
   this.mounted = () => {};
 
   this.setEvent = () => {
-    addEvent(this.$target, "click", ".new-post-btn", () => {
-      console.log("새 Root 페이지 생성");
-      onAddButtonClick();
-    });
+    addEvent(this.$target, "click", ".new-post-btn", onAddButtonClick);
   };
 
   this.init();
