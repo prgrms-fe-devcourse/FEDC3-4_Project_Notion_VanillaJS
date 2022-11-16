@@ -9,8 +9,8 @@ export default function DocsContainer({ $target }) {
 
   const docsList = new DocsList({
     $target: $docsContainer,
-    initialState: [],
-    onClick: async ({ parent, title }) => {
+    initialState: { docs: [], selectedDocs: new Set() },
+    onAdd: async ({ parent, title }) => {
       await request("/documents", {
         method: "POST",
         body: JSON.stringify({ parent, title }),
@@ -27,6 +27,6 @@ export default function DocsContainer({ $target }) {
 
   this.setState = async () => {
     const documents = await request("/documents");
-    docsList.setState(documents);
+    docsList.setState({ docs: documents });
   };
 }

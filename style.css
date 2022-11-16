@@ -3,6 +3,10 @@ body {
   margin: 0 0;
 }
 
+.hidden {
+  display: none;
+}
+
 .item {
   list-style: none;
   cursor: pointer;
