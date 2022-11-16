@@ -1,6 +1,3 @@
-import { push } from "../router";
-import { getItem } from "../storage";
-
 export default function SideBar_add({ $target, onClickAdd }) {
   if (!new.target) {
     throw new Error("App 컴포넌트에 new 생성자가 필요합니다.");

@@ -12,9 +12,8 @@ export default function SideBar({ $target, initialState, onClickAdd }) {
 
   this.$sideBar = document.createElement("nav");
   this.$sideBar.className = "sideBar";
-  this.$sideBarChild = document.createElement("div");
+  this.$sideBarChild = document.createElement("div"); //sidebar에서만 세로스크롤 하기 위해 내부 div로 한번 감싸줌
   this.$sideBarChild.innerHTML = "<header><span>김성현의 Notion</span></header>";
-  this.$sideBar.appendChild(this.$sideBarChild);
 
   this.$personal = document.createElement("div");
   this.$personal.className = "classification";
@@ -28,6 +27,7 @@ export default function SideBar({ $target, initialState, onClickAdd }) {
   this.$add.className = "sideBarAdd";
 
   $target.appendChild(this.$sideBar);
+  this.$sideBar.appendChild(this.$sideBarChild);
 
   this.setState = (nextState) => {
     this.state = nextState;

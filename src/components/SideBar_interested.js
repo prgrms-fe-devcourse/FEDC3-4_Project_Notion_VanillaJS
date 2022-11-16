@@ -15,20 +15,18 @@ export default function SideBar_interested({ $target, initialState }) {
   };
 
   this.makeChildLi = ($nodes) => {
-    return $nodes
-      .map((res) => {
-        //prettier-ignore
-        return `
-          <li class="fold" data-id="${res.id}" style="padding-left:7px">
-            <div 
-              class="title" 
-              style="${this.state.res_content.id===res.id ? "font-weight:bold;color:#000" : ""}; width:210px"> 
-                ${res.title || "제목 없음"}
-            </div>
-          </li>
-        `
-      })
-      .join("");
+    //prettier-ignore
+    return $nodes.map((res) => {
+      return `
+        <li class="fold" data-id="${res.id}" style="padding-left:7px">
+          <div 
+            class="title" 
+            style="${this.state.res_content.id===res.id ? "font-weight:bold;color:#000;" : ""} width:210px"> 
+              ${res.title || "제목 없음"}
+          </div>
+        </li>
+      `;
+    }).join("");
   };
 
   this.render = () => {

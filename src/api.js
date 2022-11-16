@@ -1,7 +1,7 @@
 const API_END_POINT = process.env.FEDC_SERVER_URL;
 
 const sleep = (ms) => {
-  //sleep 함수
+  //delay 실험 용 sleep 함수
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 

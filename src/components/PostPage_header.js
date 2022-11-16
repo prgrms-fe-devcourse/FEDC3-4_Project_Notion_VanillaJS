@@ -22,6 +22,7 @@ export default function PostPageHeader({ $target, initialState, onDelete }) {
     const newArr = [...arr];
 
     for (let i = 0; i < docs.length; i++) {
+      //재귀함수 이용하여 타겟의 id가 발견될떄 까지 순회
       const id = docs[i].id;
       const title = docs[i].title;
 
@@ -41,6 +42,7 @@ export default function PostPageHeader({ $target, initialState, onDelete }) {
   };
 
   this.makeDday = (date) => {
+    //최근 수정 시간 만들기
     const today = new Date();
     const myDay = new Date(date);
     const misec = today - myDay < 0 ? 0 : today - myDay;
@@ -65,21 +67,21 @@ export default function PostPageHeader({ $target, initialState, onDelete }) {
   };
 
   this.render = () => {
-    const route = this.breadCrumb([], this.state.res_document);
+    const breadCrumb = this.breadCrumb([], this.state.res_document);
     const favoritesList = getItem("favoritesList", []);
-    const target = favoritesList.find((fav) => fav.id === this.state.res_content.id);
+    const isFavorite = favoritesList.find((fav) => fav.id === this.state.res_content.id);
 
     this.$header.innerHTML = `
       <div class="header_title">
-        ${route
+        ${breadCrumb
           .map((r) => {
-            return `<a name="link" data-id="${r.id}">${r.title || "제목 없음"}</a>`;
+            return `<div name="link" data-id="${r.id}">${r.title || "제목 없음"}</div>`;
           })
-          .join(" / ")}
+          .join("/&nbsp")}
       </div>
       <div class="header_action_btns">
         <span>${this.makeDday(this.state.res_content.updatedAt)}</span>
-        <button type="button" name="star" class=${target ? "on" : "off"}></button>  
+        <button type="button" name="star" class=${isFavorite ? "on" : "off"}></button>  
         <button type="button" name="share">공유</button>
         <button type="button" name="delete">삭제</button>
       </div>
@@ -87,45 +89,55 @@ export default function PostPageHeader({ $target, initialState, onDelete }) {
   };
 
   this.$header.addEventListener("click", (e) => {
-    const { name } = e.target;
+    const { target } = e;
 
-    if (name === "delete") {
-      if (confirm("정말 삭제하시겠습니까?")) {
-        this.onDelete(this.state.res_content.id);
+    if (target) {
+      const { name } = target;
+
+      if (name === "delete") {
+        if (confirm("정말 삭제하시겠습니까?")) {
+          this.onDelete(this.state.res_content.id);
+        }
+      } else if (name === "share") {
+        const t = document.createElement("textarea");
+
+        document.body.appendChild(t);
+
+        t.value = window.location.href;
+        t.select();
+
+        document.execCommand("copy");
+        document.body.removeChild(t);
+
+        alert("링크가 복사되었습니다. 원하는 사람에게 공유해보세요");
+      } else if (name === "star") {
+        const favoritesList = getItem("favoritesList", []);
+        const target = favoritesList.find((fav) => fav.id === this.state.res_content.id);
+
+        if (target) {
+          //이미 즐겨찾기에 등록된 거라면? 없애기
+          setItem(
+            "favoritesList",
+            favoritesList.filter((fav) => fav.id !== this.state.res_content.id)
+          );
+
+          target.className = "off";
+        } else {
+          //즐겨찾기에 등록되지 않은 거라면? 추가
+          setItem("favoritesList", [
+            ...favoritesList,
+            { id: this.state.res_content.id, title: this.state.res_content.title },
+          ]);
+
+          target.className = "on";
+        }
+
+        push(`/posts/${this.state.res_content.id}`); //사이드바 리렌더링 위해 호출
+      } else if (name === "link") {
+        const { id } = target.dataset;
+
+        push(`/posts/${id}`);
       }
-    } else if (name === "share") {
-      const t = document.createElement("textarea");
-
-      document.body.appendChild(t);
-
-      t.value = window.location.href;
-      t.select();
-
-      document.execCommand("copy");
-      document.body.removeChild(t);
-
-      alert("링크가 복사되었습니다. 원하는 사람에게 공유해보세요");
-    } else if (name === "star") {
-      const favoritesList = getItem("favoritesList", []);
-      const target = favoritesList.find((fav) => fav.id === this.state.res_content.id);
-      if (target) {
-        setItem(
-          "favoritesList",
-          favoritesList.filter((fav) => fav.id !== this.state.res_content.id)
-        );
-        e.target.className = "off";
-      } else {
-        setItem("favoritesList", [
-          ...favoritesList,
-          { id: this.state.res_content.id, title: this.state.res_content.title },
-        ]);
-        e.target.className = "on";
-      }
-      push(`/posts/${this.state.res_content.id}`);
-    } else if (name === "link") {
-      const { id } = e.target.dataset;
-
-      push(`/posts/${id}`);
     }
   });
 }
