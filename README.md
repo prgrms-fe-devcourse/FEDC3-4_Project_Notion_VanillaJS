@@ -1,8 +1,12 @@
 # Simple Notion-like Text Editor using VanillaJS
-## Overview
+## Features
+- Auto save content
+- Add, delete, and edit notes
+- Create nested notes
+- Dark/Light Mode toggle
+- Quick link to nested notes (in progress)
+- Rich text editor options (in progress)
+## Layout
 
-### Features
-### Layout
-
-### Workflow
-### Architecture
+## Workflow
+## Architecture
