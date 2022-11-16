@@ -17,7 +17,7 @@ export default function DocumentEditor({ $target, initialState, saveApi, saveLoc
       <div id="editorTitle" contenteditable="true">${this.state.title}</div>
       <div id="editorMenu">
         <button class="w-12" data-event="bold">
-            <b>B</b>
+            <b>BB</b>
         </button>
         <button class="w-12" data-event="italic">
             <i>I</i>
