@@ -16,25 +16,17 @@ export default function PostPage({ $target, initialState }) {
 
   new PostPageHeader({ $target: $postPage });
 
-  let timer = null;
-
   const editor = new Editor({
     $target: $postPage,
     initialState,
     onEditTitle: (id, data) => {
-      if (timer !== null) {
-        clearTimeout(timer);
-      }
-      timer = setTimeout(async () => {
+      debounce(async () => {
         await modifyDocuments(id, data);
         customEvent.updateState();
       }, 100);
     },
     onEditContent: (id, data) => {
-      if (timer !== null) {
-        clearTimeout(timer);
-      }
-      timer = setTimeout(async () => {
+      debounce(async () => {
         await modifyDocuments(id, data);
       }, 300);
     },
