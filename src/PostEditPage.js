@@ -4,8 +4,9 @@ import { request } from "./Api.js";
 import LinkButton from "./LinkButton.js";
 import { CheckNew } from "./Error.js";
 import Navi from "./Navi.js";
+import { push, update } from "./router.js";
 
-export default function PostEditPage({ $target, initialState, listUpdate }) {
+export default function PostEditPage({ $target, initialState }) {
   CheckNew(new.target);
 
   const $postEditPage = document.createElement("div");
@@ -72,7 +73,7 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
             postId: createPost.id,
           });
 
-          listUpdate();
+          push(createPost.id);
         } else {
           if (post.title === "") {
             alert("제목을 입력해주세요!");
@@ -91,14 +92,13 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
             ...post,
             postId: post.id,
           });
-
-          listUpdate();
         }
 
         $loading.innerHTML = `${Date()}<h1>저장완료</h1>`;
         setTimeout(() => {
           $loading.innerHTML = ``;
         }, 3000);
+        update(post.id);
       }, 1000);
     },
   });

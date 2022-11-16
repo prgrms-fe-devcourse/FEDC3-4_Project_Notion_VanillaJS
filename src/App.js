@@ -26,11 +26,6 @@ export default function App({ $target, initialState }) {
         content: "",
       },
     },
-
-    // 의존성 발생
-    listUpdate: () => {
-      postPage.setState();
-    },
   });
 
   this.route = async () => {
@@ -43,7 +38,7 @@ export default function App({ $target, initialState }) {
     } else if (pathname.indexOf("/posts/") === 0) {
       const [, , postId] = pathname.split("/");
       await postEditPage.setState({ postId });
-      await postPage.setState();
+      await postPage.setState({ postId });
     }
   };
 

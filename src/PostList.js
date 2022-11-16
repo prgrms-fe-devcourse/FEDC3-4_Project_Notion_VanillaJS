@@ -20,9 +20,13 @@ export default function PostList({
   `;
 
   this.state = initialState;
+  this.postId = null; // 현재 선택된 문서의 id
 
-  this.setState = (nextState) => {
+  this.setState = (nextState, postId) => {
     this.state = nextState;
+
+    if (postId) this.postId = +postId.postId;
+
     this.render();
   };
 
@@ -47,7 +51,6 @@ export default function PostList({
   };
 
   // 재귀적
-  let selectedPostId = null; // 현재 선택된 문서의 id
   this.makeList = (docList, depth = 0) => {
     return docList
       .map(
@@ -56,7 +59,7 @@ export default function PostList({
             cur.title
           }" style="list-style:none; background-color:initial;">            
             <p class="title" style="margin:0; display:inline-block; background-color:${
-              cur.id === selectedPostId ? `green;` : `transparent;`
+              cur.id === this.postId ? `#787878;` : `transparent;`
             }">${this.visible(cur.id) === "none" ? "▶" : "▼"}${cur.title}</p>
             <button class="add" style="position:sticky; right:25px;">+</button>
             <button class="delete" style="position:sticky; right:1px;">x</button>          
@@ -83,8 +86,6 @@ export default function PostList({
     const name = target.className;
 
     if (name === "title") {
-      selectedPostId = +id;
-      console.log(typeof selectedPostId);
       push(`/posts/${id}`);
 
       const $ul = $li.childNodes[7];

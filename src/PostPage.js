@@ -18,11 +18,11 @@ export default function PostPage({ $target, initialState }) {
     background-color: #dcdcdc;
   `;
 
-  this.setState = async () => {
+  this.setState = async (postId = null) => {
     const posts = await request("documents", {
       method: "GET",
     });
-    postList.setState(posts);
+    postList.setState(posts, postId);
 
     // setState마다 render()를 진행하면 화면이 깜빡거리는 것처럼 보임.
   };
