@@ -12,7 +12,6 @@ export const initRouter = (onRoute) => {
 };
 
 export const push = (nextUrl) => {
-  console.log(nextUrl);
   window.dispatchEvent(
     new CustomEvent('route-change', {
       detail: {
