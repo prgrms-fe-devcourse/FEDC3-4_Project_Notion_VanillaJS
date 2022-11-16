@@ -130,7 +130,6 @@ export default function App({ $app }) {
   });
 
   this.route = async () => {
-    console.log(location.pathname);
     const [, , userId, document, documentId] = location.pathname.split('/');
     if (!userId) {
       initLocalStorage(BASE_INIT_USERNAME);
@@ -180,23 +179,21 @@ export default function App({ $app }) {
         },
       });
 
-      (async function compareApiDataAndLocalData() {
-        const apiData = await getDocumentById({ id: documentId });
-        const localData = getLocalStorage(documentId);
-        documentEditor.setState(apiData);
-        if (localData?.tempUpdateAt > apiData.updatedAt) {
-          const changeApiDataToLocalData = confirm(CHANGE_API_DATA_TO_LOCAL_DATA);
-          if (changeApiDataToLocalData) {
-            putDocument({
-              id: documentId,
-              title: localData.title,
-              content: localData.content,
-            });
-          }
-          removeLocalStorage(documentId);
-          location.reload();
+      const apiData = await getDocumentById({ id: documentId });
+      const localData = getLocalStorage(documentId);
+      documentEditor.setState(apiData);
+      if (localData?.tempUpdateAt > apiData.updatedAt) {
+        const changeApiDataToLocalData = confirm(CHANGE_API_DATA_TO_LOCAL_DATA);
+        if (changeApiDataToLocalData) {
+          putDocument({
+            id: documentId,
+            title: localData.title,
+            content: localData.content,
+          });
         }
-      })();
+        removeLocalStorage(documentId);
+        location.reload();
+      }
     }
   };
 
