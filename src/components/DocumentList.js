@@ -6,6 +6,7 @@ export default function DocumentList({
   onRemoveDocument
 }){
   const $list = document.createElement('div');
+  $list.className = 'list-container';
   $target.appendChild($list);
 
   this.state = initialState;
@@ -26,14 +27,16 @@ export default function DocumentList({
       return inner
     }
     inner += `
-    <ul>
+    <ul class="list-wrap">
       ${data
         .map(
           ({
             id,
             title,
             documents,
-          }) => `<li data-id="${id}">${title}
+          }) => `<li class="list-item" data-id="${id}">
+          <i class="fas fa-caret-right"></i>
+          ${title}
           <button class=create>+</button>
           <button class=remove>-</button>
           </li>

@@ -8,6 +8,7 @@ export default function Footer({
 
   this.render = () => {
     $footer.innerHTML = `
+      <i class="fas fa-plus"></i>
       <strong class="create-root">새 문서 추가</strong>
     `;
   }
