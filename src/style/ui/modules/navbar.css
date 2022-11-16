@@ -1,0 +1,45 @@
+.header{
+    margin-bottom: 30px;
+}
+
+.document-list{
+    padding-left: 10px;
+}
+
+.list-style-type{
+    list-style-type: none;
+}
+
+.sidebar{
+    width: 20%;
+    font-size: 15px;
+    line-height: 1rem;
+    background-color: rgb(245, 244, 241);
+    padding: 1em;
+}
+
+.row-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    min-height: 27px;
+    color: #cccbc7;
+    cursor: pointer;
+    padding-left: 10px;
+}
+
+.item-text{
+    display: flex;
+    width: 75%;
+    align-items: center;
+}
+
+.item-button{
+    display: flex;
+    flex-direction: row-reverse;
+    /*align-items: center;*/
+    width: inherit;
+    /*padding-left: 20px;*/
+}
+
