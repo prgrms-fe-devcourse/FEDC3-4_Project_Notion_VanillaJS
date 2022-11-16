@@ -1,14 +1,20 @@
 import { makeElement } from "../../util/templates.js";
 
-export default function Edtior({ 
+export default function Edtior({
   $target,
   initialState = {
-    title: '',
-    content: ''
+    title: "",
+    content: "",
   },
-  onEdit 
+  onEdit,
 }) {
   const $editor = makeElement("div", "editor");
+
+  $editor.innerHTML = `
+  <input type="text" name="title" class="title" id="cheese" />
+  <textarea name="content" class="content"></textarea>
+`;
+
   $target.appendChild($editor);
 
   this.state = initialState;
@@ -20,27 +26,45 @@ export default function Edtior({
 
   this.init = () => {
     $editor.innerHTML = `
-      <input type="text" name="title" class="title" value="" />
-      <textarea name="content" class="content"></textarea>
+      <input type="text" name="title" class="title" disabled/>
+      <textarea name="content" class="content" disabled></textarea>
     `;
   };
 
   this.render = () => {
-    $editor.querySelector("[name=title]").value = this.state.title;
-    $editor.querySelector("[name=content]").value = this.state.content;
+    const { title, content } = this.state;
+    const $title = $editor.querySelector("[name=title]");
+    const $content = $editor.querySelector("[name=content]");
+
+    $title.disabled = $content.disabled = false;
+
+    if (!title) {
+      $title.placeholder = "Give it a title... ✍️";
+    }
+
+    $title.value = title;
+    $content.value = content;
+
+    $title.focus();
   };
 
-  this.init();
+  $editor.addEventListener("click", (e) => {
+    const { disabled } = e.target;
 
-  $editor.addEventListener('keyup', e => {
+    if (disabled) {
+      alert("Select note from list!");
+    }
+  });
+
+  $editor.addEventListener("keyup", (e) => {
     const { target } = e;
-    const name = target.getAttribute('name');
+    const name = target.getAttribute("name");
 
     const nextState = {
       ...this.state,
-      [name]: target.value
-    }
-    
+      [name]: target.value,
+    };
+
     onEdit(nextState);
-  })
+  });
 }
