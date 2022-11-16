@@ -1,6 +1,7 @@
 import DocumentEditorPage from './components/DocumentEditorPage.js';
 import NavBar from './components/NavBar.js';
 import { request } from './utils/api.js';
+import { getRemoveIdList } from './utils/utils.js';
 
 export default function NotionApp({ $container }) {
   this.state = {
@@ -32,6 +33,20 @@ export default function NotionApp({ $container }) {
       history.pushState(null, null, `/documents/${createDocument.id}`);
       fetchDocumentList();
       route();
+    },
+    onDelete: async (id) => {
+      const targetDocument = await request(`/${id}`);
+      const removeIdList = getRemoveIdList([targetDocument]);
+      if (confirm(`하위문서를 포함해 ${removeIdList.length}개가 삭제됩니다`)) {
+        await Promise.all(
+          removeIdList.map((id) =>
+            request(`/${id}`, {
+              method: 'DELETE',
+            })
+          )
+        );
+        fetchDocumentList();
+      }
     },
   });
 

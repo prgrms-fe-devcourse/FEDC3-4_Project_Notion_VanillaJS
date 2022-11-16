@@ -1,7 +1,7 @@
 import { getItem, setItem } from '../utils/storage.js';
 import DocumentList from './DocumentList.js';
 
-export default function NavBar({ $container, initialState, onSelect, onAdd }) {
+export default function NavBar({ $container, initialState, onSelect, onAdd, onDelete }) {
   const $nav = document.createElement('nav');
   $container.appendChild($nav);
   const DOCUMENT_ISOEPN_LOCAL_KEY = 'isOpen';
@@ -68,7 +68,7 @@ export default function NavBar({ $container, initialState, onSelect, onAdd }) {
         break;
       case 'delete':
         console.log('삭제예정', id);
-        // onDelete(id);
+        onDelete(id);
         break;
       default:
         console.log('세부컨텐츠 보여줌', id);
