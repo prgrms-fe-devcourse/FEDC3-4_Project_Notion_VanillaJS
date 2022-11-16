@@ -13,75 +13,75 @@ const INIT_DEBOUNCE_TIME = 250;
  * }
  */
 export default function PostEditor({
-	$target,
-	initialState,
-	onChangeTitleAndCurrentPath,
+  $target,
+  initialState,
+  onChangeTitleAndCurrentPath,
 }) {
-	const $div = createElement({ element: 'div', $target, className: 'editor' });
-	const $title = createElement({
-		element: 'input',
-		$target: $div,
-		className: 'editor-title',
-		attributes: {
-			type: 'text',
-			name: 'title',
-			placeholder: '제목을 입력해주세요.',
-		},
-	});
-	const $content = createElement({
-		element: 'div',
-		$target: $div,
-		className: 'editor-content',
-		attributes: {
-			contentEditable: true,
-			name: 'content',
-		},
-	});
+  const $div = createElement({ element: 'div', $target, className: 'editor' });
+  const $title = createElement({
+    element: 'input',
+    $target: $div,
+    className: 'editor-title',
+    attributes: {
+      type: 'text',
+      name: 'title',
+      placeholder: '제목을 입력해주세요.',
+    },
+  });
+  const $content = createElement({
+    element: 'div',
+    $target: $div,
+    className: 'editor-content',
+    attributes: {
+      contentEditable: true,
+      name: 'content',
+    },
+  });
 
-	this.state = initialState;
+  this.state = initialState;
 
-	this.setState = (nextState) => {
-		this.state = nextState;
-		this.render();
-	};
+  this.setState = nextState => {
+    this.state = nextState;
+    this.render();
+  };
 
-	this.render = () => {
-		const { title, content } = this.state;
-		$title.value = title;
-		$content.innerHTML = content;
-	};
+  this.render = () => {
+    const { title, content } = this.state;
+    $title.value = title;
+    $content.innerHTML = content;
+  };
 
-	this.focus = () => {
-		$title.focus();
-	};
+  this.focus = () => {
+    $title.focus();
+  };
 
-	$title.addEventListener(
-		'input',
-		debounce(async () => {
-			const changedTitle = $title.value;
-			const { id } = this.state;
-			const changedCurrentPath = changeCurrentPath(changedTitle);
+  $title.addEventListener(
+    'input',
+    debounce(async () => {
+      const changedTitle = $title.value;
+      const { id } = this.state;
+      const changedCurrentPath = changeCurrentPath(changedTitle);
 
-			await updateDocument(id, { title: changedTitle });
-			onChangeTitleAndCurrentPath(id, changedCurrentPath);
-			this.setState({
-				...this.state,
-				title: changedTitle,
-			});
-		}, INIT_DEBOUNCE_TIME)
-	);
+      await updateDocument(id, { title: changedTitle });
+      onChangeTitleAndCurrentPath(id, changedCurrentPath);
+      this.setState({
+        ...this.state,
+        title: changedTitle,
+      });
+    }, INIT_DEBOUNCE_TIME),
+  );
 
-	$content.addEventListener(
-		'input',
-		debounce(async () => {
-			await updateDocument(this.state.id, { content: $content.innerHTML });
-		}, INIT_DEBOUNCE_TIME)
-	);
+  $content.addEventListener(
+    'input',
+    debounce(async () => {
+      await updateDocument(this.state.id, { content: $content.innerHTML });
+    }, INIT_DEBOUNCE_TIME),
+  );
 
-	$content.addEventListener('input', (event) => {
-		const currentNode = window.getSelection().anchorNode;
-		const parentNode = currentNode.parentNode;
+  $content.addEventListener('input', event => {
+    const currentNode = window.getSelection().anchorNode;
+    const parentNode = currentNode.parentNode;
 
-		makeRichContent($content, currentNode, parentNode);
-	});
+    makeRichContent($content, currentNode, parentNode);
+  });
 }
