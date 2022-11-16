@@ -1,6 +1,12 @@
 import { makeLi, makeUl, makeElement } from "../../util/templates.js";
 import { hasClass, addClass, removeClass } from "../../util/helper.js";
 import { session } from "../../util/storage.js";
+import {
+  setListScrollPos,
+  goToListScrollPos,
+  SET_SCROLL_POS,
+  LIST_SCROLLTOP_SAVE_KEY,
+} from "../../util/scrollPos.js";
 
 export default function DocList({
   $target,
@@ -16,7 +22,6 @@ export default function DocList({
   $target.appendChild($listContainer);
 
   const $list = makeUl("root");
-  const LIST_SCROLLTOP_SAVE_KEY = "listScrollPos";
 
   this.state = initialState;
 
@@ -30,7 +35,7 @@ export default function DocList({
     $list.innerHTML = "";
     createList($list, this.state.documents);
     $listContainer.appendChild($list);
-    goToListScrollPos();
+    goToListScrollPos($list);
   };
 
   const createList = ($target, obj) => {
@@ -56,27 +61,41 @@ export default function DocList({
           }
 
           $li.appendChild($ul);
+
+          if (hasClass($ul, "on", "parent")) {
+            const $viewMore =
+              $ul.previousElementSibling.querySelector(".view-more");
+            addClass($viewMore, "on");
+          }
         }
         $target.appendChild($li);
       }
     });
   };
 
-  const goToListScrollPos = () => {
-    var listScrollPos = session.getItem(LIST_SCROLLTOP_SAVE_KEY, 0);
-    if (listScrollPos > 0) {
-      console.log(listScrollPos);
-      $list.scrollTo(0, listScrollPos);
-      session.removeItem(LIST_SCROLLTOP_SAVE_KEY);
-    }
-  };
+  window.addEventListener(SET_SCROLL_POS, (e) => {
+    let { position, calculate } = e.detail;
 
-  window.addEventListener("beforeunload", () => {
-    session.setItem(LIST_SCROLLTOP_SAVE_KEY, $list.scrollTop);
+    /**
+     * 1. calculate amount and send event
+     * OR
+     * 2. ask to calculate in DocList
+     */
+
+    switch (calculate) {
+      case "toBottom":
+        position = $list.scrollHeight;
+        break;
+      case "current":
+        position = $list.scrollTop;
+        break;
+    }
+    session.setItem(LIST_SCROLLTOP_SAVE_KEY, position);
   });
 
   $listContainer.addEventListener("click", (e) => {
     e.preventDefault();
+
     const $li = e.target.closest(".list-item");
     if (!$li) return;
 
@@ -104,17 +123,22 @@ export default function DocList({
           }
           break;
         case "add":
+          setListScrollPos({ position: $list.scrollTop + $li.offsetHeight });
           onAdd(documentId);
           break;
         case "remove":
           if (hasClass($li, "on")) {
-            alert('Currently open! Cannot delete 🙅‍♀️');
+            alert("Currently open! Cannot delete 🙅‍♀️");
             return;
           }
-          if(confirm('Are you sure you want to delete? 🚮')) onRemove(documentId);
+          if (confirm("Are you sure you want to delete? 🚮")) {
+            setListScrollPos({ calculate: 'current' });
+            onRemove(documentId, this.state.openedDocId);
+          }
           break;
       }
     } else if (tagName === "A" && splitedClassName === "title") {
+      setListScrollPos({ calculate: 'current' });
       document
         .querySelectorAll(".list-item")
         .forEach(($li) => $li.classList.remove("on"));
@@ -122,7 +146,3 @@ export default function DocList({
     }
   });
 }
-
-/* To do:
-- stay on current doc tab during setState -> state variable for currently open needed
-*/

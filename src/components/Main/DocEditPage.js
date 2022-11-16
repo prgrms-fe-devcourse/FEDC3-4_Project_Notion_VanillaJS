@@ -6,6 +6,7 @@ import { getDocument, editDocument } from "../api.js";
 import { local } from "../../util/storage.js";
 import { debounce } from "../../util/helper.js";
 import { push } from "../router.js";
+import { setListScrollPos } from "../../util/scrollPos.js";
 
 export default function DocEditPage({
   $target,
@@ -66,6 +67,7 @@ export default function DocEditPage({
         content: tempDoc.content,
       },
     });
+    setListScrollPos({ calculate: 'current' })
     push(this.state);
     local.removeItem(docTempSaveKey);
   }, 1000);

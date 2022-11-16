@@ -4,6 +4,7 @@ import DocListFooter from "./DocListFooter.js";
 import { getDocument, createDocument, deleteDocument } from "../api.js";
 import { push } from "../router.js";
 import { makeElement } from "../../util/templates.js";
+import { setListScrollPos } from "../../util/scrollPos.js";
 
 export default function DocListPage({ 
   $target,
@@ -37,10 +38,9 @@ export default function DocListPage({
       })
       push(newDoc.id);
     },
-    onRemove: async (documentId) => {
+    onRemove: async (documentId, currentDocId) => {
       const deleted = await deleteDocument(documentId)
-      // ** todo: add deleted doc's parent to setState
-      this.setState()
+      push(currentDocId);
     }
   })
 
@@ -52,8 +52,8 @@ export default function DocListPage({
         'title': '',
         'parent': null
       })
+      setListScrollPos({calculate: 'toBottom'})
       push(newRootDoc.id);
-      this.setState()
     }
   })
 
@@ -71,4 +71,8 @@ export default function DocListPage({
       })
     }
   }
+
+  window.addEventListener("beforeunload", () => {
+    setListScrollPos({ calculate: 'current' });
+  });
 }
