@@ -1,6 +1,7 @@
 import { push } from "../../utils/router.js";
 import instanceCheck from "../../utils/instanceCheck.js";
 
+/**user와 email을 받아서 헤더로 그리는 컴포넌트 */
 export default function Header({ $target, initialState }) {
   instanceCheck(new.target);
 

@@ -4,6 +4,7 @@ import MarkUpList from "./MarkUpList.js";
 import { getItem, removeItem, setItem } from "../../utils/storage.js";
 import instanceCheck from "../../utils/instanceCheck.js";
 
+/**편집기의 내용을 서버에 저장하고 불러오는 컴포넌트 */
 export default function PostEditPage({ $target, initialState, listUpdate }) {
   instanceCheck(new.target);
 

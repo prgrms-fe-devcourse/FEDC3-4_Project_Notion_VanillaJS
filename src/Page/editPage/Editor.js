@@ -1,5 +1,6 @@
 import instanceCheck from "../../utils/instanceCheck.js";
 
+/**편집기를 그리는 컴포넌트 */
 export default function Editor({
   $target,
   initialState = {

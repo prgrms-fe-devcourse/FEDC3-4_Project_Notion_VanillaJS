@@ -4,6 +4,7 @@ import { push } from "../../utils/router.js";
 import Header from "./Header.js";
 import instanceCheck from "../../utils/instanceCheck.js";
 
+/**list 버튼을 눌렀을 때 해당 내용을 서버와 주고받고 해당 주소로 이동하는 컴포넌트 */
 export default function PostPage({ $target }) {
   instanceCheck(new.target);
 

@@ -1,5 +1,7 @@
 import { push } from "../../utils/router.js";
 import instanceCheck from "../../utils/instanceCheck.js";
+
+/**list를 그리는 컴포넌트 */
 export default function PostList({
   $target,
   initialState,

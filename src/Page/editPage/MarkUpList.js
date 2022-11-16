@@ -1,6 +1,7 @@
 import { push } from "../../utils/router.js";
 import instanceCheck from "../../utils/instanceCheck.js";
 
+/**편집기 아래에 해당 document의 하위 documents를 그리는 컴포넌트 */
 export default function MarkUpList({ $target, initialState }) {
   instanceCheck(new.target);
 

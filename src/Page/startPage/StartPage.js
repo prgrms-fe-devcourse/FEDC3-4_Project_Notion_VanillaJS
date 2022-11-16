@@ -1,5 +1,6 @@
 import instanceCheck from "../../utils/instanceCheck.js";
 
+/**선택된 postId가 없을 때 보여주는 시작 페이지 컴포넌트 */
 export default function StartPage({ $target }) {
   instanceCheck(new.target);
 
