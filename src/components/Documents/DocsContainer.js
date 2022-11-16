@@ -3,6 +3,7 @@ import DocsList from "./DocsList.js";
 
 export default function DocsContainer({ $target }) {
   const $docsContainer = document.createElement("aside");
+  $docsContainer.className = "docs-container";
 
   const docsList = new DocsList({
     $target: $docsContainer,
@@ -24,5 +25,4 @@ export default function DocsContainer({ $target }) {
   this.render = () => {
     $target.appendChild($docsContainer);
   };
-  this.render();
 }

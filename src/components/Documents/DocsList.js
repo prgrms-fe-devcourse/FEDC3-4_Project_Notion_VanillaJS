@@ -1,3 +1,5 @@
+import { push } from "../utils/router/router.js";
+
 export default function DocsList({ $target, initialState, onClick }) {
   const $docsList = document.createElement("div");
 
@@ -36,11 +38,12 @@ export default function DocsList({ $target, initialState, onClick }) {
   this.render = () => {
     $docsList.innerHTML = "";
     if (this.state.length > 0) {
-      $docsList.innerHTML = this.setMarkup(this.state) + "<button> + </button>";
+      $docsList.innerHTML =
+        this.setMarkup(this.state) + "<button> + 새 문서 만들기 </button>";
     } else {
       $docsList.innerHTML = `
         <span> No documents </span>
-        <button> + </button>
+        <button> + 새 문서 만들기 </button>
       `;
     }
   };
@@ -48,14 +51,17 @@ export default function DocsList({ $target, initialState, onClick }) {
   $docsList.addEventListener("click", (e) => {
     const { target } = e;
     const tempTitle = "문서 제목";
+    const $li = target.closest("li");
     if (target.tagName === "BUTTON") {
-      const $li = target.closest("li");
       if ($li) {
         const { id } = $li.dataset;
         onClick({ parent: id, title: tempTitle });
       } else {
         onClick({ parent: null, title: tempTitle });
       }
+    } else if (target.tagName === "LI") {
+      const { id } = $li.dataset;
+      push(`/documents/${id}`);
     }
   });
 }
