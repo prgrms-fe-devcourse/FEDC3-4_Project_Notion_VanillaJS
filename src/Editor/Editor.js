@@ -7,48 +7,46 @@ import EditorContent from './EditorContent.js';
 import { documentsUrl } from '../utils/util.js';
 
 function Editor({ target, initialState }) {
-    const page = createElement('section');
-    page.className = 'content';
+  const page = createElement('section');
+  page.className = 'content';
 
-    const editor = createElement('div');
-    editor.className = 'editor';
+  const editor = createElement('div');
+  editor.className = 'editor';
 
-    page.appendChild(editor);
-    target.appendChild(page);
+  page.appendChild(editor);
+  target.appendChild(page);
 
-    const postTitle = new EditorTitle({
-        div: editor,
-        initialState: initialState,
+  const postTitle = new EditorTitle({
+    div: editor,
+    initialState: initialState,
 
-        onChangeTitle: async ({ id, title }) => {
-            setTimeout(await putTitleMethod(id, title), 2000);
-        },
-    });
+    onChangeTitle: async ({ id, title }) => {
+      setTimeout(await putTitleMethod(id, title), 2000);
+    },
+  });
 
-    const postContent = new EditorContent({
-        div: editor,
-        initialState: initialState,
+  const postContent = new EditorContent({
+    div: editor,
+    initialState: initialState,
 
-        onChangeContent: async ({ id, content }) => {
-            setTimeout(await putContentMethod(id, content), 2000);
-        },
-    });
+    onChangeContent: async ({ id, content }) => {
+      setTimeout(await putContentMethod(id, content), 2000);
+    },
+  });
 
-    this.setState = async (nextState) => {
-        console.log(nextState);
-        // refactor
-        const post = await request(`${documentsUrl}/${nextState.postId}`);
-        isObject(post);
-        postTitle.setState(post);
-        postContent.setState(post);
-        this.render();
-    };
-
-    this.render = () => {
-        target.appendChild(page);
-    };
-
+  this.setState = async (nextState) => {
+    const post = await request(`${documentsUrl}/${nextState.postId}`);
+    isObject(post);
+    postTitle.setState(post);
+    postContent.setState(post);
     this.render();
+  };
+
+  this.render = () => {
+    target.appendChild(page);
+  };
+
+  this.render();
 }
 
 export default Editor;

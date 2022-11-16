@@ -8,7 +8,6 @@ function App({ target }) {
     const postEditPage = new Editor({
         target,
         initialState: {
-            postId: 'new',
             title: '',
             content: '',
         },

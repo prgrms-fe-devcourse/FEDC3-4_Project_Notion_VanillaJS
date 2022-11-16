@@ -1,7 +1,7 @@
 import { ROUTE_CHANGE_NAME } from './util.js';
 
-export const initRouter = onRoute => {
-  window.addEventListener(ROUTE_CHANGE_NAME, e => {
+export const initRouter = (onRoute) => {
+  window.addEventListener(ROUTE_CHANGE_NAME, (e) => {
     const { nextUrl } = e.detail;
 
     if (nextUrl) {
@@ -11,7 +11,7 @@ export const initRouter = onRoute => {
   });
 };
 
-export const route = nextUrl => {
+export const route = (nextUrl) => {
   if (nextUrl) {
     window.dispatchEvent(
       new CustomEvent(ROUTE_CHANGE_NAME, {
@@ -22,4 +22,3 @@ export const route = nextUrl => {
     );
   }
 };
-
