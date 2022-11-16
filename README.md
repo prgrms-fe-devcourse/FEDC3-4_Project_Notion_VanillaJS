@@ -108,7 +108,10 @@ export const USER = 'yangsangwoo';
 - 컴포넌트를 분리해 재사용성을 높히려고 했습니다.
 - util 함수는 따로 분리를 했습니다.
 
-## 2. 컨벤션
+## 2. 컴포넌트 구조
+![image](https://user-images.githubusercontent.com/79236624/202272271-b4eda580-0744-489b-ac5c-633b9cdce21f.png)
+
+## 3. 컨벤션
 
 ### commit 컨벤션
 
