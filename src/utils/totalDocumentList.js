@@ -7,10 +7,13 @@ export const totalDocumentList = (documents) => {
       ${documents
         .map((document) => {
           const listToggleState = `isOpened-${document.id}`;
+          const listClicked = `${document.id}-clicked`;
           const display = getItem(listToggleState) || "none";
+          const isClicked =
+            getItem("isClicked") === listClicked ? "Clicked" : "unClicked";
           return `
           <div class="focusable">
-            <li data-id="${document.id}" name="list">
+            <li data-id="${document.id}" class="${isClicked}" name="list">
             <span class="list-title"><button class="toggle-button ${display}">></button>${
             document.title
           }</span>

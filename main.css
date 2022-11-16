@@ -49,6 +49,10 @@ li {
   background-color: #d3d1cb;
 }
 
+.clicked {
+  background-color: #bcbab2;
+}
+
 .list-title {
   cursor: pointer;
   font-weight: 700;

@@ -4,6 +4,7 @@ import DocumentList from "./DocumentList.js";
 import Header from "./Header.js";
 import { clickRootAdd, clickRemove, clickAdd } from "../utils/router.js";
 import { isNew } from "../utils/isNew.js";
+import { setItem, getItem, removeItem } from "../utils/storage.js";
 
 export default function DocumentPage({ $target, onClickTitle }) {
   isNew(DocumentPage, this);
@@ -56,6 +57,13 @@ export default function DocumentPage({ $target, onClickTitle }) {
       const { id } = element.dataset;
       if (target.className === "list-title") {
         onClickTitle(id);
+        const listClicked = `isClicked`;
+        if (getItem(listClicked)) {
+          removeItem(listClicked);
+          setItem(listClicked, `${id}-clicked`);
+        } else {
+          setItem(listClicked, `${id}-clicked`);
+        }
       }
     }
   });
