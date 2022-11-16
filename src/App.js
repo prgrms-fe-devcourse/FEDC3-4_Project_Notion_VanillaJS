@@ -31,7 +31,7 @@ import { getUserIdToAdress } from './Helpers/getUserIdToAdress.js';
 export default function App({ $app }) {
   isConstructor(new.target);
   $app.innerHTML = `
-    <aside class="bg-gray-300 text-sm text-gray-800">
+    <aside class=" bg-stone-100 text-sm text-stone-500">
       <div>사이드리스트 로딩중</div>
     </aside>
     <main class="col-span-4">
@@ -84,7 +84,7 @@ export default function App({ $app }) {
         initialState: await initialState.documents,
       });
       $target.dataset.event = 'hideChildDocumentButton';
-      $target.innerText = '🔼';
+      $target.style.transform = 'rotate(0deg)';
     },
 
     hideChildDocumentEvent: async ({ $target }) => {
@@ -92,7 +92,7 @@ export default function App({ $app }) {
       const $childList = $parant.children[1];
       $parant.removeChild($childList);
       $target.dataset.event = 'showChildDocumentButton';
-      $target.innerText = '🔽';
+      $target.style.transform = 'rotate(-90deg)';
     },
 
     setEditorEvent: async ({ $target }) => {

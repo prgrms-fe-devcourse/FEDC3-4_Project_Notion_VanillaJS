@@ -14,7 +14,7 @@ export default function DocumentEditor({ $target, initialState, saveApi, saveLoc
   this.render = () => {
     $target.innerHTML = `
     <div data-id="${this.state.id}" class="p-6">
-      <div id="editorTitle" contenteditable="true" class="block p-1 m-4 w-2/3 h-8 text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">${this.state.title}</div>
+      <div id="editorTitle" contenteditable="true" class="block p-1 m-4 w-2/3 h-8 text-gray-900 hover:bg-stone-100 focus:bg-stone-100 rounded-lg border border-stone-300">${this.state.title}</div>
       <div id="editorMenu">
         <button class="ml-8 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-lg px-5 py-1 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
         data-event="bold">
@@ -41,7 +41,7 @@ export default function DocumentEditor({ $target, initialState, saveApi, saveLoc
             UL
         </button>
       </div>
-      <div id="editorContent" contenteditable="true" class="block p-1 m-4 w-2/3 h-1/2 text-lg text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">${this.state.content}</div>
+      <div id="editorContent" contenteditable="true" class="block p-1 m-4 w-2/3 h-1/2 text-lg text-gray-900 hover:bg-stone-100 focus:bg-stone-100 rounded-lg border border-stone-300">${this.state.content}</div>
       <div id="editorSave">
       </div>
     </div>
