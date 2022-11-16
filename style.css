@@ -345,26 +345,21 @@ address {
 .sidebar-header .emoji {
   margin-right: 6px;
 }
-.sidebar-header:hover {
-  background-color: rgba(55, 53, 47, 0.08);
-  cursor: pointer;
-}
-
-.sidebar-body {
+.sidebar-nav {
   width: 100%;
   height: calc(100vh - 96px);
   padding: 0 4px;
   overflow-y: auto;
   overscroll-behavior: contain;
 }
-.sidebar-body::-webkit-scrollbar {
+.sidebar-nav::-webkit-scrollbar {
   width: 10px;
 }
-.sidebar-body::-webkit-scrollbar-thumb {
+.sidebar-nav::-webkit-scrollbar-thumb {
   height: 30%;
   background-color: rgba(55, 53, 47, 0.2);
 }
-.sidebar-body::-webkit-scrollbar-track {
+.sidebar-nav::-webkit-scrollbar-track {
   background-color: rgba(55, 53, 47, 0.08);
 }
 
@@ -534,4 +529,30 @@ address {
 .text-action-menu-item .line-through {
   font-weight: 500;
   text-decoration: line-through;
+}
+
+.not-found-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  font-weight: 500;
+  font-size: 17px;
+}
+
+.not-found-page .return-button {
+  background-color: rgb(35, 131, 226);
+  color: #fff;
+  padding: 10px 12px;
+  border-radius: 4px;
+  margin-top: 20px;
+  font-size: 14px;
+  transition: all 100ms ease-in-out;
+}
+
+.not-found-page .return-button:hover {
+  background-color: rgb(17, 109, 202);
 }
