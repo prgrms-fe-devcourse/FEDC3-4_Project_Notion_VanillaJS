@@ -426,6 +426,9 @@ address {
   background-color: #e8e7e4;
   cursor: pointer;
 }
+.post-item-container.is-active {
+  background-color: #e8e7e4;
+}
 .post-item-button {
   display: flex;
   justify-content: center;

@@ -1,6 +1,9 @@
 export const storage = window.localStorage;
 
-export const OPENED_LIST = "OPENED_LIST";
+export const STORAGE_KEY = {
+  OPENED_LIST: "OPENED_LIST",
+  SELECTED_POST: "SELECTED_POST",
+};
 
 export const STATE = {
   OPEN: "OPEN",

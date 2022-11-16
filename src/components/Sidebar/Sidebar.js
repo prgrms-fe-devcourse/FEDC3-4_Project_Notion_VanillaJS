@@ -11,7 +11,7 @@ import SidebarFooter from "./SidebarFooter.js";
 
 import { validateInstance } from "../../utils/validation.js";
 import { setItem, getItem } from "../../utils/storage.js";
-import { OPENED_LIST, STATE } from "../../utils/constants.js";
+import { STORAGE_KEY, STATE } from "../../utils/constants.js";
 import { addEvent } from "../../utils/custom-event.js";
 
 export default function Sidebar({ $target, initialState = [] }) {
@@ -34,18 +34,18 @@ export default function Sidebar({ $target, initialState = [] }) {
     $target: $sidebar,
     initialState,
     onOpenList: (state, id) => {
-      const openedList = getItem(OPENED_LIST, {});
+      const openedList = getItem(STORAGE_KEY.OPENED_LIST, {});
 
       if (state === STATE.OPEN) {
         if (openedList[id]) {
           delete openedList[id];
-          setItem(OPENED_LIST, openedList);
+          setItem(STORAGE_KEY.OPENED_LIST, openedList);
         } else {
-          setItem(OPENED_LIST, { ...openedList, [id]: true });
+          setItem(STORAGE_KEY.OPENED_LIST, { ...openedList, [id]: true });
         }
       } else if (state === STATE.CREATE) {
         if (!openedList[id]) {
-          setItem(OPENED_LIST, { ...openedList, [id]: true });
+          setItem(STORAGE_KEY.OPENED_LIST, { ...openedList, [id]: true });
         }
       } else if (state === STATE.DELETE) {
         id.forEach((targetId) => {
@@ -54,7 +54,7 @@ export default function Sidebar({ $target, initialState = [] }) {
           }
         });
 
-        setItem(OPENED_LIST, openedList);
+        setItem(STORAGE_KEY.OPENED_LIST, openedList);
       }
 
       this.setState();
