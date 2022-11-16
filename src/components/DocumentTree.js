@@ -7,7 +7,7 @@ import DocumentNode from "./DocumentNode.js";
 
 function DocumentTree({ $target, initialState }) {
   const $tree = document.createElement("section");
-  $tree.className = "document-tree";
+
   $target.appendChild($tree);
 
   this.state = initialState;
@@ -27,7 +27,7 @@ function DocumentTree({ $target, initialState }) {
 
     new DocumentNode({
       $target: $tree,
-      initialState: { data: this.state.data },
+      initialState: { data: this.state.data, isDisplay: true },
       onClick: (parentId) => this.onClick(parentId),
       onDelete: (documentId) => {
         const answer = confirm("문서를 정말 삭제하시겠습니까?");

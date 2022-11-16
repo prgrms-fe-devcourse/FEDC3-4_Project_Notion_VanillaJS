@@ -14,13 +14,15 @@ function EditorPreview({ $target, initialState }) {
   };
 
   this.render = () => {
-    const { data } = this.state;
+    if (!this.state.data) return;
 
-    if (!data) return;
+    const { content } = this.state.data;
 
     $preview.innerHTML = `
-      <h1>preview</h1>
-      <div>${parseMarkdown(data)}</div>
+      <h1 class="preview-title">미리보기</h1>
+      <div class="preview-content">${
+        content ? parseMarkdown(content) : "내용 없음"
+      }</div>
       `;
   };
 

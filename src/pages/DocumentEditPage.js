@@ -34,6 +34,7 @@ function DocumentEditPage({ $target }) {
       $editor.innerHTML = "";
 
       const data = await getDocumentDetail(documentId);
+      console.log(data);
       this.setState({
         data,
       });

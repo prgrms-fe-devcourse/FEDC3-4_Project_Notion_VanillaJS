@@ -1,4 +1,4 @@
-import { parseMarkdown } from "../utils/parseMarkdown.js";
+import { navigate } from "../utils/router.js";
 import EditorPreview from "./EditorPreview.js";
 
 function DocumentEditor({ $target, initialState, onChange }) {
@@ -13,15 +13,14 @@ function DocumentEditor({ $target, initialState, onChange }) {
   this.setState = (nextState) => {
     this.state = nextState;
     editorPreview.setState({
-      data: this.state.data.content,
+      data: this.state.data,
     });
-    // this.render();
   };
 
   const editorPreview = new EditorPreview({
     $target,
     initialState: {
-      data: this.state.data.content,
+      data: this.state.data,
     },
   });
 
@@ -41,16 +40,19 @@ function DocumentEditor({ $target, initialState, onChange }) {
       }"/>
       <article class="eidtor-wrapper">
         <div class="editor-text" autofocus="true" contenteditable="true">${
-          content ? content : "아직 내용이 없습니다."
+          content ? content : ""
         }</div>
       </article>
-
-      <div class="child-documents-wrapper">
-        <p>📌하위 문서 목록</p>
-          ${documents
-            .map(({ id, title }) => `<a href="/documents/${id}">${title}</a>`)
-            .join("")}
-      </div>
+      ${
+        documents.length > 0
+          ? `<div class="child-documents-wrapper">
+          <p>📌하위 문서 목록</p>
+            ${documents
+              .map(({ id, title }) => `<a href="/documents/${id}">${title}</a>`)
+              .join("")}
+        </div>`
+          : ""
+      }
     `;
   };
 
@@ -61,21 +63,6 @@ function DocumentEditor({ $target, initialState, onChange }) {
 
     if ($div) {
       const $title = document.querySelector(".editor-document-title");
-
-      if (this.debounce) {
-        clearTimeout(this.debounce);
-      }
-
-      this.debounce = setTimeout(() => {
-        onChange($title.value, $div.innerText);
-      }, 1000);
-
-      return;
-    }
-
-    const $input = e.target.closest("input");
-
-    if ($input) {
       const $content = document.querySelector(".editor-text");
 
       if (this.debounce) {
@@ -83,8 +70,22 @@ function DocumentEditor({ $target, initialState, onChange }) {
       }
 
       this.debounce = setTimeout(() => {
-        onChange($input.value, $content.value);
-      }, 1000);
+        onChange($title.value, $content.innerText);
+      }, 500);
+
+      return;
+    }
+  });
+
+  $editor.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const $a = e.target.closest("a");
+
+    if ($a) {
+      console.log($a.href);
+      const [, , , , documentId] = $a.href.split("/");
+      navigate(`/document/${documentId}`);
     }
   });
 }

@@ -1,7 +1,16 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
 .main-content {
   display: flex;
   width: 100vw;
   height: 100vh;
+}
+
+.header-title {
+  border-bottom: 1px solid lightgray;
 }
 
 .document-editor-wrapper {
@@ -10,13 +19,17 @@
 }
 
 .document-editor {
-  background-color: antiquewhite;
+  /* background-color: antiquewhite; */
+  min-width: 40vw;
+  max-width: 40vw;
 }
 
 .document-tree {
-  background-color: rgb(227, 250, 215);
-  width: 30vw;
+  /* background-color: rgb(227, 250, 215); */
+  background-color: rgb(251, 251, 250);
+  min-width: 250px;
   max-width: 300px;
+  overflow: scroll;
 }
 
 .tree-node {
@@ -86,26 +99,31 @@
 
 .eidtor-wrapper {
   display: flex;
-  /* width: 100vw; */
 }
 
 .editor-text {
-  width: 50vw;
-  height: 80vh;
+  height: 70vh;
+  width: 100%;
   font-size: 20px;
-  padding: 16px;
+  padding: 32px;
+  white-space: pre-wrap;
+  overflow-x: auto;
 }
 
+.editor-text::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
 .document-editor {
+  padding: 16px;
   display: flex;
   flex-direction: column;
 }
 
 .editor-document-title {
   height: 50px;
-  font-size: x-large;
+  font-size: 32px;
   font-weight: bold;
-  padding-left: 10px;
+  padding: 10px;
   border: none;
 }
 
@@ -116,4 +134,19 @@
 
 .modal {
   display: none;
+}
+
+.editor-preview {
+  font-size: 20px;
+  padding: 16px;
+  border-left: 1px solid lightgray;
+}
+
+.editor-preview h1 {
+  font-size: 32px;
+}
+
+.preview-title {
+  margin: 0;
+  padding: 10px;
 }

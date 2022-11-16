@@ -45,11 +45,12 @@ function DocumentNode({ $target, initialState, onClick, onDelete }) {
             </section>
             `;
 
-            if (documents.length > 0) {
+            if (this.state.isDisplay && documents.length > 0) {
               this.documentNode = new DocumentNode({
                 $target: $li,
                 initialState: {
                   data: documents,
+                  isDisplay: true,
                 },
               });
             }
