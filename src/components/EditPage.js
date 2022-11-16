@@ -1,5 +1,5 @@
 import { request } from "../api.js";
-import { getItem, removeItem, setItem } from "../storage.js";
+import { removeItem, setItem } from "../storage.js";
 import ChildDocument from "./ChildDocument.js";
 import Editor from "./Editor.js";
 import TopBar from "./TopBar.js";
@@ -14,7 +14,7 @@ export default function EditPage({ $target, initialState, getTitleChange }) {
 
   let timer = null;
 
-  const topBar = new TopBar({ $target: $editPage, initialState: this.state });
+  const topBar = new TopBar({ $target: $editPage });
 
   const editor = new Editor({
     $target: $editPage,
@@ -34,7 +34,6 @@ export default function EditPage({ $target, initialState, getTitleChange }) {
         });
         getTitleChange();
         removeItem(postLocalSaveKey);
-        // this.setState(changePost);
       }, 100);
     },
   });
@@ -43,20 +42,13 @@ export default function EditPage({ $target, initialState, getTitleChange }) {
 
   this.setState = async (nextState) => {
     this.state = nextState;
-    console.log(this.state);
     this.render();
-    // topBar.setState(this.state);
+    topBar.setState(this.state);
     editor.setState(this.state);
     childDocument.setState(this.state);
   };
 
   this.render = () => {
     $target.appendChild($editPage);
-  };
-
-  const fetchPost = async () => {
-    const { id } = this.state;
-    const post = await request(`/${id}`);
-    editor.setState(post);
   };
 }
