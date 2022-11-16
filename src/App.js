@@ -24,7 +24,7 @@ export default function App({
     console.log(pathname);
     
     if(pathname === '/'){
-      await sidebar.setState();
+      sidebar.setState();
     }else if(pathname.indexOf('/documents') === 0){
       const [, , id] = pathname.split('/');
       await sidebar.setState();

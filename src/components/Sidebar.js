@@ -14,10 +14,8 @@ export default function Sidebar({
   this.state = initialState;
 
   this.setState = async () => {
-    this.state = await request('/documents');
-    // console.log(this.state);
-    documentList.setState(this.state);
-    this.render();
+    getDocumentList();
+    await this.render();
   }
 
   new Header({
@@ -63,10 +61,10 @@ export default function Sidebar({
     $target.appendChild($sidebar);
   };
 
-  // const getDocumentList = async() => {
-  //   const list = await request('/documents');
-  //   documentList.setState(list);
-  // };
+  const getDocumentList = async() => {
+    const list = await request('/documents');
+    documentList.setState(list);
+  };
 
   const createDocument = async (document) => {
     const newDocument =  await request('/documents', {
