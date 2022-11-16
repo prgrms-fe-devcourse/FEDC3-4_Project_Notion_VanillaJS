@@ -3,7 +3,7 @@
 /package-lock.json
 /.pnp
 .pnp.js
-
+/url.js
 # intellij configs
 .idea/
 
