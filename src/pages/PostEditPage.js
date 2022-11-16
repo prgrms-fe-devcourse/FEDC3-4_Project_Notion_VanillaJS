@@ -1,6 +1,7 @@
 import { createPost, fetchPost, updatePost } from "../utils/api.js";
 import Editor from "../components/Editor.js";
 import { getItem, removeItem, setItem } from "../utils/storage.js";
+import SubPostList from "../components/SubPostList.js";
 
 export default function PostEditPage({ $target, initialState }) {
   const $page = document.createElement("div");
@@ -45,6 +46,11 @@ export default function PostEditPage({ $target, initialState }) {
         });
       }, 1000);
     },
+  });
+
+  const subPostList = new SubPostList({
+    $target: $page,
+    initialState: [],
   });
 
   const setPost = async () => {
@@ -110,6 +116,7 @@ export default function PostEditPage({ $target, initialState }) {
         content: "",
       }
     );
+    subPostList.setState(this.state.post.documents);
   };
 
   this.render = () => {

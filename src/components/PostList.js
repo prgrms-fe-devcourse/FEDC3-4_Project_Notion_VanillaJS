@@ -1,4 +1,5 @@
 import { push } from "../utils/router.js";
+import { renderPosts } from "./renderPosts.js";
 
 export default function PostList({
   $target,
@@ -16,29 +17,9 @@ export default function PostList({
     this.render();
   };
 
-  const renderPosts = (root, posts) => {
-    let $ul = document.createElement("ul");
-    root.appendChild($ul);
-
-    posts.forEach((post) => {
-      let $li = document.createElement("li");
-      $li.setAttribute("data-id", post.id);
-      $li.innerHTML = `
-        ${post.title ? post.title : "제목 없음"}
-        <button class="post-create">+</button>
-        <button class="post-delete">x</button>
-      `;
-
-      $ul.appendChild($li);
-      if (post.documents.length) {
-        renderPosts($li, post.documents);
-      }
-    });
-  };
-
   this.render = () => {
     $postList.innerHTML = "";
-    this.state.length && renderPosts($postList, this.state);
+    this.state.length && renderPosts($postList, this.state, false);
   };
 
   this.render();
