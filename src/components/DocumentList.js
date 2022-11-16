@@ -33,7 +33,7 @@ export default function DocumentList({
     this.render();
   };
 
-  const generateTextIndent = (depth) => 10 * depth;
+  const generateTextIndent = (depth) => 12 * depth;
 
   let isBlock = false;
 
@@ -100,7 +100,7 @@ export default function DocumentList({
     const { documents } = this.state;
 
     $documentList.innerHTML = `
-      ${documents.length > 0 ? renderDocuments(documents, 0) : ''}
+      ${documents.length > 0 ? renderDocuments(documents, 1) : ''}
     `;
   };
 

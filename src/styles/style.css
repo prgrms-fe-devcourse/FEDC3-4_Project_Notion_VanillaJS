@@ -45,8 +45,16 @@ button {
   color: inherit;
 }
 
+.sidebar-header {
+  display: flex;
+  color: #37352f;
+  margin: 15px 0;
+  padding-left: 15px;
+  cursor: default;
+}
+
 .document-list {
-  margin: 12px;
+  overflow: auto;
 }
 
 .document-list li {
@@ -115,12 +123,11 @@ button {
 }
 
 .document-add-button.sidebar-bottom {
-  display: flex;
-  position: fixed;
-  bottom: 0;
+  display: inline-flex;
   width: inherit;
   padding: 12px 0;
   border-top: 1.5px solid #ededec;
+  background-color: inherit;
   cursor: pointer;
 }
 
@@ -138,13 +145,12 @@ button {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 4%;
-  padding-top: 12px;
+  margin-top: 12px;
 }
 
 .document-header .title {
-  max-width: 50%;
-  margin-left: 20px;
+  max-width: 80%;
+  margin-left: 15px;
   padding: 3px 5px;
   font-size: 14px;
   border-radius: 5px;
@@ -195,8 +201,8 @@ button {
 .editor .title {
   font-size: 40px;
   font-weight: 700;
-  white-space: pre-wrap;
-  word-break: break-word;
+  overflow: hidden;
+  resize: none;
 }
 .editor .title::placeholder {
   color: #e1e1e0;
@@ -217,18 +223,20 @@ button {
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  height: 4%;
-  padding-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .document-footer .titles {
   display: flex;
-  margin-left: 30px;
+  flex-wrap: wrap;
 }
 
 .document-footer .title {
   border-radius: 5px;
+  border: 0.5px solid #efefef;
   padding: 5px 10px;
+  margin-left: 15px;
+  margin-bottom: 8px;
   font-size: 14px;
   box-shadow: 0px 2px 1px 1px #efefef;
   cursor: pointer;
@@ -237,7 +245,4 @@ button {
 }
 .document-footer .title:hover {
   background-color: #fbfbfa;
-}
-.document-footer .title + .title {
-  margin-left: 15px;
 }

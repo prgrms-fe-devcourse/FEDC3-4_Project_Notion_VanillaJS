@@ -3,6 +3,7 @@ import DocumentAddButton from './DocumentAddButton.js';
 
 import { fetchDocuments } from '../utils/api.js';
 import { isNew } from '../utils/helper.js';
+import SidebarHeader from './SidebarHeader.js';
 
 export default function Sidebar({ $target, onAdd, onDelete }) {
   isNew(new.target);
@@ -11,6 +12,13 @@ export default function Sidebar({ $target, onAdd, onDelete }) {
   $sidebar.className = 'sidebar';
 
   $target.appendChild($sidebar);
+
+  new SidebarHeader({
+    $target: $sidebar,
+    initialState: {
+      workspaceName: '✨ Hello Notion',
+    },
+  });
 
   const documentList = new DocumentList({
     $target: $sidebar,
