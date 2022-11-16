@@ -1,4 +1,5 @@
 import { fetchDocumentContents, request } from '../utils/api.js';
+import { documentContentDefaultValue } from '../utils/constants.js';
 import Editor from './Editor.js';
 
 /**
@@ -13,6 +14,7 @@ export default function DocumentEditorPage({ $container, initialState, onEditDoc
   this.currentDocumentId = initialState;
 
   this.setState = async (nextDocumentId) => {
+    // TODO: 타입 다르지 않나? 잘 작동하는지 체크
     if (nextDocumentId === this.currentDocumentId) return;
 
     this.currentDocumentId = nextDocumentId;
@@ -22,7 +24,7 @@ export default function DocumentEditorPage({ $container, initialState, onEditDoc
 
   const editor = new Editor({
     $container: $editor,
-    initialState: { title: '', content: '' },
+    initialState: documentContentDefaultValue,
     onEdit: async (documentContent) => {
       const { id, title, content } = documentContent;
       editor.setState(documentContent);
