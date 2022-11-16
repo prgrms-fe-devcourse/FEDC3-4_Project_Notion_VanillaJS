@@ -1,6 +1,8 @@
+import { isNew } from "../utils/isNew.js";
 import { clickRootAdd } from "../utils/router.js";
 
 export default function MainPage({ $target, initialState }) {
+  isNew(MainPage, this);
   const $mainPage = document.createElement("div");
   $mainPage.className = "main-page";
 

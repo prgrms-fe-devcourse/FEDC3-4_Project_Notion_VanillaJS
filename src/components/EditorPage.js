@@ -1,7 +1,9 @@
 import { request } from "../utils/api.js";
+import { isNew } from "../utils/isNew.js";
 import Editor from "./Editor.js";
 
 export default function EditorPage({ $target, initialState, onChange }) {
+  isNew(EditorPage, this);
   const $page = document.createElement("div");
   $page.className = "editor-page";
 

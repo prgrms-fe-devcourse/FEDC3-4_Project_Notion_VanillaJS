@@ -1,3 +1,4 @@
+import { isNew } from "../utils/isNew.js";
 import { setItem, getItem, removeItem } from "../utils/storage.js";
 import { totalDocumentList } from "../utils/totalDocumentList.js";
 
@@ -8,6 +9,8 @@ export default function DocumentList({
   onClickRemove,
   onClickAdd,
 }) {
+  isNew(DocumentList, this);
+
   const $documentList = document.createElement("div");
   $documentList.className = "document-list";
   $target.appendChild($documentList);

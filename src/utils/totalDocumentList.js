@@ -21,7 +21,7 @@ export const totalDocumentList = (documents) => {
             </div>
               ${
                 document.documents.length
-                  ? `<ul style="display: ${display}">${totalDocumentList(
+                  ? `<ul class="child" style="display: ${display}">${totalDocumentList(
                       document.documents
                     )}</ul>`
                   : `<ul style="display: ${display}"><li><i>하위 페이지 없음</i></li></ul>`

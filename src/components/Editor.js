@@ -1,3 +1,5 @@
+import { isNew } from "../utils/isNew.js";
+
 export default function Editor({
   $target,
   initialState = {
@@ -6,6 +8,7 @@ export default function Editor({
   },
   onEditing,
 }) {
+  isNew(Editor, this);
   const $editor = document.createElement("div");
   $editor.className = "editor-container";
 

@@ -9,9 +9,9 @@ body {
 .document-page {
   background-color: #edece9;
   height: 100vh;
-  width: 270px;
+  min-width: 270px;
   resize: horizontal;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .document-list {
@@ -20,7 +20,6 @@ body {
   color: rgba(25, 23, 17, 0.6);
   display: flex;
   flex-direction: column;
-  white-space: nowrap;
 }
 
 .header {

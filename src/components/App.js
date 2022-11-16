@@ -3,8 +3,11 @@ import { clearDiv } from "../utils/clearDiv.js";
 import DocumentPage from "./DocumentPage.js";
 import EditorPage from "./EditorPage.js";
 import MainPage from "./MainPage.js";
+import { isNew } from "../utils/isNew.js";
 
 export default function App({ $target }) {
+  isNew(App, this);
+
   const documentPage = new DocumentPage({
     $target,
     onClickTitle: async (id) => {

@@ -3,8 +3,11 @@ import { initRoute, push } from "../utils/router.js";
 import DocumentList from "./DocumentList.js";
 import Header from "./Header.js";
 import { clickRootAdd, clickRemove, clickAdd } from "../utils/router.js";
+import { isNew } from "../utils/isNew.js";
 
 export default function DocumentPage({ $target, onClickTitle }) {
+  isNew(DocumentPage, this);
+
   const $page = document.createElement("div");
   $page.className = "document-page";
   const documentList = new DocumentList({
