@@ -23,7 +23,7 @@ export const getDocumentById = async ({ id }) => {
 
   if (!res.ok) {
     alert(ERROR_MESSAGE.NOT_COLLECT_ADRESS);
-    routeChange('/');
+    routeChange('/FEDC3-4_Project_Notion_VanillaJS/');
     location.reload();
   }
 

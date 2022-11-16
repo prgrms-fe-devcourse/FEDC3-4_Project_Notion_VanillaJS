@@ -99,7 +99,7 @@ export default function App({ $app }) {
       const documentId = $target.closest('[data-id]').dataset.id;
       isNumber(documentId);
       const userId = getUserIdToAdress();
-      routeChange(`/${userId}/documents/${documentId}`);
+      routeChange(`/FEDC3-4_Project_Notion_VanillaJS/${userId}/documents/${documentId}`);
     },
 
     changeUserEvent: () => {
@@ -107,7 +107,7 @@ export default function App({ $app }) {
       const userId = prompt(CHANGE_USER_NAME, baseId);
       if (userId) {
         initLocalStorage(userId);
-        routeChange(`/${userId ? userId : baseId}`);
+        routeChange(`/FEDC3-4_Project_Notion_VanillaJS/${userId ? userId : baseId}`);
         documentList.setState(getDocumentAll());
       }
     },
@@ -125,16 +125,16 @@ export default function App({ $app }) {
           title,
         })
       );
-      routeChange(`/${userId}/documents/${id}`);
+      routeChange(`/FEDC3-4_Project_Notion_VanillaJS/${userId}/documents/${id}`);
     },
   });
 
   this.route = async () => {
     console.log(location.pathname);
-    const [, userId, document, documentId] = location.pathname.split('/');
+    const [, , userId, document, documentId] = location.pathname.split('/');
     if (!userId) {
       initLocalStorage(BASE_INIT_USERNAME);
-      routeChange(`/${BASE_INIT_USERNAME}`);
+      routeChange(`/FEDC3-4_Project_Notion_VanillaJS/${BASE_INIT_USERNAME}`);
     }
 
     if (document) {
