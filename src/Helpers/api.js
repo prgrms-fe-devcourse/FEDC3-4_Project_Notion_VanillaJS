@@ -1,6 +1,8 @@
 import { routeChange } from './router.js';
 import { ERROR_MESSAGE, API_HEADER } from '../constants.js';
 import { getUserIdToAdress } from './getUserIdToAdress.js';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 export const getDocumentAll = async () => {
   const userId = getUserIdToAdress();
