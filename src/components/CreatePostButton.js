@@ -1,19 +1,17 @@
-// import CreatePostModal from "./modal/CreatePostModal.js";
-
 import { push } from "../routes/router.js";
 import { $createPostBtn } from "../utils/templates.js";
+import CreatePostModal from "./modal/CreatePostModal.js";
 
-export default function CreatePostButton({ $target, initialState }) {
+export default function CreatePostButton({ $target, initialState, addPost }) {
 	const $createPostBtnContainer = document.createElement("div");
 	$createPostBtnContainer.className = "create-post-btn-container";
 	$target.appendChild($createPostBtnContainer);
 
 	this.state = initialState;
 
-	// this.setState = (nextState) => {
-	// 	this.state = nextState;
-	// 	this.render();
-	// };
+	this.setState = (nextState) => {
+		this.state = nextState;
+	};
 
 	this.render = () => {
 		$createPostBtnContainer.innerHTML = $createPostBtn();
@@ -22,11 +20,16 @@ export default function CreatePostButton({ $target, initialState }) {
 	this.render();
 
 	$createPostBtnContainer.addEventListener("click", () => {
-		push(this.state.link);
+		// push(this.state.link);
+		$createPostModal.setState({
+			link: "/documents/new",
+			modalOpen: true,
+		});
 	});
 
-	// const $createPostModal = new CreatePostModal({
-	// 	$target,
-	// 	initialState: this.state,
-	// });
+	const $createPostModal = new CreatePostModal({
+		$target,
+		initialState: { link: "/documents/new", modalOpen: false },
+		addPost,
+	});
 }
