@@ -8,7 +8,6 @@ import {
   EVENT_ROUTE_PUT,
   EVENT_ROUTE_REMOVE,
 } from "./constants.js";
-import { removeItem } from "./storage.js";
 
 const { DOCUMENT_BLOCK, TITLE } = classNameObj;
 
@@ -27,12 +26,12 @@ export const initRouter = (onRoute) => {
   window.addEventListener("popstate", () => onRoute());
 
   window.addEventListener(EVENT_ROUTE_PUSH, (e) => {
-    const { nextUrl } = e.detail;
+    const { nextUrl, parentId } = e.detail;
 
     if (!nextUrl) return;
 
     history.pushState(null, null, nextUrl);
-    onRoute();
+    onRoute(parentId);
   });
 
   window.addEventListener(EVENT_ROUTE_REMOVE, async (e) => {
@@ -60,7 +59,7 @@ export const initRouter = (onRoute) => {
     });
     console.log(createNewDocument);
 
-    routePush(`/documents/${createNewDocument.id}`);
+    routePush(`/documents/${createNewDocument.id}`, id);
   });
 
   window.addEventListener(EVENT_ROUTE_PUT, async (e) => {
@@ -108,10 +107,10 @@ export const setHeaderChange = ({ id, title }) => {
   );
 };
 
-export const routePush = (nextUrl) => {
+export const routePush = (nextUrl, parentId) => {
   window.dispatchEvent(
     new CustomEvent(EVENT_ROUTE_PUSH, {
-      detail: { nextUrl },
+      detail: { nextUrl, parentId },
     })
   );
 };

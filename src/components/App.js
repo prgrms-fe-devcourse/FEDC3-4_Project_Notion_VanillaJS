@@ -28,8 +28,8 @@ export default function App({ $target }) {
     },
   });
 
-  this.route = async () => {
-    const { pathname, search } = location;
+  this.route = async (parentId) => {
+    const { pathname } = location;
     const documentsList = await request("/documents");
 
     documentPage.setState(documentsList);
@@ -37,7 +37,6 @@ export default function App({ $target }) {
       editPage.setState(DEFAULT_STATE);
     } else if (pathname.indexOf("/documents") === 0) {
       const [, , documentId] = pathname.split("/");
-      const [, parentId] = search.split("=");
       const document = await request(`/documents/${documentId}`);
 
       if (document) {

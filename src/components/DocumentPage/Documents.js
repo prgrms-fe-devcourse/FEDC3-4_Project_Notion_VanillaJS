@@ -68,7 +68,7 @@ export default function Documents({ $target, initialState }) {
     if (classList[0] === TITLE || classList[0] === TITLE_WRAPPER) {
       const parentId = documentSection.parentNode.dataset.id;
 
-      routePush(`/documents/${id}${parentId ? `?parent.id=${parentId}` : ""}`);
+      routePush(`/documents/${id}`, parentId);
     } else if (classList[0] === DISPLAY_BTN) {
       sidebarDisplayBtnClick(id, target, displayMap);
     } else if (classList[0] === NEW_BTN) {
