@@ -4,33 +4,33 @@ import { initRouter } from './utils/route.js';
 import Editor from './Editor/Editor.js';
 
 function App({ target }) {
-  const navbarPage = new Navbar({ target });
-  const postEditPage = new Editor({
-    target,
-    initialState: {
-      postId: 'new',
-      title: '',
-      content: '',
-    },
-  });
+    const navbarPage = new Navbar({ target });
+    const postEditPage = new Editor({
+        target,
+        initialState: {
+            postId: 'new',
+            title: '',
+            content: '',
+        },
+    });
 
-  this.route = async () => {
-    target.innerHTML = '';
-    const { pathname } = location;
+    this.route = async () => {
+        target.innerHTML = '';
+        const { pathname } = location;
 
-    if (pathname === '/') {
-      navbarPage.setState();
-    } else if (pathname.indexOf(`${documentsUrl}/`) === 0) {
-      const [, , postId] = pathname.split('/');
+        if (pathname === '/') {
+            navbarPage.setState();
+        } else if (pathname.indexOf(`${documentsUrl}/`) === 0) {
+            const [, , postId] = pathname.split('/');
 
-      await navbarPage.setState();
-      console.log(postId);
-      await postEditPage.setState({ postId });
-    }
-  };
+            await navbarPage.setState();
+            console.log(postId);
+            await postEditPage.setState({ postId });
+        }
+    };
 
-  this.route();
-  initRouter(() => this.route());
+    this.route();
+    initRouter(() => this.route());
 }
 
 export default App;
