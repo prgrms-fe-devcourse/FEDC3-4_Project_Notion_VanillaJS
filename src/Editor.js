@@ -4,33 +4,63 @@ export default function Editor({ $target, initialState, onEditing }) {
 
   $target.appendChild($editor);
 
+  $editor.innerHTML = `
+      <input type="text" name="title" class="title"  placeholder="제목을 먼저 입력해주세요"/>
+      <div class="toolbar">
+        <img src="/src/img/bold.png" data-commend="bold"/>
+        <img src="/src/img/italic.png" data-commend="italic"/>
+        <img src="/src/img/left-align.png" data-commend="justifyLeft"/>
+        <img src="/src/img/center-align.png" data-commend="justifyCenter"/>
+        <img src="/src/img/right-align.png" data-commend="justifyRight"/>
+        <img src="/src/img/underline-text.png" data-commend="underLine"/>
+        <img src="/src/img/strikethrough.png" data-commend="strikeThrough"/>
+      </div>
+      <div class="content" contenteditable="true" name="content"></div>
+  `;
+
   this.state = initialState;
 
   this.setState = (nextState) => {
     this.state = nextState;
-    $editor.querySelector("[name=title]").value = this.state.title;
-    $editor.querySelector("[name=content]").value = this.state.content;
+    this.render();
   };
 
   this.render = () => {
-    $editor.innerHTML = `
-      <input type="text" name="title" value="${this.state.title}" class="title"  placeholder="제목을 먼저 입력해주세요"/>
-      <textarea name="content" placeholder="내용을 입력해주세요">${this.state.content}</textarea>
-    `;
+    $editor.querySelector("[name=title]").value = this.state.title;
+    const content = $editor.querySelector("[name=content]");
+    if (content.innerHTML.length !== 0)
+      content.innerHTML = this.state.content.split("\n").join("<br/>");
   };
 
-  $editor.addEventListener("keyup", (e) => {
-    const { target } = e;
-    const name = target.getAttribute("name");
+  $editor.querySelector("[name=title]").addEventListener("keyup", (e) => {
+    const nextState = { ...this.state, title: e.target.value };
 
-    if (this.state[name] !== undefined) {
+    this.setState(nextState);
+    onEditing(this.state);
+  });
+
+  let timer = null;
+  $editor.querySelector("[name=content]").addEventListener("input", (e) => {
+    if (timer !== null) {
+      clearTimeout(timer);
+    }
+
+    timer = setTimeout(() => {
       const nextState = {
         ...this.state,
-        [name]: target.value,
+        content: e.target.innerText,
       };
+      if (this.state.content === nextState.content) return;
       this.setState(nextState);
       onEditing(this.state);
-    }
+    }, 1000);
+  });
+
+  $editor.querySelectorAll(".toolbar img").forEach((ele) => {
+    ele.addEventListener("click", (e) => {
+      const command = e.target.getAttribute("data-commend");
+      document.execCommand(command);
+    });
   });
 
   this.render();
