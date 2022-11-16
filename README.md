@@ -17,7 +17,7 @@
 - [x] Editor content 부분 textarea 값 변경 안되는 현상
 - [x] Editor content 부분 입력할때 textarea 2 개행 이상부터 안보이는 현상
 - [x] 상위 Document 삭제하면 하위 Document 같이 삭제가 되야 하는데 상위 Document 밑으로 이동 되는 현상
-- [ ] 상위 Document 삭제하면 최하위 Document 삭제 안되는 현상
+- [x] 상위 Document 삭제하면 최하위 Document 삭제 안되는 현상
 - [ ] Editor content 부분 textarea 렌더링 했을때 2 개행 이상부터 잘려서 안나오는 현상
 - [ ] 버튼 이미지 넣어서 관리 -> 현재 text로 들어가 있음
 - [ ] 편집기 하단에는  Documents의 하위 Document 링크를 렌더링하도록 생성
