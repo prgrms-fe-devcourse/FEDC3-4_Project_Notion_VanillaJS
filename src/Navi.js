@@ -1,8 +1,11 @@
 import { request } from "./Api.js";
 import { push } from "./router.js";
 import { setItem } from "./Storage.js";
+import { CheckNew } from "./Error.js";
 
 export default function Navi({ $target, initialState }) {
+  CheckNew(new.target);
+
   const $navi = document.createElement("div");
   $navi.className = "Navi";
 
@@ -26,15 +29,6 @@ export default function Navi({ $target, initialState }) {
       `;
       return;
     }
-
-    // 선택된 문서 사이드바에 표시하기.
-    // CSS 상속 무효화랑 같이 써야할듯 || li 안에 p태그로 제목 집어넣기
-    // const $selected = document.querySelector(
-    //   `[data-id="${this.state.postId}"]`
-    // );
-    // const $changeTest = document.createElement("div");
-    // $changeTest.innerHTML = `<p style="color:red;">${$selected.innerText}</p>`;
-    // $selected.innerText = "선택";
 
     const { postId } = this.state;
     fetchPosts(Number(postId));

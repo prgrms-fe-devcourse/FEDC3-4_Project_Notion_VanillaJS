@@ -22,6 +22,7 @@ export default function PostPage({ $target, initialState }) {
     const posts = await request("documents", {
       method: "GET",
     });
+
     postList.setState(posts, postId);
 
     // setState마다 render()를 진행하면 화면이 깜빡거리는 것처럼 보임.
@@ -52,7 +53,6 @@ export default function PostPage({ $target, initialState }) {
         id: id,
         visible: "",
       });
-      //postList.render();
 
       push(`/posts/${test.id}`);
     },

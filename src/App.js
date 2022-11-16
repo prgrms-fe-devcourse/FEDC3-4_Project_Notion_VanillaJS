@@ -8,8 +8,6 @@ export default function App({ $target, initialState }) {
 
   this.state = initialState;
 
-  // this.setState = (nextState) => {};
-
   // 모든 문서 구조에 대한 정보가 필요함.
   const postPage = new PostPage({
     $target,

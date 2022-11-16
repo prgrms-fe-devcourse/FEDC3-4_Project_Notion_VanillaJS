@@ -50,7 +50,7 @@ export default function PostList({
     return visible.visible;
   };
 
-  // 재귀적
+  // 리스트 그리기
   this.makeList = (docList, depth = 0) => {
     return docList
       .map(
@@ -119,28 +119,30 @@ export default function PostList({
       fetchPosts();
     } else if (name === "delete") {
       postDelete(id);
-      //fetchPosts(); PostPage에 postDelete를 정의한 부분에 넣어버림. 왜 여기에 있으면 반영이 바로 안될까
+      //fetchPosts(); PostPage컴포넌트에 postDelete를 정의한 부분에 넣어버림. 왜 여기에 있으면 반영이 바로 안될까
     }
   });
 
+  let originColor = null; //  mouseover전의 색깔.
   $postList.addEventListener("mouseover", (e) => {
     const { target } = e;
 
-    const $li = target.closest("li");
+    const $p = target.closest("p");
 
-    if (!$li) return;
+    if (!$p) return;
+    originColor = $p.style.backgroundColor;
 
-    $li.style.backgroundColor = "#bebebe";
+    $p.style.backgroundColor = "#bebebe";
   });
 
   $postList.addEventListener("mouseout", (e) => {
     const { target } = e;
 
-    const $li = target.closest("li");
+    const $p = target.closest("p");
 
-    if (!$li) return;
+    if (!$p) return;
 
-    $li.style.backgroundColor = "";
+    $p.style.backgroundColor = `${originColor}`;
   });
 
   const fetchPosts = async () => {
