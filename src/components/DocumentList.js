@@ -1,21 +1,24 @@
 import { push } from '../utils/router.js';
 import {
-  NEW,
-  NEW_PARENT,
   ROUTE_DOCUMENTS,
   UNTITLED,
   ADD,
   DELETE,
+  OPENED_ITEM,
 } from '../utils/constants.js';
 import { isNew } from '../utils/helper.js';
 import { getItem, setItem } from '../utils/storage.js';
 
 const DOCUMENT_ITEM = 'document-item';
-const OPENED_ITEM = 'opened-item';
 const BLOCK = 'block';
 const NONE = 'none';
 
-export default function DocumentList({ $target, initialState, onRemove }) {
+export default function DocumentList({
+  $target,
+  initialState,
+  onAdd,
+  onDelete,
+}) {
   isNew(new.target);
 
   const $documentList = document.createElement('div');
@@ -60,11 +63,11 @@ export default function DocumentList({ $target, initialState, onRemove }) {
               <li 
                 data-id="${id}" 
                 class="${DOCUMENT_ITEM}" 
-                style="text-indent: ${generateTextIndent(depth)}px">
+                style="padding-left: ${generateTextIndent(depth)}px">
                 ${renderButton(id)}
-                <p class="${DOCUMENT_ITEM}">${
-              title.length > 0 ? title : UNTITLED
-            }</p>
+                <p class="${DOCUMENT_ITEM}">
+                  ${title.length > 0 ? title : UNTITLED}
+                </p>
                 <div class="buttons">
                   <button class="${DELETE}" type="button">
                     <i class="fa-regular fa-trash-can ${DELETE}"></i>
@@ -75,13 +78,14 @@ export default function DocumentList({ $target, initialState, onRemove }) {
                 </div>
               </li>
               ${
-                documents.length
+                isBlock && documents.length
                   ? renderDocuments(documents, depth + 2)
                   : `<li 
                       class="no-subpages" 
-                      style="text-indent: ${generateTextIndent(
-                        depth + 2
-                      )}px; display: ${isBlock ? BLOCK : NONE};">
+                      style="
+                        padding-left: ${generateTextIndent(depth + 2)}px; 
+                        display: ${isBlock ? BLOCK : NONE};
+                      ">
                       하위 페이지 없음
                     </li>`
               }
@@ -106,17 +110,23 @@ export default function DocumentList({ $target, initialState, onRemove }) {
 
     let { id } = $li.dataset;
     id = parseInt(id);
-    const openedItems = getItem(OPENED_ITEM, []);
+
     if (target.classList.contains(DOCUMENT_ITEM)) {
       push(`${ROUTE_DOCUMENTS}/${id}`);
     } else if (target.classList.contains(ADD)) {
-      setItem(NEW_PARENT, id);
-      push(`${ROUTE_DOCUMENTS}/${NEW}`);
+      onAdd(id);
+      toggleOpen(target, id);
     } else if (target.classList.contains(DELETE)) {
-      onRemove(id);
+      onDelete(id);
     }
 
-    if (!target.classList.contains('toggle')) return;
+    if (target.classList.contains('toggle')) {
+      toggleOpen(target, id);
+    }
+  });
+
+  const toggleOpen = (target, id) => {
+    const openedItems = getItem(OPENED_ITEM, []);
 
     if (target.classList.contains('open')) {
       const index = openedItems.indexOf(id);
@@ -125,30 +135,30 @@ export default function DocumentList({ $target, initialState, onRemove }) {
         ...openedItems.slice(index + 1),
       ]);
       target.classList.toggle('open');
-      this.render();
     } else {
       setItem(OPENED_ITEM, [...openedItems, id]);
       target.classList.toggle('open');
-      this.render();
     }
-  });
 
-  const toggleBlock = (e) => {
+    this.render();
+  };
+
+  const toggleButtonBlock = (e) => {
     const $li = e.target.closest('li');
     if (!$li) return;
 
-    for (const node of $li.children) {
+    for (const element of $li.children) {
       if (
-        node.classList.contains('buttons') ||
-        node.classList.contains(DOCUMENT_ITEM)
+        element.classList.contains('buttons') ||
+        element.classList.contains(DOCUMENT_ITEM)
       ) {
-        node.classList.toggle(BLOCK);
+        element.classList.toggle(BLOCK);
       }
     }
   };
 
-  $documentList.addEventListener('mouseover', toggleBlock);
-  $documentList.addEventListener('mouseout', toggleBlock);
+  $documentList.addEventListener('mouseover', toggleButtonBlock);
+  $documentList.addEventListener('mouseout', toggleButtonBlock);
 
   this.render();
 }

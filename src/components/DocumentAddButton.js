@@ -1,6 +1,6 @@
-import { ADD } from '../utils/constants.js';
+import { ADD, NEW } from '../utils/constants.js';
 
-export default function DocumentAddButton({ $target, initialState, onClick }) {
+export default function DocumentAddButton({ $target, initialState, onAdd }) {
   const $button = document.createElement('div');
 
   $target.appendChild($button);
@@ -19,7 +19,7 @@ export default function DocumentAddButton({ $target, initialState, onClick }) {
   };
 
   $button.addEventListener('click', () => {
-    onClick();
+    onAdd(NEW);
   });
 
   this.render();

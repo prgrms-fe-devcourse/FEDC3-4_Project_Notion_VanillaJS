@@ -1,12 +1,17 @@
 import Editor from './Editor.js';
 import DocumentHeader from './DocumentHeader.js';
+import DocumentFooter from './DocumentFooter.js';
 
 import { fetchDocuments } from '../utils/api.js';
-import { NEW, NEW_PARENT, ROUTE_DOCUMENTS } from '../utils/constants.js';
+import { NEW } from '../utils/constants.js';
 import { isNew, setDocumentTitle } from '../utils/helper.js';
-import { getItem, removeItem } from '../utils/storage.js';
 
-export default function DocumentEditPage({ $target, initialState }) {
+export default function DocumentEditPage({
+  $target,
+  initialState,
+  onDelete,
+  onEdit,
+}) {
   isNew(new.target);
 
   const $page = document.createElement('div');
@@ -20,17 +25,8 @@ export default function DocumentEditPage({ $target, initialState }) {
       documentId: this.state.documentId,
       title: this.state.document.title,
     },
-    onRemove: async (documentId) => {
-      if (confirm('페이지를 삭제하시겠습니까?')) {
-        await fetchDocuments(documentId, {
-          method: 'DELETE',
-        });
-        // TODO: 로컬스토리지의 opened-item에서 해당 id 삭제해야 함
-      }
-    },
+    onDelete,
   });
-
-  let timer = null;
 
   const editor = new Editor({
     $target: $page,
@@ -38,45 +34,12 @@ export default function DocumentEditPage({ $target, initialState }) {
       title: '',
       content: '',
     },
-    onEditing: (document) => {
-      if (timer !== null) {
-        clearTimeout(timer);
-      }
-      timer = setTimeout(async () => {
-        if (this.state.documentId === NEW) {
-          const createdDocument = await fetchDocuments('', {
-            method: 'POST',
-            body: JSON.stringify({
-              title: document.title,
-              parent: getItem(NEW_PARENT, null),
-            }),
-          });
+    onEdit,
+  });
 
           history.replaceState(
-            null,
-            null,
-            `${ROUTE_DOCUMENTS}/${createdDocument.id}`
-          );
-          removeItem(NEW_PARENT);
-
-          this.setState({
-            ...this.state,
-            documentId: createdDocument.id,
-          });
-        } else {
-          const editedDocument = await fetchDocuments(this.state.documentId, {
-            method: 'PUT',
-            body: JSON.stringify(document),
-          });
-
-          this.setState({
-            ...this.state,
-            documentId: editedDocument.id,
-            document: editedDocument,
-          });
-        }
-      }, 1000);
-    },
+    $target: $page,
+    initialState: '자식 요소 렌더링',
   });
 
   this.setState = async (nextState) => {
@@ -93,29 +56,23 @@ export default function DocumentEditPage({ $target, initialState }) {
         title: this.state.document.title || '',
       });
       this.render();
-      return;
-    }
-
-    this.state = { ...this.state, ...nextState };
-
-    if (this.state.documentId === NEW) {
-      editor.setState({
-        title: '',
-        content: '',
-      });
-      documentHeader.setState({
-        documentId: this.state.documentId,
-        title: '',
-      });
-      this.render();
     } else {
-      await loadDocument();
-    }
-  };
+      this.state = { ...this.state, ...nextState };
 
-  this.render = () => {
-    $target.appendChild($page);
-    setDocumentTitle(this.state.document?.title || '');
+      if (this.state.documentId === NEW) {
+        editor.setState({
+          title: '',
+          content: '',
+        });
+        documentHeader.setState({
+          documentId: this.state.documentId,
+          title: '',
+        });
+        this.render();
+      } else {
+        await loadDocument();
+      }
+    }
   };
 
   const loadDocument = async () => {
@@ -125,5 +82,10 @@ export default function DocumentEditPage({ $target, initialState }) {
       ...this.state,
       document,
     });
+  };
+
+  this.render = () => {
+    $target.appendChild($page);
+    setDocumentTitle(this.state.document?.title || '');
   };
 }

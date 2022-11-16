@@ -1,6 +1,6 @@
 import { DELETE, UNTITLED } from '../utils/constants.js';
 
-export default function DocumentHeader({ $target, initialState, onRemove }) {
+export default function DocumentHeader({ $target, initialState, onDelete }) {
   const $header = document.createElement('header');
   $header.className = 'document-header';
 
@@ -31,7 +31,7 @@ export default function DocumentHeader({ $target, initialState, onRemove }) {
     const { target } = e;
 
     if (target.classList.contains('delete')) {
-      onRemove(parseInt(this.state.documentId));
+      onDelete(this.state.documentId);
     }
   });
 

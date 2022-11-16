@@ -46,7 +46,7 @@ button {
 }
 
 .document-list {
-  margin: 2px;
+  margin: 12px;
 }
 
 .document-list li {
@@ -79,11 +79,13 @@ button {
 }
 
 .document-list p.document-item.block {
-  width: 140px;
+  width: calc(100% - 70px);
 }
 
 .document-list .no-subpages {
   font-weight: 400;
+  color: #989893;
+  cursor: default;
 }
 
 .document-list button:hover {
@@ -138,12 +140,26 @@ button {
 }
 
 .document-header .title {
-  padding-left: 20px;
+  margin-left: 20px;
+  padding: 3px 5px;
   font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.document-header .title:hover {
+  background-color: #efefef;
 }
 
 .document-header .buttons {
   padding-right: 20px;
+}
+
+.document-header button {
+  padding: 5px;
+}
+.document-header button:hover {
+  background-color: #efefef;
+  padding: 5px;
 }
 
 .document-edit-page {
@@ -155,12 +171,8 @@ button {
 }
 
 .editor {
-  position: relative;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
   width: 75%;
+  height: 100%;
   margin: 50px;
   background: #ffffff;
   caret-color: #37352f;
@@ -187,8 +199,8 @@ button {
 }
 
 .editor .content {
+  height: 85%;
   font-size: 16px;
-  height: 400px;
   resize: none;
   line-height: 1.8rem;
 }

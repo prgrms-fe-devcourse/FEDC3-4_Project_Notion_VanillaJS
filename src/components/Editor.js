@@ -4,7 +4,7 @@ import { UNTITLED } from '../utils/constants.js';
 export default function Editor({
   $target,
   initialState = { title: '', content: '' },
-  onEditing,
+  onEdit,
 }) {
   isNew(new.target);
 
@@ -12,7 +12,7 @@ export default function Editor({
   $editor.className = 'editor';
 
   $editor.innerHTML = `
-      <input type="text" name="title" class="title" placeholder="${UNTITLED}"/>
+      <input type="text" name="title" class="title" placeholder="${UNTITLED}" autofocus/>
       <textarea name="content" class="content" placeholder="내용을 입력하세요."></textarea>
   `;
 
@@ -45,7 +45,7 @@ export default function Editor({
       const nextState = { ...this.state, [name]: target.value };
 
       this.setState(nextState);
-      onEditing(this.state);
+      onEdit(this.state);
     }
   });
 }
