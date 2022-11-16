@@ -7,22 +7,6 @@ import Home from "./Home.js";
 export default function App({ $target }) {
   const postPage = new PostPage({
     $target,
-    onAdd: (id) => {
-      postEditPage.setState({
-        postId: `new-${id}`,
-        post: {
-          title: "",
-          content: "",
-        },
-      });
-      push(`/documents/${id}/new`);
-    },
-    onDelete: async (id) => {
-      await request(`/documents/${id}`, {
-        method: "DELETE",
-      });
-      push("/");
-    },
   });
 
   const home = new Home({ $target });
@@ -54,6 +38,14 @@ export default function App({ $target }) {
       if (!isNew) {
         postEditPage.setState({ ...postEditPage.state, postId });
         postPage.setState();
+      } else {
+        postEditPage.setState({
+          postId: `new-${postId}`,
+          post: {
+            title: "",
+            content: "",
+          },
+        });
       }
     }
   };

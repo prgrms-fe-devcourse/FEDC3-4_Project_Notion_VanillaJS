@@ -2,8 +2,9 @@ import PostList from "./PostList.js";
 import { request } from "./api.js";
 import LinkButton from "./LinkButton.js";
 import Header from "./Header.js";
+import { push } from "./router.js";
 
-export default function PostPage({ $target, onAdd, onDelete }) {
+export default function PostPage({ $target }) {
   const $page = document.createElement("div");
   $page.className = "postpage";
   $target.appendChild($page);
@@ -22,10 +23,13 @@ export default function PostPage({ $target, onAdd, onDelete }) {
     $target: $page,
     initialState: [],
     onAdd: (id) => {
-      onAdd(id);
+      push(`/documents/${id}/new`);
     },
-    onDelete: (id) => {
-      onDelete(id);
+    onDelete: async (id) => {
+      await request(`/documents/${id}`, {
+        method: "DELETE",
+      });
+      push("/");
     },
   });
 
