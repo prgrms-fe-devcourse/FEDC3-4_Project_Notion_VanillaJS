@@ -30,7 +30,7 @@ export default function Sidebar({ $target, initialState }) {
         // 선택된 문서 배경색을 변화시켜 구분
         const { pathname } = window.location;
         const [, , docId] = pathname.split("/");
-        if (docId !== null) {
+        if (docId) {
           const $prevLiP = document.getElementById(docId).querySelector(".forHover");
           $prevLiP.style = "";
         }
