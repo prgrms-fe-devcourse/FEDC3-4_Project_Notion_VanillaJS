@@ -1,9 +1,10 @@
 const API_END_POINT = 'https://kdt-frontend.programmers.co.kr';
 const X_USERNAME = 'minjong';
 
-export const request = async (url, options = {}) => {
+export const request = async (path, options = {}) => {
   try {
-    const res = await fetch(`${API_END_POINT}${url}`, { 
+    const url = `${API_END_POINT}${path}`;
+    const res = await fetch(url, { 
       ...options, 
       headers: {
         'x-username' : X_USERNAME,

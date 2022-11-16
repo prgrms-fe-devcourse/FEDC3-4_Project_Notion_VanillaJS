@@ -1,10 +1,10 @@
 export default function Modal({ $target, className, text }) {
-  const $element = document.createElement('div');
-  $element.className = `modal ${className}`
-  $target.appendChild($element);
+  this.$element = document.createElement('div');
+  this.$element.className = `modal ${className}`
+  $target.appendChild(this.$element);
 
   this.render = () => {
-    $element.innerHTML = `
+    this.$element.innerHTML = `
       <div class="modal-content">
         ${text}
       </div>

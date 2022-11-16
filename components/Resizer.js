@@ -1,10 +1,11 @@
+import { getElementWidth } from "../util/common.js";
 import { setStorageItem } from "../util/sotrage.js";
 
 export default function Resizer({ $target, storageKey }) {
-  const $element = document.createElement('div')
-  $element.className = 'resizer'
-  $element.innerHTML = `<div> </div>`
-  $target.appendChild($element);
+  this.$element = document.createElement('div')
+  this.$element.className = 'resizer'
+
+  $target.appendChild(this.$element);
 
   this.state = {
     x: 0,
@@ -15,9 +16,9 @@ export default function Resizer({ $target, storageKey }) {
     this.state = { ...this.state, ...nextState };
   }
 
-  $element.addEventListener('mousedown', (e) => {
+  this.$element.addEventListener('mousedown', (e) => {
     const x = e.clientX
-    const width = getTargetWidth()
+    const width = getElementWidth($target);
     this.setState({ x, width });
 
     document.addEventListener('mousemove', onMouseMove)
@@ -26,26 +27,24 @@ export default function Resizer({ $target, storageKey }) {
 
   window.addEventListener('resize', (e) => {
     const { x, width } = this.state;
-    const dx = $element.clientX - x;
+    const dx = this.$element.clientX - x;
+
     $target.style.width = `${width+dx}px`;
-    $target.nextElementSibling.style.marginLeft = getTargetWidth();
+    $target.nextElementSibling.style.marginLeft = getElementWidth($target);
   })
 
   const onMouseMove = (e) => {
     const { x, width } = this.state;
     const dx = e.clientX - x;
+
     $target.style.width = `${width+dx}px`;
-    $target.nextElementSibling.style.marginLeft = getTargetWidth();
+    $target.nextElementSibling.style.marginLeft = getElementWidth($target);
   }
 
   const onMouseUp = (e) => {
-    setStorageItem(storageKey, getTargetWidth());
+    setStorageItem(storageKey, getElementWidth($target));
+    
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
   }
-
-  const getTargetWidth = () => {
-    return parseInt(window.getComputedStyle($target).width);
-  }
-
 }

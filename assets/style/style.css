@@ -75,12 +75,12 @@ button:hover {
 .document-button-group {
   margin-left: auto;
   flex-shrink: 0;
-  width: 28px;
+  width: 35px;
   display: flex;
   justify-content: space-around;
 }
 
-.sidebar .documents-header {
+.sidebar .sidebar-header {
   font-size: 24px;
   display: flex;
   justify-content: space-between;
@@ -88,7 +88,7 @@ button:hover {
   width: 100%;
 }
 
-.documents-header h1 {
+.sidebar-header h1 {
   font-size: 24px;
   margin: 15px 0;
   cursor: pointer;
@@ -105,7 +105,12 @@ button:hover {
   flex-direction: column;
 }
 
-ul.document-list {
+.document-list {
+  width: 100%;
+  overflow: hidden auto;
+}
+
+.document-list ul {
   transition: all 0.5s;
 }
 
@@ -122,7 +127,7 @@ ul.document-list {
   height: 1rem;
   align-items: center;
   justify-content: space-between;
-  padding: 3px;
+  padding: 4px;
 }
 
 .document-item:hover {
@@ -157,6 +162,8 @@ ul.document-list {
 .no-sub-documents {
   cursor: default;
   user-select: none;
+  font-size: 0.9rem;
+  color: rgb(100, 100, 100);
 }
 
 /* DocumetPage */
@@ -178,7 +185,8 @@ ul.document-list {
   border: 0px;
   padding: 0.5rem;
   resize: none;
-}
+  min-height: 600px;
+} 
 
 .editor [contenteditable] {
   outline: 0px solid transparent;
@@ -225,12 +233,12 @@ ul.document-list {
 }
 
 .resizer {
-  width: 1px;
+  width: 2px;
   background-color: rgb(200, 200, 200);
   height: 100%;
   cursor: col-resize;
   position: absolute;
-  top:0;
+  top: 0;
   right: 0.5rem;
 }
 
@@ -248,6 +256,7 @@ ul.document-list {
   max-width: 720px;
   margin: 0 auto;
   padding: 0.5rem;
+  margin-bottom: 50px;
 }
 
 .sub-documents-link * {
@@ -280,6 +289,7 @@ ul.document-list {
 ::-webkit-scrollbar {
   background: transparent;
 }
+
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -288,6 +298,7 @@ ul.document-list {
 ::-webkit-scrollbar-thumb {
   background: #D3D1CB;
 }
+
 ::-webkit-scrollbar-track {
   background: #EDECE9;
 }

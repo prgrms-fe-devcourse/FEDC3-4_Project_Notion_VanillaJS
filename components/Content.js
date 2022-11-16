@@ -1,16 +1,16 @@
-export default function Content({ $target, initialState }) {
-  const $element = document.createElement('div');
-  $element.className = 'content';
-  $target.appendChild($element);
-  console.log($element.previousElementSibling)
-  $element.style.marginLeft = parseInt(window.getComputedStyle($element.previousElementSibling).width);
-  
+import { getElementWidth } from "../util/common.js";
 
+export default function Content({ $target, initialState }) {
+  this.$element = document.createElement('div');
+  this.$element.className = 'content';
+
+  $target.appendChild(this.$element);
+
+  this.$element.style.marginLeft = getElementWidth(this.$element.previousElementSibling);
+  
   this.state = initialState;
 
   this.setState = (nextState) => {
     this.state = { ...nextState };
   }
-
-  this.getElement = () => $element;
 }

@@ -1,23 +1,27 @@
-import { ADD_DOCUMENT_BUTTON, DOCUMENT_HEADER, SIDEBAR_WIDTH } from '../util/constants.js';
+import { STORAGE_KEY, CLASS_NAME } from '../util/constants.js';
 import { getStorageItem } from '../util/sotrage.js';
 
-
 export default function Sidebar({ $target, onClickHeader, onClickAddButton }) {
-  const $element = document.createElement('div');
-  $element.className = 'sidebar';
-  const savedSidebarWidth = getStorageItem(SIDEBAR_WIDTH, 0);
-  if (savedSidebarWidth !== 0) $element.style.width = savedSidebarWidth;
-  $element.innerHTML = `<div class="${DOCUMENT_HEADER}"><h1>My Documents</h1><span class="icon ${ADD_DOCUMENT_BUTTON}"></span></div>`;
+  this.$element = document.createElement('div');
+  this.$element.className = CLASS_NAME.SIDEBAR;
 
-  $target.appendChild($element);
+  const savedSidebarWidth = getStorageItem(STORAGE_KEY.SIDEBAR_WIDTH, 0);
+  if (savedSidebarWidth !== 0) this.$element.style.width = savedSidebarWidth;
 
-  $element.addEventListener('click', async (e) => {
-    if (e.target.tagName === 'H1') {
+  this.$element.innerHTML = `
+    <div class="${CLASS_NAME.SIDEBAR_HEADER}">
+      <h1>My Documents</h1><span class="icon ${CLASS_NAME.ADD_DOCUMENT_BUTTON}"></span>
+    </div>
+  `;
+
+  $target.appendChild(this.$element);
+
+  this.$element.addEventListener('click', async (e) => {
+    const target = e.target;
+    if (target.tagName === 'H1') {
       onClickHeader();
-    } else if (e.target.className.includes(ADD_DOCUMENT_BUTTON)) {
+    } else if (target.classList.contains(CLASS_NAME.ADD_DOCUMENT_BUTTON)) {
       onClickAddButton();
     }
   });
-
-  this.getElement = () => $element;
 }

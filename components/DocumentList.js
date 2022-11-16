@@ -1,145 +1,136 @@
+import { CLASS_NAME, STORAGE_KEY } from "../util/constants.js";
 import { getStorageItem, setStorageItem } from "../util/sotrage.js"
 
-const DROPDOWN_DOCUMENTS_BUTTON = 'dropdown-documents-button'
-const DOCUMENT_TITLE = 'document-title';
-const DOCUMENT_BUTTON_GROUP = 'document-button-group'
-const ADD_SUB_DOCUMENT_BUTTON = 'add-sub-document-button';
-const REMOVE_DOCUMENT_BUTTON = 'remove-document-button';
-const DOCUMENT_ITEM = 'document-item';
-const NO_SUB_DOCUMENTS = 'no-sub-documents'
-
 export default function DocumentList({ $target, initialState, onDocumentClick, onAddSubDocumentButtonClick, onRemoveDocumentButtonClick }) {
-  const $element = document.createElement('div');
-  $element.style = 'width: 100%; overflow: hidden auto;'
+  this.$element = document.createElement('div');
+  this.$element.className = CLASS_NAME.DOCUMENT_LIST;
 
-  $target.appendChild($element);
+  $target.appendChild(this.$element);
 
   this.state = initialState;
-
-  this.opendSubDocuments = getStorageItem('opendSubDocuments', [])
 
   this.setState = (nextState) => {
     this.state = { ...nextState };
     this.render();
-  }
+  };
+
+  this.opendSubDocuments = getStorageItem(STORAGE_KEY.OPEND_SUB_DOCUMENTS, []);
 
   this.setOpendSubDocuments = (nextValue) => {
     this.opendSubDocuments = [...nextValue];
-    setStorageItem('opendSubDocuments', this.opendSubDocuments);
-  }
+    setStorageItem(STORAGE_KEY.OPEND_SUB_DOCUMENTS, this.opendSubDocuments);
+  };
 
-  $element.addEventListener('click', (e) => {
+  let template;
+
+  this.render = () => {
+    template = `<ul>`;
+    const { documents } = this.state;
+    renderDocuments(documents);
+    template += `</ul>`;
+    this.$element.innerHTML = template;
+  };
+
+  const renderDocuments = (documents, depth = 0) => {
+    for (const { id, title, 'documents': subDocuments } of documents) {
+      const isOpen = this.opendSubDocuments.includes(id);
+      template += `
+        <li data-id="${id}">
+          <div class="${CLASS_NAME.DOCUMENT_ITEM} ${id === this.state.selectedDocument.id ? 'selected' : ''}" style="padding-left: ${depth * 20 + 3}px">
+            <div class="${CLASS_NAME.DOCUMENT_TITLE}">
+              <span class="icon ${CLASS_NAME.DROPDOWN_DOCUMENTS_BUTTON} ${isOpen ? CLASS_NAME.ROTATE_90 : ''}"></span>
+              ${title.trim() === '' ? 'Untitled' : title}
+            </div>
+            <div class="${CLASS_NAME.DOCUMENT_BUTTON_GROUP} ${CLASS_NAME.HIDDEN}">
+              <span class="icon ${CLASS_NAME.REMOVE_DOCUMENT_BUTTON}"></span>
+              <span class="icon ${CLASS_NAME.ADD_SUB_DOCUMENT_BUTTON}"></span>
+            </div>
+          </div>
+        `;
+
+      template += `<ul class="${isOpen ? CLASS_NAME.OPEN : CLASS_NAME.CLOSE}">`;
+      if (subDocuments.length > 0) {
+        renderDocuments(subDocuments, depth + 1);
+      } else {
+        template += `<li class="${CLASS_NAME.NO_SUB_DOCUMENTS}" style="padding-left: ${depth * 20 + 20}px;">No Sub Docmuents</li>`;
+      }
+      template += `</ul>`;
+      template += `</li>`;
+    }
+  };
+
+  this.$element.addEventListener('click', (e) => {
     const target = e.target;
     const $li = target.closest('li');
     if (!$li) return;
-    if ($li.className === NO_SUB_DOCUMENTS) return;
 
     const $ul = $li.querySelector('ul');
     const id = Number($li.dataset.id);
-    const { className } = target
 
-    if (className.includes(DROPDOWN_DOCUMENTS_BUTTON)) {
-      if ($ul.classList.contains('close')) {
+    if ($li.classList.contains(CLASS_NAME.NO_SUB_DOCUMENTS)) return;
+    if (target.classList.contains(CLASS_NAME.DROPDOWN_DOCUMENTS_BUTTON)) {
+      if ($ul.classList.contains(CLASS_NAME.CLOSE)) {
         openSubDocuments($ul, $li, id);
-      } else if ($ul.classList.contains('open')) {
+      } else if ($ul.classList.contains(CLASS_NAME.OPEN)) {
         closeSubDocuments($ul, $li, id);
       }
       return;
     }
 
-    // TODO: 공통함수로 분리할 수 있는지 확인
-    if (className.includes(ADD_SUB_DOCUMENT_BUTTON)) {
-      if ($ul && $ul.classList.contains('close')) {
+    // TODO: 공통함수로 분리할 수 있는지 검토 필요
+    if (target.classList.contains(CLASS_NAME.ADD_SUB_DOCUMENT_BUTTON)) {
+      if ($ul && $ul.classList.contains(CLASS_NAME.CLOSE)) {
         openSubDocuments($ul, $li, id)
       } else {
-        const $button = $li.querySelector(`.${DROPDOWN_DOCUMENTS_BUTTON}`)
-        $button.classList.remove('hidden');
-        $button.classList.add('rotate-90')
+        const $button = $li.querySelector(`.${CLASS_NAME.DROPDOWN_DOCUMENTS_BUTTON}`)
+        $button.classList.remove(CLASS_NAME.HIDDEN);
+        $button.classList.add(CLASS_NAME.ROTATE_90)
         this.setOpendSubDocuments([...this.opendSubDocuments, id]);
       }
       onAddSubDocumentButtonClick(id);
       return;
     }
 
-    if (className.includes(REMOVE_DOCUMENT_BUTTON)) {
-      this.setOpendSubDocuments(this.opendSubDocuments.filter(documentId => documentId !== id));
+    if (target.classList.contains(CLASS_NAME.REMOVE_DOCUMENT_BUTTON)) {
+      this.setOpendSubDocuments(...[this.opendSubDocuments.filter(documentId => documentId !== id)]);
       onRemoveDocumentButtonClick(id);
-      return
+      return;
     }
 
     onDocumentClick(id);
   });
 
-
-  $element.addEventListener('mouseover', (e) => {
+  this.$element.addEventListener('mouseover', (e) => {
     e.stopPropagation();
-    const $item = e.target.closest(`.${DOCUMENT_ITEM}`);
+    const $item = e.target.closest(`.${CLASS_NAME.DOCUMENT_ITEM}`);
     if (!$item) return;
-    const $buttonGroup = $item.querySelector(`.${DOCUMENT_BUTTON_GROUP}`)
-    $buttonGroup.classList.remove('hidden');
+    const $buttonGroup = $item.querySelector(`.${CLASS_NAME.DOCUMENT_BUTTON_GROUP}`)
+    $buttonGroup.classList.remove(CLASS_NAME.HIDDEN);
   });
 
-  $element.addEventListener('mouseout', (e) => {
-    e.stopPropagation
-    const $item = e.target.closest(`.${DOCUMENT_ITEM}`);
+  this.$element.addEventListener('mouseout', (e) => {
+    e.stopPropagation();
+    const $item = e.target.closest(`.${CLASS_NAME.DOCUMENT_ITEM}`);
     if (!$item) return;
-    const $buttonGroup = $item.querySelector(`.${DOCUMENT_BUTTON_GROUP}`);
-    $buttonGroup.classList.add('hidden');
+    const $buttonGroup = $item.querySelector(`.${CLASS_NAME.DOCUMENT_BUTTON_GROUP}`);
+    $buttonGroup.classList.add(CLASS_NAME.HIDDEN);
   });
-
-  let template;
-
-  this.render = () => {
-    template = `<ul class="document-list">`;
-    const { documents } = this.state;
-    renderDocuments(documents);
-    template += `</ul>`
-    $element.innerHTML = template;
-  }
-
-  const renderDocuments = (_documents, depth = 0) => {
-    for (const { id, title, documents } of _documents) {
-      const isOpen = this.opendSubDocuments.includes(id);
-      template += `
-        <li data-id="${id}">
-          <div class="${DOCUMENT_ITEM} ${id === this.state.selectedDocument.id ? 'selected' : ''}" style="padding-left: ${depth * 20 + 3}px">
-            <div class="${DOCUMENT_TITLE}">
-              <span class="icon ${DROPDOWN_DOCUMENTS_BUTTON}${isOpen ? ' rotate-90' : ''}"></span>
-              ${title.trim() === '' ? 'Untitled' : title}
-            </div>
-            <div class="${DOCUMENT_BUTTON_GROUP} hidden">
-              <span class="icon ${REMOVE_DOCUMENT_BUTTON}"></span>
-              <span class="icon ${ADD_SUB_DOCUMENT_BUTTON}"></span>
-            </div>
-          </div>
-        `;
-
-      template += `<ul class="document-list ${isOpen ? 'open' : 'close'}">`;
-      if (documents.length > 0) {
-        renderDocuments(documents, depth + 1);
-      } else {
-        template += `<li class="${NO_SUB_DOCUMENTS}" style="padding-left: ${depth * 20 + 20}px; font-size:0.9rem; color: rgb(100, 100, 100);">No Sub Docmuents</li>`
-      }
-      template += `</ul>`;
-      template += `</li>`;
-    }
-  }
 
   const openSubDocuments = ($ul, $li, id) => {
-    const $button = $li.querySelector(`.${DROPDOWN_DOCUMENTS_BUTTON}`)
-    $button.classList.add('rotate-90');
+    const $button = $li.querySelector(`.${CLASS_NAME.DROPDOWN_DOCUMENTS_BUTTON}`);
+    $button.classList.add(CLASS_NAME.ROTATE_90);
     if ($ul) {
-      $ul.classList.remove('close');
-      $ul.classList.add('open');
+      $ul.classList.remove(CLASS_NAME.CLOSE);
+      $ul.classList.add(CLASS_NAME.OPEN);
     }
     this.setOpendSubDocuments([...this.opendSubDocuments, id]);
-  }
+  };
 
   const closeSubDocuments = ($ul, $li, id) => {
-    const $button = $li.querySelector(`.${DROPDOWN_DOCUMENTS_BUTTON}`)
-    $button.classList.remove('rotate-90');
-    $ul.classList.remove('open');
-    $ul.classList.add('close');
+    const $button = $li.querySelector(`.${CLASS_NAME.DROPDOWN_DOCUMENTS_BUTTON}`);
+    $button.classList.remove(CLASS_NAME.ROTATE_90);
+    $ul.classList.remove(CLASS_NAME.OPEN);
+    $ul.classList.add(CLASS_NAME.CLOSE);
     this.setOpendSubDocuments(this.opendSubDocuments.filter(documentId => documentId !== id));
-  }
+  };
 }
