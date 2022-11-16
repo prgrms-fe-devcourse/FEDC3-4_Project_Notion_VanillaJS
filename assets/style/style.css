@@ -178,13 +178,15 @@ ul.document-list {
   resize: none;
 }
 
-input,
-textarea {
-  width: 100%;
+.editor [contenteditable] {
+  outline: 0px solid transparent;
+  cursor: text;
 }
 
-textarea {
-  height: 400px;
+.editor [contenteditable]:empty::before {
+  content: attr(placeholder);
+  color: rgb(160, 160, 160);
+  display: block;
 }
 
 .document-page {
@@ -244,7 +246,7 @@ textarea {
 }
 
 .sub-documents-link * {
-  padding: 0.5 0rem;
+  padding: 0 0.5rem;
 }
 
 .sub-documents-link h1 {

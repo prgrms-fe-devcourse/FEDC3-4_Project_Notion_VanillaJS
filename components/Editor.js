@@ -2,9 +2,9 @@ export default function Editor({ $target, initialState, onEdit }) {
   const $element = document.createElement('form');
   $element.className = 'editor hidden'
   $element.innerHTML = `
-      <input class="document-title" type="text" name="title" placeholder="Untitled">
-      <textarea class="document-content" name="content"></textarea>
-  `;
+    <div class="document-title" name="title" contenteditable="true" placeholder="Untitled"></div>
+    <div class="document-content" name="content" contenteditable="true" placeholder="Empty Content"></div>
+  `
 
   $target.appendChild($element);
 
@@ -20,6 +20,14 @@ export default function Editor({ $target, initialState, onEdit }) {
     editDocument(e)
   });
 
+  $element.querySelector('.document-title').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') e.preventDefault();
+  });
+
+  $element.querySelector('.document-title').addEventListener('focusin', (e) => {
+    e.target.innerText = e.target.innerText.replaceAll('\n', '');
+  });
+
   $element.addEventListener('keyup', (e) => {
     editDocument(e)
   });
@@ -29,10 +37,10 @@ export default function Editor({ $target, initialState, onEdit }) {
   });
   
   const editDocument = (e) => {
-    const { name } = e.target;
+    const name = e.target.className.replace('document-', '');
     if (this.state[name] === undefined) return;
     const document = {};
-    document[name] = e.target.value;
+    document[name] = e.target.innerText;
     onEdit(document, e.key)
   }
 
@@ -43,7 +51,7 @@ export default function Editor({ $target, initialState, onEdit }) {
       return;
     }
     $element.classList.remove('hidden')
-    $element.querySelector('[name=title]').value = title;
-    $element.querySelector('[name=content]').value = content;
+    $element.querySelector('[name=title]').innerText = title;
+    $element.querySelector('[name=content]').innerText = content;
   }
 }
