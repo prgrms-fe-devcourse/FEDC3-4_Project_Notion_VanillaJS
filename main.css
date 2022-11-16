@@ -99,15 +99,16 @@ button {
 .editor-page {
   width: 80vw;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  -webkit-animation: fade 0.5s;
+  animation: fade 0.5s;
 }
 
 .editor-container {
   display: flex;
   flex-direction: column;
-  -webkit-animation: fade 0.5s;
-  animation: fade 0.5s;
 }
 
 @-webkit-keyframes fade {
@@ -153,4 +154,13 @@ button {
 
 .editor-content:focus {
   outline: none;
+}
+
+/* footer */
+.sub-page-container {
+  text-align: center;
+}
+
+.sub-page-title {
+  cursor: pointer;
 }

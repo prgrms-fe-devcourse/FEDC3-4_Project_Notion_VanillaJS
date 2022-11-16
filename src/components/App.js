@@ -7,7 +7,6 @@ import { isNew } from "../utils/isNew.js";
 
 export default function App({ $target }) {
   isNew(App, this);
-
   const documentPage = new DocumentPage({
     $target,
     onClickTitle: async (id) => {

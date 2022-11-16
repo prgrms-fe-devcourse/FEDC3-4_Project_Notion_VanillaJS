@@ -1,6 +1,7 @@
 import { request } from "../utils/api.js";
 import { isNew } from "../utils/isNew.js";
 import Editor from "./Editor.js";
+import Footer from "./Footer.js";
 
 export default function EditorPage({ $target, initialState, onChange }) {
   isNew(EditorPage, this);
@@ -38,6 +39,14 @@ export default function EditorPage({ $target, initialState, onChange }) {
     },
   });
 
+  const footer = new Footer({
+    $target: $page,
+    initialState: {
+      id: null,
+      title: "",
+    },
+  });
+
   this.setState = async (nextState) => {
     this.state = nextState;
     const document = await request(`/documents/${this.state.documentId}`);
@@ -50,6 +59,10 @@ export default function EditorPage({ $target, initialState, onChange }) {
       editor.setState({
         title: document.title,
         content: document.content,
+      });
+      footer.setState({
+        id: document.documents.map((el) => el.id),
+        title: document.documents.map((el) => el.title),
       });
     }
     this.render();

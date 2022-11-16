@@ -1,5 +1,5 @@
 import { request } from "../utils/api.js";
-import { initRoute, push } from "../utils/router.js";
+import { initRoute } from "../utils/router.js";
 import DocumentList from "./DocumentList.js";
 import Header from "./Header.js";
 import { clickRootAdd, clickRemove, clickAdd } from "../utils/router.js";
@@ -17,7 +17,7 @@ export default function DocumentPage({ $target, onClickTitle }) {
       clickRootAdd();
     },
     onClickRemove: (id) => {
-      clickRemove(id, fetchDocument);
+      clickRemove(id);
     },
     onClickAdd: (id) => {
       clickAdd(id);
