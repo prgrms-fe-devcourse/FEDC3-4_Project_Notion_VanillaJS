@@ -1,5 +1,5 @@
 import { push } from "../utils/router.js";
-import { renderPosts } from "./renderPosts.js";
+import { renderPosts } from "../utils/renderPosts.js";
 
 export default function PostList({
   $target,
