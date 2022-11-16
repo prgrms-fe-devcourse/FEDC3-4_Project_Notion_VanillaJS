@@ -1,11 +1,10 @@
 import { routeChange } from './router.js';
-import { API_END_POINT } from '../../endpoint.js';
 import { ERROR_MESSAGE, API_HEADER } from '../constants.js';
 import { getUserIdToAdress } from './getUserIdToAdress.js';
 
 export const getDocumentAll = async () => {
   const userId = getUserIdToAdress();
-  const res = await fetch(`${API_END_POINT ? API_END_POINT : process.env.API_END_POINT}`, {
+  const res = await fetch(`${process.env.API_END_POINT}`, {
     headers: API_HEADER(userId),
   });
 
@@ -18,7 +17,7 @@ export const getDocumentAll = async () => {
 
 export const getDocumentById = async ({ id }) => {
   const userId = getUserIdToAdress();
-  const res = await fetch(`${API_END_POINT ? API_END_POINT : process.env.API_END_POINT}${id}`, {
+  const res = await fetch(`${process.env.API_END_POINT}${id}`, {
     headers: API_HEADER(userId),
   });
 
@@ -33,7 +32,7 @@ export const getDocumentById = async ({ id }) => {
 
 export const postDocument = async ({ title, parent = null }) => {
   const userId = getUserIdToAdress();
-  const res = await fetch(`${API_END_POINT ? API_END_POINT : process.env.API_END_POINT}`, {
+  const res = await fetch(`${process.env.API_END_POINT}`, {
     method: 'POST',
     headers: API_HEADER(userId),
     body: JSON.stringify({
@@ -51,7 +50,7 @@ export const postDocument = async ({ title, parent = null }) => {
 
 export const putDocument = async ({ id, title, content }) => {
   const userId = getUserIdToAdress();
-  const res = await fetch(`${API_END_POINT ? API_END_POINT : process.env.API_END_POINT}${id}`, {
+  const res = await fetch(`${process.env.API_END_POINT}${id}`, {
     method: 'PUT',
     headers: API_HEADER(userId),
     body: JSON.stringify({ title, content }),
@@ -64,7 +63,7 @@ export const putDocument = async ({ id, title, content }) => {
 
 export const deleteDocument = async ({ id }) => {
   const userId = getUserIdToAdress();
-  const res = await fetch(`${API_END_POINT ? API_END_POINT : process.env.API_END_POINT}${id}`, {
+  const res = await fetch(`${process.env.API_END_POINT}${id}`, {
     method: 'DELETE',
     headers: API_HEADER(userId),
   });
