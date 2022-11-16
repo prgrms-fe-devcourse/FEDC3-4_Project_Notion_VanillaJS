@@ -9,7 +9,7 @@ export default function RootDocumentAddButton({ $target, onClickRootAddButton })
 
 	this.render = () => {
 		$div.innerHTML = `
-			<img data-action='add' src='./src/assets/images/addButton.svg'>
+			<img data-action='add' src='/src/assets/images/addButton.svg'>
 			<div>새 문서 만들기</div>
 		`;
 	};

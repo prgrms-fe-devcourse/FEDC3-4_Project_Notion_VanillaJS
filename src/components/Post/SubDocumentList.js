@@ -1,5 +1,6 @@
 import { createElement } from '../../utils/createElement.js';
 import { historyPush } from '../../utils/router.js';
+import { getItem, OPENED_DOCUMENT_ITEMS, setItem } from '../../utils/storage.js';
 
 /**
  * state: {
@@ -44,6 +45,11 @@ export default function SubDocumentList({ $target, initialState }) {
 		const { target } = event;
 		const { id, currentPath } = target.closest('[data-id]').dataset;
 
-		historyPush(`${id}?currentPath=${currentPath}`);
+		const openedDocumentItemIds = getItem(OPENED_DOCUMENT_ITEMS, []);
+		if (!openedDocumentItemIds.includes(this.state.id)) {
+			setItem(OPENED_DOCUMENT_ITEMS, [...openedDocumentItemIds, this.state.id]);
+		}
+		
+		historyPush(`/documents/${id}?currentPath=${currentPath}`);
 	});
 }

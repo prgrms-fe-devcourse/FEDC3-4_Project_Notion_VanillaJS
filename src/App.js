@@ -29,7 +29,8 @@ export default function App({ $target, initialState }) {
 
 	this.route = async () => {
 		const { pathname, search } = window.location;
-		const [, id] = pathname.split('/');
+		console.log(pathname.split('/'));
+		const [, , id] = pathname.split('/');
 		// todo : 모듈화 필요
 		const queryString = new URLSearchParams(search);
 
@@ -58,6 +59,10 @@ export default function App({ $target, initialState }) {
 			});
 		}
 		
+		this.setState({
+			...this.state
+		})
+		
 		// todo : 모듈화 필요
 		document.querySelector('.selected')?.classList.remove('selected');
 		if (pathname === '/') document.querySelector('header').classList.add('selected');
@@ -83,7 +88,7 @@ export default function App({ $target, initialState }) {
 				...this.state,
 				rootDocuments: nextRootDocuments,
 			});
-			historyPush(`${createdDocument.id}?currentPath=${createdDocument.title}`);
+			historyPush(`/documents/${createdDocument.id}?currentPath=${createdDocument.title}`);
 		},
 		onClickDocumentItemAddButton: async (id, currentPath) => {
 			const openedDocumentItemIds = getItem(OPENED_DOCUMENT_ITEMS, []);
@@ -94,11 +99,11 @@ export default function App({ $target, initialState }) {
 				...this.state,
 				rootDocuments: nextRootDocuments
 			})
-			historyPush(`${createdDocument.id}?currentPath=${currentPath} > ${createdDocument.title}`)
+			historyPush(`/documents/${createdDocument.id}?currentPath=${currentPath} > ${createdDocument.title}`)
 		},
 		onClickDocumentItemDeleteButton: async (id) => {
 			const openedDocumentItemIds = getItem(OPENED_DOCUMENT_ITEMS, []);
-			const [, currentId] = window.location.pathname.split('/');
+			const [, , currentId] = window.location.pathname.split('/');
 			const removedOpenedDocumentItemIdIndex = openedDocumentItemIds.findIndex((openedDocumentItemId) => openedDocumentItemId === id);
 			if (removedOpenedDocumentItemIdIndex !== -1) openedDocumentItemIds.splice(removedOpenedDocumentItemIdIndex, 1);
 			setItem(OPENED_DOCUMENT_ITEMS, [...openedDocumentItemIds]);
@@ -134,7 +139,7 @@ export default function App({ $target, initialState }) {
 				...this.state,
 				rootDocuments: nextRootDocuments,
 			});
-			historyReplace(`${id}?currentPath=${changedCurrentPath}`);
+			historyReplace(`/documents/${id}?currentPath=${changedCurrentPath}`);
 		},
 	});
 

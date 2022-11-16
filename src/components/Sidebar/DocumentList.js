@@ -68,6 +68,6 @@ export default function DocumentList({
 			}
 		}
 
-		if (!action && id) historyPush(`${id}?currentPath=${currentPath}`);
+		if (!action && id) historyPush(`/documents/${id}?currentPath=${currentPath}`);
 	});
 }
