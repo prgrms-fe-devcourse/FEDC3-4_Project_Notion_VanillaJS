@@ -37,7 +37,7 @@ export default function PostEditPage({ $target, initialState }) {
 
         const prevPost = this.state.post;
         if (prevPost.title !== post.title) {
-          window.dispatchEvent(new CustomEvent("title-change"));
+          window.dispatchEvent(new CustomEvent("update-tree"));
         }
 
         removeItem(postLocalSaveKey);
@@ -80,19 +80,20 @@ export default function PostEditPage({ $target, initialState }) {
     const createdPost = await request("/documents", {
       method: "POST",
       body: JSON.stringify({
-        title: "",
+        title: "제목 없음",
         content: "",
       }),
     });
+
     history.replaceState(null, null, `/posts/${createdPost.id}`);
     this.setState({
       postId: createdPost.id,
     });
   };
 
-  this.setState = async (nextState) => {
+  this.setState = (nextState) => {
     if (nextState.postId === "new") {
-      await createPost();
+      createPost();
       return;
     }
 
@@ -108,7 +109,8 @@ export default function PostEditPage({ $target, initialState }) {
         this.render();
         editor.setState(post);
       }
-      await fetchPost();
+      fetchPost();
+      window.dispatchEvent(new CustomEvent("update-tree"));
       return;
     }
 

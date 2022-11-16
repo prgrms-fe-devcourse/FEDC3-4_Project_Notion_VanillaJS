@@ -31,7 +31,7 @@ export default function App({ $target }) {
 
   initRouter(() => this.route());
 
-  window.addEventListener("title-change", () => {
+  window.addEventListener("update-tree", () => {
     postsPage.setState();
   });
 
