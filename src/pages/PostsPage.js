@@ -26,6 +26,8 @@ export default function PostsPage({ $target }) {
         method: "DELETE",
       });
       this.setState();
+      history.replaceState(null, null, "/");
+      document.querySelector(".post-edit-page").remove();
     },
   });
 

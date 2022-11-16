@@ -15,15 +15,15 @@ export default function App({ $target }) {
     },
   });
 
-  this.route = async () => {
+  this.route = () => {
     const { pathname } = window.location;
 
     if (pathname === "/") {
       $target.innerHTML = "";
-      await postsPage.setState();
+      postsPage.setState();
     } else if (pathname.indexOf("/posts/") === 0) {
       const [, , postId] = pathname.split("/");
-      await postEditPage.setState({ postId });
+      postEditPage.setState({ postId });
     }
   };
 
