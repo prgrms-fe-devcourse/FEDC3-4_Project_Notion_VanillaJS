@@ -1,13 +1,12 @@
 import { push } from '../utils/router.js';
 import {
   ROUTE_DOCUMENTS,
-  UNTITLED,
   ADD,
   DELETE,
   OPENED_ITEMS,
   NEW_PARENT,
 } from '../utils/constants.js';
-import { isNew } from '../utils/helper.js';
+import { isNew, generateTitle, generateTextIndent } from '../utils/helper.js';
 import { getItem, setItem } from '../utils/storage.js';
 
 const DOCUMENT_ITEM = 'document-item';
@@ -32,8 +31,6 @@ export default function DocumentList({
     this.state = { ...this.state, ...nextState };
     this.render();
   };
-
-  const generateTextIndent = (depth) => 12 * depth;
 
   let isBlock = false;
 
@@ -61,9 +58,7 @@ export default function DocumentList({
             }" 
                 style="padding-left: ${generateTextIndent(depth)}px">
                 ${renderButton(id)}
-                <p class="${DOCUMENT_ITEM}">
-                  ${title.length > 0 ? title : UNTITLED}
-                </p>
+                <p class="${DOCUMENT_ITEM}">${generateTitle(title)}</p>
                 <div class="buttons">
                   <button title="삭제" class="${DELETE}" type="button">
                     <i title="삭제" class="fa-regular fa-trash-can ${DELETE}"></i>

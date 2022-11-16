@@ -1,5 +1,6 @@
-import { ROUTE_DOCUMENTS, UNTITLED } from '../utils/constants.js';
+import { ROUTE_DOCUMENTS } from '../utils/constants.js';
 import { push } from '../utils/router.js';
+import { generateTitle } from '../utils/helper.js';
 
 export default function DocumentFooter({ $target, initialState }) {
   const $footer = document.createElement('footer');
@@ -24,9 +25,7 @@ export default function DocumentFooter({ $target, initialState }) {
         ${documents
           .map(
             ({ id, title }) =>
-              `<p data-id="${id}" class="title">${
-                title.length === 0 ? UNTITLED : title
-              }</p>`
+              `<p data-id="${id}" class="title">${generateTitle(title)}</p>`
           )
           .join('')}
       </div>

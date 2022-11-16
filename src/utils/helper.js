@@ -10,8 +10,16 @@ export const isNew = (isNew) => {
   }
 };
 
-export const setDocumentTitle = (title) => {
+export const generateTitle = (title) => {
   if (typeof title === 'string') {
-    document.title = title.length > 0 ? title : UNTITLED;
+    return title.length > 0 ? title : UNTITLED;
   }
 };
+
+export const setDocumentTitle = (title) => {
+  if (typeof title === 'string') {
+    document.title = generateTitle(title);
+  }
+};
+
+export const generateTextIndent = (depth) => 12 * depth;

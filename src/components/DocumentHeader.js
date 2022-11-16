@@ -1,4 +1,5 @@
-import { DELETE, UNTITLED } from '../utils/constants.js';
+import { DELETE } from '../utils/constants.js';
+import { generateTitle } from '../utils/helper.js';
 
 export default function DocumentHeader({ $target, initialState, onDelete }) {
   const $header = document.createElement('header');
@@ -18,7 +19,7 @@ export default function DocumentHeader({ $target, initialState, onDelete }) {
 
     $header.innerHTML = `
       <div>
-        <span class="title">${title?.length > 0 ? title : UNTITLED}</span>
+        <span class="title">${generateTitle(title)}</span>
       </div>
       <div class="buttons">
         <button title="삭제" class="${DELETE}" type="button">
