@@ -10,7 +10,7 @@ import SidebarNav from "./SidebarNav.js";
 import SidebarFooter from "./SidebarFooter.js";
 
 import { validateInstance } from "../../utils/validation.js";
-import { setItem, getItem } from "../../utils/storage.js";
+import { setItem, getItem, removeItem } from "../../utils/storage.js";
 import { STORAGE_KEY, STATE } from "../../utils/constants.js";
 import { addEvent } from "../../utils/custom-event.js";
 
@@ -70,6 +70,15 @@ export default function Sidebar({ $target, initialState = [] }) {
       this.setState();
     },
     onDeleteDocument: async (id) => {
+      const isSelected =
+        Number(getItem(STORAGE_KEY.SELECTED_POST, null)) === id;
+
+      if (isSelected) {
+        removeItem(STORAGE_KEY.SELECTED_POST);
+        history.replaceState(null, null, "/");
+        window.location = `${window.location.origin}/`;
+      }
+
       const data = await getDocumentContent(id);
 
       const documentList = data.documents;
