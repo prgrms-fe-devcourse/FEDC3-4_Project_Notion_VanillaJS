@@ -3,12 +3,12 @@ body {
   margin: 0 0;
 }
 
-li {
+.item {
   list-style: none;
   cursor: pointer;
 }
 
-li:hover {
+.item span:hover {
   opacity: 50%;
 }
 
