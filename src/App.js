@@ -22,6 +22,9 @@ export default function App({ $target }) {
       $target.innerHTML = "";
       postsPage.setState();
     } else if (pathname.indexOf("/posts/") === 0) {
+      if ($target.innerHTML === "") {
+        postsPage.setState();
+      }
       const [, , postId] = pathname.split("/");
       postEditPage.setState({ postId });
     }
