@@ -1,22 +1,22 @@
-import { checkDocumentPath, isConstructor, isNumber, isString } from '../../Helpers/checkError.js';
+import { checkDocumentPath, isConstructor, isNumber, isString } from './Helpers/checkError.js';
 import {
   getDocumentAll,
   getDocumentById,
   postDocument,
   putDocument,
   deleteDocument,
-} from '../../Helpers/api.js';
-import DocumentList from '../DocumentList/DocumentList.js';
-import RenderDocumentItems from '../DocumentList/RenderDocumentItems.js';
-import DocumentEditor from '../DocumentEditor/DocumentEditor.js';
-import { documentItem } from '../DocumentList/documentItem.js';
-import { init, routeChange } from '../../Helpers/router.js';
+} from './Helpers/api.js';
+import DocumentList from './Components/DocumentList/DocumentList.js';
+import RenderDocumentItems from './Components/DocumentList/RenderDocumentItems.js';
+import DocumentEditor from './Components/DocumentEditor/DocumentEditor.js';
+import { documentItem } from './Components/DocumentList/documentItem.js';
+import { init, routeChange } from './Helpers/router.js';
 import {
   getLocalStorage,
   initLocalStorage,
   removeLocalStorage,
   setLocalStorage,
-} from '../../Helpers/localstorage.js';
+} from './Helpers/localstorage.js';
 import {
   ALERT_DELETE_DOCUMENT,
   BASE_INIT_USERNAME,
@@ -25,8 +25,8 @@ import {
   NEW_CONTENT,
   NEW_TITLE,
   NEW_ROOT_ID,
-} from '../../constants.js';
-import { getUserIdToAdress } from '../../Helpers/getUserIdToAdress.js';
+} from './constants.js';
+import { getUserIdToAdress } from './Helpers/getUserIdToAdress.js';
 
 export default function App({ $app }) {
   isConstructor(new.target);
