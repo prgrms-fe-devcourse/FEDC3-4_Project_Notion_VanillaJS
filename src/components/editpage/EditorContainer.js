@@ -58,10 +58,10 @@ export default function EditorContainer({ $target, initialState }) {
     }
     this.state = nextState;
 
-    this.render();
     breadCrumb.setState(this.state);
     subLink.setState(this.state);
     editor.setState(this.state.doc || { title: "", content: "" });
+    this.render();
   };
 
   this.render = () => {

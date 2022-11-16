@@ -207,6 +207,7 @@ button {
 }
 
 .docItem {
+  cursor: pointer;
   width: 100%;
   padding: 3px 0px;
   align-items: center;
