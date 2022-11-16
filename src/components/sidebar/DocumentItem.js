@@ -1,5 +1,6 @@
-export default function DocumentItem({ $target }) {
+export default function DocumentItem({ $target, initialState }) {
   this.$target = $target;
+  this.state = initialState;
 
   this.init = () => {
     this.render();
