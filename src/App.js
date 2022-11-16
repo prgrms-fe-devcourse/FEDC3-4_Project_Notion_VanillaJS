@@ -52,7 +52,7 @@ export default function App({ $target }) {
     } else if (pathname.indexOf("/documents/") === 0) {
       const [, , postId, isNew] = pathname.split("/");
       if (!isNew) {
-        postEditPage.setState({ postId });
+        postEditPage.setState({ ...postEditPage.state, postId });
         postPage.setState();
       }
     }
