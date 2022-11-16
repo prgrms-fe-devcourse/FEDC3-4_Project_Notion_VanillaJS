@@ -50,7 +50,7 @@ export default function Sidebar({
     $target: $sidebar,
     onCreateRootDocument: async () => {
       const document = {
-        title: '',
+        title: 'Untitled',
         parent: null,
       };
       const newDocument = await createDocument(document);
