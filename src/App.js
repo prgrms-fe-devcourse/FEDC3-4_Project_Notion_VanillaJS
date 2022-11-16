@@ -8,12 +8,15 @@ export default function App({
   
   const sidebar = new Sidebar({
     $target,
-    initialState: []
+    initialState: [],
   })
-
+  
   const editPage = new EditPage({
     $target,
-    initialState: {}
+    initialState: {},
+    onRerendering: () => {
+      sidebar.setState();  
+    }
   })
   
   this.route = async () => {

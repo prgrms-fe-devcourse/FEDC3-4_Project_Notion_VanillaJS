@@ -58,9 +58,8 @@ export default function Sidebar({
   });
   
   this.render = () => {
-    console.log('side render');
     getDocumentList();
-    $target.appendChild($sidebar);
+    $target.prepend($sidebar);
   };
   
   const getDocumentList = async() => {
