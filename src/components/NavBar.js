@@ -1,11 +1,10 @@
 import { getItem, setItem } from '../utils/storage.js';
 import DocumentList from './DocumentList.js';
-import NewDocumentButton from './NewDocumentButton.js';
+import { DOCUMENT_ISOEPN_LOCAL_KEY } from '../utils/constants.js';
 
 export default function NavBar({ $container, initialState, onSelect, onAdd, onDelete }) {
   const $nav = document.createElement('nav');
   $container.appendChild($nav);
-  const DOCUMENT_ISOEPN_LOCAL_KEY = 'isOpen';
 
   this.state = initialState;
 
@@ -36,8 +35,6 @@ export default function NavBar({ $container, initialState, onSelect, onAdd, onDe
   this.render();
 
   $nav.addEventListener('click', (e) => {
-    if (!e.target || !e.target.id) return;
-
     if (e.target.id === 'root-add') {
       onAdd(null);
     }

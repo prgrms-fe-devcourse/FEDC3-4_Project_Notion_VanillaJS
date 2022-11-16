@@ -1,3 +1,6 @@
+import { DOCUMENT_ISOEPN_LOCAL_KEY } from './constants.js';
+import { getItem, setItem } from './storage.js';
+
 /**
  *
  * @param targetDocument - [{id, title, documents},{...}]
@@ -16,4 +19,10 @@ export const getRemoveIdList = (targetDocument, result = []) => {
   });
 
   return result;
+};
+
+export const deleteIsOpenState = (removeIdList) => {
+  const currentIsOpenState = getItem(DOCUMENT_ISOEPN_LOCAL_KEY, []);
+  const nextIsOpenState = currentIsOpenState.filter((id) => !removeIdList.includes(Number(id)));
+  setItem(DOCUMENT_ISOEPN_LOCAL_KEY, nextIsOpenState);
 };

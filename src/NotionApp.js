@@ -1,7 +1,7 @@
 import DocumentEditorPage from './components/DocumentEditorPage.js';
 import NavBar from './components/NavBar.js';
 import { request } from './utils/api.js';
-import { getRemoveIdList } from './utils/utils.js';
+import { deleteIsOpenState, getRemoveIdList } from './utils/utils.js';
 
 export default function NotionApp({ $container }) {
   this.state = {
@@ -31,6 +31,7 @@ export default function NotionApp({ $container }) {
         body: JSON.stringify({ title: '제목없음', parent: parentId }),
       });
       history.pushState(null, null, `/documents/${createDocument.id}`);
+      // FIXME: 제목없음 추가 후, 수정할 때 -> 제목 반영안됨
       fetchDocumentList();
       route();
     },
@@ -45,6 +46,8 @@ export default function NotionApp({ $container }) {
             })
           )
         );
+        deleteIsOpenState(removeIdList);
+        // TODO: 지우고나서, removeIdList에 route가 있다면? -> route replace 첫번째꺼로?
         fetchDocumentList();
       }
     },
