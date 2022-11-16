@@ -2,119 +2,17 @@
 @import "./libs/vars.scss";
 @import "./libs/mixins.scss";
 
+@import "./modal.scss";
+@import "./postList.scss";
+
 .global-container {
 	display: flex;
 	height: 100vh;
+	font-family: "Noto Sans KR", Sans-serif;
 
 	.post-list-container,
 	.post-edit-container {
 		display: inline-block;
-	}
-
-	.post-list-container {
-		background-color: $color-post-list-background;
-		max-width: 300px;
-		min-width: 260px;
-		width: 100%;
-
-		.nav-header {
-			padding: 1rem 0 8px 0;
-			text-align: center;
-		}
-
-		.nav-header:hover {
-			cursor: pointer;
-		}
-
-		button {
-			@include base-button;
-		}
-
-		ul {
-			padding: 8px;
-			max-height: 870px;
-			overflow-y: scroll;
-			.post-list {
-				// display: flex;
-				// justify-content: space-between;
-				font-size: 14px;
-
-				.list-flex {
-					display: flex;
-					position: relative;
-					justify-content: space-between;
-					align-items: center;
-					padding: 8px 4px;
-
-					span {
-						padding: 2px;
-					}
-
-					.post-title {
-						display: inline-block;
-						vertical-align: bottom;
-						max-width: 150px;
-						overflow-x: hidden;
-						text-overflow: ellipsis;
-						white-space: nowrap;
-					}
-
-					.delete-create-btn-container {
-						display: none;
-						position: absolute;
-						right: 0;
-
-						button {
-							padding: 1px;
-						}
-					}
-				}
-
-				.list-flex:hover {
-					cursor: pointer;
-					background-color: $color-post-list-hover;
-
-					.delete-create-btn-container {
-						display: block;
-						z-index: 5;
-
-						button {
-							cursor: pointer;
-						}
-
-						button:hover {
-							background-color: $color-post-button-hover;
-						}
-					}
-				}
-
-				.child-ul {
-					padding: 8px 4px;
-					padding-left: 24px;
-				}
-
-				.hide {
-					display: none;
-				}
-			}
-		}
-
-		.create-post-btn-container {
-			padding: 1rem 0;
-			width: 300px;
-			text-align: center;
-			position: fixed;
-			bottom: 0;
-			background-color: $color-post-list-background;
-			button:hover {
-				cursor: pointer;
-			}
-		}
-
-		.create-post-btn-container:hover {
-			cursor: pointer;
-			background-color: $color-post-list-hover;
-		}
 	}
 
 	.post-edit-container {
@@ -138,22 +36,53 @@
 
 		.editor {
 			width: 100%;
+			max-height: 850px;
+			overflow-y: scroll;
 			display: flex;
 			flex-direction: column;
 			gap: 2rem;
+			padding-right: 3rem;
 
-			input {
-				font-size: 36px;
-				padding: 8px;
-				border: 0;
-				box-shadow: 3px 3px 10px #b3b3b3;
+			.title-input-container {
+				padding-top: 5rem;
+				@include input-title;
 			}
 
-			textarea {
-				padding: 8px;
-				border: 0;
-				box-shadow: 3px 3px 10px #b3b3b3;
+			.post-date-container {
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
+				text-align: end;
+
+				span {
+					color: $color-home-font;
+				}
 			}
+
+			.content-input-container {
+				@include input-content;
+			}
+		}
+	}
+
+	.not-found {
+		width: 100%;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		text-align: center;
+
+		h1 {
+			font-size: 2rem;
+			font-weight: bold;
+			margin-bottom: 1rem;
+		}
+
+		@include base-button;
+
+		button {
+			font-size: 1rem;
 		}
 	}
 }

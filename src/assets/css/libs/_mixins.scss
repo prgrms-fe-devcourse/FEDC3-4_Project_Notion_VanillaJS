@@ -1,7 +1,52 @@
 @import "./vars.scss";
 
 @mixin base-button {
-	border: 0;
-	color: $color-base-font;
-	background-color: transparent;
+	button {
+		font-family: "Noto Sans KR", Sans-serif;
+		border: 0;
+		color: $color-base-font;
+		background-color: transparent;
+	}
+
+	button:hover {
+		cursor: pointer;
+	}
+}
+
+@mixin input-title {
+	.title {
+		cursor: text;
+		font-size: 2.5rem;
+		font-weight: 700;
+		line-height: 4rem;
+		outline: none;
+	}
+
+	.title:empty:before {
+		content: attr(placeholder);
+		font-size: 2.5rem;
+		font-weight: 700;
+		line-height: 4rem;
+		color: #ccc;
+		outline: none;
+	}
+}
+
+@mixin input-content {
+	.content {
+		height: 600px;
+		cursor: text;
+		font-size: 1rem;
+		line-height: 3rem;
+		outline: none;
+	}
+
+	.content:empty::before {
+		content: attr(placeholder);
+		top: 0;
+		font-size: 1rem;
+		line-height: 3rem;
+		color: #ccc;
+		outline: none;
+	}
 }
