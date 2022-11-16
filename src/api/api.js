@@ -1,7 +1,6 @@
-const API_ROOT = ({ path }) =>
-	`https://kdt-frontend.programmers.co.kr/documents${path}`;
+import { APU_END_POINT, USER } from '../../dummyEnv.js';
 
-const USER = 'yangsangwoo';
+const API_ROOT = ({ path }) => `${APU_END_POINT}${path}`;
 
 const returnOptions = ({ method, content }) => {
 	return {
