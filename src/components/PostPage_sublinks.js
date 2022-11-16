@@ -29,12 +29,18 @@ export default function PostSublinks({ $target, initialState }) {
   };
 
   this.$footer.addEventListener("click", (e) => {
-    const { tagName } = e.target;
+    const { target } = e;
 
-    if (tagName === "LI") {
-      const { id } = e.target.dataset;
+    if (target) {
+      const { tagName } = e.target;
 
-      push(`/posts/${id}`);
+      if (tagName === "LI") {
+        const { id } = e.target.dataset;
+
+        if (id) {
+          push(`/posts/${id}`);
+        }
+      }
     }
   });
 }

@@ -17,6 +17,7 @@ export default function PostPage({ $target, initialState, onEditing, onDelete })
   this.$postPage.className = "postPage";
 
   this.$header = document.createElement("header");
+
   this.$section = document.createElement("setcion");
   this.$section.className = "editor";
   this.$footer = document.createElement("footer");
@@ -46,6 +47,7 @@ export default function PostPage({ $target, initialState, onEditing, onDelete })
     this.$postPage.appendChild(this.$header);
 
     if (isNeedRender) {
+      //글을 작성중인 경우 렌더링을 다시 하지 않음. 포커스를 잃기 때문에
       this.$postPage.appendChild(this.$section);
     }
 
@@ -53,6 +55,7 @@ export default function PostPage({ $target, initialState, onEditing, onDelete })
   };
 
   this.renderEmpty = () => {
+    //데이터가 없는 경우, 보여줄 view 렌더링
     this.$postPage.appendChild(this.$empty);
   };
 
