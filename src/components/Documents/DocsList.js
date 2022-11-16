@@ -23,7 +23,9 @@ export default function DocsList({ $target, initialState, onAdd, onDelete }) {
         ${docsList
           .map((doc) => {
             return `<li class="item" data-id=${doc.id}> 
-              <span name="item-content"> ${doc.title} </span>
+              <span name="item-content"> ${
+                doc.title.trim() === "" ? "빈 제목" : doc.title
+              } </span>
               <div data-group-id=${doc.id} class="button-group"">
                 <button name="add"> + </button> 
                 <button name="delete"> - </button>
@@ -61,7 +63,7 @@ export default function DocsList({ $target, initialState, onAdd, onDelete }) {
 
   $docsList.addEventListener("click", (e) => {
     const { target } = e;
-    const tempTitle = "문서 제목";
+    const tempTitle = "빈 제목";
     const $li = target.closest("li");
     if (target.tagName === "BUTTON") {
       const id = $li?.dataset.id;

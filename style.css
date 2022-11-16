@@ -7,6 +7,11 @@ body {
   display: none;
 }
 
+li {
+  margin-top: 30px;
+  font-weight: bold;
+}
+
 .item {
   list-style: none;
   cursor: pointer;
@@ -21,6 +26,7 @@ body {
 }
 
 .docs-container {
+  min-width: 15%;
   height: 100vh;
   background-color: lightgray;
 }
@@ -37,6 +43,7 @@ body {
 [name="content"] {
   display: block;
   width: 800px;
+  border-width: 0px;
 }
 
 [name="title"] {
@@ -46,4 +53,15 @@ body {
 
 [name="content"] {
   height: 90%;
+  font-size: 1.3rem;
+}
+
+[name="title"]:focus,
+[name="content"]:focus {
+  outline: none;
+}
+
+[name="title"]:hover,
+[name="content"]:hover {
+  border: 0.5px gray dotted;
 }
