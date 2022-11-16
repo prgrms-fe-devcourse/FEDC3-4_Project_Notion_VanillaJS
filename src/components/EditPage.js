@@ -14,7 +14,7 @@ export default function EditPage({
   
   this.setState = (nextState) => {
     this.state = nextState;
-    fetchData();
+    getDocument();
     this.render();
   }
 
@@ -28,18 +28,18 @@ export default function EditPage({
         clearTimeout(timer);
       }
       timer = setTimeout(async () => {
-        await updatePost(this.state.id, document);
+        await updateDocument(this.state.id, document);
         await onRerendering();
       }, 1000)
     } 
   })
   
-  const fetchData = async () => {
+  const getDocument = async () => {
     const document = await request(`/documents/${this.state.id}`);
     editor.setState(document)
   }
   
-  const updatePost = async (id, data) => {
+  const updateDocument = async (id, data) => {
     await request(`/documents/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
