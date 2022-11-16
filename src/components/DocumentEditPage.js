@@ -37,9 +37,11 @@ export default function DocumentEditPage({
     onEdit,
   });
 
-          history.replaceState(
+  const documentFooter = new DocumentFooter({
     $target: $page,
-    initialState: '자식 요소 렌더링',
+    initialState: {
+      document: null,
+    },
   });
 
   this.setState = async (nextState) => {
@@ -54,6 +56,9 @@ export default function DocumentEditPage({
       documentHeader.setState({
         documentId: this.state.documentId,
         title: this.state.document.title || '',
+      });
+      documentFooter.setState({
+        document: this.state.document,
       });
       this.render();
       return;
@@ -70,6 +75,9 @@ export default function DocumentEditPage({
         documentId: this.state.documentId,
         title: '',
       });
+      documentFooter.setState({
+        document: null,
+      });
       this.render();
     } else {
       await loadDocument();
@@ -82,6 +90,9 @@ export default function DocumentEditPage({
     this.setState({
       ...this.state,
       document,
+    });
+    documentFooter.setState({
+      document: this.state.document,
     });
   };
 
