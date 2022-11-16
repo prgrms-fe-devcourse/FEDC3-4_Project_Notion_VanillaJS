@@ -1,8 +1,8 @@
 import DocumentList from './DocumentList.js';
 import DocumentAddButton from './DocumentAddButton.js';
 
-import { fetchDocuments } from '../utils/api.js';
-import { isNew } from '../utils/helper.js';
+import { fetchDocuments } from '../../utils/api.js';
+import { isNew } from '../../utils/helper.js';
 import SidebarHeader from './SidebarHeader.js';
 
 export default function Sidebar({ $target, initialState, onAdd, onDelete }) {

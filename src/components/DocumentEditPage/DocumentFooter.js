@@ -1,6 +1,6 @@
-import { ROUTE_DOCUMENTS } from '../utils/constants.js';
-import { push } from '../utils/router.js';
-import { generateTitle } from '../utils/helper.js';
+import { ROUTE_DOCUMENTS } from '../../utils/constants.js';
+import { push } from '../../utils/router.js';
+import { generateTitle } from '../../utils/helper.js';
 
 export default function DocumentFooter({ $target, initialState }) {
   const $footer = document.createElement('footer');

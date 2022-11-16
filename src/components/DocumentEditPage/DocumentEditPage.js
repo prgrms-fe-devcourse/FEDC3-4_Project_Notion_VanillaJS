@@ -2,14 +2,14 @@ import Editor from './Editor.js';
 import DocumentHeader from './DocumentHeader.js';
 import DocumentFooter from './DocumentFooter.js';
 
-import { fetchDocuments } from '../utils/api.js';
+import { fetchDocuments } from '../../utils/api.js';
 import {
   NEW,
   ROUTE_DOCUMENTS,
   DEFAULT_DOCUMENT_ID,
-} from '../utils/constants.js';
-import { isNew, setDocumentTitle } from '../utils/helper.js';
-import { push } from '../utils/router.js';
+} from '../../utils/constants.js';
+import { isNew, setDocumentTitle } from '../../utils/helper.js';
+import { push } from '../../utils/router.js';
 
 export default function DocumentEditPage({
   $target,

@@ -1,4 +1,4 @@
-import { ADD, NEW } from '../utils/constants.js';
+import { ADD, NEW } from '../../utils/constants.js';
 
 export default function DocumentAddButton({ $target, initialState, onAdd }) {
   const $button = document.createElement('div');

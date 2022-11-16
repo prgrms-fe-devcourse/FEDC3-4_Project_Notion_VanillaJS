@@ -1,15 +1,19 @@
 import DocumentAddButton from './DocumentAddButton.js';
 
-import { push } from '../utils/router.js';
+import { push } from '../../utils/router.js';
 import {
   ROUTE_DOCUMENTS,
   ADD,
   DELETE,
   OPENED_ITEMS,
   NEW_PARENT,
-} from '../utils/constants.js';
-import { isNew, generateTitle, generateTextIndent } from '../utils/helper.js';
-import { getItem, setItem } from '../utils/storage.js';
+} from '../../utils/constants.js';
+import {
+  isNew,
+  generateTitle,
+  generateTextIndent,
+} from '../../utils/helper.js';
+import { getItem, setItem } from '../../utils/storage.js';
 
 const DOCUMENT_ITEM = 'document-item';
 const BLOCK = 'block';

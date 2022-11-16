@@ -1,5 +1,5 @@
-import { DELETE } from '../utils/constants.js';
-import { generateTitle } from '../utils/helper.js';
+import { DELETE } from '../../utils/constants.js';
+import { generateTitle } from '../../utils/helper.js';
 
 export default function DocumentHeader({ $target, initialState, onDelete }) {
   const $header = document.createElement('header');

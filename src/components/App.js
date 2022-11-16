@@ -1,5 +1,5 @@
-import Sidebar from './Sidebar.js';
-import DocumentEditPage from './DocumentEditPage.js';
+import Sidebar from './Sidebar/Sidebar.js';
+import DocumentEditPage from './DocumentEditPage/DocumentEditPage.js';
 
 import {
   DEFAULT_DOCUMENT_ID,
