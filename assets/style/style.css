@@ -95,13 +95,14 @@ button:hover {
 
 .sidebar {
   min-width: 300px;
-  width: 300px;
-  max-width: 30vw;
+  max-width: 25vw;
   padding: 0.5rem;
   flex-shrink: 0;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  position: fixed;
+  height: 100%;
 }
 
 ul.document-list {
@@ -160,7 +161,7 @@ ul.document-list {
 /* DocumetPage */
 
 .editor {
-  width: 720px;
+  max-width: 720px;
   margin: 0 auto;
   padding: 0.5rem;
 }
@@ -234,13 +235,14 @@ ul.document-list {
 /* Content */
 .content {
   width: 100%;
+  padding-left: 0.5rem;
 }
 
 
 /* SubDocumentList */
 
 .sub-documents-link {
-  width: 720px;
+  max-width: 720px;
   margin: 0 auto;
   padding: 0.5rem;
 }

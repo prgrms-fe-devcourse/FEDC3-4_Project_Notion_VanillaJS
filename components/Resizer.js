@@ -1,7 +1,6 @@
 import { setStorageItem } from "../util/sotrage.js";
 
 export default function Resizer({ $target, storageKey }) {
-  // TODO: 리사이저 작성
   const $element = document.createElement('div')
   $element.className = 'resizer'
   $element.innerHTML = `<div> </div>`
@@ -17,27 +16,36 @@ export default function Resizer({ $target, storageKey }) {
   }
 
   $element.addEventListener('mousedown', (e) => {
-    const x = e.clientX;
-    // console.log($target, $target.style)
-    // const width = Number($target.style.width);
-    const styles = window.getComputedStyle($target);
-    const width = parseInt(styles.width);
+    const x = e.clientX
+    const width = getTargetWidth()
     this.setState({ x, width });
 
     document.addEventListener('mousemove', onMouseMove)
     document.addEventListener('mouseup', onMouseUp)
   });
 
+  window.addEventListener('resize', (e) => {
+    const { x, width } = this.state;
+    const dx = $element.clientX - x;
+    $target.style.width = `${width+dx}px`;
+    $target.nextElementSibling.style.marginLeft = getTargetWidth();
+  })
+
   const onMouseMove = (e) => {
     const { x, width } = this.state;
     const dx = e.clientX - x;
     $target.style.width = `${width+dx}px`;
+    $target.nextElementSibling.style.marginLeft = getTargetWidth();
   }
 
   const onMouseUp = (e) => {
-    setStorageItem(storageKey, $target.style.width);
+    setStorageItem(storageKey, getTargetWidth());
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
+  }
+
+  const getTargetWidth = () => {
+    return parseInt(window.getComputedStyle($target).width);
   }
 
 }
