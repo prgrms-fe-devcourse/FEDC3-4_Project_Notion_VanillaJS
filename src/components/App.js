@@ -38,7 +38,9 @@ export default function App({ $target }) {
 
     documentEditPage.setState({ documentId: createdDocument.id });
 
-    sidebar.render();
+    sidebar.setState({
+      selectedId: parseInt(createdDocument.id),
+    });
   };
 
   const onDelete = async (documentId) => {

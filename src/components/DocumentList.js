@@ -39,21 +39,14 @@ export default function DocumentList({
 
   const renderButton = (id) => {
     const openedItems = getItem(OPENED_ITEMS, []);
-    if (openedItems.includes(id)) {
-      isBlock = true;
-      return `
-        <button class="toggle open" type="button">
-          <i class="toggle open fa-solid fa-angle-down"></i>
-        </button>
-      `;
-    } else {
-      isBlock = false;
-      return `
-        <button class="toggle" type="button">
-          <i class="toggle fa-solid fa-angle-right"></i>
-        </button>
-      `;
-    }
+    isBlock = openedItems.includes(id);
+    return `
+      <button class="toggle ${isBlock ? 'open' : ''}" type="button">
+        <i class="toggle ${isBlock ? 'open' : ''} fa-solid fa-angle-${
+      isBlock ? 'down' : 'right'
+    }"></i>
+      </button>
+    `;
   };
 
   const renderDocuments = (nextDocuments, depth) => `
