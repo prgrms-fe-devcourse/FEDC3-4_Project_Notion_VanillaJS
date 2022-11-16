@@ -14,7 +14,6 @@ export default function App({ $target }) {
   })
 
   this.route = () => {
-    // $target.innerHTML = '';
     const { pathname } = window.location;
     const [, id] = pathname.split('/');
 

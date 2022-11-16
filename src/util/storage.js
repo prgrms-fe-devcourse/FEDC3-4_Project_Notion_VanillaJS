@@ -25,5 +25,5 @@ function StorageMethods(storage) {
   }  
 }
 
-export const session = new StorageMethods(sessionStorage)
-export const local = new StorageMethods(localStorage)
+export const session = new StorageMethods(sessionStorage);
+export const local = new StorageMethods(localStorage);
