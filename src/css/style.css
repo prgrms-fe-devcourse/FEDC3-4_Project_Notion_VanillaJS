@@ -1,0 +1,169 @@
+@font-face {
+  font-family: "NanumSquareNeo-Variable";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+* {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "NanumSquareNeo-Variable";
+  font-size: 14px;
+}
+
+#app {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100vh;
+}
+#app .postpage {
+  width: 20%;
+  height: 100%;
+  background-color: #fbfbfa;
+}
+#app .postpage header {
+  height: 6%;
+  padding: 0 12px;
+  box-sizing: border-box;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+#app .postpage header .title {
+  font-weight: bold;
+  font-size: 18px;
+}
+#app .postpage .postList {
+  width: 100%;
+  height: 87%;
+  color: #a39fa3;
+  background-color: #fbfbfa;
+  padding-right: 8px;
+}
+#app .postpage .postList ul {
+  padding-left: 15px;
+}
+#app .postpage .postList .parentList {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  cursor: pointer;
+}
+#app .postpage .postList .parentList img {
+  width: 25px;
+  height: 25px;
+  padding: 3px;
+  border-radius: 5px;
+}
+#app .postpage .postList .parentList img:hover {
+  background-color: #e9e9e7;
+  filter: brightness(80%);
+}
+#app .postpage .postList .parentList .content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1px 0;
+}
+#app .postpage .postList .parentList .content .left-box {
+  display: flex;
+  align-items: center;
+  width: 70%;
+}
+#app .postpage .postList .parentList .content .left-box .title {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+#app .postpage .postList .parentList .content .toggleBtn {
+  margin-right: 3px;
+  padding: 0;
+}
+#app .postpage .postList .parentList .content:hover {
+  background-color: #f1f1f0;
+}
+#app .postpage .newPostButton {
+  display: flex;
+  align-items: center;
+  color: rgba(63, 62, 63, 0.5803921569);
+  font-size: 14px;
+  font-weight: bold;
+  width: 100%;
+  padding: 0 12px;
+  height: 7%;
+  box-sizing: border-box;
+  border-top: 2px solid #f1f1f0;
+  cursor: pointer;
+}
+#app .postpage .newPostButton:hover {
+  background-color: #f1f1f0;
+}
+#app .postEditPage {
+  display: flex;
+  width: 80%;
+  justify-content: center;
+  align-items: center;
+  background-color: #999999;
+}
+#app .postEditPage .editor {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 5% 5%;
+  width: 70%;
+  color: black;
+  background-color: white;
+  border-radius: 10px;
+  font-size: 16px;
+}
+#app .postEditPage .editor .title {
+  border: none;
+  outline: none;
+  border-bottom: 2px solid #e3e2e2;
+  height: 50px;
+  padding: 10px;
+  font-size: 18px;
+}
+#app .postEditPage .editor textarea {
+  outline: none;
+  border: none;
+  width: 100%;
+  padding: 10px;
+  min-height: 700px;
+  font-size: 15px;
+}
+#app .home {
+  display: flex;
+  width: 80%;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 5%;
+  gap: 30px;
+}
+#app .home .title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 25px;
+  gap: 10px;
+}
+#app .home .title a {
+  font-size: 20px;
+}
+#app .home .sub {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+#app .home .sub img {
+  border-radius: 20px;
+}
+#app .home li {
+  font-size: 15px;
+}
+
+/*# sourceMappingURL=style.css.map */
