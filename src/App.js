@@ -24,6 +24,7 @@ export default function App({ $target }) {
 		id: "",
 		title: "",
 		content: "",
+		selectedPost: {},
 	};
 
 	const postsPage = new PostsPage({
@@ -42,10 +43,16 @@ export default function App({ $target }) {
 	const postEdit = new PostEdit({
 		$target: $postEditContainer,
 		initialState: this.state,
-		addPost: () => {
-			postsPage.setState();
+		addPost: (updatePost) => {
+			postsPage.setState(updatePost);
 		},
 	});
+
+	this.setState = (nextState) => {
+		this.state = nextState;
+		const selectedPost = this.state;
+		postsPage.setState(selectedPost);
+	};
 
 	postsPage.setState();
 
@@ -68,6 +75,7 @@ export default function App({ $target }) {
 				const post = await request(`/documents/${id}`, {
 					method: "GET",
 				});
+				this.setState(post);
 				postEdit.setState(post);
 			}
 		} else {
@@ -77,15 +85,7 @@ export default function App({ $target }) {
 			$homeContainer.style.display = "none";
 		}
 
-		const id = getItem(ACTIVE_LIST_KEY);
-		const list = $postListContainer.querySelectorAll(".list-flex");
-		list.forEach((item) => {
-			if (id === item.dataset.id) {
-				item.classList.add("list-active");
-			} else {
-				item.classList.remove("list-active");
-			}
-		});
+		// const id = getItem(ACTIVE_LIST_KEY);
 	};
 
 	this.init();
