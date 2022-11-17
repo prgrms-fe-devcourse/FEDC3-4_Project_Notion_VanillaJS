@@ -10,17 +10,15 @@ export default function Editor({ $target, initialState, onEditing }) {
 
   let isInit = false;
 
-  //validation
-  const isValidContent = (state) => {
+  const isValidState = (state) => {
     if (!state || !hasContent(state)) return false;
     return true;
   };
 
-  //state
-  this.state = isValidContent(initialState) ? initialState : { content: "" };
+  this.state = isValidState(initialState) ? initialState : { content: "" };
 
   this.setState = (nextState) => {
-    if (!isValidContent(nextState)) return;
+    if (!isValidState(nextState)) return;
 
     this.state = nextState;
 
@@ -47,7 +45,6 @@ export default function Editor({ $target, initialState, onEditing }) {
 
   this.render();
 
-  //event handler
   $editor.addEventListener("input", (e) => {
     const { value } = e.target;
 

@@ -1,4 +1,4 @@
-//validate properties
+//state properties
 export const properties = {
   ID: "id",
   TITLE: "title",
@@ -6,13 +6,31 @@ export const properties = {
   DOCUMENTS: "documents",
 };
 
-//Header
+//Default states
+export const DEFAULT_STATE = {
+  id: DISABLED_ID,
+  title: ROOT_TITLE,
+  content: "",
+};
+
+export const REMOVED_DOC_STATE = {
+  id: DISABLED_ID,
+  title: REMOVED_DOC_TITLE,
+  content: "",
+};
+
+//Default values
 export const DEFAULT_TITLE = "제목 없음";
 export const ROOT_TITLE = "작업 중... 💨";
 export const REMOVED_DOC_TITLE = "삭제된 문서입니다."
 export const DEFAULT_CONTENT = "내용을 입력해주세요";
 
-//Document
+export const DOCUMENT_HEADER_CONTENT = "Notion";
+export const DOCUMENT_FOOTER_CONTENT = "New Doc";
+export const DISABLED_ID = -1;
+export const DEFAULT_ID = "new";
+
+//Name Objects
 export const idNameObj = {
   SIDEBAR_CONTAINER: "sidebar-container",
   SIDEBAR_HEADER: "sidebar-header",
@@ -44,24 +62,6 @@ export const styleObj = {
   PADDING_INCREMENT: 20,
 };
 
-export const DOCUMENT_HEADER_CONTENT = "Notion";
-export const DOCUMENT_FOOTER_CONTENT = "New Doc";
-export const DISABLED_ID = -1;
-export const DEFAULT_ID = "new";
-
-//state
-export const DEFAULT_STATE = {
-  id: DISABLED_ID,
-  title: ROOT_TITLE,
-  content: "",
-};
-
-export const REMOVED_DOC_STATE = {
-  id: DISABLED_ID,
-  title: REMOVED_DOC_TITLE,
-  content: "",
-};
-
 //Button
 export const DELETE_BUTTON_TEXT = "Delete";
 
@@ -72,7 +72,7 @@ export const ERROR_API_CALL = "Error: Api call";
 //localstorage
 export const LOCAL_STORAGE_DISPLAY = "display";
 
-//event keyword
+//event
 export const EVENT_ROUTE_PUSH = "route-push";
 export const EVENT_ROUTE_REMOVE = "route-remove-document";
 export const EVENT_ROUTE_CREATE = "route-create-document";

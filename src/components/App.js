@@ -45,7 +45,6 @@ export default function App({ $target }) {
       } else {
         editPage.setState({ ...REMOVED_DOC_STATE})
       }
-
     }
   };
 

@@ -25,20 +25,16 @@ const {
 export default function Documents({ $target, initialState }) {
   if (!hasNewTarget(new.target)) throw new Error(ERROR_NEW_KEYWORD_MISSING);
 
-  //tags
   const $sidebar = document.createElement("div");
   $sidebar.setAttribute("id", SIDEBAR_DOCUMENT_LIST_CONTAINER);
   $sidebar.setAttribute("class", SCROLLBAR)
   $target.appendChild($sidebar);
 
-
-  //validation
   const isValidState = (state) => {
     if (!state || !isValidArray(state)) return false;
     return true;
   };
 
-  //state
   this.state = isValidState(initialState) ? initialState : [];
 
   const displayMap = getItem(LOCAL_STORAGE_DISPLAY, new Map(this.state.map((document) => [document.id, false])));
@@ -60,7 +56,6 @@ export default function Documents({ $target, initialState }) {
 
   this.render();
 
-  //event handlers
   $sidebar.addEventListener("click", (e) => {
     const { target } = e;
     const { classList } = target;

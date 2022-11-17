@@ -23,7 +23,7 @@ export const initRouter = (onRoute) => {
     });
   };
 
-  //event listener
+  //event handlers
   window.addEventListener("popstate", () => onRoute());
 
   window.addEventListener(EVENT_ROUTE_PUSH, (e) => {

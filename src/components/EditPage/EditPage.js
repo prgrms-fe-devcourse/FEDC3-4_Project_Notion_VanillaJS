@@ -12,21 +12,18 @@ import Topbar from "./Topbar.js";
 export default function EditPage({ $target, initialState }) {
   if (!hasNewTarget(new.target)) throw new Error(ERROR_NEW_KEYWORD_MISSING);
 
-  //tags
   const $page = document.createElement("div");
   $page.setAttribute("id", idNameObj.EDITOR_CONTAINER);
 
   let isInit = false;
   let timer = null;
 
-  //state
   this.state = initialState || {
     id: DISABLED_ID,
     title: "",
     content: "",
   };
 
-  //components
   const topbar = new Topbar({
     $target: $page,
     initialState: {},
@@ -84,7 +81,6 @@ export default function EditPage({ $target, initialState }) {
     $target.appendChild($page);
   };
 
-  //method
   const autoSaveDocument = ({ delay }) => {
     if (timer !== null) {
       clearTimeout(timer);

@@ -16,7 +16,6 @@ export default function Topbar({ $target, initialState }) {
 
   this.state = isValidState(initialState) ? initialState : { id: DISABLED_ID };
 
-  //topbar with fetchButton
   const deleteBtn = new DeleteButton({
     $target: $topbar,
     initialState: {},

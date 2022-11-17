@@ -7,22 +7,18 @@ import Documents from "./Documents.js";
 export default function DocumentPage({ $target, initialState }) {
   if (!hasNewTarget(new.target)) throw new Error(ERROR_NEW_KEYWORD_MISSING);
 
-  //tags
   const $page = document.createElement("div");
   $page.setAttribute("id", idNameObj.SIDEBAR_CONTAINER);
 
   let isInit = false;
 
-  //validation
   const isValidState = (state) => {
     if (!state || !isValidArray(state)) return false;
     return true;
   };
 
-  //state
   this.state = isValidState(initialState) ? initialState : [];
 
-  //components
   new DocumentHeader({ $target: $page });
 
   const documents = new Documents({

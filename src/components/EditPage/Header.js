@@ -6,20 +6,17 @@ import { classNameObj } from "../utils/constants.js";
 export default function Header({ $target, initialState, onEditing }) {
   if (!hasNewTarget(new.target)) throw new Error(ERROR_NEW_KEYWORD_MISSING);
 
-  //tags
   const $header = document.createElement("header");
   $target.appendChild($header);
 
   let isInit = false;
 
-  //validation
   const isValidState = (state) => {
     if (!state) return false;
     if (!hasId(state) || !hasTitle(state)) return false;
     return true;
   };
 
-  //state
   this.state = isValidState(initialState) ? initialState : { title: "" };
 
   this.setState = (nextState) => {
@@ -54,7 +51,6 @@ export default function Header({ $target, initialState, onEditing }) {
 
   this.render();
 
-  //event handler
   $header.addEventListener("input", (e) => {
     const { value } = e.target;
 

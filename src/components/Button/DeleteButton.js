@@ -25,7 +25,6 @@ export default function DeleteButton({ $target, initialState }) {
     }
   };
 
-  //event handler
   $button.addEventListener("click", async () => {
     const { id, parentId } = this.state;
 
