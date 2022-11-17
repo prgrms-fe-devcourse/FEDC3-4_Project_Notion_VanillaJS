@@ -39,8 +39,9 @@ function EditorContent({ div, initialState, onChangeContent }) {
       onChangeContent(nextState);
     });
   };
-  onKeyUpContent();
+
   this.render();
+  onKeyUpContent();
 }
 
 export default EditorContent;

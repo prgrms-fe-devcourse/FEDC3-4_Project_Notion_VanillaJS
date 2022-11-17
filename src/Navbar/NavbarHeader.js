@@ -14,7 +14,7 @@ function NavbarHeader({ target, initialState }) {
   this.render = () => {
     header.innerHTML = `
                 <span>${this.state.text}</span>
-                <button>${this.state.button.text}</button>
+                <button class="home-plus-btn"><i class="far fa-plus-square"></i></button>
                 <button class="home-btn"><i class="fa-sharp fa-solid fa-house"></i></button>
             `;
     target.appendChild(header);

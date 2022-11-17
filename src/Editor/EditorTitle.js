@@ -1,4 +1,4 @@
-import { $, createElement } from '../utils/dom.js';
+import { createElement } from '../utils/dom.js';
 import { isNew, isString } from '../utils/errorHandler.js';
 
 function EditorTitle({ div, initialState, onChangeTitle }) {
@@ -12,7 +12,6 @@ function EditorTitle({ div, initialState, onChangeTitle }) {
   this.setState = (nextState) => {
     this.state = nextState;
     const { title } = this.state;
-    let el = $('.title');
     this.render();
     editorTitle.querySelector('.title').value = title && title;
   };

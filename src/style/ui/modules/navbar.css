@@ -38,6 +38,7 @@
   display: flex;
   width: 75%;
   align-items: center;
+  margin-left: 10px;
 }
 
 .item-button {
@@ -69,4 +70,13 @@ button:hover {
 
 .add-btn {
   font-size: 18px;
+}
+
+.home-btn {
+  position: absolute;
+  left: 13%;
+}
+.home-plus-btn {
+  position: absolute;
+  left: 3rem;
 }
