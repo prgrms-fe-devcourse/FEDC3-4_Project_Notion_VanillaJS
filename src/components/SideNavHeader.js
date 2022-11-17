@@ -1,4 +1,3 @@
-import { push } from "../routes/router.js";
 import { $sideNavHeader } from "../utils/templates.js";
 
 export default function SideNavHeader({ $target }) {

@@ -1,10 +1,8 @@
-import { ACTIVE_LIST_KEY } from "../config.js";
-import { request } from "./api/api.js";
+import { request } from "../api/api.js";
 import PostEdit from "./components/PostEdit.js";
 import PostsPage from "./components/PostsPage.js";
 import HomePage from "./pages/HomePage.js";
 import { initRouter } from "./routes/router.js";
-import { getItem } from "./utils/storage.js";
 import NotFound from "./pages/NotFound.js";
 
 export default function App({ $target }) {
@@ -84,8 +82,6 @@ export default function App({ $target }) {
 			$postEditContainer.style.display = "none";
 			$homeContainer.style.display = "none";
 		}
-
-		// const id = getItem(ACTIVE_LIST_KEY);
 	};
 
 	this.init();
