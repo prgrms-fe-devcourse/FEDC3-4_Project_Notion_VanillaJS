@@ -83,19 +83,19 @@ button:hover {
 }
 
 .icon.dropdown-documents-button {
-  background-image: url(/assets/image/arrow.png);
+  background-image: url(/src/assets/image/arrow.png);
 }
 
 .icon.remove-document-button {
-  background-image: url(/assets/image/close.png);
+  background-image: url(/src/assets/image/close.png);
 }
 
 .icon.add-sub-document-button {
-  background-image: url(/assets/image/plus.png);
+  background-image: url(/src/assets/image/plus.png);
 }
 
 .icon.add-document-button {
-  background-image: url(/assets/image/plus.png);
+  background-image: url(/src/assets/image/plus.png);
   margin-right: 0.5rem;
 }
 
@@ -172,10 +172,10 @@ button:hover {
   justify-content: space-around;
 }
 
-.sidebar .document-list .document-item .no-sub-documents {
+.sidebar .document-list .no-sub-documents {
   cursor: default;
   user-select: none;
-  font-size: 0.9rem;
+  font-size: 13px;
   color: rgb(100, 100, 100);
 }
 
