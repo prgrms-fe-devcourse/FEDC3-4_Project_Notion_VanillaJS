@@ -52,7 +52,7 @@ ul {
 
 .document-li {
   width: 100%;
-  padding: 5 10;
+  padding: 5 20;
 }
 
 .document-li:hover {
@@ -60,7 +60,7 @@ ul {
 }
 
 .add-btn {
-  margin-left: 6rem;
+  margin-left: 6.5rem;
   margin-right: 1rem;
 }
 
@@ -86,4 +86,18 @@ ul {
 
 .sidebar-footer:hover {
   background-color: rgb(230, 230, 230);
+}
+
+/* posts */
+.editor {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.post-edit-page {
+  flex-direction: row;
+  justify-content: center;
+  width: 1200px;
+  background: white;
 }

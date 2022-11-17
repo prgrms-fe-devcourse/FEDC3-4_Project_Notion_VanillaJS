@@ -1,4 +1,5 @@
 import { request } from "../../utils/api.js";
+import { push } from "../../utils/router.js";
 
 export default function SidebarFooter({ $target }) {
   const $sidebarFooter = document.createElement("div");
@@ -16,13 +17,7 @@ export default function SidebarFooter({ $target }) {
   this.render();
 
   const addNewDocument = async () => {
-    await request("/documents", {
-      method: "POST",
-      body: JSON.stringify({
-        title: "test",
-        parent: null,
-      }),
-    });
+    push("/documents/new");
   };
 
   $sidebarFooter.addEventListener("click", addNewDocument);

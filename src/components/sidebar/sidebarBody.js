@@ -1,31 +1,39 @@
 import { request } from "../../utils/api.js";
+import { push } from "../../utils/router.js";
 
-export default function SidebarBody({ $target, initialState }) {
+export default function SidebarBody({ $target }) {
   const $sidebarBody = document.createElement("div");
   const $renderList = document.createElement("div");
   $sidebarBody.className = "sidebar-body";
+  $target.appendChild($sidebarBody);
 
-  this.state = initialState;
-
-  this.setState = (nextState) => {
-    this.state = nextState;
+  this.setState = async () => {
+    this.state = await request("/documents", {
+      method: "GET",
+    });
+    console.log("data GET", this.state);
     this.render();
   };
 
   const addDocumnet = async (dataId) => {
-    await request("/documents", {
+    const newDocument = await request("/documents", {
       method: "POST",
       body: JSON.stringify({
-        title: "test",
+        title: "제목",
         parent: dataId,
       }),
     });
+    $renderList.innerHTML = "";
+    this.setState();
+    push(`/documents/${newDocument.id}`);
   };
 
   const deleteDocument = async (dataId) => {
     await request(`/documents/${dataId}`, {
       method: "DELETE",
     });
+    $renderList.innerHTML = "";
+    push("/");
   };
 
   const renderDocuments = (documents, $renderList) => {
@@ -56,11 +64,8 @@ export default function SidebarBody({ $target, initialState }) {
   };
 
   this.render = () => {
-    console.log("sidebarBody state", this.state);
-    $target.appendChild($sidebarBody);
     if (this.state) {
       $sidebarBody.innerHTML = renderDocuments(this.state, $renderList);
-      console.log($renderList);
     } else {
       $sidebarBody.innerHTML = "새 페이지를 눌러 문서를 작성해 주세요!";
     }
@@ -78,6 +83,8 @@ export default function SidebarBody({ $target, initialState }) {
     } else if (target.className === "delete-btn") {
       deleteDocument(dataId);
       console.log("$deleteBtn clicked", dataId);
+    } else if (dataId) {
+      push(`/documents/${dataId}`);
     }
   });
 }

@@ -2,6 +2,7 @@ import { push } from "../../utils/router.js";
 
 export default function PostList({ $target, initialState }) {
   const $postList = document.createElement("div");
+  $postList.className = "post-list";
   $target.appendChild($postList);
 
   this.state = initialState;
@@ -16,8 +17,8 @@ export default function PostList({ $target, initialState }) {
         <ul>
             ${this.state
               .map(
-                (post) => `
-                <li data-id="${post.id}">${post.title}</li>
+                (document) => `
+                <li data-id="${document.id}">${document.title}</li>
             `
               )
               .join("")}
@@ -32,7 +33,7 @@ export default function PostList({ $target, initialState }) {
 
     if ($li) {
       const { id } = $li.dataset;
-      push(`/posts/${id}`);
+      push(`/documents/${id}`);
     }
   });
 }

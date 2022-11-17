@@ -1,3 +1,5 @@
+import { push } from "../../utils/router.js";
+
 export default function SidebarHeader({ $target }) {
   const $sidebarHeader = document.createElement("div");
   $sidebarHeader.className = "sidebar-header";

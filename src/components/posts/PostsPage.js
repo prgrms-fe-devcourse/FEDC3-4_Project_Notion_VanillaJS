@@ -1,17 +1,20 @@
 import { request } from "../../utils/api.js";
-import LinkButton from "../../utils/linkButton.js";
-import PostList from "./postList.js";
+import LinkButton from "../../utils/button.js";
+import PostList from "./PostList.js";
 
 export default function PostsPage({ $target }) {
-  const $page = document.createElement("div");
+  const $postsPage = document.createElement("div");
+  $postsPage.className = "posts-page";
 
   const postList = new PostList({
-    $target: $page,
+    $target: $postsPage,
     initialState: [],
   });
 
+  console.log("postsPage");
+
   new LinkButton({
-    $target: $page,
+    $target: $postsPage,
     initialState: {
       text: "New Post",
       link: "/posts/new",
@@ -25,6 +28,6 @@ export default function PostsPage({ $target }) {
   };
 
   this.render = async () => {
-    $target.appendChild($page);
+    $target.appendChild($postsPage);
   };
 }

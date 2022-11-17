@@ -1,40 +1,39 @@
 import Sidebar from "./components/sidebar/Sidebar.js";
-import PostsPage from "./components/posts/PostsPage.js";
 import PostEditPage from "./components/posts/PostEditPage.js";
 import { initRouter } from "./utils/router.js";
-import { request } from "./utils/api.js";
 
 export default function App({ $target }) {
-  const sidebar = new Sidebar({ $target });
+  const $sidebar = document.createElement("div");
+  const $postEditPage = document.createElement("div");
 
-  // const postsPage = new PostsPage({
-  //   $target,
-  // });
+  $target.appendChild($sidebar);
+  $target.appendChild($postEditPage);
 
-  // const postEditPage = new PostEditPage({
-  //   $target,
-  //   initialState: {
-  //     postId: "new",
-  //     post: {
-  //       title: "",
-  //       content: "",
-  //     },
-  //   },
-  // });
+  const sidebar = new Sidebar({ $target: $sidebar });
 
-  // this.route = () => {
-  //   $target.innerHTML = "";
-  //   const { pathname } = window.location;
+  const postEditPage = new PostEditPage({
+    $target: $postEditPage,
+    initialState: {
+      postId: "new",
+      post: {
+        title: "",
+        content: "",
+      },
+    },
+  });
 
-  //   if (pathname === "/") {
-  //     postsPage.setState();
-  //   } else if (pathname.indexOf("/posts/") === 0) {
-  //     const [, , postId] = pathname.split("/");
-  //     postEditPage.setState({ postId });
-  //   }
-  // };
+  this.route = () => {
+    console.log("$sidebar", $sidebar);
+    const { pathname } = window.location;
+    if (pathname.indexOf("/documents/") === 0) {
+      const [, , postId] = pathname.split("/");
+      postEditPage.setState({ postId });
+    } else {
+      sidebar.setState();
+    }
+  };
 
-  // this.route();
+  this.route();
 
-  // initRouter(() => this.route());
+  initRouter(() => this.route());
 }

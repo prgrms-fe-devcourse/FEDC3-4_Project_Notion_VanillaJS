@@ -9,17 +9,6 @@ export default function Sidebar({ $target }) {
   const $sidebarHeader = document.createElement("div");
   const $sidebarBody = document.createElement("div");
   const $sidebarFooter = document.createElement("div");
-  $target.appendChild($sidebar);
-
-  this.init = async () => {
-    this.state = await request("/documents", {
-      method: "GET",
-    });
-    sidebarBody.setState(this.state);
-    console.log("data GET", this.state);
-  };
-
-  this.init();
 
   new SidebarHeader({
     $target: $sidebarHeader,
@@ -27,10 +16,11 @@ export default function Sidebar({ $target }) {
 
   const sidebarBody = new SidebarBody({
     $target: $sidebarBody,
-    initialState: this.state,
   });
 
-  sidebarBody.setState(this.state);
+  this.setState = () => {
+    sidebarBody.setState();
+  };
 
   new SidebarFooter({
     $target: $sidebarFooter,
@@ -41,8 +31,6 @@ export default function Sidebar({ $target }) {
     $sidebar.appendChild($sidebarHeader);
     $sidebar.appendChild($sidebarBody);
     $sidebar.appendChild($sidebarFooter);
-    console.log("sidebar render");
-    console.log(this.state);
   };
 
   this.render();

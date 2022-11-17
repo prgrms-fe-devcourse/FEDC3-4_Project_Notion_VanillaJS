@@ -1,10 +1,10 @@
 import { request } from "../../utils/api.js";
 import { getItem, removeItem, setItem } from "../../utils/storage.js";
-import LinkButton from "../../utils/linkButton.js";
-import Editor from "./editor.js";
+import Editor from "./Editor.js";
 
 export default function PostEditPage({ $target, initialState }) {
-  const $page = document.createElement("div");
+  const $postEditPage = document.createElement("div");
+  $postEditPage.className = "post-edit-page";
 
   this.state = initialState;
 
@@ -18,8 +18,9 @@ export default function PostEditPage({ $target, initialState }) {
   let timer = null;
 
   const editor = new Editor({
-    $target: $page,
+    $target: $postEditPage,
     initialState: post,
+
     onEditing: (post) => {
       /* 연속으로 입력을 하고 있을 때는 계속 이벤트 발생을 지연시키다가
        입력을 멈췄을 때, 즉, 마지막으로 이벤트가 발생하고 일정 시간이 지났을 때
@@ -37,24 +38,24 @@ export default function PostEditPage({ $target, initialState }) {
 
         const isNew = this.state.postId === "new";
         if (isNew) {
-          const createdPost = await request("/posts", {
+          const createdPost = await request("/documents", {
             method: "POST",
             body: JSON.stringify(post),
           });
-          history.replaceState(null, null, `/posts/${createdPost.id}`);
+          history.replaceState(null, null, `/documents/${createdPost.id}`);
           removeItem(postLocalSaveKey);
 
           this.setState({
             postId: createdPost.id,
           });
         } else {
-          await request(`/posts/${post.id}`, {
+          await request(`/documents/${post.id}`, {
             method: "PUT",
             body: JSON.stringify(post),
           });
           removeItem(postLocalSaveKey);
         }
-      }, 2000);
+      }, 1000);
     },
   });
 
@@ -88,14 +89,14 @@ export default function PostEditPage({ $target, initialState }) {
   };
 
   this.render = () => {
-    $target.appendChild($page);
+    $target.appendChild($postEditPage);
   };
 
   const fetchPost = async () => {
     const { postId } = this.state;
 
     if (postId !== "new") {
-      const post = await request(`/posts/${[postId]}`);
+      const post = await request(`/documents/${[postId]}`);
       console.log(post);
 
       const tempPost = getItem(postLocalSaveKey, {
@@ -119,12 +120,4 @@ export default function PostEditPage({ $target, initialState }) {
       });
     }
   };
-
-  new LinkButton({
-    $target: $page,
-    initialState: {
-      text: "목록으로 이동",
-      link: "/",
-    },
-  });
 }
