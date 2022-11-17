@@ -1,4 +1,6 @@
-export default function sidebarFooter({ $target }) {
+import { request } from "../../utils/api.js";
+
+export default function SidebarFooter({ $target }) {
   const $sidebarFooter = document.createElement("div");
   $sidebarFooter.className = "sidebar-footer";
   $target.appendChild($sidebarFooter);
@@ -12,4 +14,15 @@ export default function sidebarFooter({ $target }) {
   };
 
   this.render();
+
+  $sidebarFooter.addEventListener("click", async (e) => {
+    await request("/documents", {
+      method: "POST",
+      body: JSON.stringify({
+        title: "test",
+        parent: null,
+      }),
+    });
+    console.log("sidebarFooter clicked");
+  });
 }

@@ -1,16 +1,11 @@
-import Sidebar from "./components/sidebar/sidebar.js";
-import PostsPage from "./components/posts/postsPage.js";
-import PostEditPage from "./components/posts/postEditPage.js";
+import Sidebar from "./components/sidebar/Sidebar.js";
+import PostsPage from "./components/posts/PostsPage.js";
+import PostEditPage from "./components/posts/PostEditPage.js";
 import { initRouter } from "./utils/router.js";
+import { request } from "./utils/api.js";
 
-/* url 규칙
-   루트: postsPage 그리기
-
-   /posts/{id} - id에 해당하는 post 생성
-   /posts/new - 새 post 생성
-*/
 export default function App({ $target }) {
-  const sidebar = new Sidebar({ $target, initialState: [] });
+  const sidebar = new Sidebar({ $target });
 
   // const postsPage = new PostsPage({
   //   $target,
