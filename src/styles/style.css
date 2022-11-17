@@ -71,10 +71,12 @@ body {
   display: flex;
   padding: 16px 10px;
   cursor: pointer;
+  align-items: center;
 }
 
 .node-title {
   display: flex;
+  align-items: center;
 }
 
 .node-title span {
@@ -138,6 +140,7 @@ body {
   font-weight: bold;
   padding: 10px;
   border: none;
+  font-family: SUIT-Medium;
 }
 
 .child-documents-wrapper {
