@@ -1,4 +1,4 @@
-import { request } from "../api/api.js";
+import { request } from "../api/index.js";
 import PostEdit from "./components/PostEdit.js";
 import PostsPage from "./components/PostsPage.js";
 import HomePage from "./pages/HomePage.js";
