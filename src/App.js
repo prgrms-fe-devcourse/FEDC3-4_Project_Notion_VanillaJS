@@ -1,5 +1,5 @@
-import Post from './components/Post/Post.js';
-import Sidebar from './components/SideBar/SideBar.js';
+import Post from './components/Post/PostComponent.js';
+import Sidebar from './components/Sidebar/SidebarComponent.js';
 import {
   createDocument,
   deleteDocument,
@@ -118,7 +118,7 @@ export default function App({ $target, initialState }) {
     },
     onClickDocumentItemDeleteButton: async id => {
       if (!confirm('해당 문서를 삭제하시겠습니까?')) return;
-      
+
       const openedDocumentItemIds = getItem(OPENED_DOCUMENT_ITEMS, []);
       const [, , currentId] = window.location.pathname.split('/');
       const removedOpenedDocumentItemIdIndex = openedDocumentItemIds.findIndex(
