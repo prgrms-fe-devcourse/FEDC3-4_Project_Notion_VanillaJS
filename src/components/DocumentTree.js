@@ -1,11 +1,12 @@
 import {
   createNewDocument,
-  deleteDocumet,
+  deleteDocument,
   getRootDocuments,
-} from "../utils/fetchData.js";
+} from "../apis/documentApi.js";
 import DocumentNode from "./DocumentNode.js";
 import { className } from "../utils/constants.js";
 import { messages } from "../utils/messages.js";
+import { navigate } from "../utils/router.js";
 
 function DocumentTree({ $target, initialState }) {
   const $tree = document.createElement("section");
@@ -22,6 +23,13 @@ function DocumentTree({ $target, initialState }) {
     this.render();
   };
 
+  const checkDocumentIdAndRoute = (documentId) => {
+    const [, , currentDocumentId] = location.pathname.split("/");
+    if (currentDocumentId === documentId) {
+      navigate("/");
+    }
+  };
+
   this.render = () => {
     $tree.innerHTML = `
       <div class="${treeRootAddButton}">
@@ -35,22 +43,19 @@ function DocumentTree({ $target, initialState }) {
       initialState: {
         data: this.state.data,
       },
-      onClick: (parentId) => {
-        this.onClick(parentId);
+      onCreate: (parentId) => {
+        this.createDocument(parentId);
       },
-      onDelete: (documentId) => {
+      onDelete: async (documentId) => {
         const answer = confirm(messageForDelete);
+        if (!answer) return;
 
-        if (answer) {
-          this.delete(documentId);
-        }
+        await deleteDocument(documentId);
+        this.getData();
+
+        checkDocumentIdAndRoute(documentId);
       },
     });
-  };
-
-  this.delete = async (documentId) => {
-    await deleteDocumet(documentId);
-    this.getData();
   };
 
   this.getData = async () => {
@@ -61,7 +66,7 @@ function DocumentTree({ $target, initialState }) {
     });
   };
 
-  this.onClick = (parentId) => {
+  this.createDocument = async (parentId) => {
     const title = prompt(messageForCreate);
 
     if (title === null) {
@@ -78,7 +83,9 @@ function DocumentTree({ $target, initialState }) {
       parent: parentId,
     };
 
-    createNewDocument(newData);
+    const { id } = await createNewDocument(newData);
+    navigate(`/documents/${id}`);
+
     this.getData();
   };
 
@@ -92,7 +99,7 @@ function DocumentTree({ $target, initialState }) {
     const $div = e.target.closest("div");
 
     if ($div?.className === treeRootAddButton) {
-      this.onClick(null);
+      this.createDocument(null);
     }
   });
 }

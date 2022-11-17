@@ -1,7 +1,7 @@
 import { navigate } from "../utils/router.js";
 import { className } from "../utils/constants.js";
 
-function DocumentNode({ $target, initialState, onClick, onDelete }) {
+function DocumentNode({ $target, initialState, onCreate, onDelete }) {
   const $node = document.createElement("article");
   $target.appendChild($node);
 
@@ -66,20 +66,22 @@ function DocumentNode({ $target, initialState, onClick, onDelete }) {
   this.render();
 
   const onClickButton = ($button) => {
-    const { className } = $button;
-    const { parentId } = $button.dataset;
+    const {
+      className,
+      dataset: { parentId },
+    } = $button;
 
     if (!parentId) {
       return;
     }
 
     if (className === addButton) {
-      onClick(parseInt(parentId));
+      onCreate(parseInt(parentId));
       return;
     }
 
     if (className === deleteButton) {
-      onDelete(parseInt(parentId));
+      onDelete(parentId);
       return;
     }
   };
@@ -94,14 +96,12 @@ function DocumentNode({ $target, initialState, onClick, onDelete }) {
 
   $node.addEventListener("click", (e) => {
     const $button = e.target.closest("button");
-
     if ($button) {
       onClickButton($button);
       return;
     }
 
     const $li = e.target.closest("li");
-
     if ($li) {
       onSelectDocument($li);
       return;

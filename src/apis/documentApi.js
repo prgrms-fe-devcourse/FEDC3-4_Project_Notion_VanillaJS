@@ -1,4 +1,4 @@
-import { request } from "./api.js";
+import { request } from "./index.js";
 
 export const getRootDocuments = async () => {
   const response = await request("/documents");
@@ -20,6 +20,7 @@ export const updateDocument = async (documentId, data) => {
   return response;
 };
 
-export const deleteDocumet = async (documentId) => {
+export const deleteDocument = async (documentId) => {
   const response = await request(`/documents/${documentId}`, "DELETE");
+  console.log(response);
 };
