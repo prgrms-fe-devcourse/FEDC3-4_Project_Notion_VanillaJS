@@ -10,6 +10,7 @@ body {
 }
 
 button {
+  display: relative;
   cursor: pointer;
   border: 0;
   padding: 0;
@@ -45,9 +46,10 @@ ul {
 
 .sidebar-body {
   overflow-y: scroll;
+  overflow-x: hidden;
   height: 80vh;
-  padding: 0 15;
-  margin-top: -0.5rem;
+  padding: 1rem 15;
+  padding-top: 1rem;
 }
 
 .document-li {
@@ -60,14 +62,19 @@ ul {
 }
 
 .add-btn {
-  margin-left: 6.5rem;
-  margin-right: 1rem;
+  position: absolute;
+  padding: 0.5rem 1rem;
+  right: 0;
+  margin-top: -0.5rem;
+  margin-right: 0.5rem;
 }
 
 .delete-btn {
-  position: relative;
+  position: absolute;
+  padding: 0.5rem 1rem;
+  right: 1.7rem;
+  margin-top: -0.5rem;
   font-size: 0.9rem;
-  top: -1.5;
 }
 
 .sidebar-footer {
@@ -89,15 +96,37 @@ ul {
 }
 
 /* posts */
-.editor {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
 .post-edit-page {
+  display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 1200px;
+  width: 100vh;
   background: white;
+}
+
+.editor {
+  position: relative;
+  border: 0;
+  cursor: text;
+  flex-direction: column;
+  margin-left: 1rem;
+}
+
+.editor-title {
+  position: relative;
+  border: 0;
+  width: 100%;
+  font-size: 3.5rem;
+  font-weight: 500;
+  text-align: center;
+  padding: 3rem;
+  margin-top: 2rem;
+}
+
+.editor-content {
+  border: 0;
+  width: 100%;
+  font-size: 1rem;
+  margin-top: 5vh;
+  padding: 3rem;
 }

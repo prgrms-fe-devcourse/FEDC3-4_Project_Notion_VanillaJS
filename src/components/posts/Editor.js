@@ -20,8 +20,8 @@ export default function Editor({
 
   this.render = () => {
     $editor.innerHTML = `
-        <input class="editor-title" type="text" name="title" style="width:600px;" value="${this.state.title}" />
-        <textarea class="editor-content" name="content" style="width:600px; height:400px;">${this.state.content}</textarea>
+        <input class="editor-title" type="text" name="title" value="${this.state.title}" />
+        <textarea class="editor-content" name="content">${this.state.content}</textarea>
     `;
   };
 
