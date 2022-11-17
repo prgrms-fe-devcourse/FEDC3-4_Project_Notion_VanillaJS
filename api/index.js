@@ -1,16 +1,34 @@
 const API_END_POINT = process.env.API_END_POINT;
 
-export default async function request(url, options = {}) {
+// export default async function handler(url, options = {}) {
+// 	try {
+// 		const res = await fetch(`${API_END_POINT}${url}`, {
+// 			...options,
+// 			headers: {
+// 				"Content-Type": "application/json",
+// 				"x-username": "woogie",
+// 			},
+// 		});
+// 		if (res.ok) {
+// 			return await res.json();
+// 		}
+// 		throw new Error("API 호출 실패!!!!!!!");
+// 	} catch (error) {
+// 		alert(error);
+// 	}
+// }
+
+export default async function handler(req, options = {}) {
 	try {
-		const res = await fetch(`${API_END_POINT}${url}`, {
+		const response = await fetch(`${API_END_POINT}${req}`, {
 			...options,
 			headers: {
 				"Content-Type": "application/json",
 				"x-username": "woogie",
 			},
 		});
-		if (res.ok) {
-			return await res.json();
+		if (response.ok) {
+			return await response.json();
 		}
 		throw new Error("API 호출 실패!!!!!!!");
 	} catch (error) {

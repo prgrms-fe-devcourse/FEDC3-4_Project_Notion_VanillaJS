@@ -3,7 +3,7 @@ import PostsPage from "./components/PostsPage.js";
 import HomePage from "./pages/HomePage.js";
 import { initRouter } from "./routes/router.js";
 import NotFound from "./pages/NotFound.js";
-import request from "/api/index.js";
+import handler from "/api/index.js";
 
 export default function App({ $target }) {
 	const $postListContainer = document.createElement("div");
@@ -70,7 +70,7 @@ export default function App({ $target }) {
 					id,
 				});
 			} else {
-				const post = await request(`/documents/${id}`, {
+				const post = await handler(`/documents/${id}`, {
 					method: "GET",
 				});
 				this.setState(post);

@@ -1,4 +1,4 @@
-import request from "/api/index.js";
+import handler from "/api/index.js";
 import Editor from "./Editor.js";
 
 export default function PostEdit({ $target, initialState, addPost }) {
@@ -13,7 +13,7 @@ export default function PostEdit({ $target, initialState, addPost }) {
 				clearTimeout(timer);
 			}
 			timer = setTimeout(async () => {
-				const updatePost = await request(`/documents/${post.id}`, {
+				const updatePost = await handler(`/documents/${post.id}`, {
 					method: "PUT",
 					body: JSON.stringify(post),
 				});
@@ -53,7 +53,7 @@ export default function PostEdit({ $target, initialState, addPost }) {
 	const fetchPost = async () => {
 		const { id } = this.state;
 		if (id !== "new") {
-			const post = await request(`/documents/${id}`);
+			const post = await handler(`/documents/${id}`);
 			this.setState({
 				...this.state,
 				post,
