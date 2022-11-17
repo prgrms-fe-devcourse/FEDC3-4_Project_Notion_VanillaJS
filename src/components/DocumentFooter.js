@@ -1,4 +1,4 @@
-export default function DocumentFooter({ $target, onCreate }) {
+export default function DocumentFooter({ $target, onCreate, onScroll }) {
   const $button = document.createElement('button');
   $button.className = 'document-fix document-footer create-button';
   $target.appendChild($button);
@@ -13,6 +13,7 @@ export default function DocumentFooter({ $target, onCreate }) {
 
     $button.addEventListener('click', () => {
       onCreate();
+      onScroll();
     });
   };
 

@@ -34,6 +34,13 @@ export default function DocumentPage({ $target }) {
         body: JSON.stringify(newDocument),
       });
       await fetchDocument();
+      console.log('onCreate');
+    },
+    onScroll: () => {
+      // 문제 있음 - onCreate가 실행된 이후에 실행시켜야함
+      const $div = $target.querySelector('.document-list');
+      $div.scrollTo({ top: $div.scrollHeight, behavior: 'smooth' });
+      console.log('onScroll');
     },
   });
 
