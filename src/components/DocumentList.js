@@ -45,7 +45,8 @@ export default function DocumentList({ $target, initialState }) {
     };
 
     const onToggle = async () => {
-      e.target.classList.toggle('toggle-active');
+      const $toggle = $div.querySelector('.toggle');
+      $toggle.classList.toggle('toggle-active');
 
       const getDocuments = await request(`/documents/${id}`);
       const { documents } = getDocuments;
@@ -55,7 +56,7 @@ export default function DocumentList({ $target, initialState }) {
       $list.appendChild($ulChild);
 
       // toggle on/off 처리
-      if (e.target.classList.contains('toggle-active')) {
+      if ($toggle.classList.contains('toggle-active')) {
         // 하위 리스트가 있을 때와 없을 때의 처리
         if (documents.length > 0) {
           $ulChild.innerHTML = `
@@ -79,7 +80,25 @@ export default function DocumentList({ $target, initialState }) {
       }
     };
 
-    const onRemove = () => {};
+    const onRemove = async () => {
+      confirm('삭제하시겠습니까?');
+
+      await request(`/documents/${id}`, {
+        method: 'DELETE',
+      });
+
+      // 삭제할 document의 id와 현재 url의 id가 같은 경우 루트(/)로 라우팅 처리
+      const { pathname } = window.location;
+      if (pathname.indexOf('/documents/') === 0) {
+        const [, , documentId] = pathname.split('/');
+        if (documentId === id) {
+          push('/');
+        }
+      }
+
+      const nextState = await request(`/documents`);
+      this.setState(nextState);
+    };
 
     const onAdd = async () => {
       if (id !== undefined) {
@@ -92,6 +111,7 @@ export default function DocumentList({ $target, initialState }) {
           body: JSON.stringify(document),
         });
       }
+
       onToggle();
     };
 
