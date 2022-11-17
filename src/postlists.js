@@ -48,22 +48,6 @@ export default function PostLists({ $target, initialState = [] }) {
     $postslist.dispatchEvent(editEvent);
   };
 
-  // this.render = () => {
-  //   $postslist.innerHTML = `
-  //   <ul>
-  //     ${this.state
-  //       .map(
-  //         ({ id, title }) =>
-  //           `<li data-id="${id}" data-name="list">${title}
-  //             <button data-id="${id}" data-name="plus"> + </button>
-  //             <button data-id="${id}" data-name="minus"> x </button>
-  //           </li>`
-  //       )
-  //       .join("")}
-  //   </ul>
-  //   <button data-name="createNewPostBtn"> + </button>
-  //   `;
-  // };
   this.render = () => {
     $postslist.innerHTML =
       renderLogic(this.state) +
@@ -80,16 +64,6 @@ export default function PostLists({ $target, initialState = [] }) {
     if (name === "createNewPostBtn") this.handleNewPost(e);
     if (name === "list" || name === "span-list") this.handleEditPost(e);
   });
-
-  /**
-   * 1. li 클릭하면 에디터에 상태 호춣해주기
-   * 2. + 누르면
-   * createNewPostBtn
-   * 1. 빈 글을 생성한다.
-   * 2. 위에서 생성한 빈 글의 상태를 에디터에 셋스테이트를 해준다
-   *
-   *
-   */
 
   this.render();
 }
