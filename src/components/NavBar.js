@@ -12,7 +12,7 @@ export default function NavBar({ $container, initialState, onSelect, onAdd, onDe
     return documents.map((document) => ({
       ...document,
       documents: documents.length ? addIsOpenState(document.documents, openDocuments) : documents,
-      isOpen: openDocuments.includes(String(document.id)),
+      isOpen: openDocuments.includes(document.id),
     }));
   };
 
@@ -45,6 +45,7 @@ export default function NavBar({ $container, initialState, onSelect, onAdd, onDe
     const { id } = $document.dataset;
     if (!id) return;
 
+    const idNumberType = Number(id);
     const eventType = e.target.id;
     switch (eventType) {
       case 'toggle':
@@ -56,28 +57,28 @@ export default function NavBar({ $container, initialState, onSelect, onAdd, onDe
             if (node.className === 'hide') {
               // 닫혔으면 -> 로컬에서 빼기
               const newIsOpenState = currentIsOpenState.filter(
-                (documentId) => documentId !== String(id)
+                (documentId) => documentId !== idNumberType
               );
               setItem(DOCUMENT_ISOEPN_LOCAL_KEY, newIsOpenState);
             } else {
               // 열렸으면 -> 로컬에 넣기
-              setItem(DOCUMENT_ISOEPN_LOCAL_KEY, [...currentIsOpenState, id]);
+              setItem(DOCUMENT_ISOEPN_LOCAL_KEY, [...currentIsOpenState, idNumberType]);
             }
           }
         });
         break;
       case 'add':
-        console.log('추가예정', id);
-        setItem(DOCUMENT_ISOEPN_LOCAL_KEY, [...getItem(DOCUMENT_ISOEPN_LOCAL_KEY, []), id]);
-        onAdd(id);
+        setItem(DOCUMENT_ISOEPN_LOCAL_KEY, [
+          ...getItem(DOCUMENT_ISOEPN_LOCAL_KEY, []),
+          idNumberType,
+        ]);
+        onAdd(idNumberType);
         break;
       case 'delete':
-        console.log('삭제예정', id);
-        onDelete(id);
+        onDelete(idNumberType);
         break;
       default:
-        console.log('세부컨텐츠 보여줌', id);
-        onSelect(id);
+        onSelect(idNumberType);
     }
   });
 }
