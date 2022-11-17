@@ -55,6 +55,7 @@ button {
 
 .document-list {
   overflow: auto;
+  height: 87.5%;
 }
 
 .document-list li {
@@ -128,6 +129,8 @@ button {
 
 .document-add-button.sidebar-bottom {
   display: inline-flex;
+  position: fixed;
+  bottom: 0;
   width: inherit;
   padding: 12px 0;
   border-top: 1.5px solid #ededec;
