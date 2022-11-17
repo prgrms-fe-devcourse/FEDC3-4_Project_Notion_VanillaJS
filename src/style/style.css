@@ -1,0 +1,133 @@
+html,
+body {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+#app {
+  display: flex;
+  height: 100vh;
+}
+
+button {
+  display: relative;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  font-size: 1rem;
+  background: none;
+  user-select: none;
+}
+
+ul {
+  padding: 0 15;
+  margin: 5 0;
+}
+
+/*
+    sidebar 배경색: rgb(250, 250, 249)
+    sidebar hover 색: rgb(230, 230, 230)
+    sidebar 눌러진 페이지: rgb(238, 238, 238)
+*/
+
+/* sidebar */
+.sidebar {
+  position: relative;
+  width: 240px;
+  margin: 0;
+  overflow: hidden;
+  background-color: rgb(250, 250, 249);
+}
+
+.sidebar-header {
+  position: flex;
+  padding: 0 15;
+  cursor: pointer;
+}
+
+.sidebar-body {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 80vh;
+  padding: 1rem 15;
+  padding-top: 1rem;
+}
+
+.document-li {
+  width: 100%;
+  padding: 5 20;
+}
+
+.document-li:hover {
+  background-color: rgb(230, 230, 230);
+}
+
+.add-btn {
+  position: absolute;
+  padding: 0.5rem 1rem;
+  right: 0;
+  margin-top: -0.5rem;
+  margin-right: 0.5rem;
+}
+
+.delete-btn {
+  position: absolute;
+  padding: 0.5rem 1rem;
+  right: 1.7rem;
+  margin-top: -0.5rem;
+  font-size: 0.9rem;
+}
+
+.sidebar-footer {
+  position: fixed;
+  width: 240px;
+  cursor: pointer;
+  bottom: 0;
+  padding: 1.5rem 0;
+  border-top: 1px solid rgb(228, 228, 225);
+  background: rgb(250, 250, 249);
+}
+
+.sidebar-footer div {
+  padding: 0 15;
+}
+
+.sidebar-footer:hover {
+  background-color: rgb(230, 230, 230);
+}
+
+/* posts */
+.post-edit-page {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100vh;
+  background: white;
+}
+
+.editor {
+  position: relative;
+  border: 0;
+  cursor: text;
+  flex-direction: column;
+  margin-left: 1rem;
+}
+
+.editor-title {
+  position: relative;
+  border: 0;
+  width: 100%;
+  font-size: 3.5rem;
+  font-weight: 500;
+  text-align: center;
+  padding: 3rem;
+  margin-top: 2rem;
+}
+
+.editor-content {
+  border: 0;
+  width: 100%;
+  font-size: 1rem;
+  margin-top: 5vh;
+  padding: 3rem;
+}
