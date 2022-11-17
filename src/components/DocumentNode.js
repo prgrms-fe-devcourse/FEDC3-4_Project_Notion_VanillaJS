@@ -16,7 +16,6 @@ function DocumentNode({ $target, initialState, onClick, onDelete }) {
 
     $node.innerHTML = `
       <ul class="tree-node">
-
         ${data
           .map(({ id, title, documents }) => {
             const $li = document.createElement("li");
@@ -45,12 +44,11 @@ function DocumentNode({ $target, initialState, onClick, onDelete }) {
             </section>
             `;
 
-            if (this.state.isDisplay && documents.length > 0) {
+            if (documents.length > 0) {
               this.documentNode = new DocumentNode({
                 $target: $li,
                 initialState: {
                   data: documents,
-                  isDisplay: true,
                 },
               });
             }

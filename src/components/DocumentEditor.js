@@ -39,7 +39,7 @@ function DocumentEditor({ $target, initialState, onChange }) {
 
     $editor.innerHTML = `
       <input class="${editorDocumentTitle}" value="${
-      title ? title : "제목을 입력하세요."
+      title ? title : "제목 없음"
     }"/>
       <article class="eidtor-wrapper">
         <div class="${editorDocumentContent}" autofocus="true" contenteditable="true">${
@@ -79,7 +79,6 @@ function DocumentEditor({ $target, initialState, onChange }) {
 
     if ($div) {
       updateDocument();
-      return;
     }
   });
 

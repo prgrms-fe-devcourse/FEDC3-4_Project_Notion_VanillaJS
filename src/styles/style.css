@@ -49,7 +49,7 @@ body {
   max-width: 300px;
 }
 
-.tree-subtitle-wrapper {
+.tree-add-button-wrapper {
   display: flex;
   padding: 16px 10px;
   cursor: pointer;
