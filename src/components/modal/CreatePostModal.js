@@ -1,7 +1,7 @@
 import { $createPostModal } from "../../utils/templates.js";
 import { modalClose, modalShow } from "./handler.js";
-import { request } from "../../../api/index.js";
 import { push } from "../../routes/router.js";
+import request from "/api/index.js";
 
 export default function CreatePostModal({ $target, initialState, addPost }) {
 	const $modal = document.createElement("div");

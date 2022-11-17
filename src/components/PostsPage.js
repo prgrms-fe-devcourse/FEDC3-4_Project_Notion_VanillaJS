@@ -1,5 +1,5 @@
+import request from "/api/index.js";
 import { ACTIVE_LIST_KEY } from "../../config.js";
-import { request } from "../../api/index.js";
 import { push } from "../routes/router.js";
 import { setItem } from "../utils/storage.js";
 import CreatePostButton from "./CreatePostButton.js";
@@ -12,7 +12,9 @@ export default function PostsPage({ $target, initialState }) {
 	this.state = initialState;
 
 	this.setState = async (nextState) => {
-		const postsList = await request("/documents");
+		const postsList = await request("/documents", {
+			method: "GET",
+		});
 		postList.setState({ postsList, selectedPost: nextState });
 		this.render();
 	};
