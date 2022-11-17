@@ -44,6 +44,14 @@ export default function PostList({
       } else if (className === "post-create") {
         onCreate(id);
       } else {
+        const $active = $postList.querySelector(".active-post");
+        if ($active) {
+          $active.classList.remove("active-post");
+        }
+        
+        const $div = $li.querySelector(".post");
+        $div.classList.add("active-post");
+
         push(`/posts/${id}`);
       }
     }

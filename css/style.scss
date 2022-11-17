@@ -69,6 +69,14 @@ body {
     }
   }
 
+  &:active {
+    background-color: #d3d3d1;
+
+    .button-group > button {
+      background-color: #d3d3d1;
+    }
+  }
+
   & > div > span:first-child {
     display: inline-block;
     width: fit-content;
@@ -82,7 +90,15 @@ body {
   }
 }
 
+.active-post {
+  background-color: #ebebea;
+  color: #37352f;
+  font-weight: bold;
+}
+
 .button-group {
+  display: flex;
+  align-items: center;
   width: 50px;
 
   & > button {

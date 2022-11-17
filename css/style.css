@@ -59,6 +59,12 @@ body ul {
 .post:hover .button-group > button {
   opacity: 1;
 }
+.post:active {
+  background-color: #d3d3d1;
+}
+.post:active .button-group > button {
+  background-color: #d3d3d1;
+}
 .post > div > span:first-child {
   display: inline-block;
   width: fit-content;
@@ -69,7 +75,15 @@ body ul {
   background-color: #dddddc;
 }
 
+.active-post {
+  background-color: #ebebea;
+  color: #37352f;
+  font-weight: bold;
+}
+
 .button-group {
+  display: flex;
+  align-items: center;
   width: 50px;
 }
 .button-group > button {
