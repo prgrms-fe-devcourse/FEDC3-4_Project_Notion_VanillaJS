@@ -1,0 +1,172 @@
+* {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  cursor: pointer;
+  list-style: none;
+}
+
+#app {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;  
+}
+
+/* sidebar */
+.sidebar {
+  width: 20%;
+  padding: 12px;
+  background-color: #F7F6F3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  height: 10%;
+  font-size: 21px;
+}
+
+.header-logo{
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
+}
+
+.header h1{
+  margin: auto 0;
+}
+
+.list-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: scroll;
+  position: relative;
+  
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.list-container::-webkit-scrollbar {
+  display: none;
+}
+
+.list-wrap {
+  overflow: hidden;
+  width: 100%;
+  margin-left: 10px;
+}
+
+.list-wrap .list-item {
+  margin: 0;
+  padding: 8px 0;
+}
+
+.list-item {
+  font-size: 18px;
+  transition: all 300ms ease-in-out;
+}
+
+.list-item:hover {
+  background-color: #e6e5e1;
+}
+
+.fa-caret-right{
+  color: #6e6d6d;
+}
+
+.list-item span {
+  overflow: hidden;
+}
+
+.list-item .btn-container {
+  display: inline;
+  position: absolute;
+  right: 12px;
+  visibility: hidden;
+}
+
+.list-item:hover .btn-container{
+  visibility: visible;
+}
+
+.remove,
+.create {
+  color: #6e6d6d;
+}
+
+.remove:hover, 
+.create:hover {
+  color: #ed8734;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #6e6d6d;
+  height: 10%;
+  border-top: #d4d3cf 1px solid;
+  font-size: 18px;
+  transition: all 300ms ease-in-out;
+}
+
+.footer i{
+  margin-right: 8px;
+}
+
+.footer strong {
+  font-weight: 400;
+  vertical-align: middle;
+}
+
+.footer:hover {
+  color: #ed8734;
+}
+
+/* eidt */
+.edit {
+  width: 80%;
+  padding: 12px;
+  background-color: #FFFFFF;
+}
+.editor {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 10%;
+}
+
+.editor input{
+  border: none;
+  margin-bottom: 12px;
+  font-size: 36px;
+  font-weight: 500;
+  border-bottom: #d4d3cf 1px solid;
+}
+
+.editor textarea {
+  border: none;
+  height: 100%;
+  padding: 12px;
+  font-size: 21px;
+}
+
+.editor textarea:focus, 
+.editor input:focus{
+  outline: none;
+}
