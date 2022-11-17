@@ -10,10 +10,6 @@ export default function Sidebar({ $target }) {
   const $sidebarBody = document.createElement("div");
   const $sidebarFooter = document.createElement("div");
 
-  new SidebarHeader({
-    $target: $sidebarHeader,
-  });
-
   const sidebarBody = new SidebarBody({
     $target: $sidebarBody,
   });
@@ -22,8 +18,14 @@ export default function Sidebar({ $target }) {
     sidebarBody.setState();
   };
 
+  new SidebarHeader({
+    $target: $sidebarHeader,
+    setState: this.setState(),
+  });
+
   new SidebarFooter({
     $target: $sidebarFooter,
+    setState: this.setState(),
   });
 
   this.render = () => {

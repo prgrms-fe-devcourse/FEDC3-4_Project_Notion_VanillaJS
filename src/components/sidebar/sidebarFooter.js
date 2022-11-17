@@ -1,7 +1,7 @@
 import { request } from "../../utils/api.js";
 import { push } from "../../utils/router.js";
 
-export default function SidebarFooter({ $target }) {
+export default function SidebarFooter({ $target, setState }) {
   const $sidebarFooter = document.createElement("div");
   $sidebarFooter.className = "sidebar-footer";
   $target.appendChild($sidebarFooter);
@@ -17,7 +17,16 @@ export default function SidebarFooter({ $target }) {
   this.render();
 
   const addNewDocument = async () => {
-    push("/documents/new");
+    const newDocument = await request("/documents", {
+      method: "POST",
+      body: JSON.stringify({
+        title: "제목",
+        parent: null,
+      }),
+    });
+    setState;
+    push("/");
+    push(`/documents/${newDocument.id}`);
   };
 
   $sidebarFooter.addEventListener("click", addNewDocument);

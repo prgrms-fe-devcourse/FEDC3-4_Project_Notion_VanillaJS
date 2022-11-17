@@ -11,6 +11,7 @@ export default function SidebarBody({ $target }) {
     this.state = await request("/documents", {
       method: "GET",
     });
+    $renderList.innerHTML = "";
     this.render();
   };
 

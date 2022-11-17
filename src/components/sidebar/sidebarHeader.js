@@ -1,6 +1,6 @@
 import { push } from "../../utils/router.js";
 
-export default function SidebarHeader({ $target }) {
+export default function SidebarHeader({ $target, setState }) {
   const $sidebarHeader = document.createElement("div");
   $sidebarHeader.className = "sidebar-header";
   $target.appendChild($sidebarHeader);
@@ -14,4 +14,9 @@ export default function SidebarHeader({ $target }) {
   };
 
   this.render();
+
+  $sidebarHeader.addEventListener("click", (e) => {
+    setState;
+    push("/");
+  });
 }

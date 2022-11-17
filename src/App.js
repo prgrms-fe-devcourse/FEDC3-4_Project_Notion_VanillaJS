@@ -1,6 +1,6 @@
 import Sidebar from "./components/sidebar/Sidebar.js";
 import PostEditPage from "./components/posts/PostEditPage.js";
-import { initRouter } from "./utils/router.js";
+import { initRouter, push } from "./utils/router.js";
 
 export default function App({ $target }) {
   const $sidebar = document.createElement("div");
@@ -21,6 +21,10 @@ export default function App({ $target }) {
       },
     },
   });
+
+  // const fetchNewPost = async (postId) => {
+  //   push(`/documents/${postId}`);
+  // };
 
   this.route = () => {
     const { pathname } = window.location;
