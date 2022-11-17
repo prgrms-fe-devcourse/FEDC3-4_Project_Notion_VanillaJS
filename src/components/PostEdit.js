@@ -13,11 +13,11 @@ export default function PostEdit({ $target, initialState, addPost }) {
 				clearTimeout(timer);
 			}
 			timer = setTimeout(async () => {
-				await request(`/documents/${post.id}`, {
+				const updatePost = await request(`/documents/${post.id}`, {
 					method: "PUT",
 					body: JSON.stringify(post),
 				});
-				addPost(false);
+				addPost(updatePost);
 			}, 1000);
 		},
 	});

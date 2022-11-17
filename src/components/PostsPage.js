@@ -11,16 +11,15 @@ export default function PostsPage({ $target, initialState }) {
 
 	this.state = initialState;
 
-	this.setState = async () => {
-		const posts = await request("/documents");
+	this.setState = async (nextState) => {
+		const postsList = await request("/documents");
+		postList.setState({ postsList, selectedPost: nextState });
 		this.render();
-		postList.setState(posts);
 	};
 
 	new SideNavHeader({ $target: $postPage });
 	const postList = new PostList({
 		$target: $postPage,
-		initialState: [],
 
 		onRemove: async (id) => {
 			const post = await request(`/documents/${id}`, {
@@ -40,16 +39,16 @@ export default function PostsPage({ $target, initialState }) {
 			push(`/documents/${id}`);
 		},
 
-		addPost: () => {
-			this.setState();
+		addPost: (createdPost) => {
+			this.setState(createdPost);
 		},
 	});
 
 	new CreatePostButton({
 		$target,
 		initialState: { link: "/documents/new", modalOpen: false },
-		addPost: () => {
-			this.setState();
+		addPost: (createdPost) => {
+			this.setState(createdPost);
 		},
 	});
 

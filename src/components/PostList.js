@@ -3,26 +3,46 @@ import CreatePostModal from "./modal/CreatePostModal.js";
 
 export default function PostList({ $target, onRemove, onPostClick, addPost }) {
 	const $postList = document.createElement("div");
+	const $emptyPostDiv = document.createElement("div");
+	$emptyPostDiv.className = "empty-posts-list";
+
 	$target.appendChild($postList);
 
 	this.state = {
 		posts: [],
+		selectedPostId: null,
 	};
 
-	this.setState = (nextState) => {
-		this.state.posts = nextState;
+	this.setState = ({ postsList, selectedPost }) => {
+		this.state.posts = postsList;
+		this.state.selectedPostId =
+			selectedPost === undefined ? null : selectedPost.id;
+
 		this.render();
 	};
 
 	this.render = () => {
-		$postList.innerHTML = `${$onLoadParentList(this.state.posts)}`;
+		if (this.state.posts.length > 0) {
+			$postList.innerHTML = `${$onLoadParentList(
+				this.state.posts,
+				this.state.selectedPostId
+			)}`;
+		} else {
+			$postList.innerHTML = "";
+			$postList.appendChild($emptyPostDiv);
+			$emptyPostDiv.innerHTML = `
+				<span>아직 작성된 글이 없어요.</span>
+				<span>오늘 하루를 기록해보세요! 📝</span>
+				<button class="first-create-page-btn">첫 글 작성하기</button>
+				`;
+		}
 	};
 
 	$postList.addEventListener("click", (e) => {
 		const posts = this.state.posts;
 		const $rootLi = e.target.closest(".list-flex");
 
-		if ($rootLi.dataset.id !== undefined) {
+		if ($rootLi && $rootLi.dataset.id !== undefined) {
 			const { className } = e.target;
 			const { id } = $rootLi.dataset;
 
@@ -42,6 +62,8 @@ export default function PostList({ $target, onRemove, onPostClick, addPost }) {
 				}
 			} else if (className.includes("delete-page-btn")) {
 				onRemove(id);
+				this.render();
+				console.log(this.state.posts);
 			} else if (className.includes("create-page-btn")) {
 				$createPostModal.setState({
 					link: `/documents/${id}`,
@@ -50,6 +72,16 @@ export default function PostList({ $target, onRemove, onPostClick, addPost }) {
 			} else {
 				onPostClick(id);
 			}
+		}
+	});
+
+	$emptyPostDiv.addEventListener("click", (e) => {
+		const { className } = e.target;
+		if (className.includes("first-create-page-btn")) {
+			$createPostModal.setState({
+				link: "/documents/new",
+				modalOpen: true,
+			});
 		}
 	});
 
