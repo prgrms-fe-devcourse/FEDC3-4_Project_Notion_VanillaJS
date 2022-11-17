@@ -23,7 +23,6 @@ export default function App({ $target }) {
   });
 
   this.route = () => {
-    console.log("$sidebar", $sidebar);
     const { pathname } = window.location;
     if (pathname.indexOf("/documents/") === 0) {
       const [, , postId] = pathname.split("/");

@@ -11,7 +11,6 @@ export default function SidebarBody({ $target }) {
     this.state = await request("/documents", {
       method: "GET",
     });
-    console.log("data GET", this.state);
     this.render();
   };
 
@@ -76,13 +75,10 @@ export default function SidebarBody({ $target }) {
   $sidebarBody.addEventListener("click", (e) => {
     const target = e.target;
     const dataId = target.closest("li").dataset.id;
-    console.log(dataId);
     if (target.className === "add-btn") {
       addDocumnet(dataId);
-      console.log("$addBtn clicked", dataId);
     } else if (target.className === "delete-btn") {
       deleteDocument(dataId);
-      console.log("$deleteBtn clicked", dataId);
     } else if (dataId) {
       push(`/documents/${dataId}`);
     }

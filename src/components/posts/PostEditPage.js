@@ -97,7 +97,6 @@ export default function PostEditPage({ $target, initialState }) {
 
     if (postId !== "new") {
       const post = await request(`/documents/${[postId]}`);
-      console.log(post);
 
       const tempPost = getItem(postLocalSaveKey, {
         title: "",
