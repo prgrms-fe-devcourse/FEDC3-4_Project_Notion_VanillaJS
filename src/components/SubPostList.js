@@ -1,5 +1,6 @@
 import { push } from "../utils/router.js";
 import { renderPosts } from "../utils/renderPosts.js";
+import { toggle } from "../utils/toggle.js";
 
 export default function SubPostList({ $target, initialState }) {
   const $subPostList = document.createElement("div");
@@ -20,10 +21,20 @@ export default function SubPostList({ $target, initialState }) {
   this.render();
 
   $subPostList.addEventListener("click", (e) => {
+    const { className, classList } = e.target;
+    if (className === "no-sub-page") {
+      return;
+    }
+
     const $li = e.target.closest("li");
     if ($li) {
       const { id } = $li.dataset;
-      push(`/posts/${id}`);
+
+      if (classList.contains("toggle-button")) {
+        toggle(e.target, $li);
+      } else {
+        push(`/posts/${id}`);
+      }
     }
   });
 }

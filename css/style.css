@@ -6,21 +6,44 @@ body li {
   list-style-type: none;
 }
 body ul {
-  padding-left: 10px;
+  padding-left: 0px;
 }
 
 #app {
   display: flex;
+  height: 100vh;
 }
 
 /* 사이드 바 */
 .posts-page {
-  width: 15rem;
-  height: 100vh;
+  position: relative;
+  min-width: 14rem;
   margin-right: 50px;
-  padding: 10px;
+  padding-top: 50px;
   font-size: 15px;
-  background-color: #f7f6f3;
+  background-color: #fbfbfa;
+}
+
+.hide {
+  display: none;
+}
+
+.down {
+  padding-left: 10px;
+}
+
+.post-list {
+  height: 87vh;
+  overflow-y: auto;
+}
+.post-list::-webkit-scrollbar {
+  width: 10px;
+}
+.post-list::-webkit-scrollbar-thumb {
+  background-color: #d3d1cb;
+}
+.post-list::-webkit-scrollbar-track-piece {
+  background-color: #edece9;
 }
 
 .post {
@@ -35,6 +58,15 @@ body ul {
 }
 .post:hover .button-group > button {
   opacity: 1;
+}
+.post > div > span:first-child {
+  display: inline-block;
+  width: fit-content;
+  margin-left: 5px;
+  border-radius: 5px;
+}
+.post > div > span:first-child:hover {
+  background-color: #dddddc;
 }
 
 .button-group {
@@ -62,20 +94,35 @@ body ul {
   border: none;
   border-radius: 5px;
   font-size: 20px;
+  color: #8a8a8a;
   cursor: pointer;
 }
-.toggle-button:hover {
-  background-color: #dddddc;
+
+.open-toggle {
+  transition: transform 0.3s ease-in-out;
+  transform: rotateZ(90deg);
+}
+
+.close-toggle {
+  transition: transform 0.3s ease-in-out;
+  transform: rotateZ(0deg);
+}
+
+.no-sub-page {
+  padding-left: 39px;
+  color: #b5b5b2;
+  cursor: default;
 }
 
 .page-create {
+  position: absolute;
+  bottom: 0px;
   width: 100%;
   padding: 10px;
   text-align: left;
   background: none;
   border: none;
   border-top: 1px solid #dddddc;
-  border-radius: 5px;
   font-size: 16px;
   color: #767571;
   cursor: pointer;
@@ -90,6 +137,7 @@ body ul {
   display: flex;
   flex-direction: column;
   margin: 50px 10px 10px 10px;
+  overflow-y: auto;
 }
 .editor * {
   margin-bottom: 10px;

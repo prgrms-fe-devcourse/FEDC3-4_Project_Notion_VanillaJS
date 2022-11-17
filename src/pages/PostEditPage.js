@@ -86,6 +86,7 @@ export default function PostEditPage({ $target, initialState }) {
       this.setState({
         postId: createdPost.id,
       });
+      window.dispatchEvent(new CustomEvent("update-tree"));
       return;
     }
 
@@ -100,9 +101,10 @@ export default function PostEditPage({ $target, initialState }) {
         });
         this.render();
         editor.setState(post);
+      } else {
+        setPost();
       }
-      setPost();
-      window.dispatchEvent(new CustomEvent("update-tree"));
+
       return;
     }
 
