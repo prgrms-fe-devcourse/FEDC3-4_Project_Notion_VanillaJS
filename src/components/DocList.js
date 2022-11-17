@@ -73,7 +73,7 @@ export default function PostList({
           $li.id = "open";
         }
         const isDisplay = $li.id === "open" ? "block" : "none";
-        $li.children[2].style.display = isDisplay;
+        $li.children[1].style.display = isDisplay;
       }
       if (attribute === "text") {
         onSelect(id);
