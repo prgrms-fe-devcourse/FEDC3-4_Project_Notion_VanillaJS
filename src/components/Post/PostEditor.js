@@ -64,10 +64,6 @@ export default function PostEditor({
 
       await updateDocument(id, { title: changedTitle });
       onChangeTitleAndCurrentPath(id, changedCurrentPath);
-      this.setState({
-        ...this.state,
-        title: changedTitle,
-      });
     }, INIT_DEBOUNCE_TIME),
   );
 

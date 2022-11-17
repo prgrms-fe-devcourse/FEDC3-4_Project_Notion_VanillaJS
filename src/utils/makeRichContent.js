@@ -23,21 +23,23 @@ const CARET_ID = 'caret';
 const makeRichContent = ($editor, currentNode, parentNode) => {
   if (parentNode.tagName !== 'DIV') return;
 
-  _setCaret($editor);
   for (const key in TRIGGERS) {
     const { trigger, tagName, offset } = TRIGGERS[key];
     const { textContent } = currentNode;
 
     if (textContent.indexOf(trigger) === 0) {
+      _setCaret($editor);
+
       const newNode = createElement({
         element: tagName,
         content: textContent.substring(offset),
       });
 
       parentNode.replaceChild(newNode, currentNode);
+
+      _getCaret($editor);
     }
   }
-  _getCaret($editor);
 
   function _setCaret($node) {
     const spanHasCaret = createElement({ element: 'span', id: CARET_ID });
