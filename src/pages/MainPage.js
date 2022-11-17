@@ -3,8 +3,14 @@ import Document from "../components/document/Document.js";
 
 import API from "../utils/api.js";
 
-export default function MainPage({ $target }) {
-  const renderSidebar = async ($sidebar) => {
+export default function MainPage({
+  $target,
+  initialState = {
+    documentId: null,
+  },
+}) {
+  this.renderSidebar = async () => {
+    const $sidebar = this.$target.querySelector("#sidebar");
     const response = await API.getDocuments();
 
     new Sidebar({
@@ -15,13 +21,19 @@ export default function MainPage({ $target }) {
     });
   };
 
-  const renderDocument = ($documentContaier) => {
+  this.renderDocument = () => {
+    const $container = this.$target.querySelector("#document-container");
+
     new Document({
-      $target: $documentContaier,
+      $target: $container,
+      initialState: {
+        documentId: this.state.documentId,
+      },
     });
   };
 
   this.$target = $target;
+  this.state = initialState;
 
   this.init = () => {
     this.render();
@@ -37,11 +49,22 @@ export default function MainPage({ $target }) {
   };
 
   this.mounted = async () => {
-    const $sidebar = this.$target.querySelector("#sidebar");
-    const $container = this.$target.querySelector("#document-container");
+    await this.renderSidebar();
+    this.renderDocument();
+  };
 
-    renderSidebar($sidebar);
-    renderDocument($container);
+  this.setState = (newState) => {
+    const { documentId } = newState;
+    const isDocumentChanged = documentId && documentId !== this.state.documentId;
+
+    if (isDocumentChanged) {
+      this.state = { ...this.state, ...newState };
+      this.renderDocument();
+      return;
+    }
+
+    this.state = { ...this.state, ...newState };
+    this.render();
   };
 
   this.init();

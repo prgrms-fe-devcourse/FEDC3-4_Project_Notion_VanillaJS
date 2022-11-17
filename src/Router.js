@@ -2,15 +2,9 @@ import NotFound from "./pages/NotFound.js";
 
 import { HISTORY_CHANGE_EVENT_NAME, routes } from "./constants/routes.js";
 
-export default function Router($target) {
+export default function Router({ $target, onRoute }) {
   this.$target = $target;
-
-  const findMatchedRoute = () => routes.find((route) => route.path.test(location.pathname));
-
-  this.route = () => {
-    const Page = findMatchedRoute()?.element || NotFound;
-    new Page({ $target: this.$target });
-  };
+  this.state = { currentPage: null };
 
   this.init = () => {
     window.addEventListener(HISTORY_CHANGE_EVENT_NAME, ({ detail }) => {
@@ -22,14 +16,14 @@ export default function Router($target) {
         history.pushState(null, "", to);
       }
 
-      this.route();
+      onRoute();
     });
 
     window.addEventListener("popstate", () => {
-      this.route();
+      onRoute();
     });
   };
 
   this.init();
-  this.route();
+  onRoute();
 }

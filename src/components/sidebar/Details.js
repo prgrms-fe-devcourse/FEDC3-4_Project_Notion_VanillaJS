@@ -12,7 +12,7 @@ export default function Details({
   onAddButtonClick,
 }) {
   this.$target = $target;
-  this.state = { ...initialState };
+  this.state = initialState;
 
   this.init = () => {
     this.render();

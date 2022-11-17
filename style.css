@@ -137,11 +137,12 @@ li {
 }
 
 #document-details .arrow {
-  width: 12px;
-  height: 12px;
+  height: 20px;
   display: block;
+  padding: 1px 3px;
+  margin-right: 5px;
+  border-radius: 4px;
   fill: rgba(55, 53, 47, 0.35);
-  margin-right: 8px;
   transition: transform 200ms ease-out 0s;
   transform: rotateZ(-90deg);
 }
@@ -201,10 +202,10 @@ details[open] > summary #document-item span {
   width: 100%;
   display: flex;
   justify-content: center;
-  padding-top: 10vh;
+  padding-top: 15vh;
 }
 
-#document-header input {
+#document-header .title {
   max-width: 100%;
   min-width: 0px;
   width: 800px;
@@ -212,10 +213,6 @@ details[open] > summary #document-item span {
   font-size: 40px;
   font-weight: 800;
   padding-left: 90px;
-}
-
-#document-header input::placeholder {
-  color: rgb(55, 53, 47, 0.5);
 }
 
 #document-body {
@@ -235,6 +232,10 @@ details[open] > summary #document-item span {
   line-height: 1.5;
   padding-left: 90px;
   font-size: 16px;
+}
+
+[contenteditable=true] {
+  cursor: text;
 }
 
 [contenteditable=true]:empty:before{

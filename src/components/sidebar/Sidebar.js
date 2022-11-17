@@ -1,8 +1,9 @@
 import SidebarFooter from "./SidebarFooter.js";
-import SidebarSection from "./SidebarSection.js";
+import SidebarBody from "./SidebarBody.js";
 import API from "../../utils/api.js";
 
 import { DEFAULT, USER } from "../../config.js";
+import { navigate } from "../../utils/navigate.js";
 
 export default function Sidebar({
   $target,
@@ -10,15 +11,15 @@ export default function Sidebar({
     rootDocuments: [],
   },
 }) {
-  const addDocument = async (id = null) => {
-    await API.createDocument(DEFAULT.DOCUMENT_NAME, id);
-    const rootDocuments = await API.getDocuments();
-    this.setState({ rootDocuments });
+  const addDocument = async (parentId = null) => {
+    const { id } = await API.createDocument(DEFAULT.DOCUMENT_NAME, parentId);
+    navigate(`/documents/${id}`);
   };
 
   const deleteDocument = async (id) => {
     await API.deleteDocument(id);
     const rootDocuments = await API.getDocuments();
+    // console.log(id, rootDocuments);
     this.setState({ rootDocuments });
   };
 
@@ -38,6 +39,7 @@ export default function Sidebar({
       <div id="sidebar-section"></div>
       <div id="sidebar-footer"></div>
     `;
+
     this.mounted();
   };
 
@@ -45,7 +47,7 @@ export default function Sidebar({
     const $section = this.$target.querySelector("#sidebar-section");
     const $footer = this.$target.querySelector("#sidebar-footer");
 
-    new SidebarSection({
+    new SidebarBody({
       $target: $section,
       initialState: {
         title: "Private",

@@ -1,4 +1,5 @@
 import { API_END_POINT, USER_NAME } from "../../.env.js";
+import { navigate } from "./navigate.js";
 
 const request = async (url, options = {}) => {
   try {
@@ -17,9 +18,7 @@ const request = async (url, options = {}) => {
 
     return data;
   } catch (error) {
-    // const { message, status } = error;
-    // throw { message, status };
-    console.log(e.message);
+    navigate("/", true);
   }
 };
 
@@ -32,6 +31,13 @@ const API = {
     return await request("/documents", {
       method: "POST",
       body: JSON.stringify({ title, parent }),
+    });
+  },
+  updateDocument: async (id, newDocument) => {
+    const { title, content } = newDocument;
+    return await request(`/documents/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({ title, content }),
     });
   },
   deleteDocument: async (id) => {
