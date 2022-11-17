@@ -23,9 +23,9 @@ export default function Editor({
     this.render();
   };
 
-  const modalTemplate = () => {
+  const renderTextStyleMenu = () => {
     return `
-      <div class="modal">
+      <div class="modal text-style-menu">
         <div class="text-action-menu-list">
           <div
             class="text-action-menu-item"
@@ -64,7 +64,7 @@ export default function Editor({
             <span class="line-through">S</span>
           </div>
           <div
-            class="text-action-menu-item"
+            class="text-action-menu-item text-color-tab"
             role="button"
             tabindex="0"
             style="
@@ -117,34 +117,785 @@ export default function Editor({
       </div>`;
   };
 
-  this.render = () => {
-    const { title, content, documents } = this.state;
-
-    console.log("문서 배열", documents);
-
-    $editor.innerHTML = `
-      ${modalTemplate()}
-      <div class="selected-post-title">
-      ${
-        title !== DEFAULT_TEXT.TITLE
-          ? `<div class="title" spellcheck="true" contenteditable="true" placeholder="${DEFAULT_TEXT.TITLE}">
-              ${title}
-            </div>`
-          : `<div class="title" spellcheck="true" contenteditable="true" placeholder="${DEFAULT_TEXT.TITLE}"></div>`
-      }
+  const renderTextColorStyleMenu = () => {
+    return `
+    <div
+    class="modal text-color-style-menu"
+    style="padding-top: 6px; padding-bottom: 6px"
+  >
+    <div
+      style="
+        display: flex;
+        padding-left: 14px;
+        padding-right: 14px;
+        margin-top: 6px;
+        margin-bottom: 8px;
+        color: rgba(55, 53, 47, 0.65);
+        font-size: 11px;
+        font-weight: 500;
+        line-height: 120%;
+        user-select: none;
+        text-transform: uppercase;
+      "
+    >
+      <div
+        style="
+          align-self: center;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        "
+      >
+        색
       </div>
-      <div class="selected-post-content">
-        ${
-          content
-            ? `<div class="content" spellcheck="true" contenteditable="true" placeholder="${DEFAULT_TEXT.CONTENT}">
-                <div class="editable-element">${content}</div>
-              </div>`
-            : `<div class="content" spellcheck="true" contenteditable="true" placeholder="${DEFAULT_TEXT.CONTENT}"></div> `
-        }
+    </div>
+    <div
+      class="text-color-style-menu-item"
+      data-color="#37352F"
+      role="button"
+      tabindex="0"
+      style="
+        user-select: none;
+        transition: background 20ms ease-in 0s;
+        cursor: pointer;
+        width: calc(100% - 8px);
+        margin-left: 4px;
+        margin-right: 4px;
+        border-radius: 3px;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          line-height: 120%;
+          width: 100%;
+          user-select: none;
+          min-height: 28px;
+          font-size: 14px;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            margin-right: 4px;
+          "
+        >
+          <div
+            style="
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              width: 22px;
+              height: 22px;
+              text-align: center;
+              font-size: 16px;
+              border-radius: 3px;
+              font-weight: 500;
+              box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px inset;
+              color: inherit;
+              fill: inherit;
+            "
+          >
+            A
+          </div>
+        </div>
+        <div
+          style="
+            margin-left: 6px;
+            margin-right: 12px;
+            min-width: 0px;
+            flex: 1 1 auto;
+          "
+        >
+          <div
+            style="
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+          >
+            기본
+          </div>
+        </div>
       </div>
-      ${
-        documents.length
-          ? `<div>
+    </div>
+    <div
+      class="text-color-style-menu-item"
+      data-color="rgb(120, 119, 116)"
+      role="button"
+      tabindex="0"
+      style="
+        user-select: none;
+        transition: background 20ms ease-in 0s;
+        cursor: pointer;
+        width: calc(100% - 8px);
+        margin-left: 4px;
+        margin-right: 4px;
+        border-radius: 3px;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          line-height: 120%;
+          width: 100%;
+          user-select: none;
+          min-height: 28px;
+          font-size: 14px;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            margin-right: 4px;
+          "
+        >
+          <div
+            style="
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              width: 22px;
+              height: 22px;
+              text-align: center;
+              font-size: 16px;
+              border-radius: 3px;
+              font-weight: 500;
+              box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px inset;
+              color: rgb(120, 119, 116);
+              fill: rgb(120, 119, 116);
+            "
+          >
+            A
+          </div>
+        </div>
+        <div
+          style="
+            margin-left: 6px;
+            margin-right: 12px;
+            min-width: 0px;
+            flex: 1 1 auto;
+          "
+        >
+          <div
+            style="
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+          >
+            회색
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="text-color-style-menu-item"
+      data-color="rgb(159, 107, 83)"
+      role="button"
+      tabindex="0"
+      style="
+        user-select: none;
+        transition: background 20ms ease-in 0s;
+        cursor: pointer;
+        width: calc(100% - 8px);
+        margin-left: 4px;
+        margin-right: 4px;
+        border-radius: 3px;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          line-height: 120%;
+          width: 100%;
+          user-select: none;
+          min-height: 28px;
+          font-size: 14px;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            margin-right: 4px;
+          "
+        >
+          <div
+            style="
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              width: 22px;
+              height: 22px;
+              text-align: center;
+              font-size: 16px;
+              border-radius: 3px;
+              font-weight: 500;
+              box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px inset;
+              color: rgb(159, 107, 83);
+              fill: rgb(159, 107, 83);
+            "
+          >
+            A
+          </div>
+        </div>
+        <div
+          style="
+            margin-left: 6px;
+            margin-right: 12px;
+            min-width: 0px;
+            flex: 1 1 auto;
+          "
+        >
+          <div
+            style="
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+          >
+            갈색
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="text-color-style-menu-item"
+      data-color="rgb(217, 115, 13)"
+      role="button"
+      tabindex="0"
+      style="
+        user-select: none;
+        transition: background 20ms ease-in 0s;
+        cursor: pointer;
+        width: calc(100% - 8px);
+        margin-left: 4px;
+        margin-right: 4px;
+        border-radius: 3px;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          line-height: 120%;
+          width: 100%;
+          user-select: none;
+          min-height: 28px;
+          font-size: 14px;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            margin-right: 4px;
+          "
+        >
+          <div
+            style="
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              width: 22px;
+              height: 22px;
+              text-align: center;
+              font-size: 16px;
+              border-radius: 3px;
+              font-weight: 500;
+              box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px inset;
+              color: rgb(217, 115, 13);
+              fill: rgb(217, 115, 13);
+            "
+          >
+            A
+          </div>
+        </div>
+        <div
+          style="
+            margin-left: 6px;
+            margin-right: 12px;
+            min-width: 0px;
+            flex: 1 1 auto;
+          "
+        >
+          <div
+            style="
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+          >
+            주황색
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="text-color-style-menu-item"
+      data-color="rgb(203, 145, 47)"
+      role="button"
+      tabindex="0"
+      style="
+        user-select: none;
+        transition: background 20ms ease-in 0s;
+        cursor: pointer;
+        width: calc(100% - 8px);
+        margin-left: 4px;
+        margin-right: 4px;
+        border-radius: 3px;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          line-height: 120%;
+          width: 100%;
+          user-select: none;
+          min-height: 28px;
+          font-size: 14px;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            margin-right: 4px;
+          "
+        >
+          <div
+            style="
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              width: 22px;
+              height: 22px;
+              text-align: center;
+              font-size: 16px;
+              border-radius: 3px;
+              font-weight: 500;
+              box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px inset;
+              color: rgb(203, 145, 47);
+              fill: rgb(203, 145, 47);
+            "
+          >
+            A
+          </div>
+        </div>
+        <div
+          style="
+            margin-left: 6px;
+            margin-right: 12px;
+            min-width: 0px;
+            flex: 1 1 auto;
+          "
+        >
+          <div
+            style="
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+          >
+            노란색
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="text-color-style-menu-item"
+      data-color="rgb(68, 131, 97)"
+      role="button"
+      tabindex="0"
+      style="
+        user-select: none;
+        transition: background 20ms ease-in 0s;
+        cursor: pointer;
+        width: calc(100% - 8px);
+        margin-left: 4px;
+        margin-right: 4px;
+        border-radius: 3px;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          line-height: 120%;
+          width: 100%;
+          user-select: none;
+          min-height: 28px;
+          font-size: 14px;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            margin-right: 4px;
+          "
+        >
+          <div
+            style="
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              width: 22px;
+              height: 22px;
+              text-align: center;
+              font-size: 16px;
+              border-radius: 3px;
+              font-weight: 500;
+              box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px inset;
+              color: rgb(68, 131, 97);
+              fill: rgb(68, 131, 97);
+            "
+          >
+            A
+          </div>
+        </div>
+        <div
+          style="
+            margin-left: 6px;
+            margin-right: 12px;
+            min-width: 0px;
+            flex: 1 1 auto;
+          "
+        >
+          <div
+            style="
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+          >
+            초록색
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="text-color-style-menu-item"
+      data-color="rgb(51, 126, 169)"
+      role="button"
+      tabindex="0"
+      style="
+        user-select: none;
+        transition: background 20ms ease-in 0s;
+        cursor: pointer;
+        width: calc(100% - 8px);
+        margin-left: 4px;
+        margin-right: 4px;
+        border-radius: 3px;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          line-height: 120%;
+          width: 100%;
+          user-select: none;
+          min-height: 28px;
+          font-size: 14px;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            margin-right: 4px;
+          "
+        >
+          <div
+            style="
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              width: 22px;
+              height: 22px;
+              text-align: center;
+              font-size: 16px;
+              border-radius: 3px;
+              font-weight: 500;
+              box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px inset;
+              color: rgb(51, 126, 169);
+              fill: rgb(51, 126, 169);
+            "
+          >
+            A
+          </div>
+        </div>
+        <div
+          style="
+            margin-left: 6px;
+            margin-right: 12px;
+            min-width: 0px;
+            flex: 1 1 auto;
+          "
+        >
+          <div
+            style="
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+          >
+            파란색
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="text-color-style-menu-item"
+      data-color="rgb(144, 101, 176)"
+      role="button"
+      tabindex="0"
+      style="
+        user-select: none;
+        transition: background 20ms ease-in 0s;
+        cursor: pointer;
+        width: calc(100% - 8px);
+        margin-left: 4px;
+        margin-right: 4px;
+        border-radius: 3px;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          line-height: 120%;
+          width: 100%;
+          user-select: none;
+          min-height: 28px;
+          font-size: 14px;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            margin-right: 4px;
+          "
+        >
+          <div
+            style="
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              width: 22px;
+              height: 22px;
+              text-align: center;
+              font-size: 16px;
+              border-radius: 3px;
+              font-weight: 500;
+              box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px inset;
+              color: rgb(144, 101, 176);
+              fill: rgb(144, 101, 176);
+            "
+          >
+            A
+          </div>
+        </div>
+        <div
+          style="
+            margin-left: 6px;
+            margin-right: 12px;
+            min-width: 0px;
+            flex: 1 1 auto;
+          "
+        >
+          <div
+            style="
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+          >
+            보라색
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="text-color-style-menu-item"
+      data-color="rgb(193, 76, 138)"
+      role="button"
+      tabindex="0"
+      style="
+        user-select: none;
+        transition: background 20ms ease-in 0s;
+        cursor: pointer;
+        width: calc(100% - 8px);
+        margin-left: 4px;
+        margin-right: 4px;
+        border-radius: 3px;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          line-height: 120%;
+          width: 100%;
+          user-select: none;
+          min-height: 28px;
+          font-size: 14px;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            margin-right: 4px;
+          "
+        >
+          <div
+            style="
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              width: 22px;
+              height: 22px;
+              text-align: center;
+              font-size: 16px;
+              border-radius: 3px;
+              font-weight: 500;
+              box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px inset;
+              color: rgb(193, 76, 138);
+              fill: rgb(193, 76, 138);
+            "
+          >
+            A
+          </div>
+        </div>
+        <div
+          style="
+            margin-left: 6px;
+            margin-right: 12px;
+            min-width: 0px;
+            flex: 1 1 auto;
+          "
+        >
+          <div
+            style="
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+          >
+            분홍색
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="text-color-style-menu-item"
+      data-color="rgb(212, 76, 71)"
+      role="button"
+      tabindex="0"
+      style="
+        user-select: none;
+        transition: background 20ms ease-in 0s;
+        cursor: pointer;
+        width: calc(100% - 8px);
+        margin-left: 4px;
+        margin-right: 4px;
+        border-radius: 3px;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          line-height: 120%;
+          width: 100%;
+          user-select: none;
+          min-height: 28px;
+          font-size: 14px;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            margin-right: 4px;
+          "
+        >
+          <div
+            style="
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              width: 22px;
+              height: 22px;
+              text-align: center;
+              font-size: 16px;
+              border-radius: 3px;
+              font-weight: 500;
+              box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px inset;
+              color: rgb(212, 76, 71);
+              fill: rgb(212, 76, 71);
+            "
+          >
+            A
+          </div>
+        </div>
+        <div
+          style="
+            margin-left: 6px;
+            margin-right: 12px;
+            min-width: 0px;
+            flex: 1 1 auto;
+          "
+        >
+          <div
+            style="
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+          >
+            빨간색
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+  };
+
+  const renderChildDocuments = (documents) => {
+    if (documents.length) {
+      return `
+        <div class="child-documents">
           <ul class="child-document-list">
             ${documents
               .map(
@@ -160,13 +911,35 @@ export default function Editor({
               )
               .join("")}
           </ul>
-        </div>`
-          : ""
-      }
-    `;
+        </div>`;
+    }
+    return "";
   };
 
-  $editor.addEventListener("input", (e) => {
+  this.render = () => {
+    const { title, content, documents } = this.state;
+
+    $editor.innerHTML = `
+      ${renderTextStyleMenu()}
+      ${renderTextColorStyleMenu()}
+      <div class="selected-post-title">
+        <div class="title" spellcheck="true" contenteditable="true" placeholder="${
+          DEFAULT_TEXT.TITLE
+        }"></div>
+      </div>
+      <div class="selected-post-content">
+        <div class="content" spellcheck="true" contenteditable="true" placeholder="${
+          DEFAULT_TEXT.CONTENT
+        }"></div>
+      </div>
+      ${renderChildDocuments(documents)}
+    `;
+
+    $editor.querySelector(".title").innerHTML = title;
+    $editor.querySelector(".content").innerHTML = content;
+  };
+
+  const editCurrentDocument = (e) => {
     const { target } = e;
 
     const name = target.getAttribute("class");
@@ -186,63 +959,119 @@ export default function Editor({
         onEditContent(id, data);
       }
     }
-  });
+  };
 
-  $editor.addEventListener("click", (e) => {
+  const moveToChildDocument = (e) => {
     const $childDocument = e.target.closest("li");
 
     if ($childDocument) {
       const { id } = $childDocument.dataset;
-      console.log("editor", id);
+
       customEvent.push(`/documents/${id}`);
       setItem(STORAGE_KEY.SELECTED_POST, id);
     }
-  });
+  };
 
-  $editor.addEventListener("pointerup", (e) => {
-    const $target = e.target.closest(".editable-element");
+  const showTextStyleMenu = (e) => {
+    const $content = e.target.closest(".content");
 
-    if (!$target) return;
-    console.log("드래그 타겟", e, $target);
-    console.log($target.getBoundingClientRect());
-    console.log(window.getSelection());
-    const { type } = window.getSelection();
-    if (type !== "Range") {
+    if (!$content) {
       return;
     }
 
-    const { top, left, width, height, x, y } = $target.getBoundingClientRect();
-    console.log({ top, left });
+    const selectedText = window.getSelection().toString().trim();
+    const isClickedTextStyleMenu = e.target.closest(".text-style-menu");
+    const isClickedTextColorStyleMenu = e.target.closest(
+      ".text-color-style-menu"
+    );
 
-    const $modal = $editor.querySelector(".modal");
-    const { width: widthModal, height: heightModal } =
-      $modal.getBoundingClientRect();
-    $modal.classList.add("display");
+    if (
+      !isClickedTextStyleMenu &&
+      !isClickedTextColorStyleMenu &&
+      selectedText.length > 0
+    ) {
+      const $textStyleMenu = $editor.querySelector(".text-style-menu");
+      const $textColorStyleMenu = $editor.querySelector(
+        ".text-color-style-menu"
+      );
 
-    $modal.style.left = `${left - width / 2 - widthModal}px`;
-    $modal.style.top = `${top - height / 2 - heightModal}px`;
+      const { pageX, pageY } = e;
 
-    // setTimeout(() => {
-    //   $modal.classList.remove("display");
-    // }, 3000);
-  });
+      $textStyleMenu.style.left = `${pageX - 370}px`;
+      $textStyleMenu.style.top = `${pageY + 20}px`;
 
-  // $editor.querySelector(".modal")?.addEventListener("mouseover", (e) => {
-  //   // const $modal = $editor.querySelector(".modal");
-  //   $modal.classList.add("display");
-  //   // if ($modal) {
-  //   // }
-  // });
+      $textColorStyleMenu.style.left = `${pageX - 275}px`;
+      $textColorStyleMenu.style.top = `${pageY + 55}px`;
 
-  $editor.addEventListener("click", (e) => {
+      $textStyleMenu.classList.add("display");
+    }
+  };
+
+  const hideTextStyleMenu = (e) => {
+    const isClickedTextStyleMenu = e.target.closest(".text-style-menu");
+    const isClickedTextColorStyleMenu = e.target.closest(
+      ".text-color-style-menu-item"
+    );
+
+    const $textStyleMenu = $editor.querySelector(".text-style-menu");
+    const $textColorStyleMenu = $editor.querySelector(".text-color-style-menu");
+    const isDisplayed = $textStyleMenu.classList.contains("display");
+
+    if (
+      isDisplayed &&
+      !isClickedTextStyleMenu &&
+      !isClickedTextColorStyleMenu
+    ) {
+      $textStyleMenu.classList.remove("display");
+      $textColorStyleMenu.classList.remove("display");
+      window.getSelection().empty();
+    }
+  };
+
+  const applyTextStyle = (e) => {
     const $modal = e.target.closest(".modal");
-    console.log($modal);
     const $menu = e.target.closest(".text-action-menu-item");
-    console.log($menu);
 
     if ($modal && $menu) {
       const { command } = $menu.dataset;
+
       document.execCommand(command, false, null);
     }
+  };
+
+  $editor.addEventListener("click", (e) => {
+    const $textColorTab = e.target.closest(".text-color-tab");
+    const $textColorItem = e.target.closest(".text-color-style-menu-item");
+
+    if ($textColorTab) {
+      const $textColorStyleMenu = $editor.querySelector(
+        ".text-color-style-menu"
+      );
+      $textColorStyleMenu.classList.toggle("display");
+    }
+
+    if ($textColorItem) {
+      const { color } = $textColorItem.dataset;
+      document.execCommand("styleWithCSS", false, true);
+      document.execCommand("foreColor", false, color);
+
+      const $textStyleMenu = $editor.querySelector(".text-style-menu");
+      const $textColorStyleMenu = $editor.querySelector(
+        ".text-color-style-menu"
+      );
+      $textStyleMenu.classList.remove("display");
+      $textColorStyleMenu.classList.remove("display");
+    }
   });
+
+  const setEvent = () => {
+    $editor.addEventListener("input", editCurrentDocument);
+    $editor.addEventListener("click", moveToChildDocument);
+
+    $editor.addEventListener("pointerup", showTextStyleMenu);
+    $editor.addEventListener("pointerdown", hideTextStyleMenu);
+    $editor.addEventListener("click", applyTextStyle);
+  };
+
+  setEvent();
 }
