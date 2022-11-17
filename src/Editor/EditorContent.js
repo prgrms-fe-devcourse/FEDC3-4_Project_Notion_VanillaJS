@@ -1,7 +1,8 @@
 import { createElement } from '../utils/dom.js';
-import { isString } from '../utils/errorHandler.js';
+import { isNew, isString } from '../utils/errorHandler.js';
 
 function EditorContent({ div, initialState, onChangeContent }) {
+  isNew(new.target);
   const editorContent = createElement('div');
   editorContent.className = 'editor-content';
   this.state = initialState;

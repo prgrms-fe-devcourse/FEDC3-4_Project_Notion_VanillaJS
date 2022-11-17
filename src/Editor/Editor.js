@@ -1,5 +1,5 @@
 import { createElement } from '../utils/dom.js';
-import { isObject } from '../utils/errorHandler.js';
+import { isNew, isObject } from '../utils/errorHandler.js';
 import { request } from '../utils/api.js';
 import { putContentMethod, putTitleMethod } from '../utils/optionsMethod.js';
 import EditorTitle from './EditorTitle.js';
@@ -7,6 +7,7 @@ import EditorContent from './EditorContent.js';
 import { documentsUrl } from '../utils/util.js';
 
 function Editor({ target, initialState }) {
+  isNew(new.target);
   const page = createElement('section');
   page.className = 'content';
 

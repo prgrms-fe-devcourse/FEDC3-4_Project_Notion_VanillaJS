@@ -1,7 +1,8 @@
 import { $, createElement } from '../utils/dom.js';
-import { isString } from '../utils/errorHandler.js';
+import { isNew, isString } from '../utils/errorHandler.js';
 
 function EditorTitle({ div, initialState, onChangeTitle }) {
+  isNew(new.target);
   const editorTitle = createElement('div');
   editorTitle.className = 'editor-title';
   this.state = initialState;

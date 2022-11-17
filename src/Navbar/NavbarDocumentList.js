@@ -37,8 +37,8 @@ function NavbarDocumentList({ target, initialState, onDelete, onAdd }) {
                 </div>
                 
                 <div class="item-button">
-                        <button class="delete-btn">X</button>
-                        <button class="add-btn">+</button>
+                        <button class="delete-btn"><i class="far fa-minus-square"></i></button>
+                        <button class="add-btn"><i class="far fa-plus-square"></i></button>
                 </div>
             </div>
             ${post.documents.length ? paintDocument(post.documents) : ''}
@@ -56,9 +56,9 @@ function NavbarDocumentList({ target, initialState, onDelete, onAdd }) {
     ul.addEventListener('click', (e) => {
       const postId = targetClosest(e, 'li').id;
 
-      if (targetContains(e, 'delete-btn')) {
+      if (targetContains(e, 'fa-minus-square')) {
         onDelete(postId);
-      } else if (targetContains(e, 'add-btn')) {
+      } else if (targetContains(e, 'fa-plus-square')) {
         onAdd(postId);
       } else {
         // refactor 해야함

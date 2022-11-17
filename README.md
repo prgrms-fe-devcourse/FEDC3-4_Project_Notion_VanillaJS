@@ -21,7 +21,7 @@
 - [x] 예외처리 작업, '/documents'-> documentsUrl 변경
 - [x] Editor content 부분 textarea 렌더링 했을때 2 개행 이상부터 잘려서 안나오는 현상
 - [x] Editor content 일정 개행 이상 넘어가면 title 안보이는 현상
-- [ ] 버튼 이미지 넣어서 관리 -> 현재 text로 들어가 있음
+- [x] 버튼 이미지 넣어서 관리 -> 현재 text로 들어가 있음
 - [ ] 편집기 하단에는  Documents의 하위 Document 링크를 렌더링하도록 생성
 - [ ] onDelete 리팩토링 필요 
 
