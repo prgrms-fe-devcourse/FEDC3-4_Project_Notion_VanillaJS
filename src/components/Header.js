@@ -4,7 +4,10 @@ function Header({ $target }) {
   $target.appendChild($title);
 
   this.render = () => {
-    $title.innerHTML = "<h1>YENOTION</h1>";
+    $title.innerHTML = `
+      <img src="https://i.ibb.co/Gk8CPyb/notion.png" alt="yenotion-logo">
+      <h1>YENOTION</h1>
+    `;
   };
 
   this.render();

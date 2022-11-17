@@ -1,8 +1,11 @@
 import { navigate } from "../utils/router.js";
+import { className } from "../utils/constants.js";
 
 function DocumentNode({ $target, initialState, onClick, onDelete }) {
   const $node = document.createElement("article");
   $target.appendChild($node);
+
+  const { addButton, deleteButton } = className;
 
   this.state = initialState;
 
@@ -30,12 +33,12 @@ function DocumentNode({ $target, initialState, onClick, onDelete }) {
                 <span>${title}</span>
               </div>
               <div class="node-button-group">
-                <button class="delete-button" data-parent-id="${id}">
+                <button class="${deleteButton}" data-parent-id="${id}">
                   <span class="material-symbols-outlined">
                     more_horiz
                   </span>
                 </button>
-                <button class="add-button" data-parent-id="${id}">
+                <button class="${addButton}" data-parent-id="${id}">
                   <span class="material-symbols-outlined">
                     add
                   </span>
@@ -70,12 +73,12 @@ function DocumentNode({ $target, initialState, onClick, onDelete }) {
       return;
     }
 
-    if (className === "add-button") {
+    if (className === addButton) {
       onClick(parseInt(parentId));
       return;
     }
 
-    if (className === "delete-button") {
+    if (className === deleteButton) {
       onDelete(parseInt(parentId));
       return;
     }
@@ -83,6 +86,7 @@ function DocumentNode({ $target, initialState, onClick, onDelete }) {
 
   const onSelectDocument = ($li) => {
     const { documentId } = $li.dataset;
+
     if (documentId) {
       navigate(`/document/${documentId}`);
     }
