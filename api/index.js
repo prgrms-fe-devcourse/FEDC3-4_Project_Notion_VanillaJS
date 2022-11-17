@@ -1,4 +1,5 @@
 const API_END_POINT = process.env.API_END_POINT;
+// const API_END_POINT = "https://kdt-frontend.programmers.co.kr";
 
 // export default async function handler(url, options = {}) {
 // 	try {
@@ -19,19 +20,15 @@ const API_END_POINT = process.env.API_END_POINT;
 // }
 
 export default async function handler(req, options = {}) {
-	try {
-		const response = await fetch(`${API_END_POINT}${req}`, {
-			...options,
-			headers: {
-				"Content-Type": "application/json",
-				"x-username": "woogie",
-			},
-		});
-		if (response.ok) {
-			return await response.json();
-		}
-		throw new Error("API 호출 실패!!!!!!!");
-	} catch (error) {
-		alert(error);
+	const response = await fetch(`${API_END_POINT}${req}`, {
+		...options,
+		headers: {
+			"Content-Type": "application/json",
+			"x-username": "woogie",
+		},
+	});
+	if (response.ok) {
+		return await response.json();
 	}
+	throw new Error("API 호출 실패!!!!!!!");
 }
