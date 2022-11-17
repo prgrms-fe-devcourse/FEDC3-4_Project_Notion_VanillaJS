@@ -11,14 +11,22 @@ body {
 
 button {
   cursor: pointer;
-  padding: none;
+  border: 0;
+  padding: 0;
+  font-size: 1rem;
+  background: none;
   user-select: none;
+}
+
+ul {
+  padding: 0 15;
+  margin: 5 0;
 }
 
 /*
     sidebar 배경색: rgb(250, 250, 249)
-    sidebar hover 색: rgb(230, 230, 239)
-    sidebar 눌러진 페이지: rgb(237, 238, 236)
+    sidebar hover 색: rgb(230, 230, 230)
+    sidebar 눌러진 페이지: rgb(238, 238, 238)
 */
 
 /* sidebar */
@@ -26,17 +34,40 @@ button {
   position: relative;
   width: 240px;
   margin: 0;
+  overflow: hidden;
   background-color: rgb(250, 250, 249);
 }
 
 .sidebar-header {
-  /* position: fixed; */
+  position: flex;
   padding: 0 15;
 }
 
 .sidebar-body {
-  position: relative;
+  overflow-y: scroll;
+  height: 80vh;
   padding: 0 15;
+  margin-top: -0.5rem;
+}
+
+.document-li {
+  width: 100%;
+  padding: 5 10;
+}
+
+.document-li:hover {
+  background-color: rgb(230, 230, 230);
+}
+
+.add-btn {
+  margin-left: 6rem;
+  margin-right: 1rem;
+}
+
+.delete-btn {
+  position: relative;
+  font-size: 0.9rem;
+  top: -1.5;
 }
 
 .sidebar-footer {
@@ -44,9 +75,9 @@ button {
   width: 240px;
   cursor: pointer;
   bottom: 0;
-  border-top: 1px solid rgb(228, 228, 225);
   padding: 1.5rem 0;
-  z-index: 3;
+  border-top: 1px solid rgb(228, 228, 225);
+  background: rgb(250, 250, 249);
 }
 
 .sidebar-footer div {
@@ -54,5 +85,5 @@ button {
 }
 
 .sidebar-footer:hover {
-  background-color: rgb(230, 230, 239);
+  background-color: rgb(230, 230, 230);
 }
