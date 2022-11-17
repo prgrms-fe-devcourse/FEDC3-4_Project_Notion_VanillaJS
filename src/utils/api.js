@@ -1,4 +1,4 @@
-export const API_END_POINT = 'https://kdt-frontend.programmers.co.kr';
+const API_END_POINT = '';
 
 export const request = async (url, options = {}) => {
   try {
