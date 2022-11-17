@@ -19,7 +19,7 @@ export default function Editor({ $target, initialState }) {
   this.render = () => {
     $div.innerHTML = `
       <input type="text" name="title" placeholder="제목 없음" />
-      <div name="content" contentEditable="true" placeholder="내용을 입력해주세요."></div>
+      <div class="content-container" name="content" contentEditable="true" placeholder="내용을 입력해주세요."></div>
       `;
   };
   this.render();

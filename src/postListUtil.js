@@ -27,16 +27,16 @@ export const renderLogic = (arr) => {
     ${arr
       .map(({ id, title, documents }) => {
         return documents
-          ? `<li data-id="${id}" data-name="list">
-            <span data-id="${id}" data-name="span-list">> ${title}</span>
-            <div class="btn-group">
+          ? `<li data-id="${id}">
+            <div class="document" data-id="${id}" data-name="list">
+              <span data-name="span-list" data-id="${id}">> ${title}</span>
               <button data-id="${id}" data-name="plus"> + </button> 
               <button data-id="${id}" data-name="minus"> x </button>
             </div>
           </li>` + renderLogic(documents)
-          : `<li data-id="${id}" data-name="list">
-          <span data-id="${id}" data-name="span-list"> ${title}</span>
-          <div class="btn-group">
+          : `<li data-id="${id}">
+          <div class="document" data-id="${id}" data-name="list">
+            <span data-name="span-list" data-id="${id}">> ${title}</span>
             <button data-id="${id}" data-name="plus"> + </button> 
             <button data-id="${id}" data-name="minus"> x </button>
           </div>

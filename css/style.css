@@ -29,46 +29,44 @@ div.left {
   overflow-y: auto;
 }
 
-ul {
-  padding-left: 15px;
-}
-
-ul li {
-  width: 100%;
-  height: fit-content;
-  padding: 10px 0;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-ul li:hover {
-  background-color: #e8e6e0de;
-}
-
-li span {
-  width: 70%;
-  white-space: no-wrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: inline-block;
+.postList ul {
+  padding-left: 1.5vh;
   cursor: pointer;
 }
 
-.btn-group {
-  width: 10vh;
+.document {
+  width: 100%;
+  height: fit-content;
+  padding: 1.5vh 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
-li button {
+.document:hover {
+  background-color: #e8e6e0de;
+}
+
+.document span {
+  width: 75%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 15px;
+  margin-right: 5px;
+}
+
+.document button {
   width: 30px;
   height: 30px;
   font-size: 20px;
   border-radius: 5px;
-  margin: 0 3px;
+  margin-right: 5px;
   color: #565656;
+  cursor: pointer;
 }
 
-li button:hover {
+.document button:hover {
   background-color: #cac8c5cc;
 }
 
@@ -80,6 +78,7 @@ li button:hover {
   text-align: left;
   padding-left: 15px;
   color: #565656;
+  cursor: pointer;
 }
 
 .new-post:hover {
@@ -108,20 +107,20 @@ div.right {
   font-weight: 700;
 }
 
-.editor div:empty:before {
+.editor div:focus {
+  outline: none;
+}
+
+.content-container:empty:before {
   content: attr(placeholder);
   display: block;
   color: rgb(174, 174, 174);
 }
 
-.editor div {
+.content-container {
   width: 100%;
   height: 84%;
   font-size: 25px;
   padding: 10px 0;
   overflow-y: auto;
-}
-
-.editor div:focus {
-  outline: none;
 }
