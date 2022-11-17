@@ -46,9 +46,11 @@ const $editPost = ({ title, content, createdAt, updatedAt }) => {
  * @param {*} posts
  * @returns
  */
-const $listContent = (post) => {
+const $listContent = (post, selectedPostId) => {
 	return `
-		<div class="list-flex" data-id="${post.id}">
+		<div class="list-flex ${
+			post.id === selectedPostId ? "list-active" : ""
+		}" data-id="${post.id}">
 			<div style="line-height:18px">
 				<span class="open-folder icon-right-open"></span>
 				<span class="post-title">
@@ -68,17 +70,17 @@ const $listContent = (post) => {
  * @param {*} posts
  * @returns
  */
-const $onLoadChildList = (posts) => {
+const $onLoadChildList = (posts, selectedPostId) => {
 	if (Array.isArray(posts)) {
 		return `
 		<div class="child-ul hide">
 		${posts
 			.map((post) => {
 				return `
-							${$listContent(post)}
+							${$listContent(post, selectedPostId)}
 							${
 								post.documents.length > 0
-									? `${$onLoadChildList(post.documents)}`
+									? `${$onLoadChildList(post.documents, selectedPostId)}`
 									: `${$emptyPage()}`
 							}
 					`;
@@ -94,7 +96,7 @@ const $onLoadChildList = (posts) => {
  * @param {*} posts
  * @returns
  */
-const $onLoadParentList = (posts) => {
+const $onLoadParentList = (posts, selectedPostId) => {
 	if (Array.isArray(posts)) {
 		return `
 			<ul>
@@ -102,10 +104,10 @@ const $onLoadParentList = (posts) => {
 					.map((post) => {
 						return `
 							<li class="post-list">
-								${$listContent(post)}
+								${$listContent(post, selectedPostId)}
 								${
 									post.documents.length > 0
-										? `${$onLoadChildList(post.documents)}`
+										? `${$onLoadChildList(post.documents, selectedPostId)}`
 										: `${$emptyPage()}`
 								}
 							</li>

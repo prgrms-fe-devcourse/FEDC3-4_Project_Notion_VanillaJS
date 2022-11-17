@@ -65,7 +65,7 @@ export default function CreatePostModal({ $target, initialState, addPost }) {
 			if (createdPost.id) {
 				modalClose($modal);
 				push(`/documents/${createdPost.id}`);
-				addPost(false);
+				addPost(createdPost);
 			}
 		} else if ($closeBtn) {
 			modalClose($modal);
