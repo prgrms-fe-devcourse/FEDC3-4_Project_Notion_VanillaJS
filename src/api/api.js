@@ -1,8 +1,9 @@
 // const API_END_POINT = "https://kdt-frontend.programmers.co.kr";
+const API_END_POINT = process.env.API_END_POINT;
 
 export const request = async (url, options = {}) => {
 	try {
-		const res = await fetch(`${process.env.API_END_POINT}${url}`, {
+		const res = await fetch(`${API_END_POINT}${url}`, {
 			...options,
 			headers: {
 				"Content-Type": "application/json",
