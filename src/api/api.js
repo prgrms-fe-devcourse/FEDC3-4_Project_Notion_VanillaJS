@@ -1,4 +1,4 @@
-import { API_END_POINT } from "../../config.js";
+const API_END_POINT = "https://kdt-frontend.programmers.co.kr";
 
 export const request = async (url, options = {}) => {
 	try {

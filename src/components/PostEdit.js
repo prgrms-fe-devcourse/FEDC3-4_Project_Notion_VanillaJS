@@ -1,6 +1,4 @@
 import { request } from "../api/api.js";
-import { getItem, removeItem, setItem } from "../utils/storage.js";
-import { $editPost, $home } from "../utils/templates.js";
 import Editor from "./Editor.js";
 
 export default function PostEdit({ $target, initialState, addPost }) {
