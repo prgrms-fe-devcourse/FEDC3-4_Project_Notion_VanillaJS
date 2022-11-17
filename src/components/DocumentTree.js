@@ -20,8 +20,8 @@ function DocumentTree({ $target, initialState }) {
   this.render = () => {
     $tree.innerHTML = `
       <div class="tree-subtitle-wrapper">
-        <h4>문서 목록</h4>
-        <button class="add-root-button">+</button>
+        <span class="material-symbols-outlined">add</span>
+        <span>새로운 문서</span>
       </div>
     `;
 
@@ -77,9 +77,9 @@ function DocumentTree({ $target, initialState }) {
   this.init();
 
   $tree.addEventListener("click", (e) => {
-    const $button = e.target.closest("button");
+    const $div = e.target.closest("div");
 
-    if ($button?.className === "add-root-button") {
+    if ($div?.className === "tree-subtitle-wrapper") {
       this.onClick(null);
     }
   });

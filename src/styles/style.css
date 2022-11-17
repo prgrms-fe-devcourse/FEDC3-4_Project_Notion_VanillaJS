@@ -11,6 +11,7 @@ body {
 
 .header-title {
   border-bottom: 1px solid lightgray;
+  padding-left: 16px;
 }
 
 .document-editor-wrapper {
@@ -19,13 +20,11 @@ body {
 }
 
 .document-editor {
-  /* background-color: antiquewhite; */
   min-width: 40vw;
   max-width: 40vw;
 }
 
 .document-tree {
-  /* background-color: rgb(227, 250, 215); */
   background-color: rgb(251, 251, 250);
   min-width: 250px;
   max-width: 300px;
@@ -52,12 +51,7 @@ body {
 
 .tree-subtitle-wrapper {
   display: flex;
-  justify-content: space-between;
-  padding: 8px;
-}
-
-.add-root-button {
-  all: unset;
+  padding: 16px 10px;
   cursor: pointer;
 }
 
@@ -101,7 +95,7 @@ body {
   display: flex;
 }
 
-.editor-text {
+.editor-document-content {
   height: 70vh;
   width: 100%;
   font-size: 20px;
@@ -110,9 +104,10 @@ body {
   overflow-x: auto;
 }
 
-.editor-text::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera*/
+.editor-document-content::-webkit-scrollbar {
+  display: none;
 }
+
 .document-editor {
   padding: 16px;
   display: flex;

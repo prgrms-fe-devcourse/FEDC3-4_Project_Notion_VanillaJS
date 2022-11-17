@@ -1,7 +1,10 @@
 import { navigate } from "../utils/router.js";
 import EditorPreview from "./EditorPreview.js";
+import { className } from "../utils/constants.js";
 
 function DocumentEditor({ $target, initialState, onChange }) {
+  const { editorDocumentTitle, editorDocumentContent } = className;
+
   const $editor = document.createElement("section");
   $editor.className = "document-editor";
   $target.appendChild($editor);
@@ -27,7 +30,7 @@ function DocumentEditor({ $target, initialState, onChange }) {
   this.render = () => {
     const { title, content, documents } = this.state.data;
 
-    if (!title && !content) {
+    if (!title) {
       $editor.innerHTML = `
         <h1>loading..</h1>
       `;
@@ -35,13 +38,13 @@ function DocumentEditor({ $target, initialState, onChange }) {
     }
 
     $editor.innerHTML = `
-      <input class="editor-document-title" value="${
-        title ? title : "제목을 입력하세요."
-      }"/>
+      <input class="${editorDocumentTitle}" value="${
+      title ? title : "제목을 입력하세요."
+    }"/>
       <article class="eidtor-wrapper">
-        <div class="editor-text" autofocus="true" contenteditable="true">${
-          content ? content : ""
-        }</div>
+        <div class="${editorDocumentContent}" autofocus="true" contenteditable="true">${
+      content ? content : ""
+    }</div>
       </article>
       ${
         documents.length > 0
@@ -58,21 +61,24 @@ function DocumentEditor({ $target, initialState, onChange }) {
 
   this.render();
 
+  const updateDocument = () => {
+    const $title = document.querySelector(`.${editorDocumentTitle}`);
+    const $content = document.querySelector(`.${editorDocumentContent}`);
+
+    if (this.debounce) {
+      clearTimeout(this.debounce);
+    }
+
+    this.debounce = setTimeout(() => {
+      onChange($title.value, $content.innerText);
+    }, 500);
+  };
+
   $editor.addEventListener("keyup", (e) => {
     const $div = e.target.closest("div");
 
     if ($div) {
-      const $title = document.querySelector(".editor-document-title");
-      const $content = document.querySelector(".editor-text");
-
-      if (this.debounce) {
-        clearTimeout(this.debounce);
-      }
-
-      this.debounce = setTimeout(() => {
-        onChange($title.value, $content.innerText);
-      }, 500);
-
+      updateDocument();
       return;
     }
   });
@@ -83,7 +89,6 @@ function DocumentEditor({ $target, initialState, onChange }) {
     const $a = e.target.closest("a");
 
     if ($a) {
-      console.log($a.href);
       const [, , , , documentId] = $a.href.split("/");
       navigate(`/document/${documentId}`);
     }

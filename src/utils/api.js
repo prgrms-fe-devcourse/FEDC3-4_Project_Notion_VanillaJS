@@ -1,4 +1,4 @@
-import { API_END_POINT, HEADERS } from "./constants.js";
+import { API_END_POINT, HEADERS } from "./baseUrl.js";
 
 export const request = async (url, method = "GET", data, defaultValue = []) => {
   try {
