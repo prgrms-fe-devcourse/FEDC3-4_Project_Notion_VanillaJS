@@ -15,7 +15,7 @@ export default function SidebarFooter({ $target }) {
 
   this.render();
 
-  $sidebarFooter.addEventListener("click", async (e) => {
+  const addNewDocument = async () => {
     await request("/documents", {
       method: "POST",
       body: JSON.stringify({
@@ -23,6 +23,7 @@ export default function SidebarFooter({ $target }) {
         parent: null,
       }),
     });
-    console.log("sidebarFooter clicked");
-  });
+  };
+
+  $sidebarFooter.addEventListener("click", addNewDocument);
 }

@@ -1,14 +1,31 @@
+import { request } from "../../utils/api.js";
+
 export default function SidebarBody({ $target, initialState }) {
   const $sidebarBody = document.createElement("div");
   const $renderList = document.createElement("div");
   $sidebarBody.className = "sidebar-body";
-  $target.appendChild($sidebarBody);
 
   this.state = initialState;
 
   this.setState = (nextState) => {
     this.state = nextState;
     this.render();
+  };
+
+  const addDocumnet = async (dataId) => {
+    await request("/documents", {
+      method: "POST",
+      body: JSON.stringify({
+        title: "test",
+        parent: dataId,
+      }),
+    });
+  };
+
+  const deleteDocument = async (dataId) => {
+    await request(`/documents/${dataId}`, {
+      method: "DELETE",
+    });
   };
 
   const renderDocuments = (documents, $renderList) => {
@@ -40,6 +57,7 @@ export default function SidebarBody({ $target, initialState }) {
 
   this.render = () => {
     console.log("sidebarBody state", this.state);
+    $target.appendChild($sidebarBody);
     if (this.state) {
       $sidebarBody.innerHTML = renderDocuments(this.state, $renderList);
       console.log($renderList);
@@ -55,9 +73,11 @@ export default function SidebarBody({ $target, initialState }) {
     const dataId = target.closest("li").dataset.id;
     console.log(dataId);
     if (target.className === "add-btn") {
-      console.log("$addBtn clicked");
+      addDocumnet(dataId);
+      console.log("$addBtn clicked", dataId);
     } else if (target.className === "delete-btn") {
-      console.log("$deleteBtn clicked");
+      deleteDocument(dataId);
+      console.log("$deleteBtn clicked", dataId);
     }
   });
 }
