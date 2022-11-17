@@ -1,0 +1,126 @@
+main {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+div.left {
+  width: 20%;
+  background-color: #f7f5f0;
+  color: #696969;
+}
+
+.left .header {
+  width: 100%;
+  height: 10%;
+  display: flex;
+  align-items: center;
+}
+
+.left .header h2 {
+  font-size: 20px;
+  font-weight: 500;
+  margin-left: 15px;
+}
+
+.left .postList {
+  width: 100%;
+  height: 90%;
+  overflow-y: auto;
+}
+
+.postList ul {
+  padding-left: 1.5vh;
+  cursor: pointer;
+}
+
+.document {
+  width: 100%;
+  height: fit-content;
+  padding: 1.5vh 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.document:hover {
+  background-color: #e8e6e0de;
+}
+
+.document span {
+  width: 75%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 15px;
+  margin-right: 5px;
+}
+
+.document button {
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  border-radius: 5px;
+  margin-right: 5px;
+  color: #565656;
+  cursor: pointer;
+}
+
+.document button:hover {
+  background-color: #cac8c5cc;
+}
+
+.new-post {
+  width: 100%;
+  height: fit-content;
+  padding: 15px 0;
+  font-size: 20px;
+  text-align: left;
+  padding-left: 15px;
+  color: #565656;
+  cursor: pointer;
+}
+
+.new-post:hover {
+  background-color: #e8e6e0de;
+}
+
+div.right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+}
+
+.editor {
+  width: 80%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.editor input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 45px;
+  font-weight: 700;
+}
+
+.editor div:focus {
+  outline: none;
+}
+
+.content-container:empty:before {
+  content: attr(placeholder);
+  display: block;
+  color: rgb(174, 174, 174);
+}
+
+.content-container {
+  width: 100%;
+  height: 84%;
+  font-size: 25px;
+  padding: 10px 0;
+  overflow-y: auto;
+}
