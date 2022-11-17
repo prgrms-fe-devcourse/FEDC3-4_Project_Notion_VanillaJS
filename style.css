@@ -217,7 +217,8 @@ address {
   display: flex;
 }
 
-.menu-button {
+.open-button,
+.close-button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -230,7 +231,8 @@ address {
   cursor: pointer;
   z-index: 10;
 }
-.menu-button:hover {
+.open-button:hover,
+.close-button:hover {
   background-color: rgba(55, 53, 47, 0.08);
   cursor: pointer;
 }
@@ -454,7 +456,7 @@ address {
 .post-item-button:hover {
   background-color: rgba(55, 53, 47, 0.2);
 }
-.post-item-button .rotate-button {
+.post-item-button .is-rotate {
   transform: rotateZ(90deg);
 }
 .post-item .no-post-item {
@@ -494,7 +496,7 @@ address {
   opacity: 1;
 }
 
-.text-action-menu-list {
+.text-style-menu-list {
   display: inline-flex;
   align-items: stretch;
   height: 32px;
@@ -509,7 +511,7 @@ address {
   pointer-events: auto;
 }
 
-.text-action-menu-item {
+.text-style-menu-item {
   user-select: none;
   transition: background 20ms ease-in 0s;
   cursor: pointer;
@@ -517,24 +519,24 @@ address {
   align-items: center;
   padding: 0px 8px;
 }
-.text-action-menu-item:hover {
+.text-style-menu-item:hover {
   background-color: rgba(55, 53, 47, 0.1);
 }
-.text-action-menu-item span {
+.text-style-menu-item span {
   color: #37352f;
 }
-.text-action-menu-item .bold {
+.text-style-menu-item .bold {
   font-weight: 700;
 }
-.text-action-menu-item .italic {
+.text-style-menu-item .italic {
   font-weight: 500;
   font-style: italic;
 }
-.text-action-menu-item .underline {
+.text-style-menu-item .underline {
   font-weight: 500;
   text-decoration: underline;
 }
-.text-action-menu-item .line-through {
+.text-style-menu-item .line-through {
   font-weight: 500;
   text-decoration: line-through;
 }
@@ -567,30 +569,4 @@ address {
 }
 .text-color-style-menu-item:hover {
   background-color: rgba(55, 53, 47, 0.08);
-}
-
-.not-found-page {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  font-weight: 500;
-  font-size: 17px;
-}
-
-.not-found-page .return-button {
-  background-color: rgb(35, 131, 226);
-  color: #fff;
-  padding: 10px 12px;
-  border-radius: 4px;
-  margin-top: 20px;
-  font-size: 14px;
-  transition: all 100ms ease-in-out;
-}
-
-.not-found-page .return-button:hover {
-  background-color: rgb(17, 109, 202);
 }

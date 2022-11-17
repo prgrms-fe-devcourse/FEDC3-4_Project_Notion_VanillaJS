@@ -2,7 +2,7 @@ export const storage = window.localStorage;
 
 export const STORAGE_KEY = {
   OPENED_LIST: "OPENED_LIST",
-  SELECTED_POST: "SELECTED_POST",
+  SELECTED_DOCUMENT: "SELECTED_DOCUMENT",
 };
 
 export const STATE = {

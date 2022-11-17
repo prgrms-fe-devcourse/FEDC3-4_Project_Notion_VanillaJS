@@ -10,22 +10,29 @@ export default function PostPageHeader({ $target }) {
 
   this.render = () => {
     $postPageHeader.innerHTML = `
-      <button class="menu-button" title="사이드바 열기">
+      <button class="open-button" title="사이드바 열기">
         <img src="/src/assets/menu.svg"/>
       </button>
     `;
   };
 
-  this.render();
+  const openSidebar = (e) => {
+    const $openButton = e.target.closest(".open-button");
 
-  $postPageHeader.addEventListener("click", (e) => {
-    const $button = e.target.closest("button");
-    if ($button) {
+    if ($openButton) {
       const $sidebar = document.querySelector(".sidebar");
       const $postPage = document.querySelector(".post-edit-page");
 
       $sidebar.classList.remove("slide");
       $postPage.classList.remove("expend");
     }
-  });
+  };
+
+  const init = () => {
+    this.render();
+
+    $postPageHeader.addEventListener("click", openSidebar);
+  };
+
+  init();
 }

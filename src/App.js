@@ -2,9 +2,9 @@ import Sidebar from "./components/Sidebar/Sidebar.js";
 import PostPage from "./components/PostPage/PostPage.js";
 
 import { getDocumentContent } from "./api/api.js";
-import { addEvent } from "./utils/custom-event.js";
+
 import { validateInstance } from "./utils/validation.js";
-import NotFoundPage from "./components/NotFoundPage/NotFoundPage.js";
+import { addEvent } from "./utils/custom-event.js";
 
 export default function App({ $target }) {
   validateInstance(new.target);
@@ -13,6 +13,7 @@ export default function App({ $target }) {
   $target.appendChild($app);
 
   const sidebar = new Sidebar({ $target: $app });
+
   const postPage = new PostPage({
     $target: $app,
     initialState: {
@@ -25,12 +26,8 @@ export default function App({ $target }) {
   this.route = async () => {
     const { pathname } = window.location;
 
-    console.log(pathname);
     if (pathname === "/") {
       sidebar.setState();
-    } else if (pathname === "/404") {
-      const notFoundPage = new NotFoundPage({ $target: $app });
-      notFoundPage.render();
     } else if (pathname.indexOf("/documents/") === 0) {
       const [, , postId] = pathname.split("/");
 
@@ -43,10 +40,8 @@ export default function App({ $target }) {
         content,
         documents,
       });
+
       sidebar.setState();
-    } else {
-      history.replaceState(null, null, "/404");
-      window.location = `${window.location.origin}/404`;
     }
   };
 

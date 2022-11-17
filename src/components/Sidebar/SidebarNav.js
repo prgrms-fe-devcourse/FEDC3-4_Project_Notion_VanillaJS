@@ -1,7 +1,7 @@
 import { validateInstance } from "../../utils/validation.js";
+import { STORAGE_KEY, STATE, DEFAULT_TEXT } from "../../utils/constants.js";
 import { getItem, setItem } from "../../utils/storage.js";
 import { customEvent } from "../../utils/custom-event.js";
-import { STORAGE_KEY, STATE, DEFAULT_TEXT } from "../../utils/constants.js";
 
 export default function SidebarBody({
   $target,
@@ -12,10 +12,10 @@ export default function SidebarBody({
 }) {
   validateInstance(new.target);
 
-  const $main = document.createElement("nav");
-  $main.classList.add("sidebar-nav");
+  const $nav = document.createElement("nav");
+  $nav.classList.add("sidebar-nav");
 
-  $target.appendChild($main);
+  $target.appendChild($nav);
 
   this.state = initialState;
 
@@ -25,19 +25,20 @@ export default function SidebarBody({
   };
 
   this.render = () => {
-    $main.innerHTML = "";
-    $main.innerHTML = `
+    $nav.innerHTML = "";
+    $nav.innerHTML = `
       <ul class="post-list">
-        ${createPostItem(this.state, 0)}
+        ${createDocument(this.state, 0)}
       </ul>`;
   };
 
-  const renderChildPostItem = (documents, depth) => {
+  const renderChildrenDocument = (documents, depth) => {
     const padding = depth === 1 ? 22 : depth * 12;
+
     if (documents.length) {
       return `
         <ul class="post-list">
-          ${createPostItem(documents, depth + 1)}
+          ${createDocument(documents, depth + 1)}
         </ul>`;
     }
 
@@ -49,44 +50,45 @@ export default function SidebarBody({
       </li>`;
   };
 
-  const createPostItem = (childDocuments, depth) => {
+  const createDocument = (childDocuments, depth) => {
     return childDocuments
       .map(({ id, title, documents }) => {
         const openedItems = getItem(STORAGE_KEY.OPENED_LIST, []);
         const isSelected =
-          Number(getItem(STORAGE_KEY.SELECTED_POST, null)) === id;
+          Number(getItem(STORAGE_KEY.SELECTED_DOCUMENT, null)) === id;
 
         const isOpened = (openedItems && openedItems[id]) || false;
         const padding = depth * 8;
-        const buttonDirection = isOpened ? "rotate-button" : "";
+        const buttonDirection = isOpened ? "is-rotate" : "";
 
-        return `<li class="post-item" data-id=${id}>
-          <div class="post-item-container ${isSelected ? "is-active" : ""}">
-            <div class="post-item-container-left">
-              <button class="post-item-button open-button" style="margin-left: ${padding}px;">
-                <img class="${buttonDirection}" src="/src/assets/arrow.svg" />
-              </button>
-              <div class="icon-document">
-                <img src="/src/assets/document.svg" />
+        return `
+          <li class="post-item" data-id=${id}>
+            <div class="post-item-container ${isSelected ? "is-active" : ""}">
+              <div class="post-item-container-left">
+                <button class="post-item-button open-button" style="margin-left: ${padding}px;">
+                  <img class="${buttonDirection}" src="/src/assets/arrow.svg" />
+                </button>
+                <div class="icon-document">
+                  <img src="/src/assets/document.svg" />
+                </div>
+                <div class="title">${title ? title : DEFAULT_TEXT.TITLE}</div>
               </div>
-              <div class="title">${title ? title : DEFAULT_TEXT.TITLE}</div>
+              <div class="post-item-container-right hide">
+                <button class="post-item-button delete-button" title="페이지 삭제">
+                  <img src="/src/assets/trash.svg" />
+                </button>
+                <button class="post-item-button create-button" title="하위 페이지 추가">
+                  <img src="/src/assets/plus.svg" alt="create new post" />
+                </button>
+              </div>
             </div>
-            <div class="post-item-container-right hide">
-              <button class="post-item-button delete-button" title="페이지 삭제">
-                <img src="/src/assets/trash.svg" />
-              </button>
-              <button class="post-item-button create-button" title="하위 페이지 추가">
-                <img src="/src/assets/plus.svg" alt="create new post" />
-              </button>
-            </div>
-          </div>
-          ${isOpened ? renderChildPostItem(documents, depth + 1) : ""}
-        </li>`;
+            ${isOpened ? renderChildrenDocument(documents, depth + 1) : ""}
+          </li>`;
       })
       .join("");
   };
 
-  $main.addEventListener("click", async (e) => {
+  $nav.addEventListener("click", async (e) => {
     const $button = e.target.closest("button");
     const $postItem = e.target.closest("li");
 
@@ -97,7 +99,7 @@ export default function SidebarBody({
 
       if (className.contains("open-button")) {
         const $svg = $button.querySelector("img");
-        $svg.classList.toggle("rotate-button");
+        $svg.classList.toggle("is-rotate");
         onOpenList(STATE.OPEN, id);
       } else if (className.contains("create-button")) {
         onCreateDocument(id);
@@ -106,9 +108,11 @@ export default function SidebarBody({
         const deleteIdList = await onDeleteDocument(id);
         onOpenList(STATE.DELETE, deleteIdList);
       }
-    } else if ($postItem) {
+    }
+
+    if ($postItem) {
       const { id } = $postItem.dataset;
-      setItem(STORAGE_KEY.SELECTED_POST, id);
+      setItem(STORAGE_KEY.SELECTED_DOCUMENT, id);
 
       customEvent.push(`/documents/${id}`);
     }

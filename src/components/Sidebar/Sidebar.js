@@ -10,8 +10,8 @@ import SidebarNav from "./SidebarNav.js";
 import SidebarFooter from "./SidebarFooter.js";
 
 import { validateInstance } from "../../utils/validation.js";
-import { setItem, getItem, removeItem } from "../../utils/storage.js";
 import { STORAGE_KEY, STATE, DEFAULT_TEXT } from "../../utils/constants.js";
+import { setItem, getItem, removeItem } from "../../utils/storage.js";
 import { addEvent } from "../../utils/custom-event.js";
 
 export default function Sidebar({ $target, initialState = [] }) {
@@ -25,6 +25,7 @@ export default function Sidebar({ $target, initialState = [] }) {
   this.setState = async () => {
     const postList = await getRootDouments();
     sidebarNav.setState(postList);
+
     this.render();
   };
 
@@ -60,66 +61,64 @@ export default function Sidebar({ $target, initialState = [] }) {
       this.setState();
     },
     onCreateDocument: async (id) => {
-      const newPost = {
+      const newDocument = {
         title: DEFAULT_TEXT.TITLE,
         parent: id,
       };
 
-      await createDocument(newPost);
+      await createDocument(newDocument);
 
       this.setState();
     },
     onDeleteDocument: async (id) => {
       const isSelected =
-        Number(getItem(STORAGE_KEY.SELECTED_POST, null)) === id;
+        Number(getItem(STORAGE_KEY.SELECTED_DOCUMENT, null)) === id;
 
       if (isSelected) {
-        removeItem(STORAGE_KEY.SELECTED_POST);
-        history.replaceState(null, null, "/");
-        window.location = `${window.location.origin}/`;
+        removeItem(STORAGE_KEY.SELECTED_DOCUMENT);
       }
 
-      const data = await getDocumentContent(id);
+      const currentDocument = await getDocumentContent(id);
 
-      const documentList = data.documents;
-      const deletedPostId = [];
+      const { documents } = currentDocument;
+      const deleteDocumentId = [];
 
-      const deletePostItems = (childDocuments) => {
+      const deleteDocuments = (childDocuments) => {
         childDocuments.forEach(({ id, documents }) => {
-          deletedPostId.push(id);
+          deleteDocumentId.push(id);
           if (documents.length) {
-            deletePostItems(documents);
+            deleteDocuments(documents);
           }
         });
       };
 
-      if (documentList.length > 0) {
-        deletePostItems(documentList);
-        deletedPostId.reverse();
+      if (documents.length > 0) {
+        deleteDocuments(documents);
+        deleteDocumentId.reverse();
 
-        for (let i = 0; i < deletedPostId.length; i++) {
-          await deleteDocument(deletedPostId[i]);
+        for (let i = 0; i < deleteDocumentId.length; i++) {
+          await deleteDocument(deleteDocumentId[i]);
         }
       }
 
-      deletedPostId.push(id);
+      deleteDocumentId.push(id);
       await deleteDocument(id);
 
       this.setState();
 
-      return deletedPostId;
+      return deleteDocumentId;
     },
   });
 
   new SidebarFooter({
     $target: $sidebar,
     onCreateDocument: async () => {
-      const newPost = {
+      const newDocument = {
         title: DEFAULT_TEXT.TITLE,
         parent: null,
       };
 
-      await createDocument(newPost);
+      await createDocument(newDocument);
       this.setState();
     },
   });

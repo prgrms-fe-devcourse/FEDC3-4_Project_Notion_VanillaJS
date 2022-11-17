@@ -17,7 +17,6 @@ export const request = async (url, options = {}) => {
     return res.json();
   } catch (err) {
     console.error(err);
-    history.replaceState(null, null, "/404");
-    window.location = `${window.location.origin}/404`;
+    history.go(-1);
   }
 };

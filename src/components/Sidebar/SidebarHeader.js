@@ -13,23 +13,29 @@ export default function SidebarHeader({ $target }) {
       <div>
         <span class="emoji">📒</span>은지의 <strong>Notion</strong>
       </div>
-      <button class="menu-button" title="사이드바 닫기">
+      <button class="close-button" title="사이드바 닫기">
         <img src="/src/assets/double-arrow.svg"/>
       </button>
       `;
   };
 
-  this.render();
+  const closeSidebar = (e) => {
+    const $closeButton = e.target.closest(".close-button");
 
-  $header.addEventListener("click", (e) => {
-    const $button = e.target.closest("button");
-
-    if ($button) {
+    if ($closeButton) {
       const $sidebar = document.querySelector(".sidebar");
       const $postEditPage = document.querySelector(".post-edit-page");
 
       $sidebar.classList.add("slide");
       $postEditPage.classList.add("expend");
     }
-  });
+  };
+
+  const init = () => {
+    this.render();
+
+    $header.addEventListener("click", closeSidebar);
+  };
+
+  init();
 }
