@@ -162,6 +162,13 @@
 .post-list-container ul .post-list .hide {
   display: none;
 }
+.post-list-container .empty-posts-list {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 10px;
+  padding-top: 3rem;
+}
 .post-list-container .create-post-btn-container {
   padding: 1rem 0;
   width: 300px;
@@ -258,6 +265,9 @@
   line-height: 3rem;
   color: #ccc;
   outline: none;
+}
+.global-container .post-edit-container .editor::-webkit-scrollbar {
+  display: none;
 }
 .global-container .not-found {
   width: 100%;

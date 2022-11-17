@@ -98,6 +98,14 @@
 		}
 	}
 
+	.empty-posts-list {
+		display: flex;
+		flex-direction: column;
+		text-align: center;
+		gap: 10px;
+		padding-top: 3rem;
+	}
+
 	.create-post-btn-container {
 		padding: 1rem 0;
 		width: 300px;

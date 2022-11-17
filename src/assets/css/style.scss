@@ -63,6 +63,10 @@
 				@include input-content;
 			}
 		}
+
+		.editor::-webkit-scrollbar {
+			display: none;
+		}
 	}
 
 	.not-found {
