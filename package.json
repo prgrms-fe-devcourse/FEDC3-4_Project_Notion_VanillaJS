@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Notion 클로닝",
   "scripts": {
-    "dev": "npx serve -s"
+    "start": "npx serve -s"
   },
   "repository": {
     "type": "git",
