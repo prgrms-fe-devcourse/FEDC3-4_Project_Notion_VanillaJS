@@ -55,16 +55,18 @@ export default function MainPage({
 
   this.setState = (newState) => {
     const { documentId } = newState;
-    const isDocumentChanged = documentId && documentId !== this.state.documentId;
 
-    if (isDocumentChanged) {
+    if (this.state.documentId !== documentId) {
       this.state = { ...this.state, ...newState };
       this.renderDocument();
-      return;
     }
+    // const isDocumentChanged = documentId && documentId !== this.state.documentId;
 
-    this.state = { ...this.state, ...newState };
-    this.render();
+    // if (isDocumentChanged) {
+    //   this.state = { ...this.state, ...newState };
+    //   this.renderDocument();
+    //   return;
+    // }
   };
 
   this.init();

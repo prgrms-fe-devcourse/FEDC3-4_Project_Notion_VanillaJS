@@ -1,7 +1,7 @@
 import Details from "./Details.js";
 
 import { addEvent, handlers } from "../../utils/event.js";
-import { findDocumentElement } from "../../utils/selector.js";
+import { findDocumentElement, removeElementClass } from "../../utils/dom.js";
 
 import { $rootDocuments } from "../../utils/templates.js";
 import { navigate } from "../../utils/navigate.js";
@@ -73,16 +73,18 @@ export default function SidebarBody({
         event.target.closest(".add-btn") ||
         event.target.closest(".trash")
       ) {
-        return;
+        return false;
       }
       if (event.target.closest(".arrow")) {
         event.target.closest("details").open = !event.target.closest("details").open;
         return;
       }
+      const $documentItem = event.target.closest("#document-item");
+      const { documentId } = $documentItem.dataset;
 
-      const { documentId } = event.target.closest("#document-item").dataset;
-      navigate(`/documents/${documentId}`);
-      return;
+      removeElementClass("#document-item", "focus");
+      $documentItem.classList.add("focus");
+      navigate(`/documents/${documentId}`, false, { documentId });
     });
   };
 

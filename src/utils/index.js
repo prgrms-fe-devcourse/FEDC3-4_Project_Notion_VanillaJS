@@ -6,4 +6,6 @@ const debounce = (callback, delay) => {
   };
 };
 
-export { debounce };
+const parseNewline = (text) => text.replaceAll("\n", "<br />");
+
+export { debounce, parseNewline };

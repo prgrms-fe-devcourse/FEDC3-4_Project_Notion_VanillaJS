@@ -18,6 +18,7 @@ const request = async (url, options = {}) => {
 
     return data;
   } catch (error) {
+    console.error("error", error);
     navigate("/", true);
   }
 };

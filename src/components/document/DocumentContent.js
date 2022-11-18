@@ -1,4 +1,5 @@
 import { addEvent } from "../../utils/event.js";
+import { parseNewline } from "../../utils/index.js";
 
 export default function DocumentContent({
   $target,
@@ -24,9 +25,9 @@ export default function DocumentContent({
     const { content } = this.state;
 
     this.$target.innerHTML = `
-      <div id="document-editor" name="content" contenteditable="true" placeholder="Type for creating new document">${
+      <div id="document-editor" name="content" contenteditable="true" placeholder="Type for creating new document">${parseNewline(
         content ?? ""
-      }</div>
+      )}</div>
     `;
   };
 

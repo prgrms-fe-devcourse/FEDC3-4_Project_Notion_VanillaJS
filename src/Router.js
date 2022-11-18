@@ -1,29 +1,25 @@
-import NotFound from "./pages/NotFound.js";
+import { HISTORY_CHANGE, POP_STATE, routes } from "./constants/routes.js";
 
-import { HISTORY_CHANGE_EVENT_NAME, routes } from "./constants/routes.js";
-
-export default function Router({ $target, onRoute }) {
-  this.$target = $target;
-  this.state = { currentPage: null };
-
+export default function Router({ onRoute }) {
   this.init = () => {
-    window.addEventListener(HISTORY_CHANGE_EVENT_NAME, ({ detail }) => {
-      const { to, isReplace } = detail;
+    window.addEventListener(HISTORY_CHANGE, ({ detail }) => {
+      const { to, isReplace, state } = detail;
 
       if (isReplace || to === location.pathname) {
-        history.replaceState(null, "", to);
+        history.replaceState(state, "", to);
       } else {
-        history.pushState(null, "", to);
+        history.pushState(state, "", to);
       }
 
       onRoute();
     });
 
-    window.addEventListener("popstate", () => {
+    window.addEventListener(POP_STATE, () => {
       onRoute();
     });
+
+    onRoute();
   };
 
   this.init();
-  onRoute();
 }

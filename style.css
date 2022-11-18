@@ -28,6 +28,15 @@ li {
   background-color: rgb(217, 217, 217);
 }
 
+.center-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 #app {
   width: 100vw;
   height: 100%;
@@ -45,18 +54,27 @@ li {
 }
 
 #sidebar-header {
-  min-height: 45px;
+  width: 100%;
+  min-height: 35px;
   display: inline-flex;
   align-items: center;
+  cursor: pointer;
+  margin: 8px 0px;
+}
+
+#sidebar-header:hover {
+  border-radius: 4px;
+  background-color: rgb(240, 239, 239);
 }
 
 #sidebar-header .profile {
   width: 22px;
-  margin-right: 8px;
+  margin: 0px 8px;
 }
 
 #sidebar-header span {
   padding-top: 6px;
+  margin-right: 20px;
 }
 
 #sidebar-section {
@@ -95,6 +113,16 @@ li {
 #document-item:hover {
   border-radius: 4px;
   background-color: rgb(240, 239, 239);
+}
+
+#document-item.focus {
+  border-radius: 4px;
+  background-color: rgb(240, 239, 239);
+}
+
+#document-item.focus .title {
+  color: rgb(55, 53, 47);
+  font-weight: 600;
 }
 
 #document-details .point {
@@ -158,10 +186,10 @@ details[open] > summary #document-item .arrow {
   transform: rotateZ(0deg);
 }
 
-details[open] > summary #document-item span {
+/* details[open] > summary #document-item span {
   color: rgb(55, 53, 47);
   font-weight: 600;
-}
+} */
 
 #sidebar-footer {
   height: 40px;
@@ -242,4 +270,18 @@ details[open] > summary #document-item span {
   content: attr(placeholder);
   color: rgb(55, 53, 47, 0.5);
   display: block;
+}
+
+#home-btn {
+  padding: 8px 12px;
+  margin: 30px 0px;
+  font-size: 17px;
+  font-weight: 600;
+  background-color: rgb(231, 231, 231);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#home-btn:hover {
+  background-color: rgb(216, 216, 216);
 }

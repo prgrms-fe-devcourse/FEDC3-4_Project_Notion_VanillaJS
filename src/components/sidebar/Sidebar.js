@@ -1,9 +1,10 @@
 import SidebarFooter from "./SidebarFooter.js";
 import SidebarBody from "./SidebarBody.js";
-import API from "../../utils/api.js";
 
-import { DEFAULT, USER } from "../../config.js";
+import API from "../../utils/api.js";
 import { navigate } from "../../utils/navigate.js";
+import { DEFAULT, USER } from "../../config.js";
+import { addEvent } from "../../utils/event.js";
 
 export default function Sidebar({
   $target,
@@ -13,20 +14,26 @@ export default function Sidebar({
 }) {
   const addDocument = async (parentId = null) => {
     const { id } = await API.createDocument(DEFAULT.DOCUMENT_NAME, parentId);
-    navigate(`/documents/${id}`);
+    const rootDocuments = await API.getDocuments();
+    this.setState({ rootDocuments });
+    navigate(`/documents/${id}`, false, { documentId: id });
   };
 
   const deleteDocument = async (id) => {
     await API.deleteDocument(id);
     const rootDocuments = await API.getDocuments();
-    // console.log(id, rootDocuments);
     this.setState({ rootDocuments });
+
+    if (location.pathname === `/documents/${id}`) {
+      navigate("/", true);
+    }
   };
 
   this.$target = $target;
   this.state = initialState;
 
   this.init = () => {
+    this.setEvent();
     this.render();
   };
 
@@ -60,6 +67,12 @@ export default function Sidebar({
     new SidebarFooter({
       $target: $footer,
       onAddButtonClick: addDocument.bind(this),
+    });
+  };
+
+  this.setEvent = () => {
+    addEvent(this.$target, "click", "#sidebar-header", (event) => {
+      navigate("/");
     });
   };
 

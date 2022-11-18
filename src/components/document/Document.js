@@ -3,8 +3,10 @@ import DocumentContent from "./DocumentContent.js";
 
 import API from "../../utils/api.js";
 import { USER } from "../../config.js";
-import { debounce } from "../../utils/debounce.js";
-import { getItemFromStorage, setItemToStorage } from "../../utils/storage.js";
+import { debounce } from "../../utils/index.js";
+import { setItemToStorage, getItemFromStorage } from "../../utils/storage.js";
+import { handlers } from "../../utils/event.js";
+import { navigate } from "../../utils/navigate.js";
 
 export default function Document({
   $target,
@@ -12,30 +14,29 @@ export default function Document({
     documentId: null,
   },
 }) {
-  const handleDocumentEdit = debounce(async (text, type = "title") => {
+  const handleDocumentEdit = async (text, section = "title") => {
+    console.log(this);
     const storedItem = getItemFromStorage("notion", { currentDocument: {} });
 
     storedItem.currentDocument = {
       ...storedItem.currentDocument,
-      [type]: text,
+      [section]: text,
       tempSavedAt: new Date(),
     };
     setItemToStorage("notion", { ...storedItem });
-    await updateDocument(this.state.documentId, storedItem.currentDocument);
-  }, 300);
+
+    const { title, content } = storedItem.currentDocument;
+    await API.updateDocument(this.state.documentId, { title, content });
+  };
 
   const fetchDocument = async (documentId) => {
     const response = await API.getDocuments(documentId);
-
     if (!response) {
-      return [{ title: "", content: "" }, {}];
+      navigate("/", true);
+      return;
     }
-    return [{ title: response.title, content: response.content }, response];
-  };
 
-  const updateDocument = async (documentId, newDocument) => {
-    const { title, content } = newDocument;
-    await API.updateDocument(documentId, { title, content });
+    return [{ title: response.title, content: response.content }, response];
   };
 
   const renderNoDocument = ($container) => {
@@ -50,18 +51,17 @@ export default function Document({
   const renderDocumentById = async ($header, $body) => {
     const { documentId } = this.state;
     const [{ title, content }, response] = await fetchDocument(documentId);
-
     setItemToStorage("notion", { currentDocument: response });
 
     new DocumentHeader({
       $target: $header,
       initialState: { title },
-      onEdit: handleDocumentEdit.bind(this),
+      onEdit: debounce(handleDocumentEdit.bind(this), 300),
     });
     new DocumentContent({
       $target: $body,
       initialState: { content },
-      onEdit: handleDocumentEdit.bind(this),
+      onEdit: debounce(handleDocumentEdit.bind(this), 300),
     });
   };
 
@@ -92,10 +92,12 @@ export default function Document({
 
     if (documentId === "new") {
       renderNewDocument($header, $body);
+      return;
     } else if (!!documentId) {
       console.log(documentId);
       renderDocumentById($header, $body);
     } else {
+      console.log(documentId);
       renderNoDocument($container);
     }
   };

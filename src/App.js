@@ -1,29 +1,48 @@
-import MainPage from "./pages/MainPage.js";
-import NotFound from "./pages/NotFound.js";
-import Router from "./Router.js";
+import NotFoundPage from "./pages/NotFoundPage.js";
 
+import Router from "./Router.js";
 import { routes } from "./constants/routes.js";
+import { navigate } from "./utils/navigate.js";
 
 export default function App({ $target }) {
+  const findMatchedRoute = (pathname) => routes.find((route) => route.path.test(pathname));
+
   this.$target = $target;
   this.state = { currentPage: null };
 
   this.init = () => {
-    this.currentPage = new MainPage({ $target: this.$target });
-    new Router({ $target: this.$target, onRoute: this.route.bind(this) });
+    new Router({ onRoute: this.route.bind(this) });
   };
 
   this.route = () => {
-    const findMatchedRoute = () => routes.find((route) => route.path.test(location.pathname));
-    const Page = findMatchedRoute()?.element || NotFound;
-    const [, , documentId] = location.pathname.split("/");
+    const { pathname } = location;
+    const { currentPage } = this.state;
+    const nextPage = findMatchedRoute(pathname)?.element || NotFoundPage;
 
-    if (documentId) {
-      this.currentPage.setState({ documentId });
+    const { state } = history;
+    const documentIdFromHistory = state ? state.documentId : null;
+    const documentIdFromPath = pathname.split("/documents/")[1];
+
+    if (documentIdFromPath != documentIdFromHistory) {
+      navigate("/404", true);
+      return;
     }
 
-    console.log(window.location.pathname);
-    console.log(/^\/documents\//.test(location.pathname));
+    if (!currentPage || !(currentPage instanceof nextPage)) {
+      this.setState({
+        currentPage: new nextPage({
+          $target: this.$target,
+          initialState: { documentId: documentIdFromHistory },
+        }),
+      });
+      return;
+    }
+
+    this.state.currentPage.setState({ documentId: documentIdFromHistory });
+  };
+
+  this.setState = (newState) => {
+    this.state = { ...this.state, ...newState };
   };
 
   this.init();
