@@ -2,10 +2,13 @@ import { createPost, deletePost, fetchPostList } from "../utils/api.js";
 import PostList from "../components/PostList.js";
 import LinkButton from "../components/LinkButton.js";
 import { push } from "../utils/router.js";
+import Header from "../components/Header.js";
 
 export default function PostsPage({ $target }) {
   const $page = document.createElement("div");
   $page.setAttribute("class", "posts-page");
+
+  const header = new Header({ $target: $page });
 
   const postList = new PostList({
     $target: $page,
@@ -36,6 +39,7 @@ export default function PostsPage({ $target }) {
   });
 
   this.setState = async () => {
+    header.render();
     const posts = await fetchPostList();
     postList.setState(posts);
     this.render();

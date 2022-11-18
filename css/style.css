@@ -18,22 +18,33 @@ body ul {
 .posts-page {
   position: relative;
   min-width: 14rem;
-  margin-right: 50px;
-  padding-top: 50px;
+  width: 14rem;
+  margin-right: 150px;
   font-size: 15px;
   background-color: #fbfbfa;
 }
 
-.hide {
-  display: none;
+.header {
+  display: flex;
+  align-items: center;
+  padding: 20px 0px 10px 5px;
 }
-
-.down {
-  padding-left: 10px;
+.header > img {
+  width: 20px;
+  padding: 10px;
+  border-radius: 13px;
+}
+.header p {
+  margin: 0px;
+  color: #5e5c57;
+}
+.header p:last-child {
+  font-size: 5px;
+  color: #908f8c;
 }
 
 .post-list {
-  height: 87vh;
+  height: 84vh;
   overflow-y: auto;
 }
 .post-list::-webkit-scrollbar {
@@ -45,12 +56,19 @@ body ul {
 .post-list::-webkit-scrollbar-track-piece {
   background-color: #edece9;
 }
+.post-list .hide {
+  display: none;
+}
+.post-list .down {
+  padding-left: 10px;
+}
 
 .post {
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-radius: 5px;
+  color: #908f8c;
   cursor: pointer;
 }
 .post:hover {
@@ -73,6 +91,11 @@ body ul {
 }
 .post > div > span:first-child:hover {
   background-color: #dddddc;
+}
+.post .no-sub-page {
+  padding-left: 39px;
+  color: #b5b5b2;
+  cursor: default;
 }
 
 .active-post {
@@ -122,23 +145,17 @@ body ul {
   transform: rotateZ(0deg);
 }
 
-.no-sub-page {
-  padding-left: 39px;
-  color: #b5b5b2;
-  cursor: default;
-}
-
 .page-create {
   position: absolute;
   bottom: 0px;
   width: 100%;
-  padding: 10px;
+  padding: 15px;
   text-align: left;
   background: none;
   border: none;
   border-top: 1px solid #dddddc;
   font-size: 16px;
-  color: #767571;
+  color: #908f8c;
   cursor: pointer;
 }
 .page-create:hover {
@@ -151,7 +168,6 @@ body ul {
   display: flex;
   flex-direction: column;
   margin: 50px 10px 10px 10px;
-  overflow-y: auto;
 }
 .editor * {
   margin-bottom: 10px;
@@ -161,19 +177,25 @@ body ul {
   outline: none;
   background-color: none;
 }
-.editor *:hover {
-  background-color: #f5f5f5;
-  transition: background-color 0.5s ease-in-out;
-}
-.editor *:active {
-  background-color: #f5f5f5;
-}
 .editor .title {
+  width: 600px;
   font-size: 30px;
   font-weight: bold;
 }
 .editor .content {
+  width: 800px;
+  height: 400px;
+  overflow-y: auto;
   font-size: 15px;
+}
+.editor .content::-webkit-scrollbar {
+  width: 10px;
+}
+.editor .content::-webkit-scrollbar-thumb {
+  background-color: #d3d1cb;
+}
+.editor .content::-webkit-scrollbar-track-piece {
+  background-color: #edece9;
 }
 
 /*# sourceMappingURL=style.css.map */
