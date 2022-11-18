@@ -1,0 +1,239 @@
+@charset "UTF-8";
+/* 컬러 코드*/
+body {
+  margin: 0;
+}
+body li {
+  list-style-type: none;
+}
+body ul {
+  padding-left: 0px;
+}
+
+#app {
+  display: flex;
+  height: 100vh;
+}
+
+/* 사이드 바 */
+.posts-page {
+  position: relative;
+  min-width: 14rem;
+  width: 14rem;
+  margin-right: 150px;
+  font-size: 15px;
+  background-color: #fbfbfa;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 20px 0px 10px 5px;
+}
+.header > img {
+  width: 20px;
+  padding: 10px;
+  border-radius: 13px;
+}
+.header .notion-title {
+  margin: 0px;
+  color: #5e5c57;
+  cursor: pointer;
+}
+.header p:last-child {
+  margin: 0px;
+  font-size: 5px;
+  color: #908f8c;
+  user-select: none;
+}
+
+.post-list {
+  height: 84vh;
+  overflow-y: auto;
+}
+.post-list::-webkit-scrollbar {
+  width: 10px;
+}
+.post-list::-webkit-scrollbar-thumb {
+  background-color: #d3d1cb;
+}
+.post-list::-webkit-scrollbar-track-piece {
+  background-color: #ebebea;
+}
+
+.post-hide {
+  display: none;
+}
+
+.sub-post {
+  padding-left: 10px;
+}
+
+.post {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  border-radius: 5px;
+  color: #908f8c;
+  cursor: pointer;
+}
+.post:hover {
+  background-color: #ebebea;
+}
+.post:hover .button-group > button {
+  opacity: 1;
+}
+.post:active {
+  background-color: #dddddc;
+}
+.post:active .button-group > button {
+  background-color: #dddddc;
+}
+.post > div {
+  display: flex;
+  align-items: center;
+}
+.post > div > span:first-child {
+  display: inline-block;
+  width: fit-content;
+  margin-left: 5px;
+  border-radius: 5px;
+}
+.post > div > span:first-child:hover {
+  background-color: #dddddc;
+}
+.post .post-title {
+  display: inline-block;
+  width: 170px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.post:hover .post-title {
+  width: 130px;
+}
+
+.no-sub-page {
+  padding-left: 39px;
+  user-select: none;
+  color: #b5b5b2;
+  cursor: default;
+}
+
+.active-post {
+  background-color: #ebebea;
+  color: #37352f;
+  font-weight: bold;
+}
+
+.button-group {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 0px;
+  width: 50px;
+}
+.button-group > button {
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  background-color: #ebebea;
+  border: none;
+  border-radius: 5px;
+  font-size: 10px;
+  color: #676662;
+  line-height: 10px;
+  opacity: 0;
+}
+.button-group > button:hover {
+  background-color: #dddddc;
+  cursor: pointer;
+}
+
+.toggle-button {
+  background: none;
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  color: #908f8c;
+  cursor: pointer;
+}
+
+.open-toggle {
+  transition: transform 0.3s ease-in-out;
+  transform: rotateZ(90deg);
+}
+
+.close-toggle {
+  transition: transform 0.3s ease-in-out;
+  transform: rotateZ(0deg);
+}
+
+.page-create {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  padding: 15px;
+  text-align: left;
+  background: none;
+  border: none;
+  border-top: 1px solid #dddddc;
+  font-size: 16px;
+  color: #908f8c;
+  cursor: pointer;
+}
+.page-create:hover {
+  border-top-color: #ebebea;
+  background-color: #ebebea;
+}
+
+/* 에디터 */
+.editor {
+  display: flex;
+  flex-direction: column;
+  margin: 50px 10px 10px 10px;
+}
+.editor * {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  background-color: none;
+}
+.editor .title {
+  width: 600px;
+  font-size: 30px;
+  font-weight: bold;
+}
+.editor .content {
+  width: 800px;
+  height: 400px;
+  overflow-y: auto;
+  font-size: 15px;
+}
+.editor .content::-webkit-scrollbar {
+  width: 10px;
+}
+.editor .content::-webkit-scrollbar-thumb {
+  background-color: #d3d1cb;
+}
+.editor .content::-webkit-scrollbar-track-piece {
+  background-color: #ebebea;
+}
+
+.sub-post-list {
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #fbfbfa;
+  color: #5e5c57;
+}
+.sub-post-list > p {
+  margin: 0px;
+  padding: 10px;
+  font-weight: bold;
+  user-select: none;
+}
+
+/*# sourceMappingURL=style.css.map */
