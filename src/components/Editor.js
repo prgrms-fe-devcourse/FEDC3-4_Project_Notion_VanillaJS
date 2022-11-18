@@ -1,7 +1,4 @@
 export default function Editor({ $container, initialState, onEdit }) {
-  const $editor = document.createElement('div');
-  $editor.id = 'editor';
-
   this.state = initialState;
 
   this.setState = (newState) => {
@@ -9,22 +6,27 @@ export default function Editor({ $container, initialState, onEdit }) {
     this.render();
   };
 
-  $editor.innerHTML = `
-		<input type="text" id="title" placeholder="제목을 입력하세요" value=${this.state.title}></input>
-		<textarea id="content" placeholder="내용을 입력하세요">${this.state.content}</textarea> 
-	`;
-
+  let isMount = false;
   this.render = () => {
-    $container.appendChild($editor);
-    $editor.querySelector('input').value = this.state.title;
-    $editor.querySelector('textarea').value = this.state.content;
+    if (!isMount) {
+      $container.innerHTML = `
+				<div class="editor" style="display:flex; flex-direction:column">
+					<input type="text" id="title" placeholder="제목을 입력하세요"></input>
+					<textarea id="content" placeholder="내용을 입력하세요" style="height:100vh"></textarea> 
+				</div>
+		`;
+      isMount = true;
+    }
+    $container.querySelector('input').value = this.state.title;
+    $container.querySelector('textarea').value = this.state.content;
   };
 
   let timer = null;
-  $editor.addEventListener('input', (e) => {
+  $container.addEventListener('input', (e) => {
     const { id, value } = e.target;
     if (!id) return;
 
+    // 디바운스 아닌가? 스로틀?
     if (timer) {
       clearTimeout(timer);
     }
@@ -34,6 +36,7 @@ export default function Editor({ $container, initialState, onEdit }) {
         ...this.state,
         [id]: value,
       };
+      console.log(id); // id로 title 변경인지, content변경인지 체크
       onEdit(newState);
     }, 2500);
   });

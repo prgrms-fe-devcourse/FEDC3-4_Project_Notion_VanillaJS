@@ -1,17 +1,29 @@
+.hide {
+  display: none;
+}
+
 #app {
   display: grid;
   grid-template-columns: 1fr 4fr;
 }
 
-#editor {
+.editor {
   display: flex;
   flex-direction: column;
 }
 
-#content {
-  height: 100vh;
+.not-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.hide {
-  display: none;
+.not-found-img {
+  width: 400px;
+}
+
+.not-found-message {
+  font-size: 1.75rem;
+  color: gray;
 }

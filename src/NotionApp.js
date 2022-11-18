@@ -1,5 +1,6 @@
 import DocumentEditorPage from './components/DocumentEditorPage.js';
 import NavBar from './components/NavBar.js';
+import NotFoundPage from './components/NotFoundPage.js';
 import { request } from './utils/api.js';
 import { deleteIsOpenState, getRemoveIdList } from './utils/utils.js';
 
@@ -53,7 +54,7 @@ export default function NotionApp({ $container }) {
         deleteIsOpenState(removeIdList);
 
         if (removeIdList.includes(this.state.currentDocumentId)) {
-          // TODO: this.state.documentList이 없을 때 => 삭제한 게 유일한 문서였을 때, 어떻게 처리할 건지
+          // TODO: this.state.documentList이 없을 때 => 삭제한 게 유일한 문서였을 때, 어떻게 처리할 건지 -> / 로 보내기!
           history.replaceState(null, null, `/documents/${this.state.documentList[0].id}`);
           route();
         }
@@ -72,6 +73,11 @@ export default function NotionApp({ $container }) {
     },
   });
 
+  const notFoundPage = new NotFoundPage({
+    $container,
+    message: '존재하지 않는 페이지입니다',
+  });
+
   const fetchDocumentList = async () => {
     const documentList = await request('/');
     this.setState({
@@ -84,8 +90,13 @@ export default function NotionApp({ $container }) {
     const { pathname } = window.location;
 
     if (pathname.includes('/documents/')) {
+      // TODO: documentId가 유효하지 않을경우 -> 404로 가야함
       const [, , documentId] = pathname.split('/');
       documentEditorPage.setState(documentId);
+    } else if (pathname === '/') {
+      documentEditorPage.setState(null);
+    } else {
+      notFoundPage.render();
     }
   };
 

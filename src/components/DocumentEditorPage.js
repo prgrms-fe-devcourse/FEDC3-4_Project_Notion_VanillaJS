@@ -1,10 +1,11 @@
 import { request } from '../utils/api.js';
 import { documentContentDefaultValue } from '../utils/constants.js';
 import Editor from './Editor.js';
+import EmptyContent from './EmptyContent.js';
 
 /**
  * 관리하는 상태값
- * currentDocumentId: number | "new"
+ * currentDocumentId: number
  */
 
 export default function DocumentEditorPage({ $container, initialState, onEditDocumentTitle }) {
@@ -14,18 +15,29 @@ export default function DocumentEditorPage({ $container, initialState, onEditDoc
   this.currentDocumentId = initialState;
 
   this.setState = async (nextDocumentId) => {
-    // TODO: 타입 다르지 않나? 잘 작동하는지 체크
-    if (nextDocumentId === this.currentDocumentId) return;
+    if (nextDocumentId === null) {
+      this.currentDocumentId = nextDocumentId;
+      emptyContent.render();
+      return;
+    }
+    if (nextDocumentId === this.currentDocumentId) {
+      return;
+    }
 
     this.currentDocumentId = nextDocumentId;
     const documentContent = await request(`/${nextDocumentId}`);
     editor.setState(documentContent);
   };
 
+  const emptyContent = new EmptyContent({
+    $container: $editor,
+  });
+
   const editor = new Editor({
     $container: $editor,
     initialState: documentContentDefaultValue,
     onEdit: async (documentContent) => {
+      console.log(documentContent); // 애초에 여기서 마지막 변경사항만 오네..! 이벤트 지연 -> 마지막 이벤트만 실행시키기 때문!
       const { id, title, content } = documentContent;
       editor.setState(documentContent);
 
