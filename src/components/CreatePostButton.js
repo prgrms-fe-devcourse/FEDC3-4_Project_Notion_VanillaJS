@@ -1,4 +1,3 @@
-import { push } from "../routes/router.js";
 import { $createPostBtn } from "../utils/templates.js";
 import CreatePostModal from "./modal/CreatePostModal.js";
 

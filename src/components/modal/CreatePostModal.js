@@ -1,7 +1,7 @@
 import { $createPostModal } from "../../utils/templates.js";
 import { modalClose, modalShow } from "./handler.js";
 import { push } from "../../routes/router.js";
-import handler from "/api/index.js";
+import request from "/api/index.js";
 
 export default function CreatePostModal({ $target, initialState, addPost }) {
 	const $modal = document.createElement("div");
@@ -58,7 +58,7 @@ export default function CreatePostModal({ $target, initialState, addPost }) {
 				alert("글 제목을 입력해주세요!");
 				return;
 			}
-			const createdPost = await handler("/documents", {
+			const createdPost = await request("/documents", {
 				method: "POST",
 				body: JSON.stringify(this.body),
 			});

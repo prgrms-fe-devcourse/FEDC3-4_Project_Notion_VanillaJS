@@ -1,4 +1,4 @@
-import handler from "/api/index.js";
+import request from "/api/index.js";
 import { ACTIVE_LIST_KEY } from "../../config.js";
 import { push } from "../routes/router.js";
 import { setItem } from "../utils/storage.js";
@@ -12,9 +12,10 @@ export default function PostsPage({ $target, initialState }) {
 	this.state = initialState;
 
 	this.setState = async (nextState) => {
-		const postsList = await handler("/documents", {
+		const postsList = await request("/documents", {
 			method: "GET",
 		});
+		console.log(postsList);
 		postList.setState({ postsList, selectedPost: nextState });
 		this.render();
 	};
@@ -24,11 +25,11 @@ export default function PostsPage({ $target, initialState }) {
 		$target: $postPage,
 
 		onRemove: async (id) => {
-			const post = await handler(`/documents/${id}`, {
+			const post = await request(`/documents/${id}`, {
 				method: "GET",
 			});
 			if (confirm(`제목 : ${post.title}\n해당 글을 삭제할까요?`)) {
-				const res = await handler(`/documents/${post.id}`, {
+				const res = await request(`/documents/${post.id}`, {
 					method: "DELETE",
 				});
 				this.setState();
