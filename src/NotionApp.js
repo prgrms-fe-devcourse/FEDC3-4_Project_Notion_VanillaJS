@@ -71,6 +71,10 @@ export default function NotionApp({ $container }) {
       console.log(`edit title`);
       fetchDocumentList();
     },
+    onError: () => {
+      history.replaceState(null, null, '/404');
+      route();
+    },
   });
 
   const notFoundPage = new NotFoundPage({
@@ -90,7 +94,6 @@ export default function NotionApp({ $container }) {
     const { pathname } = window.location;
 
     if (pathname.includes('/documents/')) {
-      // TODO: documentId가 유효하지 않을경우 -> 404로 가야함
       const [, , documentId] = pathname.split('/');
       documentEditorPage.setState(documentId);
     } else if (pathname === '/') {

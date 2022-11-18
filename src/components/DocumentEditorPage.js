@@ -8,7 +8,12 @@ import EmptyContent from './EmptyContent.js';
  * currentDocumentId: number
  */
 
-export default function DocumentEditorPage({ $container, initialState, onEditDocumentTitle }) {
+export default function DocumentEditorPage({
+  $container,
+  initialState,
+  onEditDocumentTitle,
+  onError,
+}) {
   const $editor = document.createElement('section');
   $container.appendChild($editor);
 
@@ -24,8 +29,12 @@ export default function DocumentEditorPage({ $container, initialState, onEditDoc
       return;
     }
 
-    this.currentDocumentId = nextDocumentId;
     const documentContent = await request(`/${nextDocumentId}`);
+    if (!documentContent) {
+      onError();
+      return;
+    }
+    this.currentDocumentId = nextDocumentId;
     editor.setState(documentContent);
   };
 
