@@ -1,4 +1,4 @@
-import { makeLi, makeUl, makeElement } from "../../util/templates.js";
+import { makeElement, makeList } from "../../util/templates.js";
 import { hasClass, addClass, removeClass } from "../../util/helper.js";
 import { session } from "../../util/storage.js";
 import {
@@ -22,7 +22,7 @@ export default function DocList({
   const $listContainer = makeElement("nav", "doc-list");
   $target.appendChild($listContainer);
 
-  const $list = makeUl("root");
+  const $list = makeElement("ul", "root");
 
   this.state = initialState;
 
@@ -38,44 +38,16 @@ export default function DocList({
 
   this.render = () => {
     $list.innerHTML = "";
-    createList($list, this.state.documents);
+    makeList({
+      $list,
+      obj: this.state.documents,
+      option: {
+        openedDocId: this.state.openedDocId,
+        type: "docList",
+      },
+    });
     $listContainer.appendChild($list);
     goToListScrollPos($list);
-  };
-
-  const createList = ($target, obj) => {
-    if (typeof obj !== "object" || obj === null) return;
-
-    Object.entries(obj).forEach(([key, value]) => {
-      if (typeof value === "object" && key !== "documents") {
-        const { documents, id } = value;
-        const $li = makeLi(value);
-
-        if (this.state.openedDocId === id.toString()) {
-          addClass($li, "on");
-        }
-
-        const hasChild = documents.length > 0;
-        if (hasChild) {
-          const $ul = makeUl("parent");
-          $ul.dataset.parentId = id;
-          createList($ul, documents);
-
-          if ($ul.querySelector("li.on")) {
-            addClass($ul, "on");
-          }
-
-          $li.appendChild($ul);
-
-          if (hasClass($ul, "on", "parent")) {
-            const $viewMore =
-              $ul.previousElementSibling.querySelector(".view-more");
-            addClass($viewMore, "on");
-          }
-        }
-        $target.appendChild($li);
-      }
-    });
   };
 
   window.addEventListener(SET_SCROLL_POS, (e) => {
