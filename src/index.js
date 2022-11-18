@@ -1,5 +1,3 @@
 import App from './components/App.js';
 
-const $target = document.querySelector('#app');
-
-new App($target);
+new App(document.querySelector('#app')).mounted();
