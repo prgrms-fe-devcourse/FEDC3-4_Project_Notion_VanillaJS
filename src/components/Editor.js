@@ -1,4 +1,12 @@
 export default function Editor({ $container, initialState, onEdit }) {
+  const $editor = document.createElement('div');
+  $editor.className = 'editor hide';
+  $editor.innerHTML = `
+		<input type="text" id="title" placeholder="제목을 입력하세요"></input>
+		<textarea id="content" placeholder="내용을 입력하세요" style="height:100vh"></textarea> 
+	`;
+  $container.appendChild($editor);
+
   this.state = initialState;
 
   this.setState = (newState) => {
@@ -6,19 +14,16 @@ export default function Editor({ $container, initialState, onEdit }) {
     this.render();
   };
 
-  let isMount = false;
   this.render = () => {
-    if (!isMount) {
-      $container.innerHTML = `
-				<div class="editor" style="display:flex; flex-direction:column">
-					<input type="text" id="title" placeholder="제목을 입력하세요"></input>
-					<textarea id="content" placeholder="내용을 입력하세요" style="height:100vh"></textarea> 
-				</div>
-		`;
-      isMount = true;
+    const { isVisible, title, content } = this.state;
+    if (!isVisible) {
+      $editor.classList.add('hide');
+      return;
     }
-    $container.querySelector('input').value = this.state.title;
-    $container.querySelector('textarea').value = this.state.content;
+
+    $editor.classList.remove('hide');
+    $container.querySelector('input').value = title;
+    $container.querySelector('textarea').value = content;
   };
 
   let timer = null;
@@ -38,6 +43,6 @@ export default function Editor({ $container, initialState, onEdit }) {
       };
       console.log(id); // id로 title 변경인지, content변경인지 체크
       onEdit(newState);
-    }, 2500);
+    }, 1000);
   });
 }

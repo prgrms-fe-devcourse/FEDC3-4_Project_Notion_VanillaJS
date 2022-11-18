@@ -22,7 +22,11 @@ export default function DocumentEditorPage({
   this.setState = async (nextDocumentId) => {
     if (nextDocumentId === null) {
       this.currentDocumentId = nextDocumentId;
-      emptyContent.render();
+      emptyContent.setIsVisible(true);
+      editor.setState({
+        ...editor.state,
+        isVisible: false,
+      });
       return;
     }
     if (nextDocumentId === this.currentDocumentId) {
@@ -35,7 +39,11 @@ export default function DocumentEditorPage({
       return;
     }
     this.currentDocumentId = nextDocumentId;
-    editor.setState(documentContent);
+    emptyContent.setIsVisible(false);
+    editor.setState({
+      ...documentContent,
+      isVisible: true,
+    });
   };
 
   const emptyContent = new EmptyContent({
