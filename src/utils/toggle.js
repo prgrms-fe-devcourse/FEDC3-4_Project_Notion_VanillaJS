@@ -3,7 +3,7 @@ export const toggle = ($button, $li) => {
   const isOpened = JSON.parse(dataset.isOpened);
   const $ul = $li.querySelector("ul");
   if ($ul) {
-    !isOpened ? $ul.classList.remove("hide") : $ul.classList.add("hide");
+    !isOpened ? $ul.classList.remove("post-hide") : $ul.classList.add("post-hide");
   }
   dataset.isOpened = !isOpened;
   if (!isOpened) {

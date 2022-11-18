@@ -1,7 +1,7 @@
 export const renderPosts = (root, posts, sub, down = false) => {
   let $ul = document.createElement("ul");
   if (down) {
-    $ul.classList.add("hide", "down");
+    $ul.classList.add("post-hide", "sub-post");
   }
   root.appendChild($ul);
 
@@ -35,7 +35,7 @@ export const renderPosts = (root, posts, sub, down = false) => {
       renderPosts($li, post.documents, sub, true);
     } else {
       let $ul = document.createElement("ul");
-      $ul.setAttribute("class", "hide");
+      $ul.setAttribute("class", "post-hide");
       $ul.innerHTML = `<span class="no-sub-page">하위 페이지 없음</span>`;
       $li.appendChild($ul);
     }

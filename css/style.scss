@@ -67,14 +67,14 @@ body {
   &::-webkit-scrollbar-track-piece {
     background-color: $BROWN_20;
   }
+}
 
-  .hide {
-    display: none;
-  }
+.post-hide {
+  display: none;
+}
 
-  .down {
-    padding-left: 10px;
-  }
+.sub-post {
+  padding-left: 10px;
 }
 
 .post {
@@ -101,6 +101,11 @@ body {
     .button-group > button {
       background-color: $BROWN_30;
     }
+  }
+
+  & > div {
+    display: flex;
+    align-items: center;
   }
 
   & > div > span:first-child {
