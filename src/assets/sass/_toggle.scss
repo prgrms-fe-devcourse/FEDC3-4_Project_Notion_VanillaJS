@@ -1,7 +1,8 @@
 .toggle-container {
-    position: relative;
-    width: 100%;
-    margin-bottom: 40px; 
+    position: fixed;
+    top: 30px;
+    right: 50px;
+    z-index: 1000;
 
   label {
     position: absolute;

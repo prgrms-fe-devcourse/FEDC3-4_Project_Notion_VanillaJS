@@ -1,8 +1,13 @@
 import DocListPage from "./components/Aside/DocListPage.js";
 import DocEditPage from "./components/Main/DocEditPage.js";
+import SchemeToggle from "./components/Main/SchemeToggle.js";
 import { initRouter, ROOT } from "./components/router.js";
 
 export default function App({ $target }) {
+
+  new SchemeToggle({
+    $target
+  })
 
   const docListPage = new DocListPage({
     $target

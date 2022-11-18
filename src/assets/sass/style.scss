@@ -2,6 +2,12 @@
 
 $transition-time: 0.3s;
 
+%icon-format {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+}
+
 :root {
   --background-color: rgb(255, 255, 238);
   --text-primary: rgb(25, 25, 23);

@@ -1,5 +1,5 @@
 import Editor from "./Editor.js";
-import SchemeToggle from "./SchemeToggle.js";
+import Subdirectory from "./Subdirectory.js";
 import DocEditFooter from "./DocEditFooter.js";
 import { makeElement } from "../../util/templates.js";
 import { getDocument, editDocument } from "../api.js";
@@ -22,10 +22,6 @@ export default function DocEditPage({
 
   let docTempSaveKey = `tempSave-${this.state}`;
 
-  new SchemeToggle({
-    $target: $page,
-  });
-
   const editor = new Editor({
     $target: $page,
     onEdit: (document) => {
@@ -33,6 +29,10 @@ export default function DocEditPage({
       setAutoSave(tempDoc);
     },
   });
+
+  const subdirectory = new Subdirectory({
+    $target: $page
+  })
 
   new DocEditFooter({
     $target: $page,
@@ -91,6 +91,9 @@ export default function DocEditPage({
             return;
           }
         } else {
+          subdirectory.setState({
+            document: currentDoc
+          })
           editor.setState({
             title: currentDoc.title,
             content: currentDoc.content === null ? "" : currentDoc.content,

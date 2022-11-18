@@ -12,6 +12,7 @@
 .editor {
   display: flex;
   flex-direction: column;
+  margin-top: 50px;
 
   .title, .content {
     background-color: var(--background-color);
@@ -40,5 +41,38 @@
     margin-top: 10px;
     height: 50vh;
     resize: vertical;
+  }
+}
+
+.subdirectory {
+  width: calc(100% - 100px);
+  margin-right: 60px;
+  box-sizing: border-box;
+
+  .list-item {
+    display: block;
+    position: relative;
+
+    .title {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
+  .parent {
+    padding-left: 10px;
+
+    > .list-item {
+      position: relative;
+
+      &::before {
+        content: "\e981";
+        font-family: 'xeicon';
+        display: inline-block;
+        margin-right: 2px;
+        vertical-align: middle;
+      }
+    }
+    
   }
 }

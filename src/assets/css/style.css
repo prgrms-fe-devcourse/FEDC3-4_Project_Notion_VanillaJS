@@ -52,6 +52,11 @@ i[class^="xi"] span {
   position: absolute;
   left: -9999px; }
 
+.doc-list li.list-item .container .title i, .doc-list li.list-item .container .btn-container button {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px; }
+
 :root {
   --background-color: rgb(255, 255, 238);
   --text-primary: rgb(25, 25, 23);
@@ -105,9 +110,10 @@ body::before {
   position: relative; }
 
 .toggle-container {
-  position: relative;
-  width: 100%;
-  margin-bottom: 40px; }
+  position: fixed;
+  top: 30px;
+  right: 50px;
+  z-index: 1000; }
   .toggle-container label {
     position: absolute;
     right: 0;
@@ -205,9 +211,6 @@ body::before {
           justify-content: center;
           align-items: center;
           margin-right: 3px;
-          width: 18px;
-          height: 18px;
-          border-radius: 3px;
           transition: 0.3s; }
           .doc-list li.list-item .container .title i:hover {
             background-color: rgba(var(--color-secondary-rgb), 0.7); }
@@ -219,10 +222,7 @@ body::before {
         right: 5px;
         display: none; }
         .doc-list li.list-item .container .btn-container button {
-          width: 18px;
-          height: 18px;
           vertical-align: middle;
-          border-radius: 3px;
           position: relative; }
           .doc-list li.list-item .container .btn-container button i {
             position: absolute;
@@ -269,7 +269,8 @@ body::before {
 
 .editor {
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+  margin-top: 50px; }
   .editor .title, .editor .content {
     background-color: var(--background-color);
     color: var(--text-primary);
@@ -289,6 +290,27 @@ body::before {
     margin-top: 10px;
     height: 50vh;
     resize: vertical; }
+
+.subdirectory {
+  width: calc(100% - 100px);
+  margin-right: 60px;
+  box-sizing: border-box; }
+  .subdirectory .list-item {
+    display: block;
+    position: relative; }
+    .subdirectory .list-item .title {
+      display: inline-block;
+      vertical-align: middle; }
+  .subdirectory .parent {
+    padding-left: 10px; }
+    .subdirectory .parent > .list-item {
+      position: relative; }
+      .subdirectory .parent > .list-item::before {
+        content: "\e981";
+        font-family: 'xeicon';
+        display: inline-block;
+        margin-right: 2px;
+        vertical-align: middle; }
 
 .footer {
   position: relative;
