@@ -1,3 +1,5 @@
+@import "./color.scss";
+
 body {
   margin: 0;
 
@@ -25,7 +27,7 @@ body {
   margin-right: 150px;
 
   font-size: 15px;
-  background-color: #fbfbfa;
+  background-color: $BROWN_10;
 }
 
 .header {
@@ -41,12 +43,12 @@ body {
 
   p {
     margin: 0px;
-    color: #5e5c57;
+    color: $BROWN_80;
   }
 
   p:last-child {
     font-size: 5px;
-    color: #908f8c;
+    color: $BROWN_60;
   }
 }
 
@@ -59,11 +61,11 @@ body {
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #d3d1cb;
+    background-color: $BROWN_40;
   }
 
   &::-webkit-scrollbar-track-piece {
-    background-color: #edece9;
+    background-color: $BROWN_20;
   }
 
   .hide {
@@ -82,11 +84,11 @@ body {
   position: relative;
 
   border-radius: 5px;
-  color: #908f8c;
+  color: $BROWN_60;
   cursor: pointer;
 
   &:hover {
-    background-color: #ebebea;
+    background-color: $BROWN_20;
 
     .button-group > button {
       opacity: 1;
@@ -94,10 +96,10 @@ body {
   }
 
   &:active {
-    background-color: #d3d3d1;
+    background-color: $BROWN_30;
 
     .button-group > button {
-      background-color: #d3d3d1;
+      background-color: $BROWN_30;
     }
   }
 
@@ -109,7 +111,7 @@ body {
     border-radius: 5px;
 
     &:hover {
-      background-color: #dddddc;
+      background-color: $BROWN_30;
     }
   }
 
@@ -132,13 +134,13 @@ body {
 .no-sub-page {
   padding-left: 39px;
   user-select: none;
-  color: #b5b5b2;
+  color: $BROWN_50;
   cursor: default;
 }
 
 .active-post {
-  background-color: #ebebea;
-  color: #37352f;
+  background-color: $BROWN_20;
+  color: $BROWN_90;
   font-weight: bold;
 }
 
@@ -154,17 +156,17 @@ body {
     height: 20px;
     align-items: center;
 
-    background-color: #ebebea;
+    background-color: $BROWN_20;
     border: none;
     border-radius: 5px;
 
     font-size: 10px;
-    color: #676662;
+    color: $BROWN_70;
     line-height: 10px;
     opacity: 0;
 
     &:hover {
-      background-color: #dddddc;
+      background-color: $BROWN_30;
       cursor: pointer;
     }
   }
@@ -175,7 +177,7 @@ body {
   border: none;
   border-radius: 5px;
   font-size: 20px;
-  color: #8a8a8a;
+  color: $BROWN_60;
   cursor: pointer;
 }
 
@@ -199,16 +201,16 @@ body {
   text-align: left;
   background: none;
   border: none;
-  border-top: 1px solid #dddddc;
+  border-top: 1px solid $BROWN_30;
 
   font-size: 16px;
-  color: #908f8c;
+  color: $BROWN_60;
 
   cursor: pointer;
 
   &:hover {
-    border-top-color: #ebebea;
-    background-color: #ebebea;
+    border-top-color: $BROWN_20;
+    background-color: $BROWN_20;
   }
 }
 
@@ -249,11 +251,11 @@ body {
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: #d3d1cb;
+      background-color: $BROWN_40;
     }
 
     &::-webkit-scrollbar-track-piece {
-      background-color: #edece9;
+      background-color: $BROWN_20;
     }
   }
 }
