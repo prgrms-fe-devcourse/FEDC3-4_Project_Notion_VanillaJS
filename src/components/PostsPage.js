@@ -1,5 +1,5 @@
-import request from "/api/index.js";
 import { ACTIVE_LIST_KEY } from "../../config.js";
+import { request } from "../api/index.js";
 import { push } from "../routes/router.js";
 import { setItem } from "../utils/storage.js";
 import CreatePostButton from "./CreatePostButton.js";

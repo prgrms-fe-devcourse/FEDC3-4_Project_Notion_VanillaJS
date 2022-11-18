@@ -1,4 +1,4 @@
-import request from "/api/index.js";
+import { request } from "../api/index.js";
 import Editor from "./Editor.js";
 
 export default function PostEdit({ $target, initialState, addPost }) {
