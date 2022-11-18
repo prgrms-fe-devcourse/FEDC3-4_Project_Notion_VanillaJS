@@ -67,6 +67,7 @@ body ul {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
   border-radius: 5px;
   color: #908f8c;
   cursor: pointer;
@@ -92,8 +93,20 @@ body ul {
 .post > div > span:first-child:hover {
   background-color: #dddddc;
 }
-.post .no-sub-page {
+.post .post-title {
+  display: inline-block;
+  width: 170px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.post:hover .post-title {
+  width: 130px;
+}
+
+.no-sub-page {
   padding-left: 39px;
+  user-select: none;
   color: #b5b5b2;
   cursor: default;
 }
@@ -107,6 +120,8 @@ body ul {
 .button-group {
   display: flex;
   align-items: center;
+  position: absolute;
+  right: 0px;
   width: 50px;
 }
 .button-group > button {
