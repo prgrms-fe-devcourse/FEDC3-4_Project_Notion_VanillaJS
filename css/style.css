@@ -35,13 +35,16 @@ body ul {
   padding: 10px;
   border-radius: 13px;
 }
-.header p {
+.header .notion-title {
   margin: 0px;
   color: #5e5c57;
+  cursor: pointer;
 }
 .header p:last-child {
+  margin: 0px;
   font-size: 5px;
   color: #908f8c;
+  user-select: none;
 }
 
 .post-list {
@@ -218,6 +221,19 @@ body ul {
 }
 .editor .content::-webkit-scrollbar-track-piece {
   background-color: #ebebea;
+}
+
+.sub-post-list {
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #fbfbfa;
+  color: #5e5c57;
+}
+.sub-post-list > p {
+  margin: 0px;
+  padding: 10px;
+  font-weight: bold;
+  user-select: none;
 }
 
 /*# sourceMappingURL=style.css.map */

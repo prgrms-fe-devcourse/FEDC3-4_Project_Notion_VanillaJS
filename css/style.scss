@@ -18,7 +18,6 @@ body {
 }
 
 /* 사이드 바 */
-
 .posts-page {
   position: relative;
 
@@ -41,14 +40,17 @@ body {
     border-radius: 13px;
   }
 
-  p {
+  .notion-title {
     margin: 0px;
     color: $BROWN_80;
+    cursor: pointer;
   }
 
   p:last-child {
+    margin: 0px;
     font-size: 5px;
     color: $BROWN_60;
+    user-select: none;
   }
 }
 
@@ -220,7 +222,6 @@ body {
 }
 
 /* 에디터 */
-
 .editor {
   display: flex;
   flex-direction: column;
@@ -262,5 +263,19 @@ body {
     &::-webkit-scrollbar-track-piece {
       background-color: $BROWN_20;
     }
+  }
+}
+
+.sub-post-list {
+  padding: 5px;
+  border-radius: 5px;
+  background-color: $BROWN_10;
+  color: $BROWN_80;
+
+  & > p {
+    margin: 0px;
+    padding: 10px;
+    font-weight: bold;
+    user-select: none;
   }
 }

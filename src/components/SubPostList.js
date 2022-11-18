@@ -4,6 +4,7 @@ import { toggle } from "../utils/toggle.js";
 
 export default function SubPostList({ $target, initialState }) {
   const $subPostList = document.createElement("div");
+  $subPostList.classList.add("sub-post-list");
   $target.appendChild($subPostList);
 
   this.state = initialState;
@@ -14,7 +15,7 @@ export default function SubPostList({ $target, initialState }) {
   };
 
   this.render = () => {
-    $subPostList.innerHTML = "";
+    $subPostList.innerHTML = "<p>하위 문서 링크</p>";
     this.state.length && renderPosts($subPostList, this.state, true);
   };
 
