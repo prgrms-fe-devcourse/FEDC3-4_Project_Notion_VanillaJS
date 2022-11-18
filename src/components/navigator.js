@@ -41,7 +41,7 @@ export default function Navigator({
             };'>
                 <div class='icon-wrapper'>${isOpened ? chevronDownIcon : chevronIcon}</div>
                 <div class='icon-wrapper'>${documentIcon}</div>
-                <div class='title-wrapper' id='id-${id}'>
+                <div class='title-wrapper' id='id-${id}' data-title='${title}'>
                   ${title}
                   <div class='visible-when-hover'>
                     <div class='icon-wrapper document-delete'>${trashIcon}</div>

@@ -1,10 +1,11 @@
 import Navigator from './components/navigator.js';
 import Editor from './components/editor.js';
-import Blank from './components/home.js';
+import Home from './components/home.js';
 import { request } from './utils/api.js';
 import { initRouter, push } from './router.js';
 import { METHOD, STORAGE_KEY, TEXT } from './utils/constants.js';
 import { setItem, getItem, removeItem } from './utils/storage.js';
+import { getIdsThroughRoot } from './utils/getWayThroughRoot.js';
 
 export default function App({ target, initialState }) {
   const wrapper = document.createElement('div');
@@ -14,6 +15,7 @@ export default function App({ target, initialState }) {
   const currentDocument = getItem(documentLocalSaveKey, {
     title: '',
     content: '',
+    id: null,
   });
 
   const fetchDocuments = async () => {
@@ -34,6 +36,7 @@ export default function App({ target, initialState }) {
       const tempDocument = getItem(documentLocalSaveKey, {
         title: '',
         content: '',
+        id: null,
       });
 
       if (tempDocument.tempSaveDate && tempDocument.tempSaveDate > document.updatedAt) {
@@ -125,7 +128,7 @@ export default function App({ target, initialState }) {
         $currentNavigatorTitle.innerHTML !== document.title
       ) {
         $currentNavigatorTitle.innerHTML = document.title;
-        $currentEditorHeader.innerHTML = document.title;
+        $currentEditorHeader.lastElementChild.innerHTML = document.title;
       }
 
       if (timer !== null) {
@@ -146,38 +149,52 @@ export default function App({ target, initialState }) {
         );
 
         if (modifiedDocument) {
+          if (document.title !== this.state.document.title) {
+            let changedDocuments = getItem(STORAGE_KEY.CHANGED_DOCUMENTS, []);
+            changedDocuments = changedDocuments.filter(
+              (changedDocument) => changedDocument.id !== document.id,
+            );
+            setItem(STORAGE_KEY.CHANGED_DOCUMENTS, [
+              ...changedDocuments,
+              { id: document.id, title: document.title },
+            ]);
+          }
+
+          editor.handleTitleChangedDocuments();
           removeItem(documentLocalSaveKey);
           await fetchDocuments();
         }
       }, 250);
     },
     openDocument: async (targetDocumentId) => {
-      setItem(STORAGE_KEY.OPENED_DOCUMENTS, [
-        ...getItem(STORAGE_KEY.OPENED_DOCUMENTS),
-        targetDocumentId,
-      ]);
+      const ids = getIdsThroughRoot(wrapper, targetDocumentId);
+      setItem(STORAGE_KEY.OPENED_DOCUMENTS, [...getItem(STORAGE_KEY.OPENED_DOCUMENTS), ...ids]);
       push(`/documents/${targetDocumentId}`);
     },
   });
 
-  const blank = new Blank({ $target: wrapper, initialState: TEXT.DEFAULT_HOME_PAGE });
+  const home = new Home({ $target: wrapper, initialState: TEXT.DEFAULT_HOME_PAGE });
 
   this.render = () => {
     target.appendChild(wrapper);
   };
 
   this.route = async () => {
+    const $modal = wrapper.querySelector('.modal-wrapper');
+    if ($modal) {
+      wrapper.removeChild($modal);
+      $modal.innerHTML = '';
+    }
+
     const { pathname } = window.location;
     await fetchDocuments();
 
     if (pathname === '/') {
-      if (wrapper.querySelector('.editor')) {
-        editor.empty();
-      }
-      blank.render();
+      editor.remove();
+      home.render();
     } else if (pathname.indexOf('/documents/') === 0) {
       const [, , documentId] = pathname.split('/');
-      if (wrapper.querySelector('.home-page')) blank.empty();
+      home.remove();
       await fetchDocument(documentId);
     }
 

@@ -1,16 +1,18 @@
-export default function Blank({ $target, initialState }) {
-  const $blank = document.createElement('div');
-  $blank.classList.add('home-page');
+export default function Home({ $target, initialState }) {
+  const $home = document.createElement('div');
+  $home.classList.add('home-page');
 
   this.state = initialState;
 
-  $blank.innerHTML = this.state;
+  $home.innerHTML = this.state;
 
   this.render = () => {
-    $target.appendChild($blank);
+    $target.appendChild($home);
   };
 
-  this.empty = () => {
-    $target.removeChild($blank);
+  this.remove = () => {
+    if ($target.querySelector('.home-page')) {
+      $target.removeChild($home);
+    }
   };
 }

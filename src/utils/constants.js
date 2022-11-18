@@ -1,5 +1,6 @@
 export const STORAGE_KEY = {
   OPENED_DOCUMENTS: 'OPENED_DOCUMENTS',
+  CHANGED_DOCUMENTS: 'CHANGED_DOCUMENTS',
 };
 export const USER_NAME = 'ryu';
 export const TEXT = {
@@ -9,6 +10,7 @@ export const TEXT = {
   DEFAULT_HOME_PAGE: "Welcome to 건열's Notion!",
   DEFAULT_TITLE: '제목 없음',
   DEFAULT_CONTENT: '내용을 입력해주세요',
+  DEFAULT_MODAL_HEADER: '페이지 링크',
 };
 export const DEGREE = {
   OPENED: 0,
@@ -28,7 +30,6 @@ export const EVENT_KEY = {
     ALT: 'Alt',
     CONTROL: 'Control',
     CAPSLOCK: 'Capslock',
-    ESC: 'Escape',
     ARROW_UP: 'ArrowUp',
     ARROW_DOWN: 'ArrowDown',
     ARROW_LEFT: 'ArrowLeft',
@@ -36,6 +37,9 @@ export const EVENT_KEY = {
   },
   ENTER: 'Enter',
   SPACE: ' ',
+  BACKSPACE: 'Backspace',
+  AT: '@',
+  ESC: 'Escape',
 };
 export const ICON = {
   DOCUMENT: 'document',
@@ -45,6 +49,10 @@ export const ICON = {
 };
 export const EVENT = {
   KEYUP: 'keyup',
+  KEYDOWN: 'keydown',
   CLICK: 'click',
   SCROLL: 'scroll',
+  MOUSEUP: 'mouseup',
+  MOUSEDOWN: 'mousedown',
+  MOUSEMOVE: 'mousemove',
 };
