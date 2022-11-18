@@ -52,13 +52,15 @@ export default function NotionApp({ $container }) {
           )
         );
         deleteIsOpenState(removeIdList);
+        fetchDocumentList();
 
         if (removeIdList.includes(this.state.currentDocumentId)) {
-          // TODO: this.state.documentList이 없을 때 => 삭제한 게 유일한 문서였을 때, 어떻게 처리할 건지 -> / 로 보내기!
-          history.replaceState(null, null, `/documents/${this.state.documentList[0].id}`);
+          const hasDocumentList = this.state.documentList.length > 0;
+          const nextRoute = hasDocumentList ? `/documents/${this.state.documentList[0].id}` : `/`;
+
+          history.replaceState(null, null, nextRoute);
           route();
         }
-        fetchDocumentList();
       }
     },
   });
