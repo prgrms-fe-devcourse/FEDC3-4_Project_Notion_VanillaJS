@@ -11,7 +11,9 @@ export default function NavBar({ $container, initialState, onSelect, onAdd, onDe
   const addIsOpenState = (documents, openDocuments) => {
     return documents.map((document) => ({
       ...document,
-      documents: documents.length ? addIsOpenState(document.documents, openDocuments) : documents,
+      documents: document.documents.length
+        ? addIsOpenState(document.documents, openDocuments)
+        : document.documents,
       isOpen: openDocuments.includes(document.id),
     }));
   };
