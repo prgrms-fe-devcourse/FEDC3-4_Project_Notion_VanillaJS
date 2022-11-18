@@ -6,6 +6,17 @@ export const properties = {
   DOCUMENTS: "documents",
 };
 
+//Default values
+export const DEFAULT_TITLE = "제목 없음";
+export const ROOT_TITLE = "작업 중... 💨";
+export const REMOVED_DOC_TITLE = "삭제된 문서입니다.";
+export const DEFAULT_CONTENT = "내용을 입력해주세요";
+
+export const DOCUMENT_HEADER_CONTENT = "Notion";
+export const DOCUMENT_FOOTER_CONTENT = "New Doc";
+export const DISABLED_ID = -1;
+export const DEFAULT_ID = "new";
+
 //Default states
 export const DEFAULT_STATE = {
   id: DISABLED_ID,
@@ -18,17 +29,6 @@ export const REMOVED_DOC_STATE = {
   title: REMOVED_DOC_TITLE,
   content: "",
 };
-
-//Default values
-export const DEFAULT_TITLE = "제목 없음";
-export const ROOT_TITLE = "작업 중... 💨";
-export const REMOVED_DOC_TITLE = "삭제된 문서입니다."
-export const DEFAULT_CONTENT = "내용을 입력해주세요";
-
-export const DOCUMENT_HEADER_CONTENT = "Notion";
-export const DOCUMENT_FOOTER_CONTENT = "New Doc";
-export const DISABLED_ID = -1;
-export const DEFAULT_ID = "new";
 
 //Name Objects
 export const idNameObj = {
@@ -54,7 +54,7 @@ export const classNameObj = {
   SIDEBAR_DOCUMENT_LIST_CONTAINER: "sidebar-list-container",
   EDITOR_TOPBAR: "topbar",
   EDOTOR_EDITOR: "editor",
-  SCROLLBAR: "scrollbar"
+  SCROLLBAR: "scrollbar",
 };
 
 export const styleObj = {
@@ -80,4 +80,4 @@ export const EVENT_ROUTE_PUT = "route-put-document";
 export const EVENT_HEADER_CHANGE = "header-change";
 
 //url
-export const SLASH_DOCUMENTS = "/documents"
+export const SLASH_DOCUMENTS = "/documents";
