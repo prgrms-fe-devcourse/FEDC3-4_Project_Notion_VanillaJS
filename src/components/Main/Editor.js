@@ -1,11 +1,12 @@
 import { makeElement } from "../../util/templates.js";
+import { validateState } from "../../util/validate.js";
 
 export default function Edtior({
   $target,
-  initialState = {
+  initialState = (this.defaultState = {
     title: "",
     content: "",
-  },
+  }),
   onEdit,
 }) {
   const $editor = makeElement("div", "editor");
@@ -16,12 +17,17 @@ export default function Edtior({
 `;
 
   $target.appendChild($editor);
-
   this.state = initialState;
 
   this.setState = (nextState) => {
-    this.state = nextState;
-    this.render();
+    try {
+      validateState(nextState, this.defaultState);
+      this.state = nextState;
+      this.render();
+    } catch (e) {
+      alert(e.message);
+      console.error(e);
+    }
   };
 
   this.init = () => {
@@ -44,8 +50,6 @@ export default function Edtior({
 
     $title.value = title;
     $content.value = content;
-
-    $title.focus();
   };
 
   $editor.addEventListener("click", (e) => {

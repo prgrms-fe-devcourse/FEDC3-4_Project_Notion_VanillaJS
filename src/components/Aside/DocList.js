@@ -7,13 +7,14 @@ import {
   SET_SCROLL_POS,
   LIST_SCROLLTOP_SAVE_KEY,
 } from "../../util/scrollPos.js";
+import { validateState } from "../../util/validate.js";
 
 export default function DocList({
   $target,
-  initialState = {
+  initialState = (this.defaultState = {
     documents: [],
-    openedDocId,
-  },
+    openedDocId: "",
+  }),
   onSelect,
   onAdd,
   onRemove,
@@ -26,9 +27,13 @@ export default function DocList({
   this.state = initialState;
 
   this.setState = (nextState) => {
-    this.state = nextState;
-    console.log(this.state);
-    this.render();
+    try {
+      validateState(nextState, this.defaultState);
+      this.state = nextState;
+      this.render();
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   this.render = () => {
@@ -132,13 +137,13 @@ export default function DocList({
             return;
           }
           if (confirm("Are you sure you want to delete? 🚮")) {
-            setListScrollPos({ calculate: 'current' });
+            setListScrollPos({ calculate: "current" });
             onRemove(documentId, this.state.openedDocId);
           }
           break;
       }
     } else if (tagName === "A" && splitedClassName === "title") {
-      setListScrollPos({ calculate: 'current' });
+      setListScrollPos({ calculate: "current" });
       document
         .querySelectorAll(".list-item")
         .forEach(($li) => $li.classList.remove("on"));

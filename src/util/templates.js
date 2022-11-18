@@ -11,10 +11,10 @@ export const makeLi = (state) => {
       <div class="container">
         <a href="#" class="title"><i class="xi-angle-right-min view-more"><span>하위 게시글 보기</span></i>${title ? title : "Untitled"}</a>
         <div class=btn-container>
-          <button class="remove">
+          <button class="remove" title="Delete note">
             <i class="xi-trash-o remove"><span>삭제하기</span></i>
           </button>
-          <button class="add">
+          <button class="add" title="Add new note inside">
             <i class="xi-plus add"><span>추가하기</span></i>
           </button>
         </div>

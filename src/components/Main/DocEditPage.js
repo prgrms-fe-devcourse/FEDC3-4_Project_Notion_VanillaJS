@@ -5,14 +5,15 @@ import { makeElement } from "../../util/templates.js";
 import { getDocument, editDocument } from "../api.js";
 import { local } from "../../util/storage.js";
 import { debounce } from "../../util/helper.js";
-import { push } from "../router.js";
+import { push, ROOT } from "../router.js";
 import { setListScrollPos } from "../../util/scrollPos.js";
+import { validateState } from "../../util/validate.js";
 
 export default function DocEditPage({
   $target,
-  initialState = {
+  initialState = (this.defaultState = {
     documentId: "",
-  },
+  }),
 }) {
   const $page = makeElement("main", "doc-edit-page");
   $target.appendChild($page);
@@ -21,18 +22,12 @@ export default function DocEditPage({
 
   let docTempSaveKey = `tempSave-${this.state}`;
 
-  const document = local.getItem(docTempSaveKey, {
-    title: "",
-    content: "",
-  });
-
   new SchemeToggle({
     $target: $page,
   });
 
   const editor = new Editor({
     $target: $page,
-    initialState: document,
     onEdit: (document) => {
       const tempDoc = setTempSave(document);
       setAutoSave(tempDoc);
@@ -67,38 +62,44 @@ export default function DocEditPage({
         content: tempDoc.content,
       },
     });
-    setListScrollPos({ calculate: 'current' })
+    setListScrollPos({ calculate: "current" });
     push(this.state);
     local.removeItem(docTempSaveKey);
   }, 1000);
 
   this.setState = async (nextState) => {
-    this.state = nextState;
-    docTempSaveKey = `tempSave-${this.state}`;
-
-    if (!nextState) {
-      editor.init();
-    } else {
-      const currentDoc = await getDocument(this.state);
-      const tempDoc = local.getItem(docTempSaveKey, {
-        title: "",
-        content: "",
-      });
-
-      if (tempDoc.tempSaveAt && tempDoc.tempSaveAt > currentDoc.updatedAt) {
-        if (confirm("Unsaved work found! Would you like to retrieve?")) {
-          editor.setState({
-            title: tempDoc.title,
-            content: tempDoc.content,
-          });
-          return;
-        }
+    try {
+      validateState(nextState, this.defaultState);
+      this.state = nextState;
+      docTempSaveKey = `tempSave-${this.state}`;
+  
+      if (nextState === ROOT) {
+        editor.init();
       } else {
-        editor.setState({
-          title: currentDoc.title,
-          content: currentDoc.content,
+        const currentDoc = await getDocument(this.state);
+        const tempDoc = local.getItem(docTempSaveKey, {
+          title: "",
+          content: "",
         });
+  
+        if (tempDoc.tempSaveAt && tempDoc.tempSaveAt > currentDoc.updatedAt) {
+          if (confirm("Unsaved work found! Would you like to retrieve?")) {
+            editor.setState({
+              title: tempDoc.title,
+              content: tempDoc.content,
+            });
+            return;
+          }
+        } else {
+          editor.setState({
+            title: currentDoc.title,
+            content: currentDoc.content === null ? "" : currentDoc.content,
+          });
+        }
       }
+    } catch(e) {
+      alert(e.message);
+      console.error(e);
     }
   };
 }

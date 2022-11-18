@@ -1,4 +1,5 @@
 const ROUTE_CHANGE = "route-change";
+export const ROOT = "/";
 
 export const initRouter = (onRoute) => {
   window.addEventListener(ROUTE_CHANGE, (e) => {
