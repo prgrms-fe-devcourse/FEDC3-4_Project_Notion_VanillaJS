@@ -261,9 +261,13 @@ address {
 }
 .post-edit-page.expend {
   margin-left: 0;
+  width: 100vw;
 }
 .post-edit-page-header {
-  margin-bottom: 14px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 12px;
 }
 .post-edit-page-body {
   padding: 5.5rem;
