@@ -76,8 +76,10 @@ function DocumentEditPage({ $target }) {
       handleLocationChange(e, this.route)
     );
     window.addEventListener("popstate", () => {
-      route();
+      this.route();
     });
+
+    this.route();
   };
 
   this.init();
