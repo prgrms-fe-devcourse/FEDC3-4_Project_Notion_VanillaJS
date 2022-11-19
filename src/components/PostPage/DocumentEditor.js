@@ -7,9 +7,9 @@ import {
 import { validateInstance } from "../../utils/validation.js";
 import { DEFAULT_TEXT, STORAGE_KEY } from "../../utils/constants.js";
 import { setItem } from "../../utils/storage.js";
-import { customEvent } from "../../utils/custom-event.js";
+import { push } from "../../utils/router.js";
 
-export default function Editor({
+export default function DocumentEditor({
   $target,
   initialState,
   onEditTitle,
@@ -18,7 +18,7 @@ export default function Editor({
   validateInstance(new.target);
 
   const $editor = document.createElement("div");
-  $editor.classList.add("post-edit-page-body");
+  $editor.classList.add("document-editor");
 
   $target.appendChild($editor);
 
@@ -35,12 +35,12 @@ export default function Editor({
     $editor.innerHTML = `
       ${renderTextStyleMenu()}
       ${renderTextColorStyleMenu()}
-      <div class="selected-post-title">
+      <div class="selected-document-title">
         <div class="title" spellcheck="true" contenteditable="true" placeholder="${
           DEFAULT_TEXT.TITLE
         }"></div>
       </div>
-      <div class="selected-post-content">
+      <div class="selected-document-content">
         <div class="content" spellcheck="true" contenteditable="true" placeholder="${
           DEFAULT_TEXT.CONTENT
         }"></div>
@@ -60,7 +60,7 @@ export default function Editor({
     if (this.state[type] !== undefined) {
       const nextState = { ...this.state, [type]: target.innerHTML.trim() };
 
-      const id = nextState.postId;
+      const id = nextState.documentId;
       const data = {
         title: nextState.title,
         content: nextState.content,
@@ -80,7 +80,7 @@ export default function Editor({
     if ($childDocument) {
       const { id } = $childDocument.dataset;
 
-      customEvent.push(`/documents/${id}`);
+      push(`/documents/${id}`);
       setItem(STORAGE_KEY.SELECTED_DOCUMENT, id);
     }
   };

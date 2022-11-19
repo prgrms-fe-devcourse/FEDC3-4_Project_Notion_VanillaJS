@@ -11,7 +11,7 @@ export default function SidebarFooter({ $target, onCreateDocument }) {
   this.render = () => {
     $footer.innerHTML = `
       <div class="icon-plus">
-        <img src="/src/assets/plus.svg" alt="create new post" />
+        <img src="/src/assets/plus.svg" alt="create new document" />
       </div>
       <span class="title">새 페이지</span>
     `;

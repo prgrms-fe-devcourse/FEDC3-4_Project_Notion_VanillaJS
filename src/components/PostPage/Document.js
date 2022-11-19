@@ -1,29 +1,28 @@
-import PostPageHeader from "./PostPageHeader.js";
-import Editor from "./Editor.js";
+import DocumentHeader from "./DocumentHeader.js";
+import Editor from "./DocumentEditor.js";
 
 import { modifyDocuments } from "../../api/api.js";
 
 import { validateInstance } from "../../utils/validation.js";
 import { debounce } from "../../utils/debounce.js";
-import { customEvent } from "../../utils/custom-event.js";
 
-export default function PostPage({ $target, initialState }) {
+export default function Document({ $target, initialState, onUpdateTitle }) {
   validateInstance(new.target);
 
-  const $postPage = document.createElement("div");
-  $postPage.classList.add("post-edit-page");
+  const $document = document.createElement("div");
+  $document.classList.add("document");
 
   this.state = initialState;
 
-  new PostPageHeader({ $target: $postPage });
+  new DocumentHeader({ $target: $document });
 
   const editor = new Editor({
-    $target: $postPage,
+    $target: $document,
     initialState,
     onEditTitle: (id, data) => {
       debounce(async () => {
         await modifyDocuments(id, data);
-        customEvent.updateState();
+        onUpdateTitle();
       }, 100);
     },
     onEditContent: (id, data) => {
@@ -41,6 +40,6 @@ export default function PostPage({ $target, initialState }) {
   };
 
   this.render = () => {
-    $target.appendChild($postPage);
+    $target.appendChild($document);
   };
 }

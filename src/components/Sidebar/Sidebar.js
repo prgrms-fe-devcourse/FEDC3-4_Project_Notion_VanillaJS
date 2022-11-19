@@ -12,7 +12,6 @@ import SidebarFooter from "./SidebarFooter.js";
 import { validateInstance } from "../../utils/validation.js";
 import { STORAGE_KEY, STATE, DEFAULT_TEXT } from "../../utils/constants.js";
 import { setItem, getItem, removeItem } from "../../utils/storage.js";
-import { addEvent } from "../../utils/custom-event.js";
 
 export default function Sidebar({ $target, initialState = [] }) {
   validateInstance(new.target);
@@ -23,8 +22,8 @@ export default function Sidebar({ $target, initialState = [] }) {
   this.state = initialState;
 
   this.setState = async () => {
-    const postList = await getRootDouments();
-    sidebarNav.setState(postList);
+    const documentList = await getRootDouments();
+    sidebarNav.setState(documentList);
 
     this.render();
   };
@@ -126,6 +125,4 @@ export default function Sidebar({ $target, initialState = [] }) {
   this.render = () => {
     $target.appendChild($sidebar);
   };
-
-  addEvent.updateState(() => this.setState());
 }

@@ -1,10 +1,10 @@
 import Sidebar from "./components/Sidebar/Sidebar.js";
-import PostPage from "./components/PostPage/PostPage.js";
+import DocumentPage from "./components/PostPage/Document.js";
 
 import { getDocumentContent } from "./api/api.js";
 
 import { validateInstance } from "./utils/validation.js";
-import { addEvent } from "./utils/custom-event.js";
+import { initRouter } from "./utils/router.js";
 
 export default function App({ $target }) {
   validateInstance(new.target);
@@ -14,12 +14,15 @@ export default function App({ $target }) {
 
   const sidebar = new Sidebar({ $target: $app });
 
-  const postPage = new PostPage({
+  const documentPage = new DocumentPage({
     $target: $app,
     initialState: {
-      postId: 0,
+      documentId: 0,
       title: "",
       content: "",
+    },
+    onUpdateTitle: () => {
+      sidebar.setState();
     },
   });
 
@@ -29,13 +32,13 @@ export default function App({ $target }) {
     if (pathname === "/") {
       sidebar.setState();
     } else if (pathname.indexOf("/documents/") === 0) {
-      const [, , postId] = pathname.split("/");
+      const [, , documentId] = pathname.split("/");
 
-      const documentData = await getDocumentContent(postId);
+      const documentData = await getDocumentContent(documentId);
 
       const { title, content, documents } = documentData;
-      postPage.setState({
-        postId,
+      documentPage.setState({
+        documentId,
         title,
         content,
         documents,
@@ -48,7 +51,7 @@ export default function App({ $target }) {
   const init = () => {
     this.route();
 
-    addEvent.initRouter(() => this.route());
+    initRouter(this.route);
 
     window.addEventListener("popstate", () => {
       this.route();

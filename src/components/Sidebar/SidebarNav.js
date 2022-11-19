@@ -1,7 +1,7 @@
 import { validateInstance } from "../../utils/validation.js";
 import { STORAGE_KEY, STATE, DEFAULT_TEXT } from "../../utils/constants.js";
 import { getItem, setItem } from "../../utils/storage.js";
-import { customEvent } from "../../utils/custom-event.js";
+import { push } from "../../utils/router.js";
 
 export default function SidebarBody({
   $target,
@@ -27,7 +27,7 @@ export default function SidebarBody({
   this.render = () => {
     $nav.innerHTML = "";
     $nav.innerHTML = `
-      <ul class="post-list">
+      <ul class="document-list">
         ${createDocument(this.state, 0)}
       </ul>`;
   };
@@ -37,14 +37,14 @@ export default function SidebarBody({
 
     if (documents.length) {
       return `
-        <ul class="post-list">
+        <ul class="document-list">
           ${createDocument(documents, depth + 1)}
         </ul>`;
     }
 
     return `
-      <li class="post-item">
-        <div class="no-post-item" style="margin-left: ${padding}px;">
+      <li class="document-item">
+        <div class="no-document-item" style="margin-left: ${padding}px;">
           하위 페이지 없음
         </div>
       </li>`;
@@ -62,10 +62,12 @@ export default function SidebarBody({
         const buttonDirection = isOpened ? "is-rotate" : "";
 
         return `
-          <li class="post-item" data-id=${id}>
-            <div class="post-item-container ${isSelected ? "is-active" : ""}">
-              <div class="post-item-container-left">
-                <button class="post-item-button open-button" style="margin-left: ${padding}px;">
+          <li class="document-item" data-id=${id}>
+            <div class="document-item-container ${
+              isSelected ? "is-active" : ""
+            }">
+              <div class="document-item-container-left">
+                <button class="document-item-button open-button" style="margin-left: ${padding}px;">
                   <img class="${buttonDirection}" src="/src/assets/arrow.svg" />
                 </button>
                 <div class="icon-document">
@@ -73,12 +75,12 @@ export default function SidebarBody({
                 </div>
                 <div class="title">${title ? title : DEFAULT_TEXT.TITLE}</div>
               </div>
-              <div class="post-item-container-right hide">
-                <button class="post-item-button delete-button" title="페이지 삭제">
+              <div class="document-item-container-right hide">
+                <button class="document-item-button delete-button" title="페이지 삭제">
                   <img src="/src/assets/trash.svg" />
                 </button>
-                <button class="post-item-button create-button" title="하위 페이지 추가">
-                  <img src="/src/assets/plus.svg" alt="create new post" />
+                <button class="document-item-button create-button" title="하위 페이지 추가">
+                  <img src="/src/assets/plus.svg" alt="create new document" />
                 </button>
               </div>
             </div>
@@ -90,12 +92,12 @@ export default function SidebarBody({
 
   $nav.addEventListener("click", async (e) => {
     const $button = e.target.closest("button");
-    const $postItem = e.target.closest("li");
+    const $documentItem = e.target.closest("li");
 
     if ($button) {
-      const $postItem = $button.closest("li");
+      const $documentItem = $button.closest("li");
       const className = $button.classList;
-      const id = Number($postItem.dataset.id);
+      const id = Number($documentItem.dataset.id);
 
       if (className.contains("open-button")) {
         const $svg = $button.querySelector("img");
@@ -110,11 +112,11 @@ export default function SidebarBody({
       }
     }
 
-    if ($postItem) {
-      const { id } = $postItem.dataset;
+    if ($documentItem) {
+      const { id } = $documentItem.dataset;
       setItem(STORAGE_KEY.SELECTED_DOCUMENT, id);
 
-      customEvent.push(`/documents/${id}`);
+      push(`/documents/${id}`);
     }
   });
 }

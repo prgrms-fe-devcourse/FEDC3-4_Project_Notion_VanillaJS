@@ -1,15 +1,15 @@
 import { validateInstance } from "../../utils/validation.js";
 
-export default function PostPageHeader({ $target }) {
+export default function DocumentHeader({ $target }) {
   validateInstance(new.target);
 
-  const $postPageHeader = document.createElement("div");
-  $postPageHeader.classList.add("post-edit-page-header");
+  const $documentHeader = document.createElement("div");
+  $documentHeader.classList.add("document-header");
 
-  $target.appendChild($postPageHeader);
+  $target.appendChild($documentHeader);
 
   this.render = () => {
-    $postPageHeader.innerHTML = `
+    $documentHeader.innerHTML = `
       <button class="open-button" title="사이드바 열기">
         <img src="/src/assets/menu.svg"/>
       </button>
@@ -21,17 +21,17 @@ export default function PostPageHeader({ $target }) {
 
     if ($openButton) {
       const $sidebar = document.querySelector(".sidebar");
-      const $postPage = document.querySelector(".post-edit-page");
+      const $document = document.querySelector(".document");
 
       $sidebar.classList.remove("slide");
-      $postPage.classList.remove("expend");
+      $document.classList.remove("expend");
     }
   };
 
   const init = () => {
     this.render();
 
-    $postPageHeader.addEventListener("click", openSidebar);
+    $documentHeader.addEventListener("click", openSidebar);
   };
 
   init();

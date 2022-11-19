@@ -237,7 +237,7 @@ address {
   cursor: pointer;
 }
 
-.post-edit-page {
+.document {
   position: relative;
   width: calc(100vw - 240px);
   height: 100vh;
@@ -249,37 +249,37 @@ address {
   overflow-y: auto;
   overscroll-behavior: contain;
 }
-.post-edit-page::-webkit-scrollbar {
+.document::-webkit-scrollbar {
   width: 10px;
 }
-.post-edit-page::-webkit-scrollbar-thumb {
+.document::-webkit-scrollbar-thumb {
   height: 30%;
   background-color: rgba(55, 53, 47, 0.2);
 }
-.post-edit-page::-webkit-scrollbar-track {
+.document::-webkit-scrollbar-track {
   background-color: rgba(55, 53, 47, 0.08);
 }
-.post-edit-page.expend {
+.document.expend {
   margin-left: 0;
   width: 100vw;
 }
-.post-edit-page-header {
+.document-header {
   position: fixed;
   top: 0;
   left: 0;
   padding: 12px;
 }
-.post-edit-page-body {
+.document-editor {
   padding: 5.5rem;
 }
-.post-edit-page-body [contenteditable] {
+.document-editor [contenteditable] {
   outline: 0px solid transparent;
 }
-.post-edit-page-body [contenteditable="true"]:empty::before {
+.document-editor [contenteditable="true"]:empty::before {
   content: attr(placeholder);
   -webkit-text-fill-color: rgba(55, 53, 47, 0.5);
 }
-.post-edit-page-body .selected-post-title {
+.document-editor .selected-document-title {
   display: flex;
   align-items: center;
   color: #37352f;
@@ -289,7 +289,7 @@ address {
   cursor: text;
   margin-bottom: 8px;
 }
-.post-edit-page-body .selected-post-content {
+.document-editor .selected-document-content {
   display: flex;
   align-items: flex-start;
   flex-direction: column;
@@ -297,8 +297,8 @@ address {
   font-size: 16px;
   line-height: 1.5;
 }
-.post-edit-page-body .title,
-.post-edit-page-body .content {
+.document-editor .title,
+.document-editor .content {
   max-width: 100%;
   width: 100%;
   word-break: break-word;
@@ -389,20 +389,20 @@ address {
   cursor: pointer;
 }
 
-.post-list {
+.document-list {
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
 }
 
-.post-item {
+.document-item {
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 1px 0;
 }
-.post-item-container {
+.document-item-container {
   position: relative;
   display: flex;
   justify-content: space-between;
@@ -411,12 +411,12 @@ address {
   padding: 6px;
   border-radius: 3px;
 }
-.post-item-container-left,
-.post-item-container-right {
+.document-item-container-left,
+.document-item-container-right {
   display: flex;
   align-items: center;
 }
-.post-item-container-right {
+.document-item-container-right {
   position: absolute;
   top: 0;
   right: 0;
@@ -424,20 +424,20 @@ address {
   border-radius: 3px;
   background-color: #e8e7e4;
 }
-.post-item-container .hide {
+.document-item-container .hide {
   display: none;
 }
-.post-item-container:hover .hide {
+.document-item-container:hover .hide {
   display: flex;
 }
-.post-item-container:hover {
+.document-item-container:hover {
   background-color: #e8e7e4;
   cursor: pointer;
 }
-.post-item-container.is-active {
+.document-item-container.is-active {
   background-color: #e8e7e4;
 }
-.post-item-button {
+.document-item-button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -451,19 +451,19 @@ address {
   cursor: pointer;
   z-index: 10;
 }
-.post-item-button > img {
+.document-item-button > img {
   transition: all 100ms ease-in;
 }
-.post-item-button.delete-button {
+.document-item-button.delete-button {
   margin-right: 2px;
 }
-.post-item-button:hover {
+.document-item-button:hover {
   background-color: rgba(55, 53, 47, 0.2);
 }
-.post-item-button .is-rotate {
+.document-item-button .is-rotate {
   transform: rotateZ(90deg);
 }
-.post-item .no-post-item {
+.document-item .no-document-item {
   padding: 6px;
 }
 

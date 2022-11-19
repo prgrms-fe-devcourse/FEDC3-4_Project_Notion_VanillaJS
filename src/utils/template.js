@@ -1,3 +1,5 @@
+import { DEFAULT_TEXT } from "./constants.js";
+
 export const renderChildDocuments = (documents) => {
   if (documents.length) {
     return `
@@ -11,7 +13,11 @@ export const renderChildDocuments = (documents) => {
                     <div class="icon-document">
                       <img src="/src/assets/document.svg" />
                     </div>
-                    <div class="child-document-title">${document.title}</div>
+                    <div class="child-document-title">${
+                      document.title === ""
+                        ? DEFAULT_TEXT.TITLE
+                        : document.title
+                    }</div>
                   </div>
                 </li>`
             )

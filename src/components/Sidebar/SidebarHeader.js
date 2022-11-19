@@ -24,10 +24,10 @@ export default function SidebarHeader({ $target }) {
 
     if ($closeButton) {
       const $sidebar = document.querySelector(".sidebar");
-      const $postEditPage = document.querySelector(".post-edit-page");
+      const $document = document.querySelector(".document");
 
       $sidebar.classList.add("slide");
-      $postEditPage.classList.add("expend");
+      $document.classList.add("expend");
     }
   };
 
