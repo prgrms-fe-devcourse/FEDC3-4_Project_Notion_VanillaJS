@@ -19,6 +19,7 @@
     "no-new": "off",
     "import/extensions": "off",
     "no-console": ["warn", { "allow": ["error"] }],
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "class-methods-use-this": "off"
   }
 }

@@ -1,104 +1,59 @@
-import request from '../api/index.js';
-import { getItem, setItem } from '../utils/storage.js';
-import ModalContainer from './modal/ModalContainer.js';
+import { readRootDocuments } from '../api/notionApi.js';
 
-import PostPage from './posts/PostPage.js';
-import SidebarPage from './sidebar/SidebarPage.js';
+import { getItem } from '../utils/storage.js';
+import { NOTION_CURRENT_STATE } from '../utils/constants.js';
 
-const NOTION_CURRENT_STATE = 'NOTION_CURRENT_STATE';
+import PostContainer from './posts/PostContainer.js';
+import SidebarContainer from './sidebar/SidebarContainer.js';
 
-class App {
-  constructor($target) {
-    this.$target = $target;
+function App({ $target }) {
+  this.state = {
+    allList: [],
+    currentDocument: getItem(NOTION_CURRENT_STATE, {
+      id: '',
+      title: '',
+      content: '',
+    }),
+  };
 
-    this.state = {
-      allList: [],
-      currentList: getItem(NOTION_CURRENT_STATE, {
-        id: '',
-        title: '',
-        content: '',
-      }),
-    };
+  const sidebarContainer = new SidebarContainer({
+    $target,
+    initialState: this.state,
+    onRenderApp: nextState => {
+      this.setState(nextState);
+    },
+  });
 
-    let timer = null;
+  const postContainer = new PostContainer({
+    $target,
+    initialState: this.state,
+    onRenderApp: nextState => {
+      this.setState(nextState);
+    },
+  });
 
-    this.sidebarPage = new SidebarPage({
-      $target: this.$target,
-      initialState: this.state.allList,
+  this.setState = nextState => {
+    // if (Array.isArray(nextState)) {
+    //   this.state.allList = nextState;
+    // } else {
+    //   this.state.currentDocument = nextState;
+    // }
 
-      onClickDoucmentList: data => {
-        const { id, title, content } = data;
-        const nextcurrentListState = { id, title, content };
-
-        this.setState({
-          allList: [...this.state.allList],
-          currentList: nextcurrentListState,
-        });
-
-        setItem(NOTION_CURRENT_STATE, nextcurrentListState);
-      },
-
-      onAddRootDocumentList: () => {
-        new ModalContainer({ $target: this.$target });
-      },
-    });
-
-    this.postPage = new PostPage({
-      $target: this.$target,
-      initialState: this.state.currentList,
-
-      onInputTitle: async postState => {
-        const currentListIndex = this.state.allList.findIndex(
-          documentList => documentList.id === postState.id
-        );
-        const nextState = {
-          currentList: {
-            id: postState.id,
-            title: postState.title,
-            content: postState.content,
-          },
-          allList: this.state.allList,
-        };
-        nextState.allList[currentListIndex] = nextState.currentList;
-
-        this.setState(nextState);
-
-        if (timer !== null) {
-          clearTimeout(timer);
-        }
-
-        timer = setTimeout(async () => {
-          setItem(NOTION_CURRENT_STATE, postState);
-
-          await request(`documents/${postState.id}`, {
-            method: 'PUT',
-            body: JSON.stringify({
-              title: postState.title,
-              content: postState.content,
-            }),
-          });
-        }, 500);
-      },
-    });
-
-    this.readAllDoucmentList();
-  }
-
-  setState(nextState) {
     this.state = nextState;
 
-    this.postPage.setState(this.state.currentList);
-    this.sidebarPage.setState(this.state.allList);
-  }
+    sidebarContainer.setState(this.state);
+    postContainer.setState(this.state);
+  };
 
-  async readAllDoucmentList() {
-    const data = await request('documents');
-
-    this.setState({
-      ...this.state,
+  this.render = async () => {
+    const data = await readRootDocuments();
+    const nextState = {
       allList: data,
-    });
-  }
+      currentDocument: this.state.currentDocument,
+    };
+
+    this.setState(nextState);
+  };
 }
 
 export default App;
