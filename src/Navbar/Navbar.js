@@ -9,83 +9,80 @@ import NavbarDocumentList from './NavbarDocumentList.js';
 import NavbarHeader from './NavbarHeader.js';
 
 function Navbar({ target }) {
-  isNew(new.target);
-  const nav = createElement('nav');
-  nav.className = 'sidebar';
+    isNew(new.target);
+    const nav = createElement('nav');
+    nav.className = 'sidebar';
 
-  new NavbarHeader({
-    target: nav,
-    initialState: {
-      text: 'Notion',
-      button: {
-        text: '+',
-      },
-    },
-  });
+    new NavbarHeader({
+        target: nav,
+        initialState: {
+            text: 'Notion',
+        },
+    });
 
-  const documentList = new NavbarDocumentList({
-    target: nav,
-    initialState: [],
-    onDelete: async (id) => {
-      // 현재 Document 삭제하게 되면 하위 Documents 전부 삭제
-      const findCurrentId = () => {
-        const rootDocument = [...documentList.state];
+    const documentList = new NavbarDocumentList({
+        target: nav,
+        initialState: [],
+        onDelete: async (id) => {
+            const findCurrentId = () => {
+                const rootDocument = [...documentList.state];
 
-        while (rootDocument.length > 0) {
-          const cur = rootDocument.shift();
+                while (rootDocument.length > 0) {
+                    const cur = rootDocument.shift();
 
-          if (parseInt(cur.id) === parseInt(id)) {
-            console.log(cur);
-            return cur;
-          }
+                    if (parseInt(cur.id) === parseInt(id)) {
+                        console.log(cur);
+                        return cur;
+                    }
 
-          cur.documents.forEach((el) => {
-            rootDocument.push(el);
-          });
-        }
-      };
+                    cur.documents.forEach((el) => {
+                        rootDocument.push(el);
+                    });
+                }
+            };
+            // 현재 하위 document 가 3개 이상이면 하위 document 값이 삭제가 안되고 있음
+            // 하위 document 2개씩만 삭제되는 현상
 
-      // 현재 하위 document 가 3개 이상이면 하위 document 값이 삭제가 안되고 있음
-      // 하위 document 2개씩만 삭제되는 현상
-      const handlerDelete = async () => {
-        const currentDocument = findCurrentId();
+            const handlerDelete = async () => {
+                const currentDocument = findCurrentId();
 
-        const que = [currentDocument];
+                let que = [currentDocument];
 
-        const queId = [currentDocument.id];
+                const queId = [currentDocument.id];
 
-        while (que.length > 0) {
-          const current = que.shift();
-          current.documents.forEach((el) => {
-            que.push(el);
-            queId.push(el.id);
-          });
+                while (que.length > 0) {
+                    const current = que.shift();
+                    current.documents.forEach((el) => {
+                        que.push(el);
+                        queId.push(el.id);
+                    });
 
-          for (let i of queId) {
-            await deleteMethod(i);
-          }
-        }
-      };
+                    for (let i of queId) {
+                        await deleteMethod(i);
+                        que = [];
+                    }
+                }
+            };
 
-      await handlerDelete();
-      route('/');
-    },
+            await handlerDelete();
+            route('/');
+        },
 
-    onAdd: async (id) => {
-      const newPost = await addMethod(id);
-      route(`${documentsUrl}/${newPost.id}`);
-    },
-  });
+        onAdd: async (id) => {
+            const newPost = await addMethod(id);
+            route(`${documentsUrl}/${newPost.id}`);
+        },
+    });
 
-  this.setState = async () => {
-    const posts = await request(`${documentsUrl}`);
-    documentList.setState(posts);
-    this.render();
-  };
+    this.setState = async () => {
+        const posts = await request(`${documentsUrl}`);
+        documentList.setState(posts);
+        this.render();
+    };
 
-  this.render = async () => {
-    target.appendChild(nav);
-  };
+    this.render = async () => {
+        target.appendChild(nav);
+    };
 }
 
 export default Navbar;

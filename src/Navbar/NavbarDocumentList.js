@@ -4,32 +4,30 @@ import { route } from '../utils/route.js';
 import { documentsUrl } from '../utils/util.js';
 
 function NavbarDocumentList({ target, initialState, onDelete, onAdd }) {
-  isNew(new.target);
-  const postList = createElement('div');
+    isNew(new.target);
+    const postList = createElement('div');
 
-  target.appendChild(postList);
+    target.appendChild(postList);
 
-  this.state = initialState;
+    this.state = initialState;
 
-  this.setState = (nextState) => {
-    this.state = nextState;
-    this.render();
-  };
+    this.setState = (nextState) => {
+        this.state = nextState;
+        this.render();
+    };
 
-  this.render = () => {
-    postList.innerHTML = paintDocument(this.state);
-    onClickDocument();
-  };
+    this.render = () => {
+        postList.innerHTML = paintDocument(this.state);
+        onClickDocument();
+    };
 
-  const paintDocument = (docuements) => {
-    return `
-            <ul class="document-list">
-            
+    const paintDocument = (docuements) => {
+        return `
+              <ul class="document-list">
+              
         ${docuements
-          .map(
-            (post) => `
-
-
+            .map(
+                (post) => `
           <li class="list-style-type" id="${post.id}">
             
             <div class="row-item">
@@ -47,30 +45,29 @@ function NavbarDocumentList({ target, initialState, onDelete, onAdd }) {
             ${post.documents.length ? paintDocument(post.documents) : ''}
           </li>
         `,
-          )
-          .join('')}
+            )
+            .join('')}
       </ul>
         `;
-  };
+    };
 
-  const onClickDocument = () => {
-    const ul = postList.querySelector('.document-list');
+    const onClickDocument = () => {
+        const ul = postList.querySelector('.document-list');
 
-    ul.addEventListener('click', (e) => {
-      const postId = targetClosest(e, 'li').id;
-      console.log();
+        ul.addEventListener('click', (e) => {
+            const postId = targetClosest(e, 'li').id;
 
-      if (targetContains(e, 'fa-minus-square')) {
-        onDelete(postId);
-      } else if (targetContains(e, 'fa-plus-square')) {
-        onAdd(postId);
-      } else {
-        // refactor 해야함
-        route(`${documentsUrl}/${postId}`);
-      }
-    });
-  };
-  this.render();
+            if (targetContains(e, 'fa-minus-square')) {
+                onDelete(postId);
+            } else if (targetContains(e, 'fa-plus-square')) {
+                onAdd(postId);
+            } else {
+                // refactor 해야함
+                route(`${documentsUrl}/${postId}`);
+            }
+        });
+    };
+    this.render();
 }
 
 export default NavbarDocumentList;
