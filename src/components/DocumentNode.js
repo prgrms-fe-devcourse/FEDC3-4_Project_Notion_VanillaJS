@@ -90,7 +90,7 @@ function DocumentNode({ $target, initialState, onCreate, onDelete }) {
     const { documentId } = $li.dataset;
 
     if (documentId) {
-      navigate(`/document/${documentId}`);
+      navigate(`/documents/${documentId}`);
     }
   };
 

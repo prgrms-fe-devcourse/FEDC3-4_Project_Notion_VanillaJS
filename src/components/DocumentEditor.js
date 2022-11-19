@@ -89,7 +89,7 @@ function DocumentEditor({ $target, initialState, onChange }) {
 
     if ($a) {
       const [, , , , documentId] = $a.href.split("/");
-      navigate(`/document/${documentId}`);
+      navigate(`/documents/${documentId}`);
     }
   });
 }
