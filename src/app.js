@@ -22,7 +22,7 @@ export default function App({ $target, initialState }) {
     const documents = await request('/documents');
     if (documents && documents.length) {
       this.setState({ documents });
-      navigator.setState({ openedDocuments: getItem(STORAGE_KEY.OPENED_DOCUMENTS) });
+      navigator.setState({ openedDocuments: getItem(STORAGE_KEY.OPENED_DOCUMENTS, []) });
       editor.setState({ documents });
       navigator.render();
     }
@@ -52,7 +52,7 @@ export default function App({ $target, initialState }) {
     }
 
     this.setState({ document });
-    editor.setState({ document });
+    editor.setState({ document: document });
     editor.render();
   };
 
@@ -158,9 +158,10 @@ export default function App({ $target, initialState }) {
               ...changedDocuments,
               { id: document.id, title: document.title },
             ]);
+            editor.handleTitleChangedDocuments();
           }
 
-          editor.handleTitleChangedDocuments();
+          editor.setState({ document });
           removeItem(documentLocalSaveKey);
           await fetchDocuments();
         }
@@ -168,7 +169,7 @@ export default function App({ $target, initialState }) {
     },
     openDocument: async (targetDocumentId) => {
       const ids = getIdsThroughRoot($wrapper, targetDocumentId);
-      setItem(STORAGE_KEY.OPENED_DOCUMENTS, [...getItem(STORAGE_KEY.OPENED_DOCUMENTS), ...ids]);
+      setItem(STORAGE_KEY.OPENED_DOCUMENTS, [...getItem(STORAGE_KEY.OPENED_DOCUMENTS, []), ...ids]);
       push(`/documents/${targetDocumentId}`);
     },
   });

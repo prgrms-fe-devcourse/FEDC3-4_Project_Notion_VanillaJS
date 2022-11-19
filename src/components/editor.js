@@ -249,9 +249,11 @@ export default function Editor({
       });
 
       if (changed) {
-        onEditing({
-          ...this.state.document,
-          content: $editor.querySelector('[name=content]').innerHTML,
+        this.setState({
+          document: {
+            ...this.state.document,
+            content: $editor.querySelector('[name=content]').innerHTML,
+          },
         });
       }
     }
