@@ -9,7 +9,7 @@ function DocumentEditor({ $target, initialState, onChange }) {
   $editor.className = "document-editor";
   $target.appendChild($editor);
 
-  this.debounce = null;
+  let debounce = null;
 
   this.state = initialState;
 
@@ -65,11 +65,11 @@ function DocumentEditor({ $target, initialState, onChange }) {
     const $title = document.querySelector(`.${editorDocumentTitle}`);
     const $content = document.querySelector(`.${editorDocumentContent}`);
 
-    if (this.debounce) {
-      clearTimeout(this.debounce);
+    if (debounce) {
+      clearTimeout(debounce);
     }
 
-    this.debounce = setTimeout(() => {
+    debounce = setTimeout(() => {
       onChange($title.value, $content.innerText);
     }, 500);
   };

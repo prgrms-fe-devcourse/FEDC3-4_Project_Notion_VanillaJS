@@ -7,6 +7,7 @@ import DocumentNode from "./DocumentNode.js";
 import { className } from "../utils/constants.js";
 import { messages } from "../utils/messages.js";
 import { navigate } from "../utils/router.js";
+import { getDocumentIdFromPathname } from "../utils/documentId.js";
 
 function DocumentTree({ $target, initialState }) {
   const $tree = document.createElement("section");
@@ -24,8 +25,7 @@ function DocumentTree({ $target, initialState }) {
   };
 
   const checkDocumentIdAndRoute = (documentId) => {
-    const [, , currentDocumentId] = location.pathname.split("/");
-    if (currentDocumentId === documentId) {
+    if (getDocumentIdFromPathname() === documentId) {
       navigate("/");
     }
   };

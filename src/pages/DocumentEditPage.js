@@ -2,6 +2,7 @@ import DocumentEditor from "../components/DocumentEditor.js";
 import DocumentTree from "../components/DocumentTree.js";
 import { getDocumentDetail, updateDocument } from "../apis/documentApi.js";
 import { handleLocationChange } from "../utils/router.js";
+import { getDocumentIdFromPathname } from "../utils/documentId.js";
 
 function DocumentEditPage({ $target }) {
   const $editPage = document.createElement("div");
@@ -28,7 +29,7 @@ function DocumentEditPage({ $target }) {
 
   this.route = async () => {
     const { pathname } = window.location;
-    const [, , documentId] = pathname.split("/");
+    const documentId = getDocumentIdFromPathname();
 
     if (pathname === "/") {
       $editor.innerHTML = "";
@@ -68,7 +69,6 @@ function DocumentEditPage({ $target }) {
     });
 
     documentTree.getData();
-    return;
   };
 
   this.init = () => {
