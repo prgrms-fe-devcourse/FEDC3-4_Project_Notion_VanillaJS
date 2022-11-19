@@ -22,5 +22,5 @@ export const updateDocument = async (documentId, data) => {
 
 export const deleteDocument = async (documentId) => {
   const response = await request(`/documents/${documentId}`, "DELETE");
-  console.log(response);
+  return response;
 };
