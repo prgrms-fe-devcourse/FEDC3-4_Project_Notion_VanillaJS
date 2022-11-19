@@ -1,7 +1,7 @@
-import { ROUTE_CHANGE_EVENT_NAME } from './utils/constants.js';
+import { EVENT } from './utils/constants.js';
 
 export const initRouter = (onRoute) => {
-  window.addEventListener(ROUTE_CHANGE_EVENT_NAME, (e) => {
+  window.addEventListener(EVENT.ROUTECHANGE, (e) => {
     const { nextUrl } = e.detail;
 
     if (nextUrl) {
@@ -13,7 +13,7 @@ export const initRouter = (onRoute) => {
 
 export const push = (nextUrl) => {
   window.dispatchEvent(
-    new CustomEvent(ROUTE_CHANGE_EVENT_NAME, {
+    new CustomEvent(EVENT.ROUTECHANGE, {
       detail: {
         nextUrl,
       },

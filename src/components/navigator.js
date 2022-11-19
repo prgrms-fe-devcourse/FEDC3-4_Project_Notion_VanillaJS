@@ -1,17 +1,17 @@
-import Icon from './icons/index.js';
-import { setItem } from '../utils/storage.js';
-import { STORAGE_KEY, TEXT, DEGREE, ICON, EVENT } from '../utils/constants.js';
 import { push } from '../router.js';
+import { DEGREE, EVENT, ICON, STORAGE_KEY, TEXT } from '../utils/constants.js';
+import { setItem } from '../utils/storage.js';
+import Icon from './icons/index.js';
 
 export default function Navigator({
-  target,
+  $target,
   initialState = { openedDocuments: [], documents: [] },
   addDocument,
   deleteDocument,
   openDocument,
 }) {
-  const navigator = document.createElement('div');
-  navigator.classList.add('navigator', 'flex-item');
+  const $navigator = document.createElement('div');
+  $navigator.classList.add('navigator', 'flex-item');
 
   const documentIcon = Icon({ icon: ICON.DOCUMENT });
   const chevronIcon = Icon({ icon: ICON.CHEVRON });
@@ -19,7 +19,7 @@ export default function Navigator({
   const plusIcon = Icon({ icon: ICON.PLUS });
   const trashIcon = Icon({ icon: ICON.TRASH });
 
-  target.appendChild(navigator);
+  $target.appendChild($navigator);
   this.state = initialState;
 
   this.setState = (nextState) => {
@@ -58,7 +58,7 @@ export default function Navigator({
   };
 
   this.setEvent = () => {
-    const chevrons = navigator.querySelectorAll('.chevron');
+    const chevrons = $navigator.querySelectorAll('.chevron');
     [].forEach.call(chevrons, (chevron) => {
       chevron.addEventListener(EVENT.CLICK, (e) => {
         e.stopPropagation();
@@ -98,7 +98,7 @@ export default function Navigator({
       });
     });
 
-    const $addDocuments = navigator.querySelectorAll('.document-add');
+    const $addDocuments = $navigator.querySelectorAll('.document-add');
     [].forEach.call($addDocuments, ($addDocument) => {
       $addDocument.addEventListener(EVENT.CLICK, (e) => {
         e.stopPropagation();
@@ -107,7 +107,7 @@ export default function Navigator({
       });
     });
 
-    const $deleteDocuments = navigator.querySelectorAll('.document-delete');
+    const $deleteDocuments = $navigator.querySelectorAll('.document-delete');
     [].forEach.call($deleteDocuments, ($deleteDocument) => {
       $deleteDocument.addEventListener(EVENT.CLICK, (e) => {
         e.stopPropagation();
@@ -121,7 +121,7 @@ export default function Navigator({
       });
     });
 
-    const $documents = navigator.querySelectorAll('.document.document-item');
+    const $documents = $navigator.querySelectorAll('.document.document-item');
     [].forEach.call($documents, ($document) => {
       $document.addEventListener(
         EVENT.CLICK,
@@ -134,7 +134,7 @@ export default function Navigator({
       );
     });
 
-    const $scroller = navigator.querySelector('.scroller');
+    const $scroller = $navigator.querySelector('.scroller');
     $scroller.addEventListener(EVENT.SCROLL, (e) => {
       const { scrollTop, offsetHeight, scrollHeight } = e.target;
       if (scrollTop === 0 || scrollTop + offsetHeight === scrollHeight) {
@@ -144,12 +144,12 @@ export default function Navigator({
       }
     });
 
-    const $header = navigator.querySelector('.navigator-header');
+    const $header = $navigator.querySelector('.navigator-header');
     $header.addEventListener(EVENT.CLICK, (e) => push('/'));
   };
 
   this.render = () => {
-    navigator.innerHTML = `
+    $navigator.innerHTML = `
         <div class='navigator-header'>${TEXT.DEFAULT_HEADER}</div>
         <div class='scroller'>
           <div class='documents-wrapper'>

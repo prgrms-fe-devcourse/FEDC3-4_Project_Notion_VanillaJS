@@ -1,5 +1,5 @@
-import Document from './document.js';
 import Chevron from './chevron.js';
+import Document from './document.js';
 import Plus from './plus.js';
 import Trash from './trash.js';
 

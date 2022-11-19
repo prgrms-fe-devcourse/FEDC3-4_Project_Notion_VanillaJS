@@ -1,15 +1,15 @@
-import Navigator from './components/navigator.js';
 import Editor from './components/editor.js';
 import Home from './components/home.js';
-import { request } from './utils/api.js';
+import Navigator from './components/navigator.js';
 import { initRouter, push } from './router.js';
-import { METHOD, STORAGE_KEY, TEXT } from './utils/constants.js';
-import { setItem, getItem, removeItem } from './utils/storage.js';
+import { request } from './utils/api.js';
+import { METHOD, STORAGE_KEY, TEXT, EVENT } from './utils/constants.js';
 import { getIdsThroughRoot } from './utils/getWayThroughRoot.js';
+import { getItem, removeItem, setItem } from './utils/storage.js';
 
-export default function App({ target, initialState }) {
-  const wrapper = document.createElement('div');
-  wrapper.classList.add('flex-row', 'full-size');
+export default function App({ $target, initialState }) {
+  const $wrapper = document.createElement('div');
+  $wrapper.classList.add('flex-row', 'full-size');
 
   let documentLocalSaveKey = '';
   const currentDocument = getItem(documentLocalSaveKey, {
@@ -65,7 +65,7 @@ export default function App({ target, initialState }) {
   };
 
   const navigator = new Navigator({
-    target: wrapper,
+    $target: $wrapper,
     initialState: this.state,
     addDocument: async (targetDocumentId) => {
       const document = await request(
@@ -118,11 +118,11 @@ export default function App({ target, initialState }) {
   let timer = null;
 
   const editor = new Editor({
-    target: wrapper,
+    $target: $wrapper,
     initialState: { document: currentDocument, documents: this.state.documents },
     onEditing: (document) => {
-      const $currentNavigatorTitle = wrapper.querySelector(`#id-${document.id}`);
-      const $currentEditorHeader = wrapper.querySelector('.editor-header');
+      const $currentNavigatorTitle = $wrapper.querySelector(`#id-${document.id}`);
+      const $currentEditorHeader = $wrapper.querySelector('.editor-header');
       if (
         typeof document.title !== 'undefined' &&
         $currentNavigatorTitle.innerHTML !== document.title
@@ -167,22 +167,22 @@ export default function App({ target, initialState }) {
       }, 250);
     },
     openDocument: async (targetDocumentId) => {
-      const ids = getIdsThroughRoot(wrapper, targetDocumentId);
+      const ids = getIdsThroughRoot($wrapper, targetDocumentId);
       setItem(STORAGE_KEY.OPENED_DOCUMENTS, [...getItem(STORAGE_KEY.OPENED_DOCUMENTS), ...ids]);
       push(`/documents/${targetDocumentId}`);
     },
   });
 
-  const home = new Home({ $target: wrapper, initialState: TEXT.DEFAULT_HOME_PAGE });
+  const home = new Home({ $target: $wrapper, initialState: TEXT.DEFAULT_HOME_PAGE });
 
   this.render = () => {
-    target.appendChild(wrapper);
+    $target.appendChild($wrapper);
   };
 
   this.route = async () => {
-    const $modal = wrapper.querySelector('.modal-wrapper');
+    const $modal = $wrapper.querySelector('.modal-wrapper');
     if ($modal) {
-      wrapper.removeChild($modal);
+      $wrapper.removeChild($modal);
       $modal.innerHTML = '';
     }
 
@@ -203,7 +203,7 @@ export default function App({ target, initialState }) {
 
   this.route();
 
-  window.addEventListener('popstate', () => this.route());
+  window.addEventListener(EVENT.POPSTATE, () => this.route());
 
   initRouter(() => this.route());
 }

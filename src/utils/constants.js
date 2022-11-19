@@ -16,7 +16,6 @@ export const DEGREE = {
   OPENED: 0,
   CLOSED: -90,
 };
-export const ROUTE_CHANGE_EVENT_NAME = 'routing-change';
 export const METHOD = {
   GET: 'GET',
   POST: 'POST',
@@ -55,4 +54,6 @@ export const EVENT = {
   MOUSEUP: 'mouseup',
   MOUSEDOWN: 'mousedown',
   MOUSEMOVE: 'mousemove',
+  POPSTATE: 'popstate',
+  ROUTECHANGE: 'routing-change',
 };

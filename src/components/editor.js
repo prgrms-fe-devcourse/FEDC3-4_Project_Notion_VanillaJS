@@ -1,11 +1,11 @@
-import { TEXT, EVENT_KEY, EVENT, STORAGE_KEY } from '../utils/constants.js';
-import Modal from './modal.js';
-import { getItem } from '../utils/storage.js';
-import { getTitlesThroughRoot } from '../utils/getWayThroughRoot.js';
+import { EVENT, EVENT_KEY, STORAGE_KEY, TEXT } from '../utils/constants.js';
 import { getLowerDocuments } from '../utils/getDocuments.js';
+import { getTitlesThroughRoot } from '../utils/getWayThroughRoot.js';
+import { getItem } from '../utils/storage.js';
+import Modal from './modal.js';
 
 export default function Editor({
-  target,
+  $target,
   initialState = {
     document: {
       title: '',
@@ -17,8 +17,8 @@ export default function Editor({
   onEditing,
   openDocument,
 }) {
-  const editor = document.createElement('div');
-  editor.classList.add('editor', 'flex-item', 'flex-column');
+  const $editor = document.createElement('div');
+  $editor.classList.add('editor', 'flex-item', 'flex-column');
 
   this.state = initialState;
 
@@ -29,8 +29,8 @@ export default function Editor({
   };
 
   this.setEvent = () => {
-    const $title = editor.querySelector('[name=title]');
-    const $content = editor.querySelector('[name=content]');
+    const $title = $editor.querySelector('[name=title]');
+    const $content = $editor.querySelector('[name=content]');
 
     if ($title) {
       $title.addEventListener(EVENT.KEYUP, (e) => {
@@ -67,10 +67,9 @@ export default function Editor({
             anchorNode.classList = '';
           } else {
             $parent.classList = '';
-            // $parent.innerHTML = '<br>';
           }
         } else if (e.key === EVENT_KEY.SPACE) {
-          if (anchorNode.nodeName === '#text' && target.querySelector('.modal-wrapper')) {
+          if (anchorNode.nodeName === '#text' && $target.querySelector('.modal-wrapper')) {
             const $parent = anchorNode.parentNode;
             const text = $parent.innerHTML;
             const keyword = text.substr(text.lastIndexOf(EVENT_KEY.AT) + 1);
@@ -152,7 +151,7 @@ export default function Editor({
           const text = $parent.innerHTML;
           removeModal($parent, text);
         } else {
-          if (anchorNode.nodeName === '#text' && target.querySelector('.modal-wrapper')) {
+          if (anchorNode.nodeName === '#text' && $target.querySelector('.modal-wrapper')) {
             const $parent = anchorNode.parentNode;
             const text = $parent.innerHTML;
             const keyword = text.substr(text.lastIndexOf(EVENT_KEY.AT) + 1);
@@ -175,7 +174,7 @@ export default function Editor({
   };
 
   const modal = new Modal({
-    $target: target,
+    $target,
     initialState: {
       documents: this.state.documents,
     },
@@ -184,11 +183,11 @@ export default function Editor({
         ...this.state.document,
         content: content,
       });
-      setEventAfterRender();
+      setDocumentLinkEvents();
     },
   });
 
-  editor.innerHTML = `
+  $editor.innerHTML = `
       <div class='editor-header flex-row' name='header'></div>
       <div class='editor-title' contenteditable placeholder='${TEXT.DEFAULT_TITLE}'' name='title'></div>
       <div class='editor-content' contenteditable name='content' placeholder='${TEXT.DEFAULT_CONTENT}'></div>
@@ -196,29 +195,29 @@ export default function Editor({
     `;
 
   this.render = () => {
-    target.appendChild(editor);
+    $target.appendChild($editor);
     const { title, content, documents, id } = this.state.document;
-    const titles = getTitlesThroughRoot(target, id);
-    editor.querySelector('[name=header]').innerHTML = `
+    const titles = getTitlesThroughRoot($target, id);
+    $editor.querySelector('[name=header]').innerHTML = `
       ${titles
         .map((title, index) => {
           return `
-          <div class='editor-header-content'>${title}</div>
-          ${index !== titles.length - 1 ? `<span class='editor-header-slash'>/</span>` : ''}
-        `;
+            <div class='editor-header-content'>${title}</div>
+            ${index !== titles.length - 1 ? `<span class='editor-header-slash'>/</span>` : ''}
+          `;
         })
         .join('')}
     `;
-    editor.querySelector('[name=title]').textContent = title;
-    editor.querySelector('[name=content]').innerHTML = content;
-    editor.querySelector('[name=footer]').innerHTML = getLowerDocuments(editor, documents);
+    $editor.querySelector('[name=title]').textContent = title;
+    $editor.querySelector('[name=content]').innerHTML = content;
+    $editor.querySelector('[name=footer]').innerHTML = getLowerDocuments($editor, documents);
 
     this.handleTitleChangedDocuments();
-    setEventAfterRender();
+    setDocumentLinkEvents();
   };
 
-  const setEventAfterRender = () => {
-    const $documentLinks = editor.querySelectorAll('.document-link');
+  const setDocumentLinkEvents = () => {
+    const $documentLinks = $editor.querySelectorAll('.document-link');
 
     if ($documentLinks && $documentLinks.length) {
       [].forEach.call($documentLinks, ($documentLink) => {
@@ -231,7 +230,7 @@ export default function Editor({
   };
 
   this.handleTitleChangedDocuments = () => {
-    const $documentLinks = editor.querySelectorAll('span.document-link');
+    const $documentLinks = $editor.querySelectorAll('span.document-link');
     const changedDocuments = getItem(STORAGE_KEY.CHANGED_DOCUMENTS, []);
 
     if ($documentLinks && $documentLinks.length && changedDocuments && changedDocuments.length) {
@@ -252,22 +251,22 @@ export default function Editor({
       if (changed) {
         onEditing({
           ...this.state.document,
-          content: editor.querySelector('[name=content]').innerHTML,
+          content: $editor.querySelector('[name=content]').innerHTML,
         });
       }
     }
   };
 
   const removeModal = ($parent, text) => {
-    if (text.at(-1) === '@' && target.querySelector('.modal-wrapper')) {
+    if (text.at(-1) === '@' && $target.querySelector('.modal-wrapper')) {
       $parent.classList.remove('current-link');
       modal.remove();
     }
   };
 
   this.remove = () => {
-    if (target.querySelector('.editor')) {
-      target.removeChild(editor);
+    if ($target.querySelector('.editor')) {
+      $target.removeChild($editor);
     }
   };
 
