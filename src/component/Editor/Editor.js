@@ -7,7 +7,6 @@ export default function Editor({ $target, initialState, onEditing }) {
   $target.appendChild($editor);
 
   this.state = initialState;
-
   this.setState = (nextState) => {
     this.state = nextState;
     $('[name=title]', $editor).value = this.state.title;
@@ -16,21 +15,21 @@ export default function Editor({ $target, initialState, onEditing }) {
 
   const editorContent = (title = '', content = '') => {
     return `
-         <input
-            class="editor-title"
-            type="text"
-            name="title"
-            id="title"
-            value="${title}"
-            placeholder="제목 없음"
-          />
-          <textarea
-            class="editor-content"
-            name="content"
-            id="content"
-            placeholder="내용을 입력하세요..😁"
-          >${content}</textarea>
-    `;
+           <input
+              class="editor-title"
+              type="text"
+              name="title"
+              id="title"
+              value="${title}"
+              placeholder="제목 없음"
+            />
+            <textarea
+              class="editor-content"
+              name="content"
+              id="content"
+              placeholder="내용을 입력하세요..😁"
+            >${content}</textarea>
+      `;
   };
 
   this.render = () => {
@@ -48,7 +47,13 @@ export default function Editor({ $target, initialState, onEditing }) {
         ...this.state,
         [nameValue]: target.value,
       };
-      console.log(nextState);
+      if (nameValue === 'title') {
+        // 방법이 두가지, state를 넘겨주어서 처리? 아니면 바로 여기서 처리
+        const $li = document.getElementById(`${this.state.id}`);
+        const $span = $('span', $li);
+        $span.textContent = target.value;
+      }
+
       onEditing(nextState);
     }
   });

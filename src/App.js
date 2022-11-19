@@ -2,8 +2,9 @@ import { request } from './api/request.js';
 import EditorContainer from './component/Editor/EditorContainer.js';
 import ModalContainer from './component/Modal/ModalContainer.js';
 import SideBarContainer from './component/SideBar/SideBarContainer.js';
-import { initRouter } from './lib/router.js';
-// import { $ } from './lib/utils.js';
+import { initRouter, push } from './lib/router.js';
+import { getItem, setItem } from './lib/storage.js';
+import { $ } from './lib/utils.js';
 
 export default function App({ $target }) {
   this.state = {
@@ -11,11 +12,11 @@ export default function App({ $target }) {
     id: '',
     title: '',
     content: '',
+    isInitialize: false,
   };
 
   this.setState = (nextState) => {
     this.state = nextState;
-
     sidebarContainer.setState(this.state);
     editorContainer.setState({
       id: this.state.id,
@@ -29,10 +30,13 @@ export default function App({ $target }) {
       method: 'GET',
     });
     const nextState = [...data];
-    this.setState({
-      ...this.state,
-      list: nextState,
-    });
+    if (!this.state.isInitialize) {
+      this.setState({
+        ...this.state,
+        list: nextState,
+        isInitialize: !this.state.isInitialize,
+      });
+    }
   };
 
   // Container
@@ -40,14 +44,16 @@ export default function App({ $target }) {
     $target,
     initialState: {},
     getData,
-    setEditor: (id, title, content) => {
-      this.setState({
+    setEditor: (id, title = '', content = '') => {
+      editorContainer.setState({
         ...this.state,
         id,
         title,
-        content: content ? content : '',
+        content,
       });
     },
+    // Root Document 추가가 했다는 state변경
+    setNewRootDocument: (nextState) => {},
   });
 
   const editorContainer = new EditorContainer({
@@ -62,24 +68,24 @@ export default function App({ $target }) {
   new ModalContainer({
     $target,
     initialState: {},
-
-    // modal 띄워질 시 list 스크롤 고정
-
     // 타이틀이 없거나 제목 없음일 경우 리스트에서 삭제.
     clearUntitledDocument: () => {
-      const nextState = {
-        ...this.state,
-        list: [...this.state.list],
-      };
-      // 맨 마지막에 추가헀던 요소 삭제
-      if (nextState.list[nextState.list.length - 1].id === 'new') {
-        nextState.list.pop();
+      const $li = document.getElementById('new');
+      const parent = $li.parentElement;
+      parent.removeChild($li);
+      const $list = parent.closest('.list');
+      const $toggler = $('.toggler', parent.parentElement);
+
+      if ($('li', parent) === null) {
+        $toggler.classList.toggle('active');
       }
-      this.setState(nextState);
+
+      setItem('VirtualDOM', $list.innerHTML);
     },
 
     // 타이틀이 있으면 해당 RootDocument 추가
     postDocument: async (title, content, id) => {
+      // 타이틀과 Id로 데이터 추가
       const postData = await request('/documents', {
         method: 'POST',
         body: JSON.stringify({
@@ -88,8 +94,10 @@ export default function App({ $target }) {
         }),
       });
 
+      // 추가한 데이터로 화면 리렌더링
       await getData();
 
+      // 해당 데이터 id의 내용 수정해놓기
       await request(`/documents/${postData.id}`, {
         method: 'PUT',
         body: JSON.stringify({
@@ -97,6 +105,18 @@ export default function App({ $target }) {
           content,
         }),
       });
+
+      // 받은 postData를 돔요소에 추가, localStorage저장만 하면 된다 아인교
+      // id바꾸고 추가도 해야되네.
+      const $li = document.getElementById('new');
+      $li.setAttribute('id', postData.id);
+      const $span = $(`span[data-id='new']`);
+      $span.setAttribute('data-id', postData.id);
+      const $list = $span.closest('.list');
+
+      setItem('VirtualDOM', $list.innerHTML);
+
+      push(`/documents/${postData.id}`);
     },
 
     switchFullScreen: (title, content) => {
@@ -117,12 +137,9 @@ export default function App({ $target }) {
 
     if (pathname.indexOf('/documents/') === 0) {
       const [, , documentId] = pathname.split('/');
-
       if (documentId) {
-        const data = await request(`/documents/${documentId}`, {
-          method: 'GET',
-        });
-        this.setState({
+        const data = await request(`/documents/${documentId}`);
+        editorContainer.setState({
           ...this.state,
           id: data.id,
           title: data.title,

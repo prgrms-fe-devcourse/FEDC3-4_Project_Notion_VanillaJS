@@ -1,3 +1,5 @@
+import { VIRTUAL_DOM } from '../../lib/constants.js';
+import { setItem } from '../../lib/storage.js';
 import { $ } from '../../lib/utils.js';
 
 // 여기서 꺼내야할 데이터 => title 새로 생긴 리스트와 같이 업데이트 해줘야 함
@@ -30,14 +32,20 @@ export default function ModalEditor({ $target, setParentId }) {
     const { target } = e;
     const nameValue = target.getAttribute('name');
 
+    // 사이드 바 제목 바꿔주기
     if (nameValue === 'title') {
       const value = e.target.value;
-      const $span = $('[data-id=new]', document);
+      const $span = $('[data-id=new]');
       $span.textContent = value;
 
       const $ul = $span.closest('ul');
       const $li = $ul.closest('li');
+      const $list = $ul.closest('.list');
 
+      // 고칠 부분
+      setItem(VIRTUAL_DOM, $list.innerHTML);
+
+      // 부모에다가 넣기 위해 부모 id 값 받아와 넘기기
       const id = $li ? $li.getAttribute('id') : null;
       setParentId(id);
     }

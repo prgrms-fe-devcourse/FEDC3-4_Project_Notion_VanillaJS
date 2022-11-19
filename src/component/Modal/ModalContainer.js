@@ -39,16 +39,18 @@ export default function ModalContainer({
     const titleValue = title.value + '';
     const contentValue = content.value + '';
 
-    titleValue === '' || titleValue === '제목없음'
-      ? clearUntitledDocument()
-      : postDocument(titleValue, contentValue, id);
+    if (titleValue === '' || titleValue === '제목없음') {
+      clearUntitledDocument();
+    } else {
+      postDocument(titleValue, contentValue, id);
+    }
 
     title.value = '';
     content.value = '';
     onClose();
   };
 
-  // editor로
+  // editor로 state 보내주기
   const sendStatesToEditor = () => {
     const { id } = this.state;
     const title = $modalContainer ? $('[name=title]', $modalContainer) : '';

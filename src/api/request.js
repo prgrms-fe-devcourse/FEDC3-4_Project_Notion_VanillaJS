@@ -1,4 +1,5 @@
 import { API_END_POINT } from '../lib/apiEndPoint.js';
+import { USER_NAME } from '../lib/constants.js';
 
 export const request = async (url, options = {}) => {
   try {
@@ -6,7 +7,7 @@ export const request = async (url, options = {}) => {
       ...options,
       headers: {
         'Content-Type': 'application/json',
-        'x-username': 'roto',
+        'x-username': USER_NAME,
       },
     });
 

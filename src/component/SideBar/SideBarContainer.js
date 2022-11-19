@@ -2,7 +2,6 @@ import { request } from '../../api/request.js';
 import { USER_NAME } from '../../lib/constants.js';
 import { push } from '../../lib/router.js';
 import { $, showModal } from '../../lib/utils.js';
-
 import Footer from './Footer.js';
 import Header from './Header.js';
 import TextList from './TextList.js';
@@ -12,6 +11,7 @@ export default function SideBarContainer({
   initialState,
   getData,
   setEditor,
+  setNewRootDocument,
 }) {
   const $sideBar = document.createElement('div');
   $sideBar.className = 'sideBar-container';
@@ -40,41 +40,30 @@ export default function SideBarContainer({
     initialState: {
       list: this.state,
     },
-    addChildDocument: () => {
-      showModal();
-    },
     requestRemoveDocument: async (id) => {
       await request(`/documents/${id}`, {
         method: 'DELETE',
       });
       await getData();
+      setEditor(id);
     },
     requestDocumentDetail: async (id) => {
-      push(`/documents/${id}`);
-      const documentDetail = await request(`/documents/${id}`, {
-        method: 'GET',
-      });
+      const documentDetail = await request(`/documents/${id}`);
 
       const { title, content } = documentDetail;
       setEditor(id, title, content);
+      push(`/documents/${id}`);
     },
   });
 
   new Footer({
     $target: $sideBar,
-    addRootDocument: () => {
+    addNewDocument: () => {
+      textList.addRootDocument();
+      // 추후 작업들은 모달에서 알아서 함
       showModal();
-
-      const newRootData = {
-        id: 'new',
-        title: '제목없음',
-      };
-
-      const nextState = {
-        list: [...this.state.list, newRootData],
-      };
-
-      this.setState(nextState);
+      // 위로 올려주고, 위에서 setState를 해야지 이게 맞지
+      // setNewRootDocument(nextState);
     },
     holdListScroll: () => {
       const $list = $('.list', $target);

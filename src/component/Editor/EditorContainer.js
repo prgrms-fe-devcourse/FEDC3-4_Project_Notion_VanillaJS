@@ -32,8 +32,8 @@ export default function EditorContainer({ $target, initialState }) {
             content,
           }),
         });
-        // history.replaceState(null, null, `/documents/${id}`);
-      }, 1000);
+        history.replaceState(null, null, `/documents/${id}`);
+      }, 500);
     },
   });
 }
