@@ -1,3 +1,5 @@
+import { $ } from '../utils/utils.js';
+
 export default function Editor({ $container, initialState, onEdit }) {
   const $editor = document.createElement('div');
   $editor.className = 'editor hide';
@@ -22,27 +24,23 @@ export default function Editor({ $container, initialState, onEdit }) {
     }
 
     $editor.classList.remove('hide');
-    $container.querySelector('input').value = title;
-    $container.querySelector('textarea').value = content;
+    $('#title').value = title;
+    $('#content').value = content;
   };
 
-  let timer = null;
-  $container.addEventListener('input', (e) => {
-    const { id, value } = e.target;
-    if (!id) return;
+  const bindEvent = () => {
+    $editor.addEventListener('input', (e) => {
+      const { id } = e.target;
+      if (!id) return;
 
-    // 디바운스 아닌가? 스로틀?
-    if (timer) {
-      clearTimeout(timer);
-    }
-
-    timer = setTimeout(() => {
-      const newState = {
+      this.setState({
         ...this.state,
-        [id]: value,
-      };
-      console.log(id); // id로 title 변경인지, content변경인지 체크
-      onEdit(newState);
-    }, 1000);
-  });
+        [id]: e.target.value,
+      });
+
+      onEdit({ ...this.state });
+    });
+  };
+
+  bindEvent();
 }

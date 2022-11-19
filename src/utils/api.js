@@ -17,3 +17,11 @@ export const request = async (url, option = {}) => {
     console.log(e.message);
   }
 };
+
+export const updateDocumentContent = async (documentContent) => {
+  const { id, title, content } = documentContent;
+  return await request(`/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({ title, content }),
+  });
+};

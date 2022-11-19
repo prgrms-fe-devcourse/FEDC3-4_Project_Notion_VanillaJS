@@ -1,5 +1,6 @@
-import { request } from '../utils/api.js';
+import { request, updateDocumentContent } from '../utils/api.js';
 import { documentContentDefaultValue } from '../utils/constants.js';
+import { debounce } from '../utils/utils.js';
 import Editor from './Editor.js';
 import EmptyContent from './EmptyContent.js';
 
@@ -50,19 +51,15 @@ export default function DocumentEditorPage({
     $container: $editor,
   });
 
+  const updateDocument = async (documentContent) => {
+    await updateDocumentContent(documentContent);
+    editor.setState(documentContent);
+    onEditDocumentTitle();
+  };
+
   const editor = new Editor({
     $container: $editor,
     initialState: documentContentDefaultValue,
-    onEdit: async (documentContent) => {
-      console.log(documentContent); // 애초에 여기서 마지막 변경사항만 오네..! 이벤트 지연 -> 마지막 이벤트만 실행시키기 때문!
-      const { id, title, content } = documentContent;
-      editor.setState(documentContent);
-
-      await request(`/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify({ title, content }),
-      });
-      onEditDocumentTitle();
-    },
+    onEdit: debounce(updateDocument, 800),
   });
 }

@@ -26,3 +26,20 @@ export const deleteIsOpenState = (removeIdList) => {
   const nextIsOpenState = currentIsOpenState.filter((id) => !removeIdList.includes(Number(id)));
   setItem(DOCUMENT_ISOEPN_LOCAL_KEY, nextIsOpenState);
 };
+
+export const $ = (selector) => {
+  return document.querySelector(selector);
+};
+
+export const debounce = (executeFunction, delaySeconds) => {
+  let timerId = null;
+  return (...args) => {
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+
+    timerId = setTimeout(() => {
+      executeFunction(...args);
+    }, delaySeconds);
+  };
+};

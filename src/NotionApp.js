@@ -29,14 +29,13 @@ export default function NotionApp({ $container }) {
     onAdd: async (parentId) => {
       const createDocument = await request('/', {
         method: 'POST',
-        body: JSON.stringify({ title: '제목없음', parent: parentId }),
+        body: JSON.stringify({ title: '', parent: parentId }),
       });
       history.pushState(null, null, `/documents/${createDocument.id}`);
       this.setState({
         ...this.state,
         currentDocumentId: createDocument.id,
       });
-      // FIXME: (간헐적)제목없음 추가 후, 수정할 때 -> 제목 반영안됨(간헐적인데..어떤 상황에서 발생하는지 꼼꼼히 뜯어보기)
       fetchDocumentList();
       route();
     },
@@ -52,12 +51,16 @@ export default function NotionApp({ $container }) {
           )
         );
         deleteIsOpenState(removeIdList);
-        fetchDocumentList();
+        await fetchDocumentList();
 
         if (removeIdList.includes(this.state.currentDocumentId)) {
           const hasDocumentList = this.state.documentList.length > 0;
           const nextRoute = hasDocumentList ? `/documents/${this.state.documentList[0].id}` : `/`;
 
+          this.setState({
+            ...this.state,
+            currentDocumentId: hasDocumentList ? this.state.documentList[0].id : null,
+          });
           history.replaceState(null, null, nextRoute);
           route();
         }
@@ -70,7 +73,6 @@ export default function NotionApp({ $container }) {
     initialState: this.state.currentDocumentId,
     onEditDocumentTitle: () => {
       // TODO: content 수정 시에도 여기 호출됨 -> title만 수정됐을 때, 호출되도록**
-      console.log(`edit title`);
       fetchDocumentList();
     },
     onError: () => {
