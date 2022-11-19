@@ -4,6 +4,7 @@ import { DOCUMENT_ISOEPN_LOCAL_KEY } from '../utils/constants.js';
 
 export default function NavBar({ $container, initialState, onSelect, onAdd, onDelete }) {
   const $nav = document.createElement('nav');
+  $nav.className = 'nav-bar';
   $container.appendChild($nav);
 
   this.state = initialState;
@@ -26,8 +27,8 @@ export default function NavBar({ $container, initialState, onSelect, onAdd, onDe
 
   this.render = () => {
     $nav.innerHTML = `
-		<h4>suhwa Notion document</h4>
-		<ul>
+		<span class="nav-bar-title">🥳 수화의 Notion</span>
+		<ul class="root-document">
 			${DocumentList(this.state)}
 		</ul>
 		<button type="button" id="root-add">페이지 추가하기</button>
@@ -68,6 +69,7 @@ export default function NavBar({ $container, initialState, onSelect, onAdd, onDe
             }
           }
         });
+        e.target.classList.toggle('clicked');
         break;
       case 'add':
         setItem(DOCUMENT_ISOEPN_LOCAL_KEY, [
