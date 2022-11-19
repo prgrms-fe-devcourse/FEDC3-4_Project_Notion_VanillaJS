@@ -1,0 +1,25 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "extends": ["airbnb-base", "prettier"],
+
+  "rules": {
+    "array-callback-return": [
+      "error",
+      { "allowImplicit": true, "checkForEach": true }
+    ],
+    "curly": ["error", "all"],
+    "no-new": "off",
+    "import/extensions": "off",
+    "no-console": ["warn", { "allow": ["error"] }],
+    "consistent-return": "off",
+    "class-methods-use-this": "off"
+  }
+}
