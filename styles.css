@@ -1,0 +1,155 @@
+body {
+  margin: 0;
+}
+
+ul,
+li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+  padding: 2px;
+}
+
+#app {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  width: 100vw;
+  height: 100vh;
+  color: gray;
+}
+
+.nav-bar {
+  background-color: #f7f6f3;
+  padding: 20px;
+}
+
+.nav-bar-title {
+  font-size: 16px;
+  color: black;
+}
+
+.root-document {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.root-document > .document {
+  padding-left: 0px;
+}
+
+.document {
+  display: flex;
+  flex-direction: column;
+  padding-left: 16px;
+}
+
+.document-preview {
+  display: flex;
+  justify-content: space-between;
+}
+
+.document-title {
+  padding: 0 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.document-buttons {
+  visibility: hidden;
+}
+
+.document-preview:hover .document-buttons {
+  visibility: visible;
+}
+
+.document-preview:hover .document-title {
+  color: black;
+}
+
+/* 현재 열린 document 배경색 변경 <- class 붙이는 처리 필요 */
+.document-preview.clicked {
+  background-color: #e8e7e4;
+}
+
+.document-preview #toggle {
+  transition: transform 150ms ease-in-out;
+}
+
+.document-preview #toggle.clicked {
+  transform: rotate(90deg);
+}
+
+#root-add {
+  background-color: #e8e7e4;
+  font-size: 14px;
+  padding: 5px;
+  border-radius: 3px;
+  margin: 20px 0;
+}
+
+section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 30px;
+}
+
+#title {
+  border: none;
+  font-size: 2rem;
+  padding: 5px;
+}
+
+#content {
+  border: none;
+  font-size: 14px;
+  padding: 10px;
+}
+
+.not-found {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.not-found-img {
+  width: 400px;
+}
+
+.not-found-message {
+  font-size: 1.75rem;
+  color: gray;
+}
+
+.empty-content-container {
+  color: gray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-content-container > h2 {
+  font-size: 3rem;
+}
+
+.empty-content-container > p {
+  font-size: 1.5rem;
+}
+
+.hide {
+  display: none;
+}

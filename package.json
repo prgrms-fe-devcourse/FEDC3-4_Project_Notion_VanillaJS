@@ -1,0 +1,28 @@
+{
+  "name": "notion-clone",
+  "version": "1.0.0",
+  "description": "notion app clone with vanila javascript",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prgrms-fe-devcourse/FEDC3-4_Project_Notion_VanillaJS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prgrms-fe-devcourse/FEDC3-4_Project_Notion_VanillaJS/issues"
+  },
+  "homepage": "https://github.com/prgrms-fe-devcourse/FEDC3-4_Project_Notion_VanillaJS#readme",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1"
+  }
+}
