@@ -2,74 +2,58 @@ import { readRootDocuments } from '../api/notionApi.js';
 
 import { getItem } from '../utils/storage.js';
 import { NOTION_CURRENT_STATE } from '../utils/constants.js';
-import { comparePostEditor, compareSidebarTitle } from '../utils/compare.js';
 
 import PostContainer from './posts/PostContainer.js';
 import SidebarContainer from './sidebar/SidebarContainer.js';
 
-class App {
-  constructor($target) {
-    this.$target = $target;
+function App({ $target }) {
+  this.state = {
+    allList: [],
+    currentDocument: getItem(NOTION_CURRENT_STATE, {
+      id: '',
+      title: '',
+      content: '',
+    }),
+  };
 
-    this.state = {
-      allList: [],
-      currentDocument: getItem(NOTION_CURRENT_STATE, {
-        id: '',
-        title: '',
-        content: '',
-      }),
-    };
-  }
+  const sidebarContainer = new SidebarContainer({
+    $target,
+    initialState: this.state,
+    onRenderApp: nextState => {
+      this.setState(nextState);
+    },
+  });
 
-  setState(nextState, renderalbe) {
-    if (Array.isArray(nextState)) {
-      this.state = {
-        ...this.state,
-        allList: nextState,
-      };
-    } else {
-      this.state = {
-        ...this.state,
-        currentDocument: nextState,
-      };
-    }
+  const postContainer = new PostContainer({
+    $target,
+    initialState: this.state,
+    onRenderApp: nextState => {
+      this.setState(nextState);
+    },
+  });
 
-    this.updateDOM(nextState, renderalbe);
-  }
+  this.setState = nextState => {
+    // if (Array.isArray(nextState)) {
+    //   this.state.allList = nextState;
+    // } else {
+    //   this.state.currentDocument = nextState;
+    // }
 
-  updateDOM(currentState, renderalbe) {
-    switch (renderalbe) {
-      case 'post':
-        comparePostEditor(currentState);
-        break;
-      case 'document':
-        compareSidebarTitle(currentState);
-        break;
-      default:
-        break;
-    }
-  }
+    this.state = nextState;
 
-  async mounted() {
+    sidebarContainer.setState(this.state);
+    postContainer.setState(this.state);
+  };
+
+  this.render = async () => {
     const data = await readRootDocuments();
-
-    this.setState(data, 'all');
-
-    new PostContainer({
-      $target: this.$target,
+    const nextState = {
+      allList: data,
       currentDocument: this.state.currentDocument,
-      onUpdateState: (nextState, renderalbe) => {
-        this.setState(nextState, renderalbe);
-      },
-    }).mounted();
-    new SidebarContainer({
-      $target: this.$target,
-      allList: this.state.allList,
-      onUpdateState: (nextState, renderalbe) => {
-        this.setState(nextState, renderalbe);
-      },
-    }).mounted();
-  }
+    };
+
+    this.setState(nextState);
+  };
 }
 
 export default App;

@@ -18,7 +18,13 @@ const readRootDocuments = async () => {
   }
 };
 
-const readDocument = () => {};
+const readDocument = async id => {
+  try {
+    return await request(`documents/${id}`);
+  } catch (error) {
+    console.error(error.message);
+  }
+};
 
 const updateDocument = async (id, title, content) => {
   await request(`${STATIC_URL}/${id}`, {

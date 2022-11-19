@@ -1,3 +1,3 @@
-import App from './components/App.js';
+// import App from './components/App.js';
 
-new App(document.querySelector('#app')).mounted();
+// new App({ $target: document.querySelector('#app') }).render();

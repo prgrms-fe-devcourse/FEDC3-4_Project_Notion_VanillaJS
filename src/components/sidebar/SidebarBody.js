@@ -1,16 +1,20 @@
 import createElementHelper from '../../utils/helpers.js';
 
-class SidebarBody {
-  constructor(props) {
-    this.props = props;
-    this.$navigationBody = createElementHelper('ul', '.sidebar-body');
-  }
+function SidebarBody({ $target, initialState, onClickDoucment }) {
+  this.state = initialState;
 
-  mounted() {
-    const { $navigationBody, bindEventHandler } = this;
-    const { $target, allList } = this.props;
+  const $navigationBody = createElementHelper('ul', '.sidebar-body');
 
-    allList.forEach(({ id, title }) => {
+  this.setState = nextState => {
+    this.state = nextState;
+
+    this.render();
+  };
+
+  this.render = () => {
+    $navigationBody.innerHTML = '';
+
+    this.state.allList.forEach(({ id, title }) => {
       const $li = createElementHelper('li', '.sidebar-list');
       $li.innerHTML += `
         <button type="button" class="sidebar-toggle-btn">&#10095;</button>
@@ -22,23 +26,16 @@ class SidebarBody {
 
       $navigationBody.append($li);
     });
+  };
 
-    $target.append($navigationBody);
-    bindEventHandler.call(this);
-  }
+  $navigationBody.addEventListener('click', async event => {
+    const { target } = event;
+    const currentDocumentId = target.closest('.sidebar-list').dataset.id;
 
-  bindEventHandler() {
-    const { $navigationBody } = this;
-    const { onClickDoucment } = this.props;
+    onClickDoucment(currentDocumentId);
+  });
 
-    $navigationBody.addEventListener('click', async event => {
-      const { target } = event;
-      const currentDocumentId = target.closest('.sidebar-list').dataset.id;
-      console.log(currentDocumentId);
-
-      onClickDoucment(currentDocumentId);
-    });
-  }
+  $target.append($navigationBody);
 }
 
 export default SidebarBody;

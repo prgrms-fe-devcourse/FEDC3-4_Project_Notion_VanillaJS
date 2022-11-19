@@ -1,53 +1,40 @@
-class PostEditor {
-  constructor(props) {
-    const { id, title, content } = props.currentDocument;
+function PostEditor({ $target, initialState, onUpdateText }) {
+  this.state = initialState;
 
-    this.props = props;
-    this.state = {
-      id,
-      title,
-      content,
-    };
-  }
+  this.$target = $target;
 
-  setState(nextState) {
+  this.setState = nextState => {
     this.state = nextState;
-    this.mounted();
-  }
 
-  mounted() {
-    const { $target } = this.props;
-    const { title, content } = this.state;
-    const [$postTitle, $postContent] = [...$target.children];
+    this.render();
+  };
 
-    $target.innerHTML = `
-      <input type="text" name="title" class="post-title" placeholder="제목없음" value="${title}" />
-      <textarea name="content" class="post-content" placeholder="🥹 입력된 글이 없습니다." value="${content}" ></textarea>
-    `;
-    $target.children[1].value = content;
-    $postTitle.value = title;
-    $postContent.value = content;
+  this.render = () => {
+    const { title, content } = this.state.currentDocument;
 
-    this.bindEventHandler();
-  }
+    this.$target.children[0].value = title;
+    this.$target.children[1].value = content;
+  };
 
-  bindEventHandler() {
-    const { $target, onUpdateText } = this.props;
+  $target.addEventListener('keyup', event => {
+    const { target } = event;
+    const { allList, currentDocument } = this.state;
 
-    $target.addEventListener('keyup', event => {
-      const { target } = event;
+    const name = target.getAttribute('name');
+    const nextState = {
+      allList: this.state.allList,
+      currentDocument: { ...this.state.currentDocument, [name]: target.value },
+    };
+    const index = allList.findIndex(v => Number(v.id) === currentDocument.id);
+    nextState.allList[index] = currentDocument;
 
-      const name = target.getAttribute('name');
-      const nextState = {
-        ...this.state,
-        [name]: target.value,
-      };
+    onUpdateText(nextState, name);
+  });
 
-      this.setState(nextState);
-
-      onUpdateText(nextState, name);
-    });
-  }
+  this.$target.innerHTML = `
+    <input type="text" name="title" class="post-title" placeholder="제목없음" value="${this.state.currentDocument.title}" />
+    <textarea name="content" class="post-content" placeholder="🥹 입력된 글이 없습니다." value="${this.state.currentDocument.content}" ></textarea>
+  `;
 }
 
 export default PostEditor;

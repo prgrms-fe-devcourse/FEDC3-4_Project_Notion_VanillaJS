@@ -1,4 +1,4 @@
-import { createDocument } from '../../api/notionApi.js';
+import { readDocument } from '../../api/notionApi.js';
 
 import { NOTION_CURRENT_STATE } from '../../utils/constants.js';
 import createElementHelper from '../../utils/helpers.js';
@@ -8,37 +8,41 @@ import SidebarHeader from './SidebarHeader.js';
 import SidebarBody from './SidebarBody.js';
 import SidebarFooter from './SidebarFooter.js';
 
-class SidebarPage {
-  constructor(props) {
-    this.props = props;
-  }
+function SidebarPage({ $target, initialState, onRenderApp }) {
+  this.state = initialState;
 
-  mounted() {
-    const { $target, allList, onUpdateState } = this.props;
-    const $navigation = createElementHelper('nav', '.sidebar-container');
-    $navigation.innerHTML = '';
+  const $navigation = createElementHelper('nav', '.sidebar-container');
+  const sidebarHeader = new SidebarHeader({ $target: $navigation });
+  const sidebarBody = new SidebarBody({
+    $target: $navigation,
+    initialState: this.state,
 
-    new SidebarHeader({ $target: $navigation }).mounted();
-    new SidebarBody({
-      $target: $navigation,
-      allList,
-      onClickDoucment: async currentDocumentId => {
-        const newDocumentData = await createDocument(currentDocumentId);
-        const nextState = {
+    onClickDoucment: async currentDocumentId => {
+      const newDocumentData = await readDocument(currentDocumentId);
+      const nextState = {
+        allList: this.state.allList,
+        currentDocument: {
           id: newDocumentData.id,
           title: newDocumentData.title,
           content: newDocumentData.content,
-        };
+        },
+      };
 
-        setItem(NOTION_CURRENT_STATE, nextState);
+      onRenderApp(nextState);
+      setItem(NOTION_CURRENT_STATE, nextState.currentDocument);
+    },
+  });
+  const sidebarFooter = new SidebarFooter({ $target: $navigation });
 
-        onUpdateState(nextState, 'post');
-      },
-    }).mounted();
-    new SidebarFooter({ $target: $navigation }).mounted();
+  this.setState = nextState => {
+    this.state = nextState;
 
-    $target.append($navigation);
-  }
+    sidebarBody.setState(this.state);
+  };
+
+  sidebarHeader.render();
+  sidebarFooter.render();
+  $target.append($navigation);
 }
 
 export default SidebarPage;

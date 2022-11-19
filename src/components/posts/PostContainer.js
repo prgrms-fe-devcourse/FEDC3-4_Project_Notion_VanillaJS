@@ -6,39 +6,43 @@ import { setItem } from '../../utils/storage.js';
 
 import PostEditor from './PostEditor.js';
 
-class PostContainer {
-  constructor(props) {
-    this.props = props;
-  }
+function PostContainer({ $target, initialState, onRenderApp }) {
+  this.state = initialState;
 
-  mounted() {
-    const $container = createElementHelper('div', '.post-container');
-    const { id, title, content } = this.props.currentDocument;
-    const { $target, onUpdateState } = this.props;
-    let timer = null;
+  const $container = createElementHelper('div', '.post-container');
+  let timer = null;
 
-    new PostEditor({
-      $target: $container,
-      currentDocument: { id, title, content },
+  const postEditor = new PostEditor({
+    $target: $container,
+    initialState: this.state,
 
-      onUpdateText: (postState, type) => {
-        if (timer !== null) {
-          clearTimeout(timer);
-        }
+    onUpdateText: nextState => {
+      const { currentDocument } = nextState;
 
-        if (type === 'title') {
-          onUpdateState(postState, 'document');
-        }
+      onRenderApp(nextState);
 
-        timer = setTimeout(async () => {
-          setItem(NOTION_CURRENT_STATE, postState);
-          await updateDocument(postState.id, postState.title, postState.content);
-        }, 1000);
-      },
-    }).mounted();
+      if (timer !== null) {
+        clearTimeout(timer);
+      }
 
-    $target.append($container);
-  }
+      timer = setTimeout(async () => {
+        setItem(NOTION_CURRENT_STATE, currentDocument);
+        await updateDocument(
+          currentDocument.id,
+          currentDocument.title,
+          currentDocument.content
+        );
+      }, 1000);
+    },
+  });
+
+  this.setState = nextState => {
+    this.state = nextState;
+
+    postEditor.setState(this.state);
+  };
+
+  $target.append($container);
 }
 
 export default PostContainer;
