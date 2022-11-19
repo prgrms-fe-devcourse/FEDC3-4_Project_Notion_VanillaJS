@@ -1,5 +1,5 @@
 import Sidebar from "./components/Sidebar/Sidebar.js";
-import DocumentPage from "./components/PostPage/Document.js";
+import DocumentPage from "./components/Document/Document.js";
 
 import { getDocumentContent } from "./api/api.js";
 

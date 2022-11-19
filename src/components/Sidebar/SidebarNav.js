@@ -113,6 +113,9 @@ export default function SidebarBody({
     }
 
     if ($documentItem) {
+      const isDocumentItem = $documentItem.querySelector(".no-document-item");
+      if (isDocumentItem) return;
+
       const { id } = $documentItem.dataset;
       setItem(STORAGE_KEY.SELECTED_DOCUMENT, id);
 
