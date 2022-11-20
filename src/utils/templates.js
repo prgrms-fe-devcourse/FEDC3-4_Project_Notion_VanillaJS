@@ -46,20 +46,26 @@ const $editPost = ({ title, content, createdAt, updatedAt }) => {
  * @param {*} posts
  * @returns
  */
-const $listContent = (post, selectedPostId) => {
+const $listContent = (post, selectedPostId, openedId) => {
+	let isIncluded = false;
+	if (openedId.length > 0 && openedId !== undefined) {
+		isIncluded = openedId.includes(post.id.toString());
+	}
 	return `
 		<div class="list-flex ${
 			post.id === selectedPostId ? "list-active" : ""
 		}" data-id="${post.id}">
 			<div style="line-height:18px">
-				<span class="open-folder icon-right-open"></span>
+				<span class="open-folder ${
+					isIncluded ? "icon-down-open" : "icon-right-open"
+				}"></span>
 				<span class="post-title">
 					${post.title}
 				</span>
 			</div>
 			<div class="delete-create-btn-container">
 				<button class="delete-page-btn icon-trash"></button>
-				<button class="create-page-btn icon-plus-1"></button>
+				<button class="create-child-page-btn icon-plus-1"></button>
 			</div>
 		</div>
 	`;
@@ -70,18 +76,24 @@ const $listContent = (post, selectedPostId) => {
  * @param {*} posts
  * @returns
  */
-const $onLoadChildList = (posts, selectedPostId) => {
+const $onLoadChildList = (posts, selectedPostId, openedId, hasIncluded) => {
 	if (Array.isArray(posts)) {
 		return `
-		<div class="child-ul hide">
+		<div class="child-ul ${hasIncluded ? "" : "hide"}">
 		${posts
 			.map((post) => {
+				const isChildIncluded = openedId.includes(post.id.toString());
 				return `
-							${$listContent(post, selectedPostId)}
+							${$listContent(post, selectedPostId, openedId)}
 							${
 								post.documents.length > 0
-									? `${$onLoadChildList(post.documents, selectedPostId)}`
-									: `${$emptyPage()}`
+									? `${$onLoadChildList(
+											post.documents,
+											selectedPostId,
+											openedId,
+											isChildIncluded
+									  )}`
+									: `${$emptyPage(isChildIncluded)}`
 							}
 					`;
 			})
@@ -96,19 +108,25 @@ const $onLoadChildList = (posts, selectedPostId) => {
  * @param {*} posts
  * @returns
  */
-const $onLoadParentList = (posts, selectedPostId) => {
+const $onLoadParentList = (posts, selectedPostId, openedId) => {
 	if (Array.isArray(posts)) {
 		return `
 			<ul>
 				${posts
 					.map((post) => {
+						const isParentIncluded = openedId.includes(post.id.toString());
 						return `
 							<li class="post-list">
-								${$listContent(post, selectedPostId)}
+								${$listContent(post, selectedPostId, openedId)}
 								${
 									post.documents.length > 0
-										? `${$onLoadChildList(post.documents, selectedPostId)}`
-										: `${$emptyPage()}`
+										? `${$onLoadChildList(
+												post.documents,
+												selectedPostId,
+												openedId,
+												isParentIncluded
+										  )}`
+										: `${$emptyPage(isParentIncluded)}`
 								}
 							</li>
 						`;
@@ -123,7 +141,7 @@ const $onLoadParentList = (posts, selectedPostId) => {
  * 포스트 리스트 헤더
  * @returns
  */
-const $sideNavHeader = () => {
+const $postsPageHeader = () => {
 	return `
 		<div class="nav-header">
 		🔳 JooNotion
@@ -135,9 +153,9 @@ const $sideNavHeader = () => {
  * 하위 페이지 없음
  * @returns
  */
-const $emptyPage = () => {
+const $emptyPage = (hasIncluded) => {
 	return `
-		<div class="empty hide">
+		<div class="empty ${hasIncluded ? "" : "hide"}">
 			하위 페이지가 없습니다.
 		</div>
 	`;
@@ -158,8 +176,7 @@ const $createPostBtn = () => {
 /**
  * 포스트 작성 모달창
  * @returns	html
- * 
-				<textarea style="font-size:30px" rows="2" type="text" name="title" placeholder="제목을 입력하세요."></textarea>
+ *
  */
 const $createPostModal = () => {
 	return `
@@ -184,7 +201,7 @@ const $createPostModal = () => {
 export {
 	$home,
 	$editPost,
-	$sideNavHeader,
+	$postsPageHeader,
 	$onLoadParentList,
 	$emptyPage,
 	$createPostBtn,
