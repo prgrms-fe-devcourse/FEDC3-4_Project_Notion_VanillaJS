@@ -18,14 +18,14 @@ function EditorSubContent({ div, initialState, onClickSubDocument }) {
         editorDocuments.innerHTML = paintSubDocuments(documents);
     };
 
-    const paintSubDocuments = (documents2) => {
-        if (documents2 === undefined) {
+    const paintSubDocuments = (documents) => {
+        if (documents === undefined) {
             return false;
         } else {
-            return documents2
+            return documents
                 .map(
                     ({ id, title }) => `
-   
+  
                     <div id="${id}">
                        <i class="far fa-file"></i>
                     <span>${title}</span></div>
@@ -35,11 +35,15 @@ function EditorSubContent({ div, initialState, onClickSubDocument }) {
         }
     };
 
-    editorDocuments.addEventListener('click', (e) => {
-        const subPostId = targetClosest(e, 'div').id;
-        onClickSubDocument(subPostId);
-    });
+    const onClickEditorSubDocument = () => {
+        editorDocuments.addEventListener('click', (e) => {
+            const subPostId = targetClosest(e, 'div').id;
+            onClickSubDocument(subPostId);
+        });
+    };
+
     this.render();
+    onClickEditorSubDocument();
 }
 
 export default EditorSubContent;
