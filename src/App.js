@@ -9,13 +9,10 @@ import { initRouter } from "./utils/router.js";
 export default function App({ $target }) {
   validateInstance(new.target);
 
-  const $app = document.createElement("div");
-  $target.appendChild($app);
-
-  const sidebar = new Sidebar({ $target: $app });
+  const sidebar = new Sidebar({ $target });
 
   const documentPage = new DocumentPage({
-    $target: $app,
+    $target,
     initialState: {
       documentId: 0,
       title: "",

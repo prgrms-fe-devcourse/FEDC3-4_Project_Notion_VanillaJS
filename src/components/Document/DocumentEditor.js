@@ -85,6 +85,8 @@ export default function DocumentEditor({
     }
   };
 
+  let scrollY = 0;
+
   const showTextStyleMenu = (e) => {
     const $content = e.target.closest(".content");
 
@@ -111,10 +113,10 @@ export default function DocumentEditor({
       const { pageX, pageY } = e;
 
       $textStyleMenu.style.left = `${pageX - 370}px`;
-      $textStyleMenu.style.top = `${pageY + 20}px`;
+      $textStyleMenu.style.top = `${pageY + 20 + scrollY}px`;
 
       $textColorStyleMenu.style.left = `${pageX - 275}px`;
-      $textColorStyleMenu.style.top = `${pageY + 55}px`;
+      $textColorStyleMenu.style.top = `${pageY + 55 + scrollY}px`;
 
       $textStyleMenu.classList.add("display");
     }
@@ -178,6 +180,12 @@ export default function DocumentEditor({
       $textColorStyleMenu.classList.remove("display");
     }
   };
+
+  const { parentNode } = $editor;
+
+  parentNode.addEventListener("scroll", (e) => {
+    scrollY = e.target.scrollTop;
+  });
 
   const setEvent = () => {
     $editor.addEventListener("input", editCurrentDocument);
