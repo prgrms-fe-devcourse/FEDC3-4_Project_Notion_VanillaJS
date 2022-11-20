@@ -1,3 +1,5 @@
+import { SIDELIST_KEY } from './constants.js';
+import { $ } from './utils.js';
 const storage = window.localStorage;
 
 export const getItem = (key, defaultValue) => {
@@ -15,4 +17,9 @@ export const setItem = (key, value) => {
 
 export const removeItem = (key) => {
   storage.removeItem(key);
+};
+
+export const setSideBarDOM = () => {
+  const $list = $('.list');
+  setItem(SIDELIST_KEY, $list.innerHTML);
 };

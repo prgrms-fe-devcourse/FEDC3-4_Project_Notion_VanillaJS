@@ -3,7 +3,7 @@ import { $ } from '../../lib/utils.js';
 import Header from './Header.js';
 import ModalEditor from './ModalEditor.js';
 
-export default function ModalContainer({
+export default function ModalPage({
   $target,
   initialState,
   clearUntitledDocument,
@@ -26,23 +26,34 @@ export default function ModalContainer({
     this.state = nextState;
   };
 
-  // 쓰이는 함수들
+  // 모달 닫기
   const onClose = () => {
     $modalContainer.classList.remove('show-modal');
   };
 
-  // 이름 다시 지어야 됨 생각
-  const processByTitle = () => {
+  // 모달 액션
+  const modalActions = (type) => {
     const { id } = this.state;
     const title = $modalContainer ? $('[name=title]', $modalContainer) : '';
     const content = $modalContainer ? $('[name=content]', $modalContainer) : '';
     const titleValue = title.value + '';
     const contentValue = content.value + '';
 
-    if (titleValue === '' || titleValue === '제목없음') {
-      clearUntitledDocument();
-    } else {
-      postDocument(titleValue, contentValue, id);
+    switch (type) {
+      // document 그냥 추가 시
+      case 'addDocument': {
+        if (titleValue === '' || titleValue === '제목없음') {
+          clearUntitledDocument();
+        } else {
+          postDocument(titleValue, contentValue, id);
+        }
+        break;
+      }
+      // editor로 옮길 시
+      case 'fullScreen': {
+        switchFullScreen(titleValue, contentValue);
+        postDocument(titleValue, contentValue, id);
+      }
     }
 
     title.value = '';
@@ -50,24 +61,11 @@ export default function ModalContainer({
     onClose();
   };
 
-  // editor로 state 보내주기 (header 전체 화면 기능)
-  const sendStatesToEditor = () => {
-    const { id } = this.state;
-    const title = $modalContainer ? $('[name=title]', $modalContainer) : '';
-    const content = $modalContainer ? $('[name=content]', $modalContainer) : '';
-    const titleValue = title.value + '';
-    const contentValue = content.value + '';
-
-    switchFullScreen(titleValue, contentValue);
-    postDocument(titleValue, contentValue, id);
-
-    title.value = '';
-    content.value = '';
-    onClose();
-  };
-
   // Component 부분
-  new Header({ $target: $modal, onClose, processByTitle, sendStatesToEditor });
+  new Header({
+    $target: $modal,
+    modalActions,
+  });
   new ModalEditor({
     $target: $modal,
     setParentId: (id) => {
@@ -81,14 +79,14 @@ export default function ModalContainer({
   // modal 창 밖 클릭 시 모달창 나가기
   window.addEventListener('click', (e) => {
     if (e.target === $modalContainer) {
-      processByTitle();
+      modalActions('addDocument');
     }
   });
 
   // 처음에 esc 누르면 모달창 나가기
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      processByTitle();
+      modalActions('addDocument');
     }
   });
 }

@@ -1,5 +1,6 @@
+import { setSideBarDOM } from '../../lib/storage.js';
+import { editorContent } from '../../lib/templates.js';
 import { $ } from '../../lib/utils.js';
-import InitialEditor from './InitialEditor.js';
 
 export default function Editor({ $target, initialState, onEditing }) {
   const $editor = document.createElement('div');
@@ -12,25 +13,6 @@ export default function Editor({ $target, initialState, onEditing }) {
       $('[name=title]', $editor).value = this.state.title;
       $('[name=content]', $editor).value = this.state.content;
     }
-  };
-
-  const editorContent = (title = '', content = '') => {
-    return `
-           <input
-              class="editor-title"
-              type="text"
-              name="title"
-              id="title"
-              value="${title}"
-              placeholder="제목 없음"
-            />
-            <textarea
-              class="editor-content"
-              name="content"
-              id="content"
-              placeholder="내용을 입력하세요..😁"
-            >${content}</textarea>
-      `;
   };
 
   this.render = () => {
@@ -56,12 +38,12 @@ export default function Editor({ $target, initialState, onEditing }) {
         [nameValue]: target.value,
       };
       if (nameValue === 'title') {
-        // 방법이 두가지, state를 넘겨주어서 처리? 아니면 바로 여기서 처리
         const $li = document.getElementById(`${this.state.id}`);
         const $span = $('span', $li);
         $span.textContent = target.value;
       }
 
+      setSideBarDOM();
       onEditing(nextState);
     }
   });

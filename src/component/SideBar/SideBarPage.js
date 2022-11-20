@@ -1,12 +1,12 @@
-import { request } from '../../api/request.js';
+import NotionApi from '../../api/notionApi.js';
 import { USER_NAME } from '../../lib/constants.js';
 import { push } from '../../lib/router.js';
+import { setSideBarDOM } from '../../lib/storage.js';
 import { $, $all, showModal } from '../../lib/utils.js';
 import Footer from './Footer.js';
 import Header from './Header.js';
 import TextList from './TextList.js';
-
-export default function SideBarContainer({
+export default function SideBarPage({
   $target,
   initialState,
   getData,
@@ -44,6 +44,27 @@ export default function SideBarContainer({
     }
   };
 
+  this.switchNewId = (id) => {
+    const $li = document.getElementById('new');
+    $li.setAttribute('id', id);
+    const $span = $(`span[data-id='new']`);
+    $span.setAttribute('data-id', id);
+
+    setSideBarDOM();
+  };
+
+  this.removeUntitledDocument = () => {
+    const $li = document.getElementById('new');
+    const parent = $li.parentElement;
+    parent.removeChild($li);
+    const $toggler = $('.toggler', parent.parentElement);
+
+    if ($('li', parent) === null) {
+      $toggler.classList.toggle('active');
+    }
+    setSideBarDOM();
+  };
+
   new Header({
     $target: $sideBar,
     initialState: {
@@ -58,16 +79,12 @@ export default function SideBarContainer({
     },
     // document 삭제
     requestRemoveDocument: async (id) => {
-      await request(`/documents/${id}`, {
-        method: 'DELETE',
-      });
+      await NotionApi.removeDocument(id);
       await getData();
-      setEditor(id);
     },
     // document 정보 받아오기
     requestDocumentDetail: async (id) => {
-      const documentDetail = await request(`/documents/${id}`);
-
+      const documentDetail = await NotionApi.getDocument(id);
       const { title, content } = documentDetail;
       setEditor(id, title, content);
 
@@ -82,6 +99,7 @@ export default function SideBarContainer({
       // 추후 작업들은 모달에서 알아서 함
       showModal();
     },
+    // 맨 밑에 추가하면 scroll 밑으로 고정
     holdListScroll: () => {
       const $list = $('.list', $target);
       $list.scrollTop = $list.scrollHeight;
