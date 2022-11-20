@@ -28,19 +28,22 @@ function EditorSubContent({ div, initialState, onClickSubDocument }) {
   
                     <div id="${id}">
                        <i class="far fa-file"></i>
-                    <span>${title}</span></div>
+                    <span>${title ? title : '제목없음'}</span></div>
             `,
                 )
                 .join('');
         }
     };
 
-    editorDocuments.addEventListener('click', (e) => {
-        const subPostId = targetClosest(e, 'div').id;
-        onClickSubDocument(subPostId);
-    });
+    const onClickEditorSubDocument = () => {
+        editorDocuments.addEventListener('click', (e) => {
+            const subPostId = targetClosest(e, 'div').id;
+            onClickSubDocument(subPostId);
+        });
+    };
 
     this.render();
+    onClickEditorSubDocument();
 }
 
 export default EditorSubContent;
