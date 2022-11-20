@@ -35,15 +35,12 @@ function EditorSubContent({ div, initialState, onClickSubDocument }) {
         }
     };
 
-    const onClickEditorSubDocument = () => {
-        editorDocuments.addEventListener('click', (e) => {
-            const subPostId = targetClosest(e, 'div').id;
-            onClickSubDocument(subPostId);
-        });
-    };
+    editorDocuments.addEventListener('click', (e) => {
+        const subPostId = targetClosest(e, 'div').id;
+        onClickSubDocument(subPostId);
+    });
 
     this.render();
-    onClickEditorSubDocument();
 }
 
 export default EditorSubContent;

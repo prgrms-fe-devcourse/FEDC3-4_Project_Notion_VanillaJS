@@ -5,8 +5,8 @@ import { putContentMethod, putTitleMethod } from '../utils/optionsMethod.js';
 import EditorTitle from './EditorTitle.js';
 import EditorContent from './EditorContent.js';
 import { documentsUrl } from '../utils/util.js';
-import EditorSubContent from './EditorSubContetn.js';
 import { route } from '../utils/route.js';
+import EditorSubContent from './EditorSubContent.js';
 
 function Editor({ target, initialState }) {
     isNew(new.target);
