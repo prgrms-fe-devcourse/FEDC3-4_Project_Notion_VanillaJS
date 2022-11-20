@@ -1,16 +1,17 @@
 import { $ } from '../../lib/utils.js';
+import InitialEditor from './InitialEditor.js';
 
 export default function Editor({ $target, initialState, onEditing }) {
   const $editor = document.createElement('div');
   $editor.className = 'editor-contents';
 
-  $target.appendChild($editor);
-
   this.state = initialState;
   this.setState = (nextState) => {
     this.state = nextState;
-    $('[name=title]', $editor).value = this.state.title;
-    $('[name=content]', $editor).value = this.state.content;
+    if (this.state.id) {
+      $('[name=title]', $editor).value = this.state.title;
+      $('[name=content]', $editor).value = this.state.content;
+    }
   };
 
   const editorContent = (title = '', content = '') => {
@@ -34,9 +35,16 @@ export default function Editor({ $target, initialState, onEditing }) {
 
   this.render = () => {
     $editor.innerHTML = editorContent(this.state.title, this.state.content);
+    $target.appendChild($editor);
   };
 
-  this.render();
+  if (this.state.id) this.render();
+
+  this.removeEditor = () => {
+    if ([...$target.childNodes].includes($editor)) {
+      $target.removeChild($editor);
+    }
+  };
 
   $editor.addEventListener('keyup', (e) => {
     const { target } = e;
