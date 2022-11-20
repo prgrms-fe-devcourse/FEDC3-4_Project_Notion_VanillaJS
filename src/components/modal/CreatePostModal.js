@@ -3,7 +3,7 @@ import { modalClose, modalShow } from "./handler.js";
 import { push } from "../../routes/router.js";
 import { request } from "../../api/index.js";
 
-export default function CreatePostModal({ $target, initialState, addPost }) {
+export default function CreatePostModal({ $target, initialState, createPost }) {
 	const $modal = document.createElement("div");
 	$target.appendChild($modal);
 
@@ -12,7 +12,6 @@ export default function CreatePostModal({ $target, initialState, addPost }) {
 
 	this.setState = (nextState) => {
 		this.state = nextState;
-
 		if (this.state.modalOpen) {
 			modalShow($modal);
 			modalEventListener();
@@ -65,7 +64,8 @@ export default function CreatePostModal({ $target, initialState, addPost }) {
 			if (createdPost.id) {
 				modalClose($modal);
 				push(`/documents/${createdPost.id}`);
-				addPost(createdPost);
+				this.state.createdChildPost(createdPost.id);
+				createPost(createdPost);
 			}
 		} else if ($closeBtn) {
 			modalClose($modal);

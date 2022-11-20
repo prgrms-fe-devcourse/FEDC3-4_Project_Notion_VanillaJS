@@ -19,16 +19,8 @@ export default function App({ $target }) {
 	$target.appendChild($postEditContainer);
 
 	this.state = {
-		id: "",
-		title: "",
-		content: "",
 		selectedPost: {},
 	};
-
-	const postsPage = new PostsPage({
-		$target: $postListContainer,
-		initialState: [],
-	});
 
 	const homePage = new HomePage({
 		$target: $homeContainer,
@@ -38,19 +30,23 @@ export default function App({ $target }) {
 		$target,
 	});
 
+	/**
+	 * PostList 감싸는 컴포넌트
+	 */
+	const postsPage = new PostsPage({
+		$target: $postListContainer,
+	});
+
+	/**
+	 * Editor 감싸는 컴포넌트
+	 */
 	const postEdit = new PostEdit({
 		$target: $postEditContainer,
 		initialState: this.state,
-		addPost: (updatePost) => {
+		updatePost: (updatePost) => {
 			postsPage.setState(updatePost);
 		},
 	});
-
-	this.setState = (nextState) => {
-		this.state = nextState;
-		const selectedPost = this.state;
-		postsPage.setState(selectedPost);
-	};
 
 	postsPage.setState();
 
@@ -73,7 +69,7 @@ export default function App({ $target }) {
 				const post = await request(`/documents/${id}`, {
 					method: "GET",
 				});
-				this.setState(post);
+				postsPage.setState(post);
 				postEdit.setState(post);
 			}
 		} else {

@@ -1,12 +1,12 @@
-import { $sideNavHeader } from "../utils/templates.js";
+import { $postsPageHeader } from "../utils/templates.js";
 
-export default function SideNavHeader({ $target }) {
+export default function PostsPageHeader({ $target }) {
 	const $navHeader = document.createElement("div");
 
 	$target.appendChild($navHeader);
 
 	this.render = () => {
-		$navHeader.innerHTML = $sideNavHeader();
+		$navHeader.innerHTML = $postsPageHeader();
 	};
 
 	$navHeader.addEventListener("click", () => {

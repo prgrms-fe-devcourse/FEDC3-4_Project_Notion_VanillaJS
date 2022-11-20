@@ -1,1 +1,1 @@
-export const ACTIVE_LIST_KEY = "local-save-active-list";
+export const OPENED_LIST_KEY = "local-save-open-list";

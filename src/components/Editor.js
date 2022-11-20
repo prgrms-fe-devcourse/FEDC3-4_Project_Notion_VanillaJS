@@ -3,7 +3,7 @@ import { $editPost } from "../utils/templates.js";
 export default function Editor({ $target, initialState, onEditing }) {
 	const $editor = document.createElement("div");
 	$editor.className = "editor";
-	this.state = initialState; // {id:"", title:"", content:""}
+	this.state = initialState;
 	this.body = initialState;
 
 	$target.appendChild($editor);
@@ -18,7 +18,9 @@ export default function Editor({ $target, initialState, onEditing }) {
 		this.render();
 		$editor.querySelector('div[name="title"]').innerText = this.state.title;
 		$editor.querySelector('div[name="content"]').innerHTML =
-			this.state.content.replace(/\n/g, "<br>");
+			this.state.content === null
+				? ""
+				: this.state.content.replace(/\n/g, "<br>");
 	};
 
 	this.render = () => {
@@ -28,7 +30,7 @@ export default function Editor({ $target, initialState, onEditing }) {
 	$editor.addEventListener("keyup", (e) => {
 		const { target } = e;
 
-		const nextBody = {
+		const post = {
 			id: this.body.id,
 			title: this.body.title,
 			content: this.body.content,
@@ -39,6 +41,6 @@ export default function Editor({ $target, initialState, onEditing }) {
 			this.body.content = target.innerText;
 		}
 
-		onEditing(nextBody);
+		onEditing(post);
 	});
 }

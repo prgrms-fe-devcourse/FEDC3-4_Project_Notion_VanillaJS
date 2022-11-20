@@ -1,7 +1,7 @@
 import { request } from "../api/index.js";
 import Editor from "./Editor.js";
 
-export default function PostEdit({ $target, initialState, addPost }) {
+export default function PostEdit({ $target, initialState, updatePost }) {
 	this.state = initialState;
 
 	let timer = null;
@@ -13,16 +13,15 @@ export default function PostEdit({ $target, initialState, addPost }) {
 				clearTimeout(timer);
 			}
 			timer = setTimeout(async () => {
-				const updatePost = await request(`/documents/${post.id}`, {
+				const updatedPost = await request(`/documents/${post.id}`, {
 					method: "PUT",
 					body: JSON.stringify(post),
 				});
-				addPost(updatePost);
+				updatePost(updatedPost);
 			}, 1000);
 		},
 	});
 
-	// post를 받거나 id:new를 받거나
 	this.setState = async (nextState) => {
 		if (this.state.id !== nextState.id) {
 			this.state = nextState;

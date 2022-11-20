@@ -1,30 +1,25 @@
-import { ACTIVE_LIST_KEY } from "../../config.js";
-import { request } from "../api/index.js";
-import { push } from "../routes/router.js";
-import { setItem } from "../utils/storage.js";
+import PostsPageHeader from "./PostsPageHeader.js";
 import CreatePostButton from "./CreatePostButton.js";
 import PostList from "./PostList.js";
-import SideNavHeader from "./SideNavHeader.js";
+import { request } from "../api/index.js";
+import { push } from "../routes/router.js";
 
-export default function PostsPage({ $target, initialState }) {
+export default function PostsPage({ $target }) {
 	const $postPage = document.createElement("div");
-
-	this.state = initialState;
 
 	this.setState = async (nextState) => {
 		const postsList = await request("/documents", {
 			method: "GET",
 		});
-		console.log(postsList);
 		postList.setState({ postsList, selectedPost: nextState });
 		this.render();
 	};
 
-	new SideNavHeader({ $target: $postPage });
+	new PostsPageHeader({ $target: $postPage });
 	const postList = new PostList({
 		$target: $postPage,
 
-		onRemove: async (id) => {
+		removePost: async (id, openedId) => {
 			const post = await request(`/documents/${id}`, {
 				method: "GET",
 			});
@@ -32,17 +27,19 @@ export default function PostsPage({ $target, initialState }) {
 				const res = await request(`/documents/${post.id}`, {
 					method: "DELETE",
 				});
-				this.setState();
-				push("/");
+				if (res.id) {
+					this.setState();
+					postList.setOpenedLists(openedId.filter((item) => item !== id));
+					push("/");
+				}
 			}
 		},
 
-		onPostClick: async (id) => {
-			setItem(ACTIVE_LIST_KEY, id);
+		clickPost: (id) => {
 			push(`/documents/${id}`);
 		},
 
-		addPost: (createdPost) => {
+		createPost: (createdPost) => {
 			this.setState(createdPost);
 		},
 	});
@@ -50,7 +47,7 @@ export default function PostsPage({ $target, initialState }) {
 	new CreatePostButton({
 		$target,
 		initialState: { link: "/documents/new", modalOpen: false },
-		addPost: (createdPost) => {
+		createPost: (createdPost) => {
 			this.setState(createdPost);
 		},
 	});

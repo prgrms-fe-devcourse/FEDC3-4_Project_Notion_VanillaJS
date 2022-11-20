@@ -1,7 +1,11 @@
 import { $createPostBtn } from "../utils/templates.js";
 import CreatePostModal from "./modal/CreatePostModal.js";
 
-export default function CreatePostButton({ $target, initialState, addPost }) {
+export default function CreatePostButton({
+	$target,
+	initialState,
+	createPost,
+}) {
 	const $createPostBtnContainer = document.createElement("div");
 	$createPostBtnContainer.className = "create-post-btn-container";
 	$target.appendChild($createPostBtnContainer);
@@ -19,7 +23,6 @@ export default function CreatePostButton({ $target, initialState, addPost }) {
 	this.render();
 
 	$createPostBtnContainer.addEventListener("click", () => {
-		// push(this.state.link);
 		$createPostModal.setState({
 			link: "/documents/new",
 			modalOpen: true,
@@ -29,6 +32,6 @@ export default function CreatePostButton({ $target, initialState, addPost }) {
 	const $createPostModal = new CreatePostModal({
 		$target,
 		initialState: { link: "/documents/new", modalOpen: false },
-		addPost,
+		createPost,
 	});
 }
