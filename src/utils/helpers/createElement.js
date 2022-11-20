@@ -7,11 +7,11 @@ const createElement = ({
   attributes,
 }) => {
   const $element = document.createElement(element);
-  $element.textContent = content;
 
+  if ($target) $target.appendChild($element);
   if (className) $element.className = className;
   if (id) $element.id = id;
-  if ($target) $target.appendChild($element);
+  if (content) $element.textContent = content;
   if (attributes) {
     Object.entries(attributes).forEach(([key, value]) => {
       $element.setAttribute(key, value);

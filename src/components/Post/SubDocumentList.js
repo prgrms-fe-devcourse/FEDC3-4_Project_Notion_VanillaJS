@@ -1,10 +1,6 @@
-import { createElement } from '../../utils/createElement.js';
-import { historyPush } from '../../utils/router.js';
-import {
-  getItem,
-  OPENED_DOCUMENT_ITEMS,
-  setItem,
-} from '../../utils/storage.js';
+import { createElement } from '../../utils/helpers/createElement.js';
+import { historyPush } from '../../utils/helpers/router.js';
+import { modifyStorage } from '../../utils/helpers/storage.js';
 
 /**
  * state: {
@@ -49,10 +45,10 @@ export default function SubDocumentList({ $target, initialState }) {
     const { target } = event;
     const { id, currentPath } = target.closest('[data-id]').dataset;
 
-    const openedDocumentItemIds = getItem(OPENED_DOCUMENT_ITEMS, []);
-    if (!openedDocumentItemIds.includes(this.state.id)) {
-      setItem(OPENED_DOCUMENT_ITEMS, [...openedDocumentItemIds, this.state.id]);
-    }
+    // 현재 보고 있는 문서의 하위 문서가 Sidebar에서 열려져 있지 않다면(open 되어 있지 않다면)
+    // 하위 문서를 클릭하여 하위 문서로 갈 때 상위 문서인 현재 보고 있는 문서를 open 시키기 위함.
+    // 이렇게 해줘야 Post의 SubDocumentList의 문서 링크를 클릭했을 때 Sidebar에도 반영이 된다.
+    modifyStorage.add(this.state.id);
 
     historyPush(`/documents/${id}?currentPath=${currentPath}`);
   });

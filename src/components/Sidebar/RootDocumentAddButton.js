@@ -1,4 +1,4 @@
-import { createElement } from '../../utils/createElement.js';
+import { createElement } from '../../utils/helpers/createElement.js';
 
 export default function RootDocumentAddButton({
   $target,

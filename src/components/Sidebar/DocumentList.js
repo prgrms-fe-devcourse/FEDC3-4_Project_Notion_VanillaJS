@@ -1,7 +1,7 @@
-import { createElement } from '../../utils/createElement.js';
-import { historyPush } from '../../utils/router.js';
-import { getItem, OPENED_DOCUMENT_ITEMS } from '../../utils/storage.js';
-import templates from '../../utils/templates.js';
+import { createElement } from '../../utils/helpers/createElement.js';
+import { historyPush } from '../../utils/helpers/router.js';
+import { getItem, OPENED_DOCUMENT_ITEMS } from '../../utils/helpers/storage.js';
+import templates from '../../utils/helpers/templates.js';
 
 /**
  * state: array

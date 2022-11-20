@@ -1,5 +1,5 @@
-import { createElement } from '../../utils/createElement.js';
-import { historyPush } from '../../utils/router.js';
+import { createElement } from '../../utils/helpers/createElement.js';
+import { historyPush } from '../../utils/helpers/router.js';
 
 export default function Header({ $target, initialState }) {
   const $header = createElement({

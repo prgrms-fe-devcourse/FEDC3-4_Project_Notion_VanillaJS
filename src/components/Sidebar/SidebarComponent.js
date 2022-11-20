@@ -1,4 +1,4 @@
-import { createElement } from '../../utils/createElement.js';
+import { createElement } from '../../utils/helpers/createElement.js';
 import Header from '../shared/Header.js';
 import DocumentList from './DocumentList.js';
 import RootDocumentAddButton from './RootDocumentAddButton.js';
@@ -31,6 +31,6 @@ export default function Sidebar({
 
   this.setState = nextState => {
     this.state = nextState;
-    documentList.setState(this.state);
+    documentList.setState([...this.state]);
   };
 }

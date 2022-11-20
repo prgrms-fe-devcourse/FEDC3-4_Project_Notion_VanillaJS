@@ -1,4 +1,4 @@
-import { createElement } from '../../utils/createElement.js';
+import { createElement } from '../../utils/helpers/createElement.js';
 import Header from '../shared/Header.js';
 import NotFound from './NotFound.js';
 import PostEditor from './PostEditor.js';

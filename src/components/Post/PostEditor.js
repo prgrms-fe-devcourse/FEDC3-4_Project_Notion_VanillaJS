@@ -1,8 +1,8 @@
 import { updateDocument } from '../../utils/api/apis.js';
-import changeCurrentPath from '../../utils/changeCurrentPath.js';
-import { createElement } from '../../utils/createElement.js';
-import debounce from '../../utils/debounce.js';
-import makeRichContent from '../../utils/makeRichContent.js';
+import changeCurrentPath from '../../utils/helpers/changeCurrentPath.js';
+import { createElement } from '../../utils/helpers/createElement.js';
+import debounce from '../../utils/helpers/debounce.js';
+import makeRichContent from '../../utils/helpers/makeRichContent.js';
 
 const INIT_DEBOUNCE_TIME = 250;
 
@@ -74,7 +74,7 @@ export default function PostEditor({
     }, INIT_DEBOUNCE_TIME),
   );
 
-  $content.addEventListener('input', event => {
+  $content.addEventListener('input', () => {
     const currentNode = window.getSelection().anchorNode;
     const parentNode = currentNode.parentNode;
 

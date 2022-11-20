@@ -38,6 +38,8 @@ const makeRichContent = ($editor, currentNode, parentNode) => {
       parentNode.replaceChild(newNode, currentNode);
 
       _getCaret($editor);
+      
+      break;
     }
   }
 
