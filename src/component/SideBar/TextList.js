@@ -1,6 +1,6 @@
 // state => DocumentList가 올 것
 import { request } from '../../api/request.js';
-import { VIRTUAL_DOM } from '../../lib/constants.js';
+import { SIDELIST_KEY } from '../../lib/constants.js';
 import { push } from '../../lib/router.js';
 import { setItem, getItem } from '../../lib/storage.js';
 import {
@@ -17,8 +17,8 @@ export default function TextList({
   requestRemoveDocument,
   requestDocumentDetail,
 }) {
-  const DOMElement = getItem(VIRTUAL_DOM)
-    ? getItem('VirtualDOM').split('\n').join('')
+  const DOMElement = getItem(SIDELIST_KEY)
+    ? getItem(SIDELIST_KEY).split('\n').join('')
     : undefined;
   const $list = $createElement('div');
   const $ul = $createElement('ul');
@@ -40,11 +40,9 @@ export default function TextList({
       $list.innerHTML = DOMElement;
       // this.state의 마지막에 id=new인 것이 들어오면, list의 ul의 마지막 자식으로 넣기.
       // 이 자식을 넣어준 것을. App.js의 clearUntitledDocument에서 전상태랑 이번상태랑 비교?
-    } else if (this.state.list?.length) {
+    } else if (this.state?.length) {
       $ul.innerHTML = `
-        ${this.state.list
-          .map(({ id, title }) => `${ListItem(id, title)} `)
-          .join('')}
+        ${this.state.map(({ id, title }) => `${ListItem(id, title)} `).join('')}
           `;
     }
   };
@@ -101,7 +99,7 @@ export default function TextList({
           );
         }
         toggler.classList.toggle('active');
-        setItem('VirtualDOM', $list.innerHTML);
+        setItem(SIDELIST_KEY, $list.innerHTML);
       }
     };
 
@@ -144,6 +142,7 @@ export default function TextList({
 
       // 그 외 작업들은 모달에서 해줌
       showModal();
+      setItem(SIDELIST_KEY, $list.innerHTML);
 
       // -> 모달에서 입력 시, DOM내용이 바뀔 것임. 그러니 모달에서 저장하자.
       // 근데 지금 모달에서 내려주는 방식은 state만 넘겨주는 방식임.
@@ -151,7 +150,6 @@ export default function TextList({
       // 근데 이게, 문제가 생기는 경우
       // 1. 맨 처음 업데이트 시, LocalStorage에 아이템이 없어서 알아서 된다.
       // => state를 넣기 전에 화면 바꿔주고 localStorage에 HTML넣고, state를 넣어준다.
-      setItem('VirtualDOM', $list.innerHTML);
     };
 
     // 삭제 버튼 클릭 (더블 클릭 방지)
@@ -181,10 +179,10 @@ export default function TextList({
       // 삭제했을 떄, 자식 요소가 없다면 다시 토글 시켜주기
       if (!$('li', $parent)) {
         const $parentToggler = $('.toggler', $parent.parentElement);
-        $parentToggler.classList.toggle('active');
+        $parentToggler?.classList.toggle('active');
       }
 
-      setItem(VIRTUAL_DOM, $list.innerHTML);
+      setItem(SIDELIST_KEY, $list.innerHTML);
       requestRemoveDocument(id);
       push('/');
 

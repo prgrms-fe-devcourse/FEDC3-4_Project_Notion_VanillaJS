@@ -1,3 +1,5 @@
+import { push } from '../../lib/router.js';
+
 // state => username
 export default function Header({ $target, initialState }) {
   const $header = document.createElement('header');
@@ -15,4 +17,8 @@ export default function Header({ $target, initialState }) {
   };
 
   this.render();
+
+  $header.addEventListener('click', () => {
+    push('/');
+  });
 }

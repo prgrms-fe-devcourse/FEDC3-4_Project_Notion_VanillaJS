@@ -8,7 +8,7 @@ export default function Footer({ $target, addNewDocument, holdListScroll }) {
   this.render = () => {
     $footer.innerHTML = `
             <button class="add-root-btn">
-            + 
+            <span class="add-mark">+</span>
             <span class="footer-text">새 페이지</span>
             </button>
       `;
@@ -17,8 +17,7 @@ export default function Footer({ $target, addNewDocument, holdListScroll }) {
   this.render();
   const $addBtn = $('.add-root-btn');
   $addBtn.addEventListener('click', () => {
-    //footer 낙관적 업데이트 안해줬었네 ㅋㅋ 어케된거지 지금까지
-    // 이거는 루트 도큐먼트 추가하는 경우.
+    // 루트 도큐먼트 추가하는 경우.
     addNewDocument();
     holdListScroll();
   });

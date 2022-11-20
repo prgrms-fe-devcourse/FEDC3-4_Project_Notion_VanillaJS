@@ -2,27 +2,26 @@ import { request } from './api/request.js';
 import EditorContainer from './component/Editor/EditorContainer.js';
 import ModalContainer from './component/Modal/ModalContainer.js';
 import SideBarContainer from './component/SideBar/SideBarContainer.js';
+import { SIDELIST_KEY } from './lib/constants.js';
 import { initRouter, push } from './lib/router.js';
-import { getItem, setItem } from './lib/storage.js';
+import { setItem } from './lib/storage.js';
 import { $ } from './lib/utils.js';
 
 export default function App({ $target }) {
+  let isInitialize = false;
   this.state = {
     list: [],
     id: '',
     title: '',
     content: '',
-    isInitialize: false,
   };
 
   this.setState = (nextState) => {
     this.state = nextState;
-    sidebarContainer.setState(this.state);
-    editorContainer.setState({
-      id: this.state.id,
-      title: this.state.title,
-      content: this.state.content,
-    });
+    if (!isInitialize) {
+      sidebarContainer.setState(this.state.list);
+      isInitialize = true;
+    }
   };
 
   const getData = async () => {
@@ -30,13 +29,10 @@ export default function App({ $target }) {
       method: 'GET',
     });
     const nextState = [...data];
-    if (!this.state.isInitialize) {
-      this.setState({
-        ...this.state,
-        list: nextState,
-        isInitialize: !this.state.isInitialize,
-      });
-    }
+    this.setState({
+      ...this.state,
+      list: nextState,
+    });
   };
 
   // Container
@@ -52,8 +48,6 @@ export default function App({ $target }) {
         content,
       });
     },
-    // Root Document 추가가 했다는 state변경
-    setNewRootDocument: (nextState) => {},
   });
 
   const editorContainer = new EditorContainer({
@@ -80,7 +74,7 @@ export default function App({ $target }) {
         $toggler.classList.toggle('active');
       }
 
-      setItem('VirtualDOM', $list.innerHTML);
+      setItem(SIDELIST_KEY, $list.innerHTML);
     },
 
     // 타이틀이 있으면 해당 RootDocument 추가
@@ -93,7 +87,6 @@ export default function App({ $target }) {
           parent: id,
         }),
       });
-
       // 추가한 데이터로 화면 리렌더링
       await getData();
 
@@ -106,15 +99,13 @@ export default function App({ $target }) {
         }),
       });
 
-      // 받은 postData를 돔요소에 추가, localStorage저장만 하면 된다 아인교
-      // id바꾸고 추가도 해야되네.
       const $li = document.getElementById('new');
       $li.setAttribute('id', postData.id);
       const $span = $(`span[data-id='new']`);
       $span.setAttribute('data-id', postData.id);
       const $list = $span.closest('.list');
 
-      setItem('VirtualDOM', $list.innerHTML);
+      setItem(SIDELIST_KEY, $list.innerHTML);
 
       push(`/documents/${postData.id}`);
     },
@@ -139,13 +130,25 @@ export default function App({ $target }) {
       const [, , documentId] = pathname.split('/');
       if (documentId) {
         const data = await request(`/documents/${documentId}`);
+        sidebarContainer.removeBoldId();
+        sidebarContainer.setBoldId(documentId);
         editorContainer.setState({
           ...this.state,
           id: data.id,
           title: data.title,
           content: data.content,
         });
+
+        setItem(SIDELIST_KEY, $('.list', $target).innerHTML);
       }
+    } else if (pathname === '/') {
+      sidebarContainer.removeBoldId();
+      editorContainer.setState({
+        ...this.state,
+        id: '',
+        title: '',
+        content: '',
+      });
     }
   };
 

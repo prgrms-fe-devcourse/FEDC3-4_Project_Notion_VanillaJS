@@ -50,7 +50,7 @@ export default function ModalContainer({
     onClose();
   };
 
-  // editor로 state 보내주기
+  // editor로 state 보내주기 (header 전체 화면 기능)
   const sendStatesToEditor = () => {
     const { id } = this.state;
     const title = $modalContainer ? $('[name=title]', $modalContainer) : '';

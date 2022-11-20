@@ -1,4 +1,4 @@
-import { VIRTUAL_DOM } from '../../lib/constants.js';
+import { SIDELIST_KEY } from '../../lib/constants.js';
 import { setItem } from '../../lib/storage.js';
 import { $ } from '../../lib/utils.js';
 
@@ -43,7 +43,7 @@ export default function ModalEditor({ $target, setParentId }) {
       const $list = $ul.closest('.list');
 
       // 고칠 부분
-      setItem(VIRTUAL_DOM, $list.innerHTML);
+      setItem(SIDELIST_KEY, $list.innerHTML);
 
       // 부모에다가 넣기 위해 부모 id 값 받아와 넘기기
       const id = $li ? $li.getAttribute('id') : null;

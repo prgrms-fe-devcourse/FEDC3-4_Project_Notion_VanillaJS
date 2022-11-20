@@ -1,7 +1,7 @@
 import { request } from '../../api/request.js';
 import { USER_NAME } from '../../lib/constants.js';
 import { push } from '../../lib/router.js';
-import { $, showModal } from '../../lib/utils.js';
+import { $, $all, showModal } from '../../lib/utils.js';
 import Footer from './Footer.js';
 import Header from './Header.js';
 import TextList from './TextList.js';
@@ -11,7 +11,6 @@ export default function SideBarContainer({
   initialState,
   getData,
   setEditor,
-  setNewRootDocument,
 }) {
   const $sideBar = document.createElement('div');
   $sideBar.className = 'sideBar-container';
@@ -28,6 +27,23 @@ export default function SideBarContainer({
     }
   };
 
+  this.setBoldId = (id) => {
+    const $boldLi = document.getElementById(id);
+    if ($boldLi) {
+      const $boldListItem = $('.list-item', $boldLi);
+      $boldListItem.classList.toggle('bold');
+    }
+  };
+
+  this.removeBoldId = () => {
+    const $boldItems = $all('.bold');
+    if ($boldItems) {
+      $boldItems.forEach(($boldItem) => {
+        $boldItem.classList.toggle('bold');
+      });
+    }
+  };
+
   new Header({
     $target: $sideBar,
     initialState: {
@@ -40,6 +56,7 @@ export default function SideBarContainer({
     initialState: {
       list: this.state,
     },
+    // document 삭제
     requestRemoveDocument: async (id) => {
       await request(`/documents/${id}`, {
         method: 'DELETE',
@@ -47,11 +64,13 @@ export default function SideBarContainer({
       await getData();
       setEditor(id);
     },
+    // document 정보 받아오기
     requestDocumentDetail: async (id) => {
       const documentDetail = await request(`/documents/${id}`);
 
       const { title, content } = documentDetail;
       setEditor(id, title, content);
+
       push(`/documents/${id}`);
     },
   });
@@ -62,8 +81,6 @@ export default function SideBarContainer({
       textList.addRootDocument();
       // 추후 작업들은 모달에서 알아서 함
       showModal();
-      // 위로 올려주고, 위에서 setState를 해야지 이게 맞지
-      // setNewRootDocument(nextState);
     },
     holdListScroll: () => {
       const $list = $('.list', $target);
