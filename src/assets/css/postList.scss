@@ -1,0 +1,132 @@
+@import "./libs/vars.scss";
+@import "./libs/mixins.scss";
+
+.post-list-container {
+	background-color: $color-post-list-background;
+	max-width: 300px;
+	min-width: 260px;
+	width: 100%;
+
+	.nav-header {
+		padding: 1rem 0;
+		text-align: center;
+	}
+
+	.nav-header:hover {
+		cursor: pointer;
+	}
+
+	@include base-button;
+
+	ul {
+		max-height: 870px;
+		overflow-y: scroll;
+		.post-list {
+			font-size: 14px;
+			padding-left: 4px;
+			color: $color-base-font;
+
+			.list-flex {
+				display: flex;
+				position: relative;
+				justify-content: space-between;
+				align-items: center;
+				padding: 8px 4px;
+
+				.open-folder:hover {
+					background-color: $color-post-button-hover;
+				}
+
+				span {
+					padding: 2px;
+				}
+
+				.post-title {
+					display: inline-block;
+					vertical-align: bottom;
+					max-width: 150px;
+					overflow-x: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+
+				.delete-create-btn-container {
+					display: none;
+					position: absolute;
+					right: 4px;
+
+					button {
+						padding: 1px;
+					}
+				}
+			}
+
+			.list-flex:hover {
+				cursor: pointer;
+				background-color: $color-post-list-hover;
+
+				.delete-create-btn-container {
+					display: block;
+					z-index: 5;
+
+					button {
+						cursor: pointer;
+					}
+
+					button:hover {
+						background-color: $color-post-button-hover;
+					}
+				}
+			}
+
+			.list-active {
+				background-color: $color-post-list-hover;
+			}
+
+			.child-ul {
+				padding-left: 24px;
+			}
+
+			.empty {
+				color: $color-home-font;
+				padding: 8px 0 8px 24px;
+			}
+
+			.hide {
+				display: none;
+			}
+		}
+	}
+
+	.empty-posts-list {
+		display: flex;
+		flex-direction: column;
+		text-align: center;
+		gap: 10px;
+		padding-top: 3rem;
+	}
+
+	.create-post-btn-container {
+		padding: 1rem 0;
+		width: 300px;
+		text-align: center;
+		position: fixed;
+		bottom: 0;
+		background-color: $color-post-list-background;
+
+		button {
+			color: #000000;
+			font-size: 14px;
+			font-weight: bold;
+		}
+
+		button:hover {
+			cursor: pointer;
+		}
+	}
+
+	.create-post-btn-container:hover {
+		cursor: pointer;
+		background-color: $color-post-list-hover;
+	}
+}
