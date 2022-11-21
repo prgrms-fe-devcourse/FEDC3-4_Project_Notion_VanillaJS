@@ -1,4 +1,4 @@
-import { API_END_POINT } from './apiEndPoint.js';
+import API_END_POINT from './apiEndPoint.js';
 import { USER_NAME } from '../lib/constants.js';
 
 export const request = async (url, options = {}) => {
