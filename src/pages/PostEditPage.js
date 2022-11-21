@@ -1,6 +1,6 @@
-import { fetchDocuments } from '../../utils/fetchDocuments.js';
-import { getItem, removeItem, setItem } from '../../utils/storage.js';
-import Editor from './Editor.js';
+import { fetchDocuments } from '../utils/fetchDocuments.js';
+import { getItem, removeItem, setItem } from '../utils/storage.js';
+import Editor from '../components/Editor.js';
 
 export default function PostEditPage({ $target, initialState }) {
   const $postEditPage = document.createElement('div');
