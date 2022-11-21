@@ -1,9 +1,9 @@
-import DoucumentsPage from './pages/DoucumentsPage.js';
-import PostEditPage from './components/posts/PostEditPage.js';
+import PostsPage from './pages/PostsPage.js';
+import PostEditPage from './pages/PostEditPage.js';
 import { initRouter } from './utils/router.js';
 
 export default function App({ $target }) {
-  const page = new DoucumentsPage({ $target });
+  const postsPage = new PostsPage({ $target });
   const postEditPage = new PostEditPage({
     $target,
     initialState: {
@@ -20,14 +20,14 @@ export default function App({ $target }) {
 
     if (pathname === '/') {
       $target.innerHTML = '';
-      page.setState();
+      postsPage.setState();
       return;
     }
 
     if (pathname.indexOf('/posts/') !== 0) return;
 
     if ($target.innerHTML === '') {
-      page.setState();
+      postsPage.setState();
     }
     const [, , postId] = pathname.split('/');
     postEditPage.setState({ postId });
