@@ -1,6 +1,6 @@
 import { setSideBarDOM } from '../../lib/storage.js';
 import { editorContent } from '../../lib/templates.js';
-import { $ } from '../../lib/utils.js';
+import { $ } from '../../lib/dom.js';
 
 // 여기서 꺼내야할 데이터 => title 새로 생긴 리스트와 같이 업데이트 해줘야 함
 export default function ModalEditor({ $target, setParentId }) {

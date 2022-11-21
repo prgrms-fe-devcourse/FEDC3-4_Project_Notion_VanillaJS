@@ -1,14 +1,4 @@
-export const $ = (selector, target = document) => {
-  return target.querySelector(`${selector}`);
-};
-
-export const $all = (selector, target = document) => {
-  return target.querySelectorAll(`${selector}`);
-};
-
-export const $createElement = (element) => {
-  return document.createElement(`${element}`);
-};
+import { $ } from './dom.js';
 
 export const showModal = () => {
   const $modal = $('#modal');

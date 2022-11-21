@@ -4,8 +4,9 @@ import { SIDELIST_KEY } from '../../lib/constants.js';
 import { push } from '../../lib/router.js';
 import { getItem, setSideBarDOM } from '../../lib/storage.js';
 import { ListItem, addDocumentToList } from '../../lib/templates.js';
-import { $, $createElement, showModal } from '../../lib/utils.js';
+import { $, $createElement } from '../../lib/dom.js';
 import { validateState } from '../../lib/validation.js';
+import { showModal } from '../../lib/utils.js';
 // 폴더 add 버튼, 삭제 버튼, 리스트 아이템 클릭
 export default function TextList({
   $target,
@@ -163,6 +164,7 @@ export default function TextList({
     // pick Document
     const onClickDocument = (id) => {
       requestDocumentDetail(id);
+      textTitle.classList.toggle('active');
     };
 
     // target에 따른 click event

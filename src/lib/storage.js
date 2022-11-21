@@ -1,5 +1,5 @@
 import { SIDELIST_KEY } from './constants.js';
-import { $ } from './utils.js';
+import { $ } from './dom.js';
 const storage = window.localStorage;
 
 export const getItem = (key, defaultValue) => {

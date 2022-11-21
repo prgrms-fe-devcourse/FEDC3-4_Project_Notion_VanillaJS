@@ -2,10 +2,11 @@ import NotionApi from '../../api/notionApi.js';
 import { USER_NAME } from '../../lib/constants.js';
 import { push } from '../../lib/router.js';
 import { setSideBarDOM } from '../../lib/storage.js';
-import { $, $all, showModal } from '../../lib/utils.js';
+import { $, $all } from '../../lib/dom.js';
 import Footer from './Footer.js';
 import Header from './Header.js';
 import TextList from './TextList.js';
+import { showModal } from '../../lib/utils.js';
 export default function SideBarPage({
   $target,
   initialState,

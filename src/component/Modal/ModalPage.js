@@ -1,5 +1,5 @@
 // 클릭시 이벤트 세개 => 전체 화면, 닫기나 바깥 화면 클릭 시 나가짐
-import { $ } from '../../lib/utils.js';
+import { $ } from '../../lib/dom.js';
 import Header from './Header.js';
 import ModalEditor from './ModalEditor.js';
 

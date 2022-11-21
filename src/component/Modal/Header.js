@@ -1,4 +1,4 @@
-import { $ } from '../../lib/utils.js';
+import { $ } from '../../lib/dom.js';
 
 export default function Header({ $target, modalActions }) {
   const $modalHeader = document.createElement('modal-header');

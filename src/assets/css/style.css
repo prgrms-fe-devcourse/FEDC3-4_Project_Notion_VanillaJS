@@ -85,8 +85,8 @@ button:focus {
 }
 
 .main-img {
-  width: 40%;
-  height: 50vh;
+  width: 30%;
+  height: 45vh;
 }
 header {
   padding: 10px 15px;
@@ -100,6 +100,7 @@ header {
 
 .header-content {
   height: 21px;
+  cursor: pointer;
 }
 
 .header-content span {
@@ -132,9 +133,6 @@ footer {
   height: 25px;
 }
 
-.add-root-btn .footer-text {
-}
-
 .list {
   overflow-x: hidden;
   overflow-y: auto;
@@ -160,13 +158,14 @@ ul li > .list-item:hover {
 }
 
 ul li > .list-item:active {
-  background-color: #cac9c4;
+  background-color: #cfcdc4;
 }
 
 .list-item {
   display: flex;
   width: 100%;
   align-items: center;
+  cursor: pointer;
   height: 27px;
   padding: 0 2px;
 }

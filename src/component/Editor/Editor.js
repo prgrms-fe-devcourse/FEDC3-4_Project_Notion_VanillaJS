@@ -1,6 +1,6 @@
 import { setSideBarDOM } from '../../lib/storage.js';
 import { editorContent } from '../../lib/templates.js';
-import { $ } from '../../lib/utils.js';
+import { $ } from '../../lib/dom.js';
 
 export default function Editor({ $target, initialState, onEditing }) {
   const $editor = document.createElement('div');

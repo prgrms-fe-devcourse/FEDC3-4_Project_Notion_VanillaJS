@@ -1,4 +1,4 @@
-import { $ } from '../../lib/utils.js';
+import { $ } from '../../lib/dom.js';
 
 export default function Footer({ $target, addNewDocument, holdListScroll }) {
   const $footer = document.createElement('footer');
