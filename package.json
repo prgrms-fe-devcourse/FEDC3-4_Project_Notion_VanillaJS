@@ -1,0 +1,27 @@
+{
+  "name": "fedc3-4_project_notion_vanillajs",
+  "version": "1.0.0",
+  "description": "## 필수 프로젝트",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SDWoo/FEDC3-4_Project_Notion_VanillaJS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SDWoo/FEDC3-4_Project_Notion_VanillaJS/issues"
+  },
+  "homepage": "https://github.com/SDWoo/FEDC3-4_Project_Notion_VanillaJS#readme",
+  "devDependencies": {
+    "cypress": "^11.0.1",
+    "eslint": "^8.27.0",
+    "eslint-config-prettier": "^8.5.0"
+  },
+  "dependencies": {
+    "prettier": "^2.7.1"
+  }
+}
