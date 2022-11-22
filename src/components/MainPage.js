@@ -1,5 +1,5 @@
 import { isNew } from "../utils/isNew.js";
-import { clickRootAdd } from "../utils/router.js";
+import { clickRootAdd } from "../utils/event.js";
 
 export default function MainPage({ $target, initialState }) {
   isNew(MainPage, this);

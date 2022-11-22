@@ -2,7 +2,7 @@ import { request } from "../utils/api.js";
 import { initRoute } from "../utils/router.js";
 import DocumentList from "./DocumentList.js";
 import Header from "./Header.js";
-import { clickRootAdd, clickRemove, clickAdd } from "../utils/router.js";
+import { clickRootAdd, clickRemove, clickAdd } from "../utils/event.js";
 import { isNew } from "../utils/isNew.js";
 import { setItem, getItem, removeItem } from "../utils/storage.js";
 

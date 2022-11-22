@@ -5,30 +5,24 @@ export const totalDocumentList = (documents) => {
     return `
     <ul>
       ${documents
-        .map((document) => {
-          const listToggleState = `isOpened-${document.id}`;
-          const listClicked = `${document.id}-clicked`;
+        .map((rootDocument) => {
+          const listToggleState = `isOpened-${rootDocument.id}`;
+          const listClicked = `${rootDocument.id}-clicked`;
           const display = getItem(listToggleState) || "none";
           const isClicked =
             getItem("isClicked") === listClicked ? "Clicked" : "unClicked";
           return `
           <div class="focusable">
-            <li data-id="${document.id}" class="${isClicked}" name="list">
+            <li data-id="${rootDocument.id}" class="${isClicked}" name="list">
             <span class="list-title"><button class="toggle-button ${display}">></button>${
-            document.title
+            rootDocument.title
           }</span>
             <span class="list-button"><button name="add-button" data-id="${
-              document.id
+              rootDocument.id
             }">➕</button>
-            <button name="remove-button" data-id=${document.id}>➖</button></span>
+            <button name="remove-button" data-id=${rootDocument.id}>➖</button></span>
             </div>
-              ${
-                document.documents.length
-                  ? `<ul class="child" style="display: ${display}">${totalDocumentList(
-                      document.documents
-                    )}</ul>`
-                  : `<ul style="display: ${display}"><li><i>하위 페이지 없음</i></li></ul>`
-              }
+              ${renderList(rootDocument.documents, display)}
             </li>
           `;
         })
@@ -37,3 +31,8 @@ export const totalDocumentList = (documents) => {
   `;
   }
 };
+
+const renderList = (documents, display) =>
+  documents.length
+    ? `<ul class="child" style="${display}">${totalDocumentList(documents)}</ul>`
+    : `<ul stlye="${display}"><li><i>하위 페이지 없음</i></li></ul>`;
