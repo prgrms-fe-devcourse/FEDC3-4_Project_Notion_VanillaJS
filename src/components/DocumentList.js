@@ -47,19 +47,23 @@ export default function DocumentList({
 
         return;
       }
-      if (target.className === "root-page-add-button") {
+
+      if (target.classList.contains("root-page-add-button")) {
         onClickRootAdd();
         return;
       }
-      if (target.name === "remove-button") {
-        onClickRemove(id);
-        removeItem(listToggleState);
-        return;
-      }
-      if (target.name === "add-button") {
-        getItem(listToggleState) ? "" : setItem(listToggleState, "block");
-        onClickAdd(id);
-        return;
+
+      switch (target.name) {
+        case "remove-button": {
+          onClickRemove(id);
+          removeItem(listToggleState);
+          return;
+        }
+        case "add-button": {
+          getItem(listToggleState) ? "" : setItem(listToggleState, "block");
+          onClickAdd(id);
+          return;
+        }
       }
     }
   });
