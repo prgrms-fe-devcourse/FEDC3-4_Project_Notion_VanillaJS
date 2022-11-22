@@ -13,7 +13,6 @@ export default function DocumentList({
 
   const $documentList = document.createElement("div");
   $documentList.className = "document-list";
-  $target.appendChild($documentList);
 
   this.state = initialState;
 
@@ -64,6 +63,8 @@ export default function DocumentList({
       }
     }
   });
+
+  $target.appendChild($documentList);
 
   this.render();
 }

@@ -13,8 +13,7 @@ export default function Footer({ $target, initialState }) {
   };
 
   this.render = () => {
-    const { title } = this.state;
-    const { id } = this.state;
+    const { title, id } = this.state;
     $footer.innerHTML = `
     <div class="sub-page-container">
       - 하위 페이지 -

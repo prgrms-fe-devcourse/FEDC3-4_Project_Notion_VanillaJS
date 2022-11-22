@@ -15,7 +15,11 @@ export default function Editor({
   $target.appendChild($editor);
 
   this.state = initialState;
-  let init = false;
+
+  $editor.innerHTML = `
+  <input class="editor-input" type="text" placeholder="제목을 입력하세요" name="title" value="${this.state.title}" />
+  <textarea class="editor-content" name="content" placeholder="여기에 내용을 입력하세요">${this.state.content}</textarea>
+`;
 
   this.setState = (nextState) => {
     this.state = nextState;
@@ -24,20 +28,7 @@ export default function Editor({
     if ($editor.querySelector("[name=title]").value === "제목 없음") {
       $editor.querySelector("[name=title]").value = "";
     }
-    this.render();
   };
-
-  this.render = () => {
-    if (!init) {
-      $editor.innerHTML = `
-        <input class="editor-input" type="text" placeholder="제목을 입력하세요" name="title" value="${this.state.title}" />
-        <textarea class="editor-content" name="content" placeholder="여기에 내용을 입력하세요">${this.state.content}</textarea>
-      `;
-    }
-    init = true;
-  };
-
-  this.render();
 
   $editor.addEventListener("keyup", (e) => {
     const { target } = e;
