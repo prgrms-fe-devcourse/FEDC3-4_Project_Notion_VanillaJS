@@ -44,10 +44,6 @@ export default function DocumentPage({ $target, onClickTitle }) {
     await fetchDocument();
   };
 
-  this.route = () => {
-    this.setState();
-  };
-
   initRoute(() => fetchDocument());
 
   $documentPage.addEventListener("click", (e) => {
