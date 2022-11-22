@@ -1,5 +1,5 @@
 import { initRoute, push } from "../utils/router.js";
-import { clearDiv } from "../utils/clearDiv.js";
+import { removeElementBySelector } from "../utils/removeElementBySelector.js";
 import DocumentPage from "./DocumentPage.js";
 import EditorPage from "./EditorPage.js";
 import MainPage from "./MainPage.js";
@@ -38,9 +38,9 @@ export default function App({ $target }) {
     if (pathname === "/") {
       documentPage.render();
       mainPage.render();
-      clearDiv(".editor-page");
+      removeElementBySelector(".editor-page");
     } else if (pathname.indexOf("/documents/") === 0) {
-      clearDiv(".main-page");
+      removeElementBySelector(".main-page");
       const [, , documentId] = pathname.split("/");
       editorPage.setState({
         ...editorPage.state,
