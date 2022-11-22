@@ -14,11 +14,14 @@ export default function DocumentList({
   const $documentList = document.createElement("div");
   $documentList.className = "document-list";
   $target.appendChild($documentList);
+
   this.state = initialState;
 
   this.setState = (nextState) => {
-    this.state = nextState;
-    this.render();
+    if (Array.isArray(this.state)) {
+      this.state = nextState;
+      this.render();
+    }
   };
 
   this.render = () => {

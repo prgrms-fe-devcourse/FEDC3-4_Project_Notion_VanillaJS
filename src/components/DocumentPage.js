@@ -55,7 +55,7 @@ export default function DocumentPage({ $target, onClickTitle }) {
     const element = target.closest("li");
     if (element) {
       const { id } = element.dataset;
-      if (target.className === "list-title") {
+      if (target.classList.contains("list-title")) {
         onClickTitle(id);
         const listClicked = `isClicked`;
         if (getItem(listClicked)) {

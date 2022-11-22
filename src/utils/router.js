@@ -36,7 +36,7 @@ export const clickRootAdd = async () => {
 
 export const clickRemove = async (id) => {
   const curId = window.location.pathname.split("/")[2];
-  if (id == curId) {
+  if (id === curId) {
     if (confirm("현재 페이지를 삭제하시겠습니까?")) {
       await request(`/documents/${id}`, {
         method: "DELETE",
