@@ -1,26 +1,23 @@
+import { initRouter } from "../utils/router.js";
+import { CheckNew } from "../utils/error.js";
 import PostPage from "./PostPage.js";
 import PostEditPage from "./PostEditPage.js";
-import { request } from "./Api.js";
-import { initRouter } from "./router.js";
 
 export default function App({ $target, initialState }) {
+  CheckNew(new.target);
+
   this.state = initialState;
 
-  this.setState = (nextState) => {};
-
+  // 모든 문서 구조에 대한 정보가 필요함.
   const postPage = new PostPage({
     $target,
     initialState,
-    // onPostClick: (id) => {
-    //   history.pushState(null, null, `/posts/${id}`);
-    //   this.route();
-    // },
   });
 
+  // 편집기에 보여줄 문서에 대한 정보만 필요함.
   const postEditPage = new PostEditPage({
     $target,
     initialState: {
-      // ...this.state ?
       postId: "new",
       post: {
         title: "",
@@ -29,20 +26,22 @@ export default function App({ $target, initialState }) {
     },
   });
 
-  this.route = () => {
-    // 비우기 코드
-    $target.innerHTML = "";
-
+  this.route = async () => {
     const { pathname } = window.location;
+
     if (pathname === "/") {
-      postPage.setState();
+      $target.innerHTML = "";
+      postPage.render();
+      await postPage.setState();
     } else if (pathname.indexOf("/posts/") === 0) {
       const [, , postId] = pathname.split("/");
-      postEditPage.setState({ postId });
+      await postEditPage.setState({ postId });
+      await postPage.setState({ postId });
     }
   };
 
   this.route();
-
   initRouter(() => this.route());
+
+  window.addEventListener("popstate", () => this.route());
 }

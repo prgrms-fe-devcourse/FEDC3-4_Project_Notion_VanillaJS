@@ -1,45 +1,61 @@
+import { getItem, setItem, removeItem } from "../utils/storage.js";
+import { request } from "../utils/api.js";
+import { push, update } from "../utils/router.js";
+import { CheckNew } from "../utils/error.js";
 import Editor from "./Editor.js";
-import { getItem, setItem, removeItem } from "./Storage.js";
-import { request } from "./Api.js";
 import LinkButton from "./LinkButton.js";
+import Navi from "./Navi.js";
 
 export default function PostEditPage({ $target, initialState }) {
+  CheckNew(new.target);
+
   const $postEditPage = document.createElement("div");
+  $postEditPage.className = "postEditPage";
+
+  // CSS
+  $postEditPage.style.width = "60%";
+  $postEditPage.style.margin = "30px";
 
   this.state = initialState;
 
   let postLocalSaveKey = `temp-post-${this.state.postId}`;
 
-  const post = getItem(postLocalSaveKey, {
-    title: "",
-    content: "",
-  });
-
   let timer = null;
+
+  const navi = new Navi({
+    $target: $postEditPage,
+    initialState: "new",
+  });
 
   const editor = new Editor({
     $target: $postEditPage,
     initialState: {
-      title: "",
+      title: "제목없음",
       content: "",
     },
     onEditing: (post) => {
+      setItem(postLocalSaveKey, {
+        ...post,
+        tempSaveDate: new Date(),
+      });
+
       if (timer !== null) {
         clearTimeout(timer);
       }
 
       timer = setTimeout(async () => {
-        setItem(postLocalSaveKey, {
-          ...post,
-          tempSaveDate: new Date(),
-        });
-
         const isNew = this.state.postId === "new";
         if (isNew) {
+          if (post.title === "") {
+            alert("제목을 입력해주세요!");
+            post.title = "제목 없음";
+          }
+
           const createPost = await request("documents", {
             method: "POST",
             body: JSON.stringify(post),
           });
+
           // 문서를 처음 생성할 때 title과 parent 들어가고 content는 받지않음.
           await request(`documents/${createPost.id}`, {
             method: "PUT",
@@ -47,53 +63,104 @@ export default function PostEditPage({ $target, initialState }) {
           });
 
           history.replaceState(null, null, `/posts/${createPost.id}`);
+
           removeItem(postLocalSaveKey);
 
           this.setState({
             postId: createPost.id,
           });
+
+          push(createPost.id);
         } else {
+          if (post.title === "") {
+            alert("제목을 입력해주세요!");
+            post.title = "제목 없음";
+          }
+
           await request(`documents/${post.id}`, {
             method: "PUT",
             body: JSON.stringify(post),
           });
+
           removeItem(postLocalSaveKey);
+
+          // 의존성?
+          navi.setState({
+            ...post,
+            postId: post.id,
+          });
         }
-      }, 2000);
+
+        $loading.innerHTML = `${Date()}<h1>저장완료</h1>`;
+        setTimeout(() => {
+          $loading.innerHTML = ``;
+        }, 3000);
+        update(post.id);
+      }, 1000);
     },
   });
 
   this.setState = async (nextState) => {
+    // 새로운 게시물을 작성하다가 새로고침이 되어도 작성중인 내용이 사라지지않는다.
+    if (this.state.postId === "new" && nextState.postId === "new") {
+      const tempPost = await getItem(postLocalSaveKey, {
+        title: "제목 없음",
+        content: "",
+      });
+
+      if (tempPost.title !== "" || tempPost.content !== "") {
+        this.state = {
+          ...this.state,
+          post: tempPost,
+        };
+      } else {
+        this.state = nextState;
+      }
+
+      editor.setState(this.state.post);
+      navi.setState(this.state);
+
+      this.render();
+      return;
+    }
+
     if (this.state.postId !== nextState.postId) {
+      // 지금 누른거로 바꿈.
       postLocalSaveKey = `temp-post-${nextState.postId}`;
       this.state = nextState;
 
+      // 새로운 문서를 만들 경우.
       if (this.state.postId === "new") {
         const post = getItem(postLocalSaveKey, {
-          title: "",
+          title: "제목 없음",
           content: "",
         });
-        this.render();
+
+        navi.setState(this.state);
         editor.setState(post);
+
+        this.render();
       } else {
+        // 이미 존재하는 문서일 경우.
         await fetchPost();
       }
       return;
     }
 
+    // 진짜 페이지에 그리는건 여기 아래서 부터.
     this.state = nextState;
+
+    navi.setState(this.state);
+
     this.render();
-
-    editor.setState(
-      this.state.post || {
-        title: "",
-        content: "",
-      }
-    );
-  };
-
-  this.render = () => {
-    $target.appendChild($postEditPage);
+    if (this.state.post) {
+      editor.setState(
+        this.state.post || {
+          title: "제목 없음",
+          content: "",
+        }
+      );
+    }
   };
 
   const fetchPost = async () => {
@@ -104,13 +171,24 @@ export default function PostEditPage({ $target, initialState }) {
         metohd: "GET",
       });
 
-      const tempPost = getItem(postLocalSaveKey, {
-        title: "",
+      // API에서 post를 받아올 때 글의 내용이 없으면 null로 내려온다.
+      // ""과 null은 자료형이 일치 하지 않으므로 자료형을 일치 시켜준다.
+      if (post.content === null) post.content = "";
+
+      const tempPost = await getItem(postLocalSaveKey, {
+        title: "제목 없음",
         content: "",
       });
 
       if (tempPost.tempSaveDate && tempPost.tempSaveDate > post.updatedAt) {
-        if (confirm("저장된 값이 있습니다.")) {
+        if (
+          confirm(
+            `${tempPost.tempSaveDate
+              .split("T")
+              .map((item) => item.split("Z"))
+              .join(" ")}에 작성된 글이 있습니다. 불러올까요?`
+          )
+        ) {
           this.setState({
             ...this.state,
             post: tempPost,
@@ -129,8 +207,15 @@ export default function PostEditPage({ $target, initialState }) {
   new LinkButton({
     $target: $postEditPage,
     initialState: {
-      text: "목록으로 이동",
+      text: "보고 있는 글 닫기",
       link: "/",
     },
   });
+
+  const $loading = document.createElement("div");
+  $postEditPage.appendChild($loading);
+
+  this.render = () => {
+    $target.appendChild($postEditPage);
+  };
 }

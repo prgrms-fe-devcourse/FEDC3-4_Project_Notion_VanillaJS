@@ -1,5 +1,5 @@
-import App from "./App.js";
-import { request } from "./Api.js";
+import App from "./component/App.js";
+import { request } from "./utils/api.js";
 
 const $app = document.querySelector("#app");
 $app.style.display = "flex";

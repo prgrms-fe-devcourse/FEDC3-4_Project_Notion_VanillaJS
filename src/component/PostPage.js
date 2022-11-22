@@ -1,11 +1,32 @@
 import PostList from "./PostList.js";
-import { request } from "./Api.js";
+import { request } from "../utils/api.js";
 import LinkButton from "./LinkButton.js";
+import { CheckNew } from "../utils/error.js";
+import { setItem, removeItem } from "../utils/storage.js";
+import { push } from "../utils/router.js";
 
 export default function PostPage({ $target, initialState }) {
+  CheckNew(new.target);
+
   const $postPage = document.createElement("div");
   $postPage.className = "PostPage";
-  $postPage.style.width = "30%";
+
+  // CSS
+  $postPage.style = `
+    width: 20%;
+    height: 100vh;
+    background-color: #dcdcdc;
+  `;
+
+  this.setState = async (postId = null) => {
+    const posts = await request("documents", {
+      method: "GET",
+    });
+
+    postList.setState(posts, postId);
+
+    // setState마다 render()를 진행하면 화면이 깜빡거리는 것처럼 보임.
+  };
 
   new LinkButton({
     $target: $postPage,
@@ -19,43 +40,71 @@ export default function PostPage({ $target, initialState }) {
     $target: $postPage,
     initialState,
     postAdd: async (id) => {
-      await request("documents", {
+      const test = await request("documents", {
         method: "POST",
         body: JSON.stringify({
-          title: "새 문서",
+          title: "제목 없음",
           parent: id,
         }),
       });
+
+      // 하위 문서를 추가하면 자동으로 하위 문서 목록을 보이게 해준다.
+      setItem(id, {
+        id: id,
+        visible: "",
+      });
+
+      push(`/posts/${test.id}`);
     },
     postDelete: async (id) => {
+      const { pathname } = window.location;
+
+      // 문서를 보고 있을 때 삭제.
+      if (pathname.indexOf("/posts/") === 0) {
+        const [, , postId] = pathname.split("/");
+
+        if (id === postId) {
+          if (confirm("현재 보고있는 문서를 삭제하시겠습니까?")) {
+            await request(`documents/${id}`, {
+              method: "DELETE",
+            });
+
+            removeItem(id);
+            removeItem(`temp-post-${id}`);
+
+            history.replaceState(null, null, "/");
+            push("/");
+          }
+        } else {
+          await request(`documents/${id}`, {
+            method: "DELETE",
+          });
+
+          removeItem(id);
+          removeItem(`temp-post-${id}`);
+
+          history.replaceState(null, null, "/");
+
+          // breadcrum을 갱신시키기 위헤서 현재 보고있는 문서로 재라우팅 시킨다.
+          push(`/posts/${postId}`);
+        }
+        return;
+      }
+      // 문서를 보고 있지 않을 때 삭제
       await request(`documents/${id}`, {
         method: "DELETE",
       });
 
-      const nextState = await request("documents", {
-        method: "GET",
-      });
-      postList.setState(nextState);
+      removeItem(id);
+      removeItem(`temp-post-${id}`);
+
+      push("/");
     },
   });
 
-  this.setState = async () => {
-    const posts = await request("documents", {
-      method: "GET",
-    });
-    postList.setState(posts);
-    this.render();
-  };
-
-  // const fetchPosts = async () => {
-  //   const posts = await request("documents", {
-  //     method: "GET",
-  //   });
-  //   postList.setState(posts);
-  // };
-
   this.render = async () => {
-    // await fetchPosts();
     $target.appendChild($postPage);
   };
+
+  this.render();
 }

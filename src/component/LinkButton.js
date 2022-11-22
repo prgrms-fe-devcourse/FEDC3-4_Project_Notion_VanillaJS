@@ -1,6 +1,9 @@
-import { push } from "./router.js";
+import { push } from "../utils/router.js";
+import { CheckNew } from "../utils/error.js";
 
 export default function LinkButton({ $target, initialState }) {
+  CheckNew(new.target);
+
   const $linkButton = document.createElement("button");
   this.state = initialState;
 
