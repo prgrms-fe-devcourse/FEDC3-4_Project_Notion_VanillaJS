@@ -1,6 +1,7 @@
 import { navigate } from "../utils/router.js";
 import EditorPreview from "./EditorPreview.js";
 import { className } from "../utils/constants.js";
+import { debounce } from "../utils/debounce.js";
 
 function DocumentEditor({ $target, initialState, onChange }) {
   const { editorDocumentTitle, editorDocumentContent } = className;
@@ -8,8 +9,6 @@ function DocumentEditor({ $target, initialState, onChange }) {
   const $editor = document.createElement("section");
   $editor.className = "document-editor";
   $target.appendChild($editor);
-
-  let debounce = null;
 
   this.state = initialState;
 
@@ -27,7 +26,7 @@ function DocumentEditor({ $target, initialState, onChange }) {
     },
   });
 
-  this.render = () => {
+  const render = () => {
     const { title, content, documents } = this.state.data;
 
     if (!title) {
@@ -59,26 +58,20 @@ function DocumentEditor({ $target, initialState, onChange }) {
     `;
   };
 
-  this.render();
+  render();
 
   const updateDocument = () => {
     const $title = document.querySelector(`.${editorDocumentTitle}`);
     const $content = document.querySelector(`.${editorDocumentContent}`);
 
-    if (debounce) {
-      clearTimeout(debounce);
-    }
-
-    debounce = setTimeout(() => {
-      onChange($title.value, $content.innerText);
-    }, 500);
+    onChange($title.value, $content.innerText);
   };
 
   $editor.addEventListener("keyup", (e) => {
     const $div = e.target.closest("div");
 
     if ($div) {
-      updateDocument();
+      debounce(updateDocument, 500);
     }
   });
 

@@ -14,8 +14,6 @@ function DocumentTree({ $target, initialState }) {
   $target.appendChild($tree);
 
   const { treeRootAddButton } = className;
-  const { messageForDelete, messageForCreate, errorMessageInvalidTitle } =
-    messages;
 
   this.state = initialState;
 
@@ -47,7 +45,7 @@ function DocumentTree({ $target, initialState }) {
         this.createDocument(parentId);
       },
       onDelete: async (documentId) => {
-        const answer = confirm(messageForDelete);
+        const answer = confirm(messages.askDelete);
         if (!answer) return;
 
         await deleteDocument(documentId);
@@ -67,14 +65,14 @@ function DocumentTree({ $target, initialState }) {
   };
 
   this.createDocument = async (parentId) => {
-    const title = prompt(messageForCreate);
+    const title = prompt(messages.askNewTitle);
 
     if (title === null) {
       return;
     }
 
     if (!title.trim()) {
-      alert(errorMessageInvalidTitle);
+      alert(messages.invalidTitle);
       return;
     }
 
