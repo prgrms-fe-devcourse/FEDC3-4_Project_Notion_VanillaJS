@@ -1,0 +1,168 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "SUIT-Medium";
+}
+
+@font-face {
+  font-family: "SUIT-Medium";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Medium.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.main-content {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.header-title {
+  border-bottom: 1px solid rgb(235, 235, 235);
+  padding-left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: lightgoldenrodyellow;
+}
+
+.header-title img {
+  width: 50px;
+  height: 50px;
+}
+
+.document-editor-wrapper {
+  display: flex;
+  width: 100vw;
+}
+
+.document-editor {
+  min-width: 40vw;
+  max-width: 40vw;
+}
+
+.document-tree {
+  background-color: rgb(251, 251, 250);
+  min-width: 250px;
+  max-width: 300px;
+  overflow: scroll;
+}
+
+.tree-node {
+  padding-left: 12px;
+  border-left: 1px solid lightgray;
+}
+
+.node-item {
+  list-style: none;
+  margin-top: 6px;
+  cursor: pointer;
+}
+
+.tree-node-li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 300px;
+}
+
+.tree-add-button-wrapper {
+  display: flex;
+  padding: 16px 10px;
+  cursor: pointer;
+  align-items: center;
+}
+
+.node-title {
+  display: flex;
+  align-items: center;
+}
+
+.node-title span {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.node-button-group {
+  display: flex;
+}
+
+.add-button,
+.delete-button {
+  all: unset;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  border-radius: 4px;
+}
+
+.add-button:hover,
+.delete-button:hover {
+  background-color: lightgray;
+}
+
+.add-button span,
+.delete-button span {
+  font-size: small;
+  color: black;
+}
+
+.eidtor-wrapper {
+  display: flex;
+}
+
+.editor-document-content {
+  height: 70vh;
+  width: 100%;
+  font-size: 20px;
+  padding: 32px;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
+.editor-document-content::-webkit-scrollbar {
+  display: none;
+}
+
+.document-editor {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-document-title {
+  height: 50px;
+  font-size: 32px;
+  font-weight: bold;
+  padding: 10px;
+  border: none;
+  font-family: SUIT-Medium;
+}
+
+.child-documents-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal {
+  display: none;
+}
+
+.editor-preview {
+  font-size: 20px;
+  padding: 16px;
+  border-left: 1px solid lightgray;
+}
+
+.editor-preview h1 {
+  font-size: 32px;
+}
+
+.preview-title {
+  margin: 0;
+  padding: 10px;
+}
