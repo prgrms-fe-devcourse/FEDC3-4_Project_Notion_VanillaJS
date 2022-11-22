@@ -1,13 +1,13 @@
 import { initRoute, push } from "../utils/router.js";
 import { removeElementBySelector } from "../utils/removeElementBySelector.js";
-import DocumentPage from "./DocumentPage.js";
+import DocumentSection from "./DocumentSection.js";
 import EditorPage from "./EditorPage.js";
 import MainPage from "./MainPage.js";
 import { isNew } from "../utils/isNew.js";
 
 export default function App({ $target }) {
   isNew(App, this);
-  const documentPage = new DocumentPage({
+  const documentSection = new DocumentSection({
     $target,
     onClickTitle: async (id) => {
       push(`/documents/${id}`);
@@ -24,7 +24,7 @@ export default function App({ $target }) {
       },
     },
     onChange: () => {
-      documentPage.render();
+      documentSection.render();
     },
   });
 
@@ -36,7 +36,7 @@ export default function App({ $target }) {
   this.route = () => {
     const { pathname } = window.location;
     if (pathname === "/") {
-      documentPage.render();
+      documentSection.render();
       mainPage.render();
       removeElementBySelector(".editor-page");
     } else if (pathname.indexOf("/documents/") === 0) {
@@ -46,7 +46,7 @@ export default function App({ $target }) {
         ...editorPage.state,
         documentId,
       });
-      documentPage.render();
+      documentSection.render();
     }
   };
 

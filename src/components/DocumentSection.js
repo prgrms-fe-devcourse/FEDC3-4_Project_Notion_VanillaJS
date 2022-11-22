@@ -6,13 +6,13 @@ import { clickRootAdd, clickRemove, clickAdd } from "../utils/router.js";
 import { isNew } from "../utils/isNew.js";
 import { setItem, getItem, removeItem } from "../utils/storage.js";
 
-export default function DocumentPage({ $target, onClickTitle }) {
-  isNew(DocumentPage, this);
+export default function DocumentSection({ $target, onClickTitle }) {
+  isNew(DocumentSection, this);
 
-  const $documentPage = document.createElement("div");
-  $documentPage.className = "document-page";
+  const $documentSection = document.createElement("div");
+  $documentSection.className = "document-page";
   const documentList = new DocumentList({
-    $target: $documentPage,
+    $target: $documentSection,
     initialState: [],
     onClickRootAdd: () => {
       clickRootAdd();
@@ -26,7 +26,7 @@ export default function DocumentPage({ $target, onClickTitle }) {
   });
 
   new Header({
-    $target: $documentPage,
+    $target: $documentSection,
     initialState: "김민우",
   });
 
@@ -46,7 +46,7 @@ export default function DocumentPage({ $target, onClickTitle }) {
 
   initRoute(() => fetchDocument());
 
-  $documentPage.addEventListener("click", (e) => {
+  $documentSection.addEventListener("click", (e) => {
     const { target } = e;
     const element = target.closest("li");
     if (element) {
@@ -64,5 +64,5 @@ export default function DocumentPage({ $target, onClickTitle }) {
     }
   });
 
-  $target.prepend($documentPage);
+  $target.prepend($documentSection);
 }
