@@ -6,8 +6,8 @@ import Saving from "./Saving.js";
 
 export default function EditorPage({ $target, initialState, onChange }) {
   isNew(EditorPage, this);
-  const $page = document.createElement("div");
-  $page.className = "editor-page";
+  const $editorPage = document.createElement("div");
+  $editorPage.className = "editor-page";
 
   this.state = initialState;
 
@@ -19,12 +19,12 @@ export default function EditorPage({ $target, initialState, onChange }) {
   let timer = null;
 
   const saving = new Saving({
-    $target: $page,
+    $target: $editorPage,
     initialState: null,
   });
 
   const editor = new Editor({
-    $target: $page,
+    $target: $editorPage,
     initialState: post,
     onEditing: async (post) => {
       if (timer !== null) {
@@ -49,7 +49,7 @@ export default function EditorPage({ $target, initialState, onChange }) {
   });
 
   const footer = new Footer({
-    $target: $page,
+    $target: $editorPage,
     initialState: {
       id: null,
       title: "",
@@ -78,6 +78,6 @@ export default function EditorPage({ $target, initialState, onChange }) {
   };
 
   this.render = () => {
-    $target.appendChild($page);
+    $target.appendChild($editorPage);
   };
 }

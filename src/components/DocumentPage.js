@@ -9,10 +9,10 @@ import { setItem, getItem, removeItem } from "../utils/storage.js";
 export default function DocumentPage({ $target, onClickTitle }) {
   isNew(DocumentPage, this);
 
-  const $page = document.createElement("div");
-  $page.className = "document-page";
+  const $documentPage = document.createElement("div");
+  $documentPage.className = "document-page";
   const documentList = new DocumentList({
-    $target: $page,
+    $target: $documentPage,
     initialState: [],
     onClickRootAdd: () => {
       clickRootAdd();
@@ -26,7 +26,7 @@ export default function DocumentPage({ $target, onClickTitle }) {
   });
 
   new Header({
-    $target: $page,
+    $target: $documentPage,
     initialState: "김민우",
   });
 
@@ -50,7 +50,7 @@ export default function DocumentPage({ $target, onClickTitle }) {
 
   initRoute(() => fetchDocument());
 
-  $page.addEventListener("click", (e) => {
+  $documentPage.addEventListener("click", (e) => {
     const { target } = e;
     const element = target.closest("li");
     if (element) {
@@ -68,5 +68,5 @@ export default function DocumentPage({ $target, onClickTitle }) {
     }
   });
 
-  $target.prepend($page);
+  $target.prepend($documentPage);
 }
