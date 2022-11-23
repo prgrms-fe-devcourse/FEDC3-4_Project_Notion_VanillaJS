@@ -1,4 +1,5 @@
 import { API_END_POINT } from "./Address.js";
+import { USERNAME } from "./Address.js";
 import { push } from "./router.js";
 
 export const request = async (url, options = {}) => {
@@ -7,7 +8,7 @@ export const request = async (url, options = {}) => {
       ...options,
       headers: {
         "Content-Type": "application/json",
-        "x-username": "ajk",
+        "x-username": USERNAME,
       },
     });
     if (res.ok) {
