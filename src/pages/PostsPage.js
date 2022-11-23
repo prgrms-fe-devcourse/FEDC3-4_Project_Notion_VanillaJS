@@ -1,5 +1,5 @@
-import { request } from './api.js';
-import PostList from './components/PostList.js';
+import { request } from '../api.js';
+import PostList from '../components/PostList.js';
 
 export default function PostsPage({ $target }) {
   const $page = document.createElement('div');
