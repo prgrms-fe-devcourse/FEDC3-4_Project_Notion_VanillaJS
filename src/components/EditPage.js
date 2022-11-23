@@ -2,7 +2,6 @@ import { request } from "../api.js";
 import { removeItem, setItem } from "../storage.js";
 import ChildDocument from "./ChildDocument.js";
 import Editor from "./Editor.js";
-import TopBar from "./TopBar.js";
 
 export default function EditPage({ $target, initialState, getTitleChange }) {
   const $editPage = document.createElement("div");
@@ -13,8 +12,6 @@ export default function EditPage({ $target, initialState, getTitleChange }) {
   let postLocalSaveKey = `temp-post-${this.state.documents.id}`;
 
   let timer = null;
-
-  const topBar = new TopBar({ $target: $editPage });
 
   const editor = new Editor({
     $target: $editPage,
