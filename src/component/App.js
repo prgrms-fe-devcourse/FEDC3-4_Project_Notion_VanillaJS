@@ -15,7 +15,7 @@ export default function App({ $target }) {
 
     // this.setState(res);
     //res는 배열.
-    return res;
+    this.setState(res);
   };
 
   const initialState = fetchPosts();
@@ -26,11 +26,11 @@ export default function App({ $target }) {
   };
 
   this.setState = (nextState) => {
-    const rootDocuments = fetchPosts();
+    // const rootDocuments = fetchPosts();
 
     this.state = {
-      postId: nextState ?? null,
-      posts: rootDocuments,
+      ...this.state,
+      posts: nextState,
     };
 
     postPage.setState(this.state);
@@ -56,18 +56,22 @@ export default function App({ $target }) {
     },
   });
 
+  // 라우팅 할 때 fetch를 새로 받고, fetch에서 setState를 부른다.
+  // setState에서는 컴포넌트들의 setState를 불러분다.
   this.route = async () => {
+    fetchPosts();
+
     const { pathname } = window.location;
 
     if (pathname === "/") {
       $target.innerHTML = "";
       postPage.render();
-      //postPage.setState();
+
       this.setState();
     } else if (pathname.indexOf("/posts/") === 0) {
       const [, , postId] = pathname.split("/");
       postEditPage.setState({ postId });
-      // postPage.setState({ postId });
+
       this.setState({ postId });
     }
   };

@@ -11,6 +11,7 @@ export const request = async (url, options = {}) => {
         "x-username": USERNAME,
       },
     });
+
     if (res.ok) {
       return await res.json();
     }

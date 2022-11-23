@@ -53,28 +53,22 @@ export default function Navi({ $target, initialState }) {
 
     $navi.innerHTML = `
     <p> 파일 경로:          
-      ${
-        postPath.length !== 0
-          ? postPath
-              .map((item) => {
-                return `<span data-id="${item.id}">${item.title}</span>`;
-              })
-              .join(" < ")
-          : "상위 파일 없음"
-      }
+      ${renderPath(postPath, "<") || "상위 파일 없음"}
     </p>
     <p> 하위 파일:
-        ${
-          postChildren.length !== 0
-            ? postChildren
-                .map((item) => {
-                  return `<span data-id="${item.id}">${item.title}</span>`;
-                })
-                .join(" / ")
-            : "하위 파일 없음"
-        }
+        ${renderPath(postChildren, "/") || "하위 파일 없음"}
     </p>
     `;
+  };
+
+  const renderPath = (path, option) => {
+    if (path.length === 0) return false;
+
+    return path
+      .map((item) => {
+        return `<span data-id="${item.id}">${item.title}</span>`;
+      })
+      .join(` ${option} `);
   };
 
   const DFS = (start, postId) => {

@@ -64,11 +64,12 @@ export default function PostPage({ $target, initialState }) {
     postDelete: async (id) => {
       const { pathname } = window.location;
 
-      const deletePost = (id) => {
+      const deletePost = async (id) => {
+        await request(`documents/${id}`, {
+          method: "DELETE",
+        });
         removeItem(id);
         removeItem(`temp-post-${id}`);
-
-        history.replaceState(null, null, "/");
       };
 
       // 문서를 보고 있을 때 삭제.
@@ -77,35 +78,25 @@ export default function PostPage({ $target, initialState }) {
 
         if (id === postId) {
           if (confirm("현재 보고있는 문서를 삭제하시겠습니까?")) {
-            await request(`documents/${id}`, {
-              method: "DELETE",
-            });
-
             deletePost(id);
+            history.replaceState(null, null, "/");
 
             push("/");
           }
         } else {
-          await request(`documents/${id}`, {
-            method: "DELETE",
-          });
-
           deletePost(id);
+          history.replaceState(null, null, "/");
 
-          // breadcrum을 갱신시키기 위헤서 현재 보고있는 문서로 재라우팅 시킨다.
+          // breadcrum 갱신.
           push(`/posts/${postId}`);
         }
         return;
+      } else {
+        // 문서를 보고 있지 않을 때 삭제
+        deletePost(id);
+
+        push("/");
       }
-      // 문서를 보고 있지 않을 때 삭제
-      await request(`documents/${id}`, {
-        method: "DELETE",
-      });
-
-      removeItem(id);
-      removeItem(`temp-post-${id}`);
-
-      push("/");
     },
   });
 
