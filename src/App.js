@@ -103,9 +103,9 @@ export default function App({ $app }) {
         selectedTitle.classList.remove('font-black');
         selectedTitle.classList.remove('text-lg');
       }
-      selectedTitle = $text;
       $text.classList.add('font-black');
       $text.classList.add('text-lg');
+      selectedTitle = $text;
       checkNumber(documentId);
       const userId = getUserIdToAdress();
       routeChange(`/FEDC3-4_Project_Notion_VanillaJS/${userId}/documents/${documentId}`);
@@ -127,6 +127,7 @@ export default function App({ $app }) {
       const { id, title } = await postDocument({
         title: NEW_TITLE,
       });
+
       $documentList.insertAdjacentHTML(
         'beforeend',
         documentItem({
@@ -134,6 +135,16 @@ export default function App({ $app }) {
           title,
         })
       );
+
+      const $addedDocument = $documentList.lastChild;
+      if (selectedTitle) {
+        selectedTitle.classList.remove('font-black');
+        selectedTitle.classList.remove('text-lg');
+      }
+      $addedDocument.classList.add('font-black');
+      $addedDocument.classList.add('text-lg');
+      selectedTitle = $addedDocument;
+
       routeChange(`/FEDC3-4_Project_Notion_VanillaJS/${userId}/documents/${id}`);
     },
   });
