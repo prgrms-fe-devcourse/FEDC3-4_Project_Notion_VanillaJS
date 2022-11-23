@@ -1,7 +1,6 @@
 export default function NewPostBtn({ $target, addPost }) {
   const $newButton = document.createElement("div");
   $newButton.className = "notion-newpage-button";
-  $newButton.role = "button";
 
   $target.appendChild($newButton);
 
