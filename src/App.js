@@ -21,7 +21,6 @@ import {
   ALERT_DELETE_DOCUMENT,
   CHANGE_API_DATA_TO_LOCAL_DATA,
   CHANGE_USER_NAME,
-  NEW_CONTENT,
   NEW_TITLE,
   NEW_ROOT_ID,
 } from './Constant/normal.js';
@@ -156,7 +155,7 @@ export default function App({ $app }) {
         initialState: {
           id: NEW_ROOT_ID,
           title: NEW_TITLE,
-          content: NEW_CONTENT,
+          content: null,
         },
         saveApi: async ({ $target }) => {
           const $editor = $target.closest('[data-id]');

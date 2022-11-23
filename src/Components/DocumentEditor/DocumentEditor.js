@@ -11,12 +11,6 @@ export default function DocumentEditor({ $target, initialState, saveApi, saveLoc
     this.state = await nextState;
     this.render();
   };
-  editorButton({ color: 'gray', text: '<b>B</b>', event: 'bold' });
-  editorButton({ color: 'green', text: '<i>I</i>', event: 'italic' });
-  editorButton({ color: 'blue', text: '<u>U</u>', event: 'underline' });
-  editorButton({ color: 'purple', text: '<s>S</s>', event: 'strikeThrough' });
-  editorButton({ color: 'yellow', text: 'OL', event: 'insertOrderedList' });
-  editorButton({ color: 'red', text: 'UL', event: 'insertUnorderedList' });
 
   this.render = () => {
     $target.innerHTML = `
