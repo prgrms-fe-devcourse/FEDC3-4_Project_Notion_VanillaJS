@@ -40,7 +40,6 @@ export default function EditPage({ $target, initialState, getTitleChange }) {
   this.setState = async (nextState) => {
     this.state = nextState;
     this.render();
-    topBar.setState(this.state);
     editor.setState(this.state);
     childDocument.setState(this.state);
   };
