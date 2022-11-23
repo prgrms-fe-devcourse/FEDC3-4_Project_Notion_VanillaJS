@@ -16,7 +16,6 @@ export default function PostPage({ $target, getSelectedId }) {
 
   $HomeButton.addEventListener("click", (e) => {
     push("/");
-    this.render();
   });
 
   this.state = {

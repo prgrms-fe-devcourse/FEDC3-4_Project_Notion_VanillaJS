@@ -37,7 +37,7 @@ export default function EditPage({ $target, initialState, getTitleChange }) {
 
   const childDocument = new ChildDocument({ $target: $editPage });
 
-  this.setState = async (nextState) => {
+  this.setState = (nextState) => {
     this.state = nextState;
     this.render();
     editor.setState(this.state);
