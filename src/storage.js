@@ -16,8 +16,7 @@ export const getItem = (key, defaultValue) => {
       return defaultValue;
     }
 
-    const parsedValue = JSON.parse(storedValue);
-    return parsedValue;
+    return JSON.parse(storedValue);
   } catch (e) {
     return defaultValue;
   }
