@@ -1,18 +1,18 @@
-import { ERROR_MESSAGE } from '../constants.js';
+import { ERROR_MESSAGE } from '../Constant/error.js';
 
-export const isConstructor = (target) => {
+export const checkConstructor = (target) => {
   if (!target) {
     throw new Error(ERROR_MESSAGE.NOT_CONSTRUCTOR);
   }
 };
 
-export const isString = (target) => {
+export const checkString = (target) => {
   if (typeof target !== 'string') {
     throw new Error(ERROR_MESSAGE.NOT_STRING);
   }
 };
 
-export const isNumber = (target) => {
+export const checkNumber = (target) => {
   if (typeof Number(target) !== 'number') {
     throw new Error(ERROR_MESSAGE.NOT_NUMBER);
   }

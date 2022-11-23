@@ -1,8 +1,8 @@
-import { isConstructor } from '../../Helpers/checkError.js';
+import { checkConstructor } from '../../Helpers/checkError.js';
 import { debounceFunction } from '../../Helpers/debounce.js';
 
 export default function DocumentEditor({ $target, initialState, saveApi, saveLocalStorage }) {
-  isConstructor(new.target);
+  checkConstructor(new.target);
 
   this.state = initialState;
 

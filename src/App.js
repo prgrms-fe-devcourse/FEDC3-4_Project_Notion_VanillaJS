@@ -1,4 +1,9 @@
-import { checkDocumentPath, isConstructor, isNumber, isString } from './Helpers/checkError.js';
+import {
+  checkDocumentPath,
+  checkConstructor,
+  checkNumber,
+  checkString,
+} from './Helpers/checkError.js';
 import {
   getDocumentAll,
   getDocumentById,
@@ -19,17 +24,17 @@ import {
 } from './Helpers/localstorage.js';
 import {
   ALERT_DELETE_DOCUMENT,
-  BASE_INIT_USERNAME,
   CHANGE_API_DATA_TO_LOCAL_DATA,
   CHANGE_USER_NAME,
   NEW_CONTENT,
   NEW_TITLE,
   NEW_ROOT_ID,
-} from './constants.js';
+} from './Constant/normal.js';
 import { getUserIdToAdress } from './Helpers/getUserIdToAdress.js';
+import { BASE_INIT_USERNAME } from './Constant/api.js';
 
 export default function App({ $app }) {
-  isConstructor(new.target);
+  checkConstructor(new.target);
   $app.innerHTML = `
     <aside class=" bg-stone-100 text-sm text-stone-500">
       <div>사이드리스트 로딩중</div>
@@ -107,7 +112,7 @@ export default function App({ $app }) {
       selectedTitle = $text;
       $text.classList.add('font-black');
       $text.classList.add('text-lg');
-      isNumber(documentId);
+      checkNumber(documentId);
       const userId = getUserIdToAdress();
       routeChange(`/FEDC3-4_Project_Notion_VanillaJS/${userId}/documents/${documentId}`);
     },
@@ -147,8 +152,8 @@ export default function App({ $app }) {
     }
 
     if (document) {
-      isString(userId);
-      isNumber(documentId);
+      checkString(userId);
+      checkNumber(documentId);
       checkDocumentPath(document);
 
       const documentEditor = new DocumentEditor({

@@ -1,8 +1,8 @@
-import { isConstructor } from '../../Helpers/checkError.js';
+import { checkConstructor } from '../../Helpers/checkError.js';
 import { documentItem } from './documentItem.js';
 
 export default function RenderDocumentItems({ $target, initialState }) {
-  isConstructor(new.target);
+  checkConstructor(new.target);
   const $documentList = document.createElement('ul');
   $target.appendChild($documentList);
 

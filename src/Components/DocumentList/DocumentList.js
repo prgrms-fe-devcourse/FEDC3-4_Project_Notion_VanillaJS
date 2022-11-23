@@ -1,4 +1,4 @@
-import { isConstructor } from '../../Helpers/checkError.js';
+import { checkConstructor } from '../../Helpers/checkError.js';
 import RenderDocumentItems from './RenderDocumentItems.js';
 import { documentUser } from './documentUser.js';
 import { newPageButton } from './newPageButton.js';
@@ -15,7 +15,7 @@ export default function DocumentList({
   changeUserEvent,
   newPageEvent,
 }) {
-  isConstructor(new.target);
+  checkConstructor(new.target);
 
   this.state = initialState;
 

@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE } from '../constants.js';
+import { ERROR_MESSAGE } from '../Constant/error.js';
 import { getUserIdToAdress } from './getUserIdToAdress.js';
 
 export const initLocalStorage = (id) => {

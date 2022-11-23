@@ -1,4 +1,4 @@
-import { BASE_INIT_USERNAME } from '../../constants.js';
+import { BASE_INIT_USERNAME } from '../../Constant/api.js';
 
 export const documentUser = (userId) => {
   return `

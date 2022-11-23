@@ -4,3 +4,4 @@ node_modules
 # api address
 .env
 endpoint.js
+url.js
