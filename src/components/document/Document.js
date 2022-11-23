@@ -2,10 +2,8 @@ import DocumentHeader from "./DocumentHeader.js";
 import DocumentContent from "./DocumentContent.js";
 
 import API from "../../utils/api.js";
-import { USER } from "../../config.js";
-import { debounce } from "../../utils/index.js";
 import { setItemToStorage, getItemFromStorage } from "../../utils/storage.js";
-import { handlers } from "../../utils/event.js";
+import { debounce } from "../../utils/index.js";
 import { navigate } from "../../utils/navigate.js";
 
 export default function Document({
@@ -40,7 +38,10 @@ export default function Document({
   };
 
   const renderNoDocument = ($container) => {
-    $container.innerHTML = `<h1>🎉 Welcome to ${USER.NAME}'s Notion! 🎉</h1>`;
+    $container.innerHTML = `
+      <h1 style="color: rgb(102, 75, 63, 0.7); font-weight: 800;">Notion에 오신 것을 환영해요!</h1>
+      <img src="https://media3.giphy.com/media/KjuQizGwJCsgoYdziS/giphy.gif?cid=ecf05e47ly3czt6iu86gd916h6oqna0t6wnb0e95ldri599i&rid=giphy.gif&ct=s" />
+    `;
   };
 
   const renderNewDocument = ($header, $body) => {

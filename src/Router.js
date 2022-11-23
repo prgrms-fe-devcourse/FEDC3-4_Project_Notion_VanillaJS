@@ -1,4 +1,4 @@
-import { HISTORY_CHANGE, POP_STATE, routes } from "./constants/routes.js";
+import { HISTORY_CHANGE, POP_STATE } from "./constants/routes.js";
 
 export default function Router({ onRoute }) {
   this.init = () => {

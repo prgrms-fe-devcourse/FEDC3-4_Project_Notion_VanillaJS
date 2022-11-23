@@ -186,11 +186,6 @@ details[open] > summary #document-item .arrow {
   transform: rotateZ(0deg);
 }
 
-/* details[open] > summary #document-item span {
-  color: rgb(55, 53, 47);
-  font-weight: 600;
-} */
-
 #sidebar-footer {
   height: 40px;
   margin: 4px 0px;

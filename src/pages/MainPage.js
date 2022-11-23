@@ -49,24 +49,15 @@ export default function MainPage({
   };
 
   this.mounted = async () => {
-    await this.renderSidebar();
+    this.renderSidebar();
     this.renderDocument();
   };
 
   this.setState = (newState) => {
-    const { documentId } = newState;
-
-    if (this.state.documentId !== documentId) {
+    if (this.state.documentId !== newState.documentId) {
       this.state = { ...this.state, ...newState };
       this.renderDocument();
     }
-    // const isDocumentChanged = documentId && documentId !== this.state.documentId;
-
-    // if (isDocumentChanged) {
-    //   this.state = { ...this.state, ...newState };
-    //   this.renderDocument();
-    //   return;
-    // }
   };
 
   this.init();

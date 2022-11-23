@@ -1,4 +1,4 @@
-import { API_END_POINT, USER_NAME } from "../../.env.js";
+import { API_END_POINT, X_USER_NAME } from "../../.env.js";
 import { navigate } from "./navigate.js";
 
 const request = async (url, options = {}) => {
@@ -7,7 +7,7 @@ const request = async (url, options = {}) => {
       ...options,
       headers: {
         "Content-Type": "application/json",
-        "x-username": USER_NAME,
+        "x-username": X_USER_NAME,
       },
     });
     const data = await response.json();
@@ -15,7 +15,6 @@ const request = async (url, options = {}) => {
     if (!response.ok) {
       throw data;
     }
-
     return data;
   } catch (error) {
     console.error("error", error);

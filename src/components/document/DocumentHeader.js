@@ -1,4 +1,4 @@
-import { DEFAULT } from "../../config.js";
+import { DEFAULT } from "../../constants/config.js";
 import { addEvent } from "../../utils/event.js";
 
 export default function DocumentHeader({

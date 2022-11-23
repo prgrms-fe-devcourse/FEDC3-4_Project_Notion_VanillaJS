@@ -3,7 +3,7 @@ import SidebarBody from "./SidebarBody.js";
 
 import API from "../../utils/api.js";
 import { navigate } from "../../utils/navigate.js";
-import { DEFAULT, USER } from "../../config.js";
+import { DEFAULT, USER } from "../../constants/config.js";
 import { addEvent } from "../../utils/event.js";
 
 export default function Sidebar({

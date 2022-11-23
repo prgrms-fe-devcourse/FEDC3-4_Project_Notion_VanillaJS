@@ -1,10 +1,12 @@
 import Details from "./Details.js";
 
-import { addEvent, handlers } from "../../utils/event.js";
-import { findDocumentElement, removeElementClass } from "../../utils/dom.js";
-
-import { $rootDocuments } from "../../utils/templates.js";
 import { navigate } from "../../utils/navigate.js";
+import { addEvent, handlers } from "../../utils/event.js";
+import {
+  findDocumentElement,
+  removeElementClass,
+  createRootDocumentsElement,
+} from "../../utils/helper.js";
 
 export default function SidebarBody({
   $target,
@@ -28,7 +30,7 @@ export default function SidebarBody({
 
     this.$target.innerHTML = `
       <span class="section-title">${title}</span>
-      ${$rootDocuments(rootDocuments)}
+      ${createRootDocumentsElement(rootDocuments)}
     `;
 
     this.mounted();

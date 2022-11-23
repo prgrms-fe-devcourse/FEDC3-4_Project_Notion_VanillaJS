@@ -1,6 +1,5 @@
 import DocumentItem from "./DocumentItem.js";
-
-import { $documentsList } from "../../utils/templates.js";
+import { createDocumentsListElement } from "../../utils/helper.js";
 
 export default function Details({
   $target,
@@ -29,7 +28,7 @@ export default function Details({
     this.$target.innerHTML = `
       <details id="document-details">
         <summary></summary>
-        <ul>${$documentsList(documents)}</ul>
+        <ul>${createDocumentsListElement(documents)}</ul>
       </details>
     `;
 

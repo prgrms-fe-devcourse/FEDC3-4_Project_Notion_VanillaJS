@@ -1,5 +1,3 @@
-import NotFoundPage from "./pages/NotFoundPage.js";
-
 import Router from "./Router.js";
 import { routes } from "./constants/routes.js";
 import { navigate } from "./utils/navigate.js";
@@ -17,18 +15,20 @@ export default function App({ $target }) {
   this.route = () => {
     const { pathname } = location;
     const { currentPage } = this.state;
-    const nextPage = findMatchedRoute(pathname)?.element || NotFoundPage;
+    const nextPage = findMatchedRoute(pathname)?.page;
 
-    const { state } = history;
-    const documentIdFromHistory = state ? state.documentId : null;
+    const documentIdFromHistory = history.state?.documentId || null;
     const documentIdFromPath = pathname.split("/documents/")[1];
 
-    if (documentIdFromPath != documentIdFromHistory) {
+    if (documentIdFromPath != documentIdFromHistory || !nextPage) {
       navigate("/404", true);
       return;
     }
 
-    if (!currentPage || !(currentPage instanceof nextPage)) {
+    const isCreateNewPage =
+      !currentPage || !(currentPage instanceof nextPage) || !documentIdFromHistory;
+
+    if (isCreateNewPage) {
       this.setState({
         currentPage: new nextPage({
           $target: this.$target,
