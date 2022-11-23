@@ -25,9 +25,6 @@ export default function PostPage({ $target, getSelectedId }) {
   const postList = new PostList({
     $target: $sideBar,
     initialState: this.state,
-    onSelect: (id) => {
-      getSelectedId(id);
-    },
     onAdd: async (id) => {
       const documents = {
         title: `제목 없음`,

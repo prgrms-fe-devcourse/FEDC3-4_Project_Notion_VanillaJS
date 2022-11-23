@@ -20,12 +20,13 @@ export default function App({ $target }) {
   };
 
   this.setState = (nextState) => {
-    this.state = nextState;
+    if (!Array.isArray(nextState.document)) {
+      this.state = nextState;
+    }
   };
 
   const postPage = new PostPage({
     $target: $sidebarContainer,
-    getSelectedId: (id) => {},
   });
 
   const editPage = new EditPage({
@@ -53,6 +54,7 @@ export default function App({ $target }) {
         return;
       }
       const editor = await request(`/${id}`);
+      console.log(editor);
       this.setState({ ...this.state, editor: editor });
       editPage.setState(this.state.editor);
     }

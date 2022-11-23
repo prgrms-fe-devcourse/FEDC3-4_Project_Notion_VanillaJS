@@ -76,7 +76,6 @@ export default function PostList({
         $li.children[1].style.display = isDisplay;
       }
       if (attribute === "text") {
-        onSelect(id);
         push(`/documents/${id}`);
       }
       if (attribute === "add") {
