@@ -16,10 +16,6 @@ export default function DocumentHeader({
     this.render();
   };
 
-  this.setState = () => {
-    this.render();
-  };
-
   this.render = () => {
     const { title } = this.state;
 

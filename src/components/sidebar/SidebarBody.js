@@ -2,11 +2,7 @@ import Details from "./Details.js";
 
 import { navigate } from "../../utils/navigate.js";
 import { addEvent, handlers } from "../../utils/event.js";
-import {
-  findDocumentElement,
-  removeElementClass,
-  createRootDocumentsElement,
-} from "../../utils/helper.js";
+import { findDocumentElement, createRootDocumentsElement } from "../../utils/helper.js";
 
 export default function SidebarBody({
   $target,
@@ -41,7 +37,6 @@ export default function SidebarBody({
 
     rootDocuments.forEach((document) => {
       const $target = findDocumentElement(document.id);
-
       if ($target) {
         new Details({
           $target,
@@ -52,40 +47,32 @@ export default function SidebarBody({
   };
 
   this.setEvent = () => {
-    const { onDocumentItemMouseOver, onDocumentItemMouseOut } = handlers;
+    const {
+      handleDocumentItemMouseOver,
+      handleDocumentItemMouseOut,
+      handleArrowButtonClick,
+      handleDocumentItemClick,
+    } = handlers;
 
-    addEvent(this.$target, "mouseover", "#document-item", onDocumentItemMouseOver);
-    addEvent(this.$target, "mouseout", "#document-item", onDocumentItemMouseOut);
+    addEvent(this.$target, "mouseover", "#document-item", handleDocumentItemMouseOver);
+    addEvent(this.$target, "mouseout", "#document-item", handleDocumentItemMouseOut);
 
+    addEvent(this.$target, "click", ".arrow", handleArrowButtonClick);
     addEvent(this.$target, "click", ".add-btn", (event) => {
       const { documentId } = event.target.closest("#document-item").dataset;
       onAddButtonClick(documentId);
     });
-
     addEvent(this.$target, "click", ".trash", (event) => {
       const { documentId } = event.target.closest("#document-item").dataset;
       onDeleteButtonClick(documentId);
     });
 
     addEvent(this.$target, "click", "#document-item", (event) => {
-      event.preventDefault();
-
-      if (
-        event.target.closest(".nopage") ||
-        event.target.closest(".add-btn") ||
-        event.target.closest(".trash")
-      ) {
-        return false;
-      }
-      if (event.target.closest(".arrow")) {
-        event.target.closest("details").open = !event.target.closest("details").open;
+      if (!handleDocumentItemClick(event)) {
         return;
       }
-      const $documentItem = event.target.closest("#document-item");
-      const { documentId } = $documentItem.dataset;
 
-      removeElementClass("#document-item", "focus");
-      $documentItem.classList.add("focus");
+      const { documentId } = event.target.closest("#document-item").dataset;
       navigate(`/documents/${documentId}`, false, { documentId });
     });
   };

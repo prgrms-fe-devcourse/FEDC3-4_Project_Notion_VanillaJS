@@ -14,19 +14,21 @@ export default function Sidebar({
 }) {
   const addDocument = async (parentId = null) => {
     const { id } = await API.createDocument(DEFAULT.DOCUMENT_NAME, parentId);
+    navigate(`/documents/${id}`, false, { documentId: id });
+
     const rootDocuments = await API.getDocuments();
     this.setState({ rootDocuments });
-    navigate(`/documents/${id}`, false, { documentId: id });
   };
 
   const deleteDocument = async (id) => {
     await API.deleteDocument(id);
-    const rootDocuments = await API.getDocuments();
-    this.setState({ rootDocuments });
 
     if (location.pathname === `/documents/${id}`) {
       navigate("/", true);
     }
+
+    const rootDocuments = await API.getDocuments();
+    this.setState({ rootDocuments });
   };
 
   this.$target = $target;
@@ -60,18 +62,18 @@ export default function Sidebar({
         title: "Private",
         rootDocuments: [...this.state.rootDocuments],
       },
-      onAddButtonClick: addDocument.bind(this),
-      onDeleteButtonClick: deleteDocument.bind(this),
+      onAddButtonClick: addDocument,
+      onDeleteButtonClick: deleteDocument,
     });
 
     new SidebarFooter({
       $target: $footer,
-      onAddButtonClick: addDocument.bind(this),
+      onAddButtonClick: addDocument,
     });
   };
 
   this.setEvent = () => {
-    addEvent(this.$target, "click", "#sidebar-header", (event) => {
+    addEvent(this.$target, "click", "#sidebar-header", () => {
       navigate("/");
     });
   };

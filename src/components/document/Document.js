@@ -12,8 +12,18 @@ export default function Document({
     documentId: null,
   },
 }) {
+  const fetchDocument = async (documentId) => {
+    const response = await API.getDocuments(documentId);
+
+    if (!response) {
+      navigate("/", true);
+      return;
+    }
+
+    return [{ title: response.title, content: response.content }, response];
+  };
+
   const handleDocumentEdit = async (text, section = "title") => {
-    console.log(this);
     const storedItem = getItemFromStorage("notion", { currentDocument: {} });
 
     storedItem.currentDocument = {
@@ -27,14 +37,27 @@ export default function Document({
     await API.updateDocument(this.state.documentId, { title, content });
   };
 
-  const fetchDocument = async (documentId) => {
-    const response = await API.getDocuments(documentId);
-    if (!response) {
-      navigate("/", true);
-      return;
-    }
+  const renderDocumentById = async ($header, $body) => {
+    const { documentId } = this.state;
+    const [{ title, content }, response] = await fetchDocument(documentId);
 
-    return [{ title: response.title, content: response.content }, response];
+    setItemToStorage("notion", { currentDocument: response });
+
+    new DocumentHeader({
+      $target: $header,
+      initialState: { title },
+      onEdit: debounce(handleDocumentEdit, 300),
+    });
+    new DocumentContent({
+      $target: $body,
+      initialState: { content },
+      onEdit: debounce(handleDocumentEdit, 300),
+    });
+  };
+
+  const renderNewDocument = ($header, $body) => {
+    new DocumentHeader({ $target: $header, onEdit: debounce(handleDocumentEdit, 300) });
+    new DocumentContent({ $target: $body, onEdit: debounce(handleDocumentEdit, 300) });
   };
 
   const renderNoDocument = ($container) => {
@@ -42,28 +65,6 @@ export default function Document({
       <h1 style="color: rgb(102, 75, 63, 0.7); font-weight: 800;">Notion에 오신 것을 환영해요!</h1>
       <img src="https://media3.giphy.com/media/KjuQizGwJCsgoYdziS/giphy.gif?cid=ecf05e47ly3czt6iu86gd916h6oqna0t6wnb0e95ldri599i&rid=giphy.gif&ct=s" />
     `;
-  };
-
-  const renderNewDocument = ($header, $body) => {
-    new DocumentHeader({ $target: $header, onEdit: handleDocumentEdit.bind(this) });
-    new DocumentContent({ $target: $body, onEdit: handleDocumentEdit.bind(this) });
-  };
-
-  const renderDocumentById = async ($header, $body) => {
-    const { documentId } = this.state;
-    const [{ title, content }, response] = await fetchDocument(documentId);
-    setItemToStorage("notion", { currentDocument: response });
-
-    new DocumentHeader({
-      $target: $header,
-      initialState: { title },
-      onEdit: debounce(handleDocumentEdit.bind(this), 300),
-    });
-    new DocumentContent({
-      $target: $body,
-      initialState: { content },
-      onEdit: debounce(handleDocumentEdit.bind(this), 300),
-    });
   };
 
   this.$target = $target;
@@ -95,15 +96,11 @@ export default function Document({
       renderNewDocument($header, $body);
       return;
     } else if (!!documentId) {
-      console.log(documentId);
       renderDocumentById($header, $body);
     } else {
-      console.log(documentId);
       renderNoDocument($container);
     }
   };
-
-  this.setEvent = () => {};
 
   this.init();
 }

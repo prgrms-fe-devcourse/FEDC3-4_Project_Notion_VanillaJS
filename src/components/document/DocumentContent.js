@@ -16,11 +16,6 @@ export default function DocumentContent({
     this.render();
   };
 
-  this.setState = (newState) => {
-    this.state = { ...this.state, ...newState };
-    this.render();
-  };
-
   this.render = () => {
     const { content } = this.state;
 
@@ -36,5 +31,11 @@ export default function DocumentContent({
       onEdit(event.target.innerText, "content");
     });
   };
+
+  this.setState = (newState) => {
+    this.state = { ...this.state, ...newState };
+    this.render();
+  };
+
   this.init();
 }

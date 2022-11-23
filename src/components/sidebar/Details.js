@@ -1,5 +1,5 @@
 import DocumentItem from "./DocumentItem.js";
-import { createDocumentsListElement } from "../../utils/helper.js";
+import { createDocumentsListElement, findDocumentElement } from "../../utils/helper.js";
 
 export default function Details({
   $target,
@@ -14,11 +14,6 @@ export default function Details({
   this.state = initialState;
 
   this.init = () => {
-    this.render();
-  };
-
-  this.setState = (nextState) => {
-    this.state = { ...this.state, ...nextState };
     this.render();
   };
 
@@ -41,26 +36,24 @@ export default function Details({
 
     new DocumentItem({
       $target: $rootDocument,
-      initialState: {
-        id,
-        title,
-      },
+      initialState: { id, title },
       onAddButtonClick,
     });
 
     documents.forEach(({ id, title, documents }) => {
-      const $li = this.$target.querySelector(`[data-document-id="${id}"]`);
+      const $target = findDocumentElement(id);
 
       new Details({
-        $target: $li,
-        initialState: {
-          title,
-          id,
-          documents,
-        },
+        $target,
+        initialState: { title, id, documents },
         onAddButtonClick,
       });
     });
+  };
+
+  this.setState = (nextState) => {
+    this.state = { ...this.state, ...nextState };
+    this.render();
   };
 
   this.init();

@@ -17,18 +17,18 @@ export default function App({ $target }) {
     const { currentPage } = this.state;
     const nextPage = findMatchedRoute(pathname)?.page;
 
-    const documentIdFromHistory = history.state?.documentId || null;
     const documentIdFromPath = pathname.split("/documents/")[1];
+    const documentIdFromHistory = history.state?.documentId || null;
 
     if (documentIdFromPath != documentIdFromHistory || !nextPage) {
       navigate("/404", true);
       return;
     }
 
-    const isCreateNewPage =
+    const needNewPage =
       !currentPage || !(currentPage instanceof nextPage) || !documentIdFromHistory;
 
-    if (isCreateNewPage) {
+    if (needNewPage) {
       this.setState({
         currentPage: new nextPage({
           $target: this.$target,

@@ -1,3 +1,5 @@
+import { removeElementClass } from "./helper.js";
+
 const addEvent = ($target, eventType, selector, callback) => {
   const children = [...$target.querySelectorAll(selector)];
   const isTarget = (target) => children.includes(target) || target.closest(selector);
@@ -9,7 +11,7 @@ const addEvent = ($target, eventType, selector, callback) => {
 };
 
 const handlers = {
-  onDocumentItemMouseOver: (event) => {
+  handleDocumentItemMouseOver: (event) => {
     const { target } = event;
     const $documentItem = target.closest("#document-item");
     const $openButton = $documentItem.querySelector(".arrow");
@@ -17,7 +19,7 @@ const handlers = {
     const $trashButton = $documentItem.querySelector(".trash");
 
     if (!$openButton || !$addButton || !$trashButton) {
-      return;
+      return false;
     }
 
     $addButton.classList.remove("hidden");
@@ -33,7 +35,7 @@ const handlers = {
       $trashButton.classList.add("focus");
     }
   },
-  onDocumentItemMouseOut: (event) => {
+  handleDocumentItemMouseOut: (event) => {
     const { target } = event;
     const $documentItem = target.closest("#document-item");
     const $openButton = $documentItem.querySelector(".arrow");
@@ -41,7 +43,7 @@ const handlers = {
     const $trashButton = $documentItem.querySelector(".trash");
 
     if (!$openButton || !$addButton || !$trashButton) {
-      return;
+      return false;
     }
 
     $addButton.classList.add("hidden");
@@ -56,6 +58,29 @@ const handlers = {
     if ($trashButton === target.closest(".trash")) {
       $trashButton.classList.remove("focus");
     }
+  },
+  handleArrowButtonClick: (event) => {
+    const $details = event.target.closest("details");
+    $details.open = !$details.open;
+  },
+  handleDocumentItemClick: (event) => {
+    event.preventDefault();
+
+    if (
+      event.target.closest(".nopage") ||
+      event.target.closest(".add-btn") ||
+      event.target.closest(".trash") ||
+      event.target.closest(".arrow")
+    ) {
+      return false;
+    }
+
+    const $documentItem = event.target.closest("#document-item");
+
+    removeElementClass("#document-item", "focus");
+    $documentItem.classList.add("focus");
+
+    return true;
   },
 };
 
