@@ -1,5 +1,7 @@
-import PostsPage from './pages/PostsPage';
+import PostsPage from './pages/PostsPage.js';
 
 export default function App({ $target }) {
-  new PostsPage({ $target });
+  const postsPage = new PostsPage({ $target });
+
+  postsPage.render();
 }
