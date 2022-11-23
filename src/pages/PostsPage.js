@@ -14,7 +14,7 @@ export default function PostsPage({ $target }) {
     isMounted = true;
   };
   this.render = async () => {
-    if (!isMounted) initialRender();
+    if (!isMounted) this.initialRender();
     await getPosts();
   };
 
