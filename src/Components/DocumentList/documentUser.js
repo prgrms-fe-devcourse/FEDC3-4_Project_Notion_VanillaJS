@@ -17,13 +17,13 @@ export const documentUser = (userId) => {
     <div>
       <ol class="my-1">
         <li class="hover:bg-stone-200 px-3 py-1 text-left">
-          <span>Quick Find</span>
+          <span>Quick Find (미구현)</span>
         </li>
         <li class="hover:bg-stone-200 px-3 py-1 text-left">
-          <span>All Updates</span>
+          <span>All Updates (미구현)</span>
         </li>
         <li class="hover:bg-stone-200 px-3 py-1 text-left">
-          <span>Settings &amp; Members</span>
+          <span>Settings &amp; Members (미구현)</span>
         </li>
       </ol>
     </div>

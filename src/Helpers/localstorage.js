@@ -1,7 +1,7 @@
 import { ERROR_MESSAGE } from '../Constant/error.js';
 import { getUserIdToAdress } from './getUserIdToAdress.js';
 
-export const initLocalStorage = (id) => {
+export const initBaseLocalData = (id) => {
   const getItems = localStorage.getItem(id);
   if (!getItems) {
     localStorage.setItem(id, JSON.stringify({}));
@@ -10,10 +10,10 @@ export const initLocalStorage = (id) => {
   return getItems;
 };
 
-export const setLocalStorage = ({ id, value }) => {
+export const setItems = ({ id, value }) => {
   try {
     const userId = getUserIdToAdress();
-    const localList = JSON.parse(initLocalStorage(userId));
+    const localList = JSON.parse(initBaseLocalData(userId));
     localList[id] = value;
     localStorage.setItem(userId, JSON.stringify(localList));
   } catch (e) {
@@ -21,10 +21,10 @@ export const setLocalStorage = ({ id, value }) => {
   }
 };
 
-export const getLocalStorage = (id) => {
+export const getItems = (id) => {
   try {
     const userId = getUserIdToAdress();
-    const localList = JSON.parse(initLocalStorage(userId));
+    const localList = JSON.parse(initBaseLocalData(userId));
 
     if (localList[id]) {
       return localList[id];
@@ -34,10 +34,10 @@ export const getLocalStorage = (id) => {
   }
 };
 
-export const removeLocalStorage = (id) => {
+export const removeItems = (id) => {
   try {
     const userId = getUserIdToAdress();
-    const localList = JSON.parse(initLocalStorage(userId));
+    const localList = JSON.parse(initBaseLocalData(userId));
     delete localList[id];
     localStorage.setItem(userId, JSON.stringify(localList));
   } catch (e) {

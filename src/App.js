@@ -16,12 +16,7 @@ import RenderDocumentItems from './Components/DocumentList/RenderDocumentItems.j
 import DocumentEditor from './Components/DocumentEditor/DocumentEditor.js';
 import { documentItem } from './Components/DocumentList/documentItem.js';
 import { init, routeChange } from './Helpers/router.js';
-import {
-  getLocalStorage,
-  initLocalStorage,
-  removeLocalStorage,
-  setLocalStorage,
-} from './Helpers/localstorage.js';
+import { getItems, initBaseLocalData, removeItems, setItems } from './Helpers/localstorage.js';
 import {
   ALERT_DELETE_DOCUMENT,
   CHANGE_API_DATA_TO_LOCAL_DATA,
@@ -121,7 +116,7 @@ export default function App({ $app }) {
       const baseId = getUserIdToAdress();
       const userId = prompt(CHANGE_USER_NAME, baseId);
       if (userId) {
-        initLocalStorage(userId);
+        initBaseLocalData(userId);
         routeChange(`/FEDC3-4_Project_Notion_VanillaJS/${userId ? userId : baseId}`);
         documentList.setState(getDocumentAll());
       }
@@ -147,7 +142,7 @@ export default function App({ $app }) {
   this.route = async () => {
     const [, , userId, document, documentId] = location.pathname.split('/');
     if (!userId) {
-      initLocalStorage(BASE_INIT_USERNAME);
+      initBaseLocalData(BASE_INIT_USERNAME);
       routeChange(`/FEDC3-4_Project_Notion_VanillaJS/${BASE_INIT_USERNAME}`);
     }
 
@@ -175,7 +170,7 @@ export default function App({ $app }) {
           });
           const $documentItem = $app.querySelector(`[data-id="${id}"] SPAN`);
           $documentItem.innerHTML = title;
-          removeLocalStorage(id);
+          removeItems(id);
         },
 
         saveLocalStorage: ({ $target }) => {
@@ -183,7 +178,7 @@ export default function App({ $app }) {
           const id = $editor.dataset.id;
           const [$title, $content] = $editor.querySelectorAll('[contenteditable=true]');
           const [title, content] = [$title.innerHTML, $content.innerHTML];
-          setLocalStorage({
+          setItems({
             id,
             value: {
               title,
@@ -195,7 +190,7 @@ export default function App({ $app }) {
       });
 
       const apiData = await getDocumentById({ id: documentId });
-      const localData = getLocalStorage(documentId);
+      const localData = getItems(documentId);
       documentEditor.setState(apiData);
       if (localData?.tempUpdateAt > apiData.updatedAt) {
         const changeApiDataToLocalData = confirm(CHANGE_API_DATA_TO_LOCAL_DATA);
@@ -206,7 +201,7 @@ export default function App({ $app }) {
             content: localData.content,
           });
         }
-        removeLocalStorage(documentId);
+        removeItems(documentId);
         location.reload();
       }
     }
