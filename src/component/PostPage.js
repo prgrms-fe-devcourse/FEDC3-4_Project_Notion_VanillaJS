@@ -18,11 +18,16 @@ export default function PostPage({ $target, initialState }) {
     background-color: #dcdcdc;
   `;
 
-  this.setState = async (postId = null) => {
+  const fetchPost = async () => {
     const posts = await request("documents", {
       method: "GET",
     });
 
+    return posts;
+  };
+
+  this.setState = async (postId = null) => {
+    const posts = await fetchPost();
     postList.setState(posts, postId);
 
     // setState마다 render()를 진행하면 화면이 깜빡거리는 것처럼 보임.
@@ -59,6 +64,13 @@ export default function PostPage({ $target, initialState }) {
     postDelete: async (id) => {
       const { pathname } = window.location;
 
+      const deletePost = (id) => {
+        removeItem(id);
+        removeItem(`temp-post-${id}`);
+
+        history.replaceState(null, null, "/");
+      };
+
       // 문서를 보고 있을 때 삭제.
       if (pathname.indexOf("/posts/") === 0) {
         const [, , postId] = pathname.split("/");
@@ -69,10 +81,8 @@ export default function PostPage({ $target, initialState }) {
               method: "DELETE",
             });
 
-            removeItem(id);
-            removeItem(`temp-post-${id}`);
+            deletePost(id);
 
-            history.replaceState(null, null, "/");
             push("/");
           }
         } else {
@@ -80,10 +90,7 @@ export default function PostPage({ $target, initialState }) {
             method: "DELETE",
           });
 
-          removeItem(id);
-          removeItem(`temp-post-${id}`);
-
-          history.replaceState(null, null, "/");
+          deletePost(id);
 
           // breadcrum을 갱신시키기 위헤서 현재 보고있는 문서로 재라우팅 시킨다.
           push(`/posts/${postId}`);
