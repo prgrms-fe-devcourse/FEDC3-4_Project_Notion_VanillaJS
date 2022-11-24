@@ -36,10 +36,12 @@ export default function Navigator({
           .map(({ id, title, documents }) => {
             const isOpened = this.state.openedDocuments.map((key) => parseInt(key)).includes(id);
             return `
-              <div key=${id} class='document document-item flex-row' style='padding-left: ${depth}rem; display: ${
-              depth === 0 || isOpened || opened ? 'flex' : 'none'
+              <div key=${id} class='document-wrapper document document-item flex-row' style='padding-left: ${depth}rem; display: ${
+              depth === 0 || opened ? 'flex' : 'none'
             };'>
-                <div class='icon-wrapper'>${isOpened ? chevronDownIcon : chevronIcon}</div>
+                <div class='icon-wrapper chevron-button'>${
+                  isOpened ? chevronDownIcon : chevronIcon
+                }</div>
                 <div class='icon-wrapper'>${documentIcon}</div>
                 <div class='title-wrapper' id='id-${id}' data-title='${title}'>
                   ${title}
@@ -49,7 +51,7 @@ export default function Navigator({
                   </div>
                 </div>
               </div>
-              ${getDocuments(documents, depth + 1, isOpened)}
+              ${isOpened ? getDocuments(documents, depth + 1, isOpened) : ''}
             `;
           })
           .join('')}
@@ -57,16 +59,28 @@ export default function Navigator({
     `;
   };
 
+  const renderDocuments = () => {
+    const documentsWrapper = $navigator.querySelector('.documents-wrapper');
+    documentsWrapper.innerHTML = `
+      ${getDocuments(this.state.documents)}
+    `;
+  };
+
   this.setEvent = () => {
-    const chevrons = $navigator.querySelectorAll('.chevron');
-    [].forEach.call(chevrons, (chevron) => {
-      chevron.addEventListener(EVENT.CLICK, (e) => {
-        e.stopPropagation();
-        const currentDocument = chevron.closest('.document');
+    $navigator.addEventListener(EVENT.CLICK, (e) => {
+      const $chevron = e.target.closest('.chevron-button');
+      const $document = e.target.closest('.document-wrapper');
+      const $delete = e.target.closest('.document-delete');
+      const $add = e.target.closest('.document-add');
+      const $header = e.target.closest('.navigator-header');
+
+      if ($chevron && $document) {
+        const chevron = $chevron.querySelector('.chevron');
+        const $document = chevron.closest('.document');
         const isClosed = chevron.style.transform === `rotateZ(${DEGREE.CLOSED}deg)`;
-        const nextChildren = currentDocument.nextElementSibling;
+        const nextChildren = $document.nextElementSibling;
         const isNotDocument = nextChildren && !nextChildren.classList.value.includes('document');
-        const keys = [currentDocument.getAttribute('key')];
+        const keys = [$document.getAttribute('key')];
 
         if (isClosed) {
           chevron.style.transform = `rotateZ(${DEGREE.OPENED}deg)`;
@@ -95,43 +109,33 @@ export default function Navigator({
           this.setState({ openedDocuments: difference });
         }
         setItem(STORAGE_KEY.OPENED_DOCUMENTS, this.state.openedDocuments);
-      });
-    });
+        renderDocuments();
+      }
 
-    const $addDocuments = $navigator.querySelectorAll('.document-add');
-    [].forEach.call($addDocuments, ($addDocument) => {
-      $addDocument.addEventListener(EVENT.CLICK, (e) => {
-        e.stopPropagation();
-        const targetDocumentId = e.target.closest('.document').getAttribute('key');
-        addDocument(targetDocumentId);
-      });
-    });
+      if ($document && !$chevron && !$delete && !$add) {
+        const targetDocumentId = $document.getAttribute('key');
+        openDocument(targetDocumentId);
+      }
 
-    const $deleteDocuments = $navigator.querySelectorAll('.document-delete');
-    [].forEach.call($deleteDocuments, ($deleteDocument) => {
-      $deleteDocument.addEventListener(EVENT.CLICK, (e) => {
-        e.stopPropagation();
-        const targetDocumentId = e.target.closest('.document').getAttribute('key');
+      if ($delete && $document) {
+        const targetDocumentId = $document.getAttribute('key');
         const openedDocuments = this.state.openedDocuments.filter(
           (key) => key !== targetDocumentId,
         );
+
         this.setState({ openedDocuments });
         setItem(STORAGE_KEY.OPENED_DOCUMENTS, this.state.openedDocuments);
         deleteDocument(targetDocumentId);
-      });
-    });
+      }
 
-    const $documents = $navigator.querySelectorAll('.document.document-item');
-    [].forEach.call($documents, ($document) => {
-      $document.addEventListener(
-        EVENT.CLICK,
-        (e) => {
-          e.stopImmediatePropagation();
-          const targetDocumentId = $document.getAttribute('key');
-          openDocument(targetDocumentId);
-        },
-        false,
-      );
+      if ($add) {
+        const targetDocumentId = $document ? $document.getAttribute('key') : null;
+        addDocument(targetDocumentId);
+      }
+
+      if ($header) {
+        push('/');
+      }
     });
 
     const $scroller = $navigator.querySelector('.scroller');
@@ -152,17 +156,16 @@ export default function Navigator({
     $navigator.innerHTML = `
         <div class='navigator-header'>${TEXT.DEFAULT_HEADER}</div>
         <div class='scroller'>
-          <div class='documents-wrapper'>
-            ${getDocuments(this.state.documents)}
-          </div>
+          <div class='documents-wrapper'></div>
           <div class='document document-add flex-row'>
             ${plusIcon}
             <div class='document-add-text'>${TEXT.DOCUMENT_ADD}</div>
           </div>
         </div>
-      `;
-    this.setEvent();
+        `;
+    renderDocuments();
   };
 
   this.render();
+  this.setEvent();
 }

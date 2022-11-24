@@ -96,7 +96,7 @@ export default function App({ $target, initialState }) {
         await fetchDocuments();
         const { documents, id } = this.state.document;
 
-        if (documents.filter((doc) => doc.id === deletedDocument.id).length) {
+        if (documents && documents.filter((doc) => doc.id === deletedDocument.id).length) {
           await fetchDocument(id);
         }
 
