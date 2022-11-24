@@ -5,7 +5,7 @@ import Icon from './icons/index.js';
 
 export default function Navigator({
   $target,
-  initialState = { openedDocuments: [], documents: [] },
+  initialState = { openedDocuments: {}, documents: [] },
   addDocument,
   deleteDocument,
   openDocument,
@@ -34,7 +34,7 @@ export default function Navigator({
       <div class='flex-column'>
         ${documents
           .map(({ id, title, documents }) => {
-            const isOpened = this.state.openedDocuments.map((key) => parseInt(key)).includes(id);
+            const isOpened = this.state.openedDocuments[id];
             return `
               <div key=${id} class='document-wrapper document document-item flex-row' style='padding-left: ${depth}rem; display: ${
               depth === 0 || opened ? 'flex' : 'none'
@@ -59,7 +59,7 @@ export default function Navigator({
     `;
   };
 
-  const renderDocuments = () => {
+  this.renderDocuments = () => {
     const documentsWrapper = $navigator.querySelector('.documents-wrapper');
     documentsWrapper.innerHTML = `
       ${getDocuments(this.state.documents)}
@@ -68,14 +68,14 @@ export default function Navigator({
 
   this.setEvent = () => {
     $navigator.addEventListener(EVENT.CLICK, (e) => {
-      const $chevron = e.target.closest('.chevron-button');
+      const $chevronButton = e.target.closest('.chevron-button');
       const $document = e.target.closest('.document-wrapper');
-      const $delete = e.target.closest('.document-delete');
-      const $add = e.target.closest('.document-add');
+      const $deleteButton = e.target.closest('.document-delete');
+      const $addButton = e.target.closest('.document-add');
       const $header = e.target.closest('.navigator-header');
 
-      if ($chevron && $document) {
-        const chevron = $chevron.querySelector('.chevron');
+      if ($chevronButton && $document) {
+        const chevron = $chevronButton.querySelector('.chevron');
         const $document = chevron.closest('.document');
         const isClosed = chevron.style.transform === `rotateZ(${DEGREE.CLOSED}deg)`;
         const nextChildren = $document.nextElementSibling;
@@ -89,9 +89,7 @@ export default function Navigator({
               .filter((child) => child.classList.value.includes('document'))
               .map((childDocument) => (childDocument.style.display = ''));
           }
-          this.setState({
-            openedDocuments: [...new Set([...this.state.openedDocuments, keys[0]])],
-          });
+          this.setState({ openedDocuments: { ...this.state.openedDocuments, [keys[0]]: true } });
         } else {
           chevron.style.transform = `rotateZ(${DEGREE.CLOSED}deg)`;
           if (isNotDocument) {
@@ -105,30 +103,26 @@ export default function Navigator({
               keys.push(childDocument.getAttribute('key'));
             });
           }
-          const difference = this.state.openedDocuments.filter((key) => !keys.includes(key));
-          this.setState({ openedDocuments: difference });
+          keys.forEach((key) => delete this.state.openedDocuments[key]);
         }
         setItem(STORAGE_KEY.OPENED_DOCUMENTS, this.state.openedDocuments);
-        renderDocuments();
+        this.renderDocuments();
       }
 
-      if ($document && !$chevron && !$delete && !$add) {
+      if ($document && !$chevronButton && !$deleteButton && !$addButton) {
         const targetDocumentId = $document.getAttribute('key');
         openDocument(targetDocumentId);
       }
 
-      if ($delete && $document) {
+      if ($deleteButton && $document) {
         const targetDocumentId = $document.getAttribute('key');
-        const openedDocuments = this.state.openedDocuments.filter(
-          (key) => key !== targetDocumentId,
-        );
-
-        this.setState({ openedDocuments });
+        
+        delete this.state.openedDocuments[targetDocumentId];
         setItem(STORAGE_KEY.OPENED_DOCUMENTS, this.state.openedDocuments);
         deleteDocument(targetDocumentId);
       }
 
-      if ($add) {
+      if ($addButton) {
         const targetDocumentId = $document ? $document.getAttribute('key') : null;
         addDocument(targetDocumentId);
       }
@@ -163,7 +157,7 @@ export default function Navigator({
           </div>
         </div>
         `;
-    renderDocuments();
+    this.renderDocuments();
   };
 
   this.render();

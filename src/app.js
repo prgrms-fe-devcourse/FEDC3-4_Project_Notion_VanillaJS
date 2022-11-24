@@ -23,9 +23,9 @@ export default function App({ $target, initialState }) {
     const documents = await request('/documents');
     if (documents && documents.length) {
       this.setState({ documents });
-      navigator.setState({ openedDocuments: getItem(STORAGE_KEY.OPENED_DOCUMENTS, []) });
       editor.setState({ documents });
-      navigator.render();
+      navigator.setState({ openedDocuments: getItem(STORAGE_KEY.OPENED_DOCUMENTS, {}) });
+      navigator.renderDocuments();
     }
   };
 
