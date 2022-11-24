@@ -1,5 +1,6 @@
 export default function PostList({ $target, props }) {
   const { onPostClick, postList } = props;
+
   const $postList = document.createElement('div');
   $target.appendChild($postList);
 
