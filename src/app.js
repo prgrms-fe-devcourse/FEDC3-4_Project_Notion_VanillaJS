@@ -171,7 +171,7 @@ export default function App({ $target, initialState }) {
     $target.appendChild($wrapper);
   };
 
-  this.route = async () => {
+  initRouter(async () => {
     const $modal = $wrapper.querySelector('.modal-wrapper');
     if ($modal) {
       $wrapper.removeChild($modal);
@@ -191,11 +191,5 @@ export default function App({ $target, initialState }) {
     }
 
     this.render();
-  };
-
-  this.route();
-
-  window.addEventListener(EVENT.POPSTATE, () => this.route());
-
-  initRouter(() => this.route());
+  });
 }
