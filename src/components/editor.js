@@ -2,6 +2,7 @@ import { EVENT, EVENT_KEY, STORAGE_KEY, TEXT } from '../utils/constants.js';
 import { getLowerDocuments } from '../utils/getDocuments.js';
 import { getTitlesThroughRoot } from '../utils/getWayThroughRoot.js';
 import { getItem } from '../utils/storage.js';
+import { makeRichText } from '../utils/richText.js';
 import Modal from './modal.js';
 
 export default function Editor({
@@ -66,9 +67,10 @@ export default function Editor({
           const $parent = anchorNode.parentNode;
           if ($parent.classList.contains('editor-content')) {
             anchorNode.classList = '';
-          } else {
-            $parent.classList = '';
           }
+          // else {
+          // $parent.classList = '';
+          // }
         } else if (e.key === EVENT_KEY.SPACE) {
           if (anchorNode.nodeName === '#text' && $target.querySelector('.modal-wrapper')) {
             const $parent = anchorNode.parentNode;
@@ -88,48 +90,8 @@ export default function Editor({
             $parent = $parent.firstChild;
           }
 
-          let currentLine = $parent.innerHTML;
-          if (currentLine.indexOf('# ') === 0) {
-            currentLine = currentLine.substr(2);
-            $parent.classList.remove('h2', 'h3');
-            $parent.classList.contains('h1')
-              ? $parent.classList.remove('h1')
-              : $parent.classList.add('h1');
-          } else if (currentLine.indexOf('## ') === 0) {
-            currentLine = currentLine.substr(3);
-            $parent.classList.remove('h1', 'h3');
-            $parent.classList.contains('h2')
-              ? $parent.classList.remove('h2')
-              : $parent.classList.add('h2');
-          } else if (currentLine.indexOf('### ') === 0) {
-            currentLine = currentLine.substr(4);
-            $parent.classList.remove('h1', 'h2');
-            $parent.classList.contains('h3')
-              ? $parent.classList.remove('h3')
-              : $parent.classList.add('h3');
-          } else if (currentLine.indexOf('* ') === 0) {
-            currentLine = currentLine.substr(2);
-            $parent.classList.contains('strong')
-              ? $parent.classList.remove('strong')
-              : $parent.classList.add('strong');
-          } else if (currentLine.indexOf('- ') === 0) {
-            currentLine = currentLine.substr(3);
-            $parent.classList.contains('strike')
-              ? $parent.classList.remove('strike')
-              : $parent.classList.add('strike');
-          } else if (currentLine.indexOf('/ ') === 0) {
-            currentLine = currentLine.substr(2);
-            $parent.classList.contains('italic')
-              ? $parent.classList.remove('italic')
-              : $parent.classList.add('italic');
-          } else if (currentLine.indexOf('_ ') === 0) {
-            currentLine = currentLine.substr(2);
-            $parent.classList.contains('underline')
-              ? $parent.classList.remove('underline')
-              : $parent.classList.add('underline');
-          }
+          const currentLine = makeRichText($parent);
 
-          currentLine = `${currentLine === '' ? '<br>' : currentLine}`;
           if ($parent.innerHTML !== currentLine) {
             $parent.innerHTML = currentLine;
           }

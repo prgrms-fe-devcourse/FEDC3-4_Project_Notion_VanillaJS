@@ -141,7 +141,7 @@ export default function App({ $target, initialState }) {
       });
 
       const modifiedDocument = await request(
-        `/documents/${document.id}`,
+        `/documents/${id}`,
         {
           method: METHOD.PUT,
         },
