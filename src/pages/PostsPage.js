@@ -1,11 +1,14 @@
 import { request } from '../api.js';
 import PostList from '../components/PostList.js';
 
-export default function PostsPage({ $target }) {
+export default function PostsPage({ $target, props }) {
+  const { onPostClick } = props;
+
   const $page = document.createElement('div');
   const $newPostButton = document.createElement('button');
   $newPostButton.textContent = '+';
   $page.appendChild($newPostButton);
+  $page.setAttribute('style', 'width:300px;');
 
   let isMounted = false;
   this.initialRender = () => {
@@ -19,7 +22,10 @@ export default function PostsPage({ $target }) {
     await getPosts();
   };
 
-  const postList = new PostList({ $target: $page, props: { postList: [] } });
+  const postList = new PostList({
+    $target: $page,
+    props: { postList: [], onPostClick },
+  });
 
   const getPosts = async () => {
     const response = await request('/documents');

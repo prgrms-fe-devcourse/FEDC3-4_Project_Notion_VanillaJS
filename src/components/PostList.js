@@ -19,6 +19,14 @@ export default function PostList({ $target, props }) {
 			</ul>
 		`;
   };
-
   this.render();
+
+  $postList.addEventListener('click', ({ target }) => {
+    const $li = target.closest('li');
+
+    if ($li) {
+      const { id } = $li.dataset;
+      onPostClick(id);
+    }
+  });
 }

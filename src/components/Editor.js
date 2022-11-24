@@ -25,10 +25,10 @@ export default function Editor({ $target, props }) {
   };
   this.render();
 
-  $editor.addEventListener('keyup', (e) => {
-    const name = e.target.getAttribute('name');
+  $editor.addEventListener('keyup', ({ target }) => {
+    const name = target.getAttribute('name');
     if (this.state.hasOwnProperty(name)) {
-      this.setState({ [name]: e.target.value });
+      this.setState({ [name]: target.value });
       onEdit(this.state);
     }
   });
