@@ -20,13 +20,9 @@ export default function PostList({
   `;
 
   this.state = initialState;
-  this.postId = null; // 현재 선택된 문서의 id
 
-  this.setState = (nextState, postId) => {
+  this.setState = (nextState) => {
     this.state = nextState;
-
-    if (postId) this.postId = +postId.postId;
-    else this.postId = null; // 선택된 문서가 없다.
 
     this.render();
   };
@@ -59,9 +55,11 @@ export default function PostList({
           `<li class="title" data-id="${cur.id}" title="${
             cur.title
           }" style="list-style:none; background-color:initial;">            
-            <p class="title" style="margin:0; display:inline-block; background-color:${
-              cur.id === this.postId ? `#787878;` : `transparent;`
-            }">${this.visible(cur.id) === "none" ? "▶" : "▼"}${cur.title}</p>
+            <p class="title" 
+            style="margin:0; display:inline-block;" 
+            onmouseover="this.style.background='#bebebe';"
+            onmouseout="this.style.background='';">
+            ${this.visible(cur.id) === "none" ? "▶" : "▼"}${cur.title}</p>
             <button class="add" style="position:sticky; right:25px;">+</button>
             <button class="delete" style="position:sticky; right:1px;">x</button>          
             ${
@@ -87,8 +85,7 @@ export default function PostList({
     const name = target.className;
 
     if (name === "title") {
-      push(`/posts/${id}`);
-
+      // 고정적으로 7을 쓰는법 말고 ul태그를 능동적으로 찾는 방법?
       const $ul = $li.childNodes[7];
 
       if (!$ul) {
@@ -96,9 +93,11 @@ export default function PostList({
           id: id,
           visible: "none",
         });
+        push(`/posts/${id}`);
         return;
       }
 
+      // this.postId = +id;
       // localStorage를 사용해서 하위목록들이 보여질지 아닐지 결정.
       if ($ul.style.display === "") {
         $ul.style.display = "none";
@@ -115,6 +114,8 @@ export default function PostList({
           visible: "",
         });
       }
+
+      push(`/posts/${id}`);
     } else if (name === "add") {
       postAdd(id);
       fetchPosts();
@@ -124,39 +125,20 @@ export default function PostList({
     }
   });
 
-  let originColor = null; //  mouseover전의 색깔.
-  $postList.addEventListener("mouseover", (e) => {
-    const { target } = e;
-
-    const $p = target.closest("p");
-
-    if (!$p) return;
-    originColor = $p.style.backgroundColor;
-
-    $p.style.backgroundColor = "#bebebe";
-  });
-
-  $postList.addEventListener("mouseout", (e) => {
-    const { target } = e;
-
-    const $p = target.closest("p");
-
-    if (!$p) return;
-
-    $p.style.backgroundColor = `${originColor}`;
-  });
-
   const fetchPosts = async () => {
-    const nextState = await request("documents", {
+    const posts = await request("documents", {
       method: "GET",
     });
-    this.setState(nextState);
+    this.setState({
+      ...this.state,
+      posts,
+    });
   };
 
   this.render = () => {
     $postList.innerHTML = `
       <ul>
-      ${this.makeList(this.state)}     
+      ${this.makeList(this.state.posts)}     
       </ul>
     `;
   };

@@ -7,33 +7,14 @@ import PostEditPage from "./PostEditPage.js";
 export default function App({ $target }) {
   CheckNew(new.target);
 
-  // fetch에서 setState를 호출하는 형식으로 ㅂ꾸자.
-  const fetchPosts = async () => {
-    const res = await request("documents", {
-      method: "GET",
-    });
-
-    // this.setState(res);
-    //res는 배열.
-    this.setState(res);
-  };
-
-  const initialState = fetchPosts();
-
   this.state = {
     postId: null,
     posts: [],
   };
 
   this.setState = (nextState) => {
-    // const rootDocuments = fetchPosts();
-
-    this.state = {
-      ...this.state,
-      posts: nextState,
-    };
-
-    postPage.setState(this.state);
+    this.state = nextState;
+    postPage.setState(nextState);
   };
 
   // 모든 문서 구조에 대한 정보가 필요함.
@@ -41,7 +22,10 @@ export default function App({ $target }) {
   // state의 변화가 있으면
   const postPage = new PostPage({
     $target,
-    initialState,
+    initialState: {
+      postId: null,
+      posts: [],
+    },
   });
 
   // 편집기에 보여줄 문서에 대한 정보만 필요함.
@@ -59,7 +43,7 @@ export default function App({ $target }) {
   // 라우팅 할 때 fetch를 새로 받고, fetch에서 setState를 부른다.
   // setState에서는 컴포넌트들의 setState를 불러분다.
   this.route = async () => {
-    fetchPosts();
+    await fetchPosts();
 
     const { pathname } = window.location;
 
@@ -67,13 +51,28 @@ export default function App({ $target }) {
       $target.innerHTML = "";
       postPage.render();
 
-      this.setState();
+      this.setState({ ...this.state });
     } else if (pathname.indexOf("/posts/") === 0) {
       const [, , postId] = pathname.split("/");
       postEditPage.setState({ postId });
 
-      this.setState({ postId });
+      this.setState({
+        ...this.state,
+        postId,
+      });
     }
+  };
+
+  // fetch에서 setState를 호출하는 형식으로 ㅂ꾸자.
+  const fetchPosts = async () => {
+    const posts = await request("documents", {
+      method: "GET",
+    });
+
+    this.setState({
+      ...this.state,
+      posts,
+    });
   };
 
   this.route();

@@ -18,17 +18,15 @@ export default function PostPage({ $target, initialState }) {
     background-color: #dcdcdc;
   `;
 
-  const fetchPost = async () => {
-    const posts = await request("documents", {
-      method: "GET",
+  this.state = initialState;
+
+  this.setState = async (nextState) => {
+    this.state = nextState;
+
+    postList.setState({
+      ...this.state,
+      nextState,
     });
-
-    return posts;
-  };
-
-  this.setState = async (postId = null) => {
-    const posts = await fetchPost();
-    postList.setState(posts, postId);
 
     // setState마다 render()를 진행하면 화면이 깜빡거리는 것처럼 보임.
   };
@@ -78,14 +76,14 @@ export default function PostPage({ $target, initialState }) {
 
         if (id === postId) {
           if (confirm("현재 보고있는 문서를 삭제하시겠습니까?")) {
-            deletePost(id);
+            await deletePost(id);
             history.replaceState(null, null, "/");
 
             push("/");
           }
         } else {
-          deletePost(id);
-          history.replaceState(null, null, "/");
+          await deletePost(id);
+          // history.replaceState(null, null, "/");
 
           // breadcrum 갱신.
           push(`/posts/${postId}`);
@@ -93,14 +91,14 @@ export default function PostPage({ $target, initialState }) {
         return;
       } else {
         // 문서를 보고 있지 않을 때 삭제
-        deletePost(id);
+        await deletePost(id);
 
         push("/");
       }
     },
   });
 
-  this.render = async () => {
+  this.render = () => {
     $target.appendChild($postPage);
   };
 
