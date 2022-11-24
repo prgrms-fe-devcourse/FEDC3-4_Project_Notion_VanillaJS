@@ -16,6 +16,7 @@ export default function PostEditPage({ $target, props }) {
       this.state.post = await getPost();
     }
     editor.setState({ ...this.state.post });
+    this.render();
   };
 
   let isMounted = false;

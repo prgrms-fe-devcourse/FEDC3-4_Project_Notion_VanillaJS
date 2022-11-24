@@ -8,7 +8,6 @@ export default function Editor({ $target, props }) {
   this.setState = (nextState) => {
     this.state = { ...this.state, ...nextState };
     this.render();
-    console.log(this.state);
   };
 
   let isMounted = false;

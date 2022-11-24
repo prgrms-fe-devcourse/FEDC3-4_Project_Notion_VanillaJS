@@ -19,7 +19,7 @@ export default function PostsPage({ $target }) {
     await getPosts();
   };
 
-  const postList = new PostList({ $page, props: { postList: [] } });
+  const postList = new PostList({ $target: $page, props: { postList: [] } });
 
   const getPosts = async () => {
     const response = await request('/documents');
