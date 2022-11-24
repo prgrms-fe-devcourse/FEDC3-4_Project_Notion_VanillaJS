@@ -1,12 +1,11 @@
 import { request } from "./api.js";
 import EditPage from "./components/EditPage.js";
-import PostPage from "./components/Sidebar.js";
-import { initRouter } from "./router.js";
-import { push } from "./router.js";
+import Sidebar from "./components/Sidebar.js";
+import { initRouter, push } from "./router.js";
 
 export default function App({ $target }) {
   const $sidebarContainer = document.createElement("div");
-  $sidebarContainer.className = "sidebarContainer";
+  $sidebarContainer.className = "sidebar-container";
 
   const $editorContainer = document.createElement("div");
   $editorContainer.className = "editor-container";
@@ -25,7 +24,7 @@ export default function App({ $target }) {
     }
   };
 
-  const postPage = new PostPage({
+  const sideBar = new Sidebar({
     $target: $sidebarContainer,
   });
 
@@ -33,7 +32,7 @@ export default function App({ $target }) {
     $target: $editorContainer,
     initialState: this.state,
     getTitleChange: () => {
-      postPage.setState(this.state.documents);
+      sideBar.setState(this.state.documents);
     },
   });
 
@@ -45,7 +44,7 @@ export default function App({ $target }) {
 
     if (pathname === "/") {
       $editorContainer.style.display = "none";
-      postPage.render();
+      sideBar.render();
     } else if (pathname.indexOf("/documents/") === 0) {
       $editorContainer.style.display = "block";
       const [, , id] = pathname.split("/");

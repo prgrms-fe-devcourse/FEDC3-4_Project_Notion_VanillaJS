@@ -19,7 +19,6 @@ export default function Editor({ $target, initialState, onEditing }) {
     <input type="text" name="title" style="width:600px" value="${this.state.title}" />
     <textarea name="content" style="width:600px;height:400px;border:1px solid black; padding:8px;">${this.state.content}</textarea>
     `;
-
   this.render = () => {
     $editor.querySelector("[name=title]").value = this.state.title;
     $editor.querySelector("[name=title]").placeholder = "제목을 입력해주세요";

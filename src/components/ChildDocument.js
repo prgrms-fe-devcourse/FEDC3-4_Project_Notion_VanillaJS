@@ -4,8 +4,6 @@ export default function ChildDocument({ $target, initialState }) {
   const $childDocument = document.createElement("div");
   $childDocument.className = "child-document";
 
-  $target.appendChild($childDocument);
-
   this.state = initialState;
 
   this.setState = (nextState) => {
@@ -28,6 +26,8 @@ export default function ChildDocument({ $target, initialState }) {
         .join("")}
     `;
   };
+
+  $target.appendChild($childDocument);
 
   $childDocument.addEventListener("click", (e) => {
     const $childList = e.target.closest(".child-link");

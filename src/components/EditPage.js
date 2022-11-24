@@ -5,11 +5,11 @@ import Editor from "./Editor.js";
 
 export default function EditPage({ $target, initialState, getTitleChange }) {
   const $editPage = document.createElement("div");
-  $editPage.className = "Edit-page";
+  $editPage.className = "edit-page";
 
   this.state = initialState;
 
-  let postLocalSaveKey = `temp-post-${this.state.documents.id}`;
+  const postLocalSaveKey = `temp-post-${this.state.documents.id}`;
 
   let timer = null;
 

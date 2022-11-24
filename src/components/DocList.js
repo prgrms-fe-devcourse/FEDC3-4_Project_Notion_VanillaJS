@@ -1,13 +1,7 @@
 import { getItem, removeItem, setItem } from "../storage.js";
 import { push } from "../router.js";
 
-export default function PostList({
-  $target,
-  initialState,
-  onSelect,
-  onAdd,
-  onDelete,
-}) {
+export default function DocList({ $target, initialState, onAdd, onDelete }) {
   const $docList = document.createElement("div");
   $docList.className = "notion-list";
 

@@ -1,9 +1,9 @@
-import PostList from "./DocList.js";
+import DocList from "./DocList.js";
 import { request } from "../api.js";
 import NewPostBtn from "./NewDocBtn.js";
 import { push } from "../router.js";
 
-export default function PostPage({ $target, getSelectedId }) {
+export default function Sidebar({ $target }) {
   const $sideBar = document.createElement("div");
   $sideBar.className = "sidebar";
 
@@ -11,7 +11,7 @@ export default function PostPage({ $target, getSelectedId }) {
 
   const $HomeButton = document.createElement("button");
   $HomeButton.className = "home-button";
-  $HomeButton.innerHTML = "Notion 홈으로";
+  $HomeButton.textContent = "Notion 홈으로";
   $sideBar.appendChild($HomeButton);
 
   $HomeButton.addEventListener("click", (e) => {
@@ -22,7 +22,7 @@ export default function PostPage({ $target, getSelectedId }) {
     documents: [],
   };
 
-  const postList = new PostList({
+  const docList = new DocList({
     $target: $sideBar,
     initialState: this.state,
     onAdd: async (id) => {
@@ -48,13 +48,13 @@ export default function PostPage({ $target, getSelectedId }) {
   new NewPostBtn({
     $target: $sideBar,
     addPost: async () => {
-      const documents = {
+      const document = {
         title: "제목 없음",
         parent: null,
       };
       const newPage = await request(`/`, {
         method: "POST",
-        body: JSON.stringify(documents),
+        body: JSON.stringify(document),
       });
       push(`/documents/${newPage.id}`);
       this.setState();
@@ -64,7 +64,7 @@ export default function PostPage({ $target, getSelectedId }) {
   this.setState = async (nextState) => {
     this.state = nextState;
     const documents = await request("/");
-    postList.setState({ documents: documents });
+    docList.setState({ documents: documents });
     this.render();
   };
 
