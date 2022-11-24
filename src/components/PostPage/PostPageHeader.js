@@ -48,23 +48,23 @@ export default function PostPageHeader({ $target, initialState, onDelete }) {
     const myDay = new Date(date);
     const misec = today - myDay < 0 ? 0 : today - myDay;
 
-    let temp = Math.floor(misec / 1000);
+    let targetTime = Math.floor(misec / 1000);
     let count = 0;
     const unit = ["초", "분", "시간", "일"];
 
-    while (temp > 24) {
-      if (count < 2 && temp > 60) {
-        temp = Math.floor(temp / 60);
+    while (targetTime > 24) {
+      if (count < 2 && targetTime > 60) {
+        targetTime = Math.floor(targetTime / 60);
       } else if ((count = 2)) {
-        temp = Math.floor(temp / 24);
+        targetTime = Math.floor(targetTime / 24);
       } else {
-        return temp + unit[count] + " 지남";
+        return targetTime + unit[count] + " 지남";
       }
       count++;
       if (count === 3) break;
     }
 
-    return temp + unit[count] + " 지남";
+    return targetTime + unit[count] + " 지남";
   };
 
   this.render = () => {
