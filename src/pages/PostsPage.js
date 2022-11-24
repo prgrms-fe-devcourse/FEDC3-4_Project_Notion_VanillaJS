@@ -19,10 +19,11 @@ export default function PostsPage({ $target }) {
     await getPosts();
   };
 
-  const postList = new PostList({ $target, props: { postList: [] } });
+  const postList = new PostList({ $page, props: { postList: [] } });
 
   const getPosts = async () => {
     const response = await request('/documents');
+    // TODO setState는 외부로 빼기 (관심사 분리)
     postList.setState({ postList: response });
   };
 }

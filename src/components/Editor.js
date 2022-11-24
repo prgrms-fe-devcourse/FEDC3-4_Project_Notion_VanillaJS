@@ -21,6 +21,8 @@ export default function Editor({ $target, props }) {
   };
   this.render = () => {
     if (!isMounted) this.initialRender();
+    $editor.querySelector('[name=title]').value = this.state.title;
+    $editor.querySelector('[name=content]').value = this.state.content;
   };
   this.render();
 
