@@ -1,5 +1,5 @@
 export default function Editor({ $target, props }) {
-  const { title = '', content = '' } = props;
+  const { title = '', content = '', onEdit } = props;
 
   const $editor = document.createElement('div');
   $target.appendChild($editor);
@@ -28,6 +28,7 @@ export default function Editor({ $target, props }) {
     const name = e.target.getAttribute('name');
     if (this.state.hasOwnProperty(name)) {
       this.setState({ [name]: e.target.value });
+      onEdit(this.state);
     }
   });
 }

@@ -9,7 +9,7 @@ export default function PostsPage({ $target }) {
 
   let isMounted = false;
   this.initialRender = () => {
-    // TODO 상단에 빼놓으면 안되는지, 꼭 render() 안에서 해줘야 하는 것인지 고민
+    // MEMO 상단에 빼놓으면 안되는지, 꼭 render() 안에서 해줘야 하는 것인지 고민
     // page만 이렇게 하는 듯함 애초에 render의 제어권을 아예 사용하는 측에 넘김
     $target.appendChild($page);
     isMounted = true;

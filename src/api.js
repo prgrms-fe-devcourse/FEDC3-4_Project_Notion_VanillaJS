@@ -8,7 +8,7 @@ export const request = async (url, options = {}) => {
     });
 
     if (response.ok) {
-      // TODO await 빼면 어떻게 되는지 확인해보기
+      // MEMO await 빼면 어떻게 되는지 확인해보기
       return await response.json();
     }
     throw new Error('API 요청에 문제가 생겼습니다.');
