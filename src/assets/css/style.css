@@ -1,0 +1,421 @@
+:root {
+  --white100: #fff; /* var(--white100)    */
+  --dark100: #333333; /* var(--dark100)   */
+  --sideBar1: #fbfbfa; /* var(--sideBar1) */
+  --sideBar2: #f5f5f4; /* var(--sideBar2) */
+  --sideBarHover: #ebebea; /* var(--sideBarHover) */
+  --sideBarColor: #a3a29e; /* var(--sideBarColor) */
+}
+
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+* {
+  font-family: "Pretendard-Regular";
+  letter-spacing: 1px;
+}
+body {
+  margin: 0;
+  overflow-y: hidden;
+}
+button,
+a {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 0;
+  background-color: var(--white100);
+  cursor: pointer;
+}
+input,
+[contentEditable] {
+  border: 0;
+}
+input:focus,
+[contentEditable]:focus {
+  outline: none;
+}
+.app {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+/*sideBar*/
+.sideBar {
+  width: 275px;
+  height: 100%;
+  max-height: 100vh;
+  background-color: var(--sideBar1);
+  border-right: var(--sideBar2) 1px solid;
+  overflow-x: hidden;
+  overflow-y: auto;
+  white-space: nowrap;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.sideBar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
+.sideBar header {
+  padding: 2px 20px;
+  margin-top: 10px;
+  font-size: 18px;
+}
+.sideBar header > span {
+  animation: wave 0.7s infinite linear;
+}
+.sideBar #interested {
+  margin: 0 5px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid var(--sideBarColor);
+}
+.sideBar #personal {
+  margin-left: 5px;
+  padding-top: 30px;
+  padding-bottom: 65px;
+}
+.sideBar li[data-id="parent"] {
+  color: var(--sideBarColor);
+  cursor: pointer;
+  font-size: 15px;
+}
+.sideBar .parent > span {
+  background-color: var(--sideBar1) !important;
+}
+.sideBar ul {
+  list-style: none;
+  padding-left: 0;
+}
+.sideBar .classification > ul {
+  margin: 0;
+  padding-left: 5px;
+}
+.sideBar .classification > ul:first-child {
+  padding-left: 8px;
+}
+.sideBar li {
+  cursor: pointer;
+}
+.sideBar .lastChild {
+  padding-left: 5px;
+  font-size: 13px;
+  position: relative;
+  top: 5px;
+}
+.sideBar .depth0 li:before {
+  content: "";
+  background-size: 10px;
+  background-repeat: no-repeat;
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+}
+.sideBar .plus_btn {
+  width: 12px;
+  height: 12px;
+  float: right;
+  position: relative;
+  top: 8px;
+  right: 10px;
+  display: none;
+}
+.sideBar .fold:before {
+  background-image: url("../img/right-arrow.png");
+}
+.sideBar .unfold:before {
+  background-image: url("../img/right-arrow.png");
+  transform: rotate(90deg);
+}
+.sideBar .title {
+  position: relative;
+  top: 5px;
+  font-size: 15px;
+  color: var(--sideBarColor);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: inline-block;
+}
+.sideBar .sideBarAdd {
+  width: 275px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--sideBar2);
+  border-top: 1px solid var(--sideBarHover);
+  position: fixed;
+  z-index: 9999;
+  bottom: 0;
+  cursor: pointer;
+}
+.sideBar .plus_btn_bottom {
+  width: 16px;
+  height: 16px;
+  position: relative;
+  top: 2px;
+  color: var(--sideBarColor);
+}
+.sideBar .bottomContainer > span {
+  color: var(--sideBarColor);
+}
+
+/*postPage*/
+.postPage {
+  width: calc(100% - 275px);
+}
+.postPage header {
+  position: absolute;
+  top: 0;
+  width: calc(100% - 300px);
+  height: 45px;
+  padding: 0 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.postPage .header_title {
+  display: flex;
+}
+.postPage div[name="link"] {
+  max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.postPage .header_action_btns {
+  display: flex;
+  align-items: center;
+}
+.postPage .header_action_btns {
+  color: var(--sideBarColor);
+}
+.postPage button {
+  font-size: 16px;
+}
+.postPage button[name="star"] {
+  width: 20px;
+  height: 20px;
+  background-size: 20px;
+  position: relative;
+  top: -2px;
+}
+.postPage .off {
+  background-image: url("../img/star.png");
+}
+.postPage .on {
+  background-image: url("../img/star_on.png") !important;
+}
+.postPage .editor {
+  padding-top: 100px;
+  width: 90%;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+.postPage .section_content {
+  min-height: 600px;
+  border-top: 1px solid var(--dark100);
+  padding-top: 20px;
+}
+.postPage .section_content:empty:before {
+  content: attr(placeholder);
+}
+.postPage h1 > input {
+  font-size: 40px;
+  width: 100%;
+}
+.postPage footer {
+  position: absolute;
+  bottom: 30px;
+  padding-left: 20px;
+}
+.postPage span {
+  font-size: 16px;
+  color: var(--sideBarColor);
+  padding-right: 10px;
+}
+.postPage ul {
+  padding-left: 15px;
+  margin: 0;
+}
+.postPage footer ul {
+  list-style: none;
+}
+.postPage li {
+  padding: 3px 0;
+  cursor: pointer;
+}
+.postPage .empty {
+  position: relative;
+  top: 30%;
+  transform: translateY(-50%);
+  text-align: center;
+  font-size: 20px;
+  color: var(--sideBarColor);
+}
+
+#loading {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#loading .loading_animation {
+  background: conic-gradient(var(--white100), var(--sideBarColor));
+  width: 200px;
+  height: 200px;
+  z-index: 99;
+  border-radius: 100px;
+  animation: rotation 2s infinite linear;
+}
+#loading .center {
+  width: 180px;
+  height: 180px;
+  border-radius: 100px;
+  z-index: 100;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+}
+#loading span {
+  font-weight: bold;
+  font-size: 30px;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+@keyframes wave {
+  0% {
+    background: linear-gradient(
+      to right,
+      #feac5e,
+      #e49493,
+      #c779d0,
+      #7ba5cb,
+      #4bc0c8,
+      #5aa6ec,
+      #6297ff
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+  }
+  12.5% {
+  }
+  25% {
+    background: linear-gradient(
+      to right,
+      #e49493,
+      #c779d0,
+      #7ba5cb,
+      #4bc0c8,
+      #5aa6ec,
+      #6297ff,
+      #feac5e
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+  }
+  37.5% {
+    background: linear-gradient(
+      to right,
+      #c779d0,
+      #7ba5cb,
+      #4bc0c8,
+      #5aa6ec,
+      #6297ff,
+      #feac5e,
+      #e49493
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+  }
+  50% {
+    background: linear-gradient(
+      to right,
+      #7ba5cb,
+      #4bc0c8,
+      #5aa6ec,
+      #6297ff,
+      #feac5e,
+      #e49493,
+      #c779d0
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+  }
+  62.5% {
+    background: linear-gradient(
+      to right,
+      #4bc0c8,
+      #5aa6ec,
+      #6297ff,
+      #feac5e,
+      #e49493,
+      #c779d0,
+      #7ba5cb
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+  }
+  75% {
+    background: linear-gradient(
+      to right,
+      #5aa6ec,
+      #6297ff,
+      #feac5e,
+      #e49493,
+      #c779d0,
+      #7ba5cb,
+      #4bc0c8
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+  }
+  87.5% {
+    background: linear-gradient(
+      to right,
+      #6297ff,
+      #feac5e,
+      #e49493,
+      #c779d0,
+      #7ba5cb,
+      #4bc0c8,
+      #5aa6ec
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+  }
+  100% {
+    background: linear-gradient(to right, #feac5e, #c779d0, #4bc0c8, #6297ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+  }
+}
