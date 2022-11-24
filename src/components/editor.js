@@ -181,7 +181,7 @@ export default function Editor({
     onEditing: async (content) => {
       await onEditing({
         ...this.state.document,
-        content: content,
+        content,
       });
       setDocumentLinkEvents();
     },

@@ -100,15 +100,16 @@ export default function Modal({
 
   this.render = () => {
     $target.appendChild($wrapper);
-    const documents = getDocumentsByKeyword([], this.state.documents, this.state.keyword);
+    const { documents, keyword } = this.state;
+    const searchedDocuments = getDocumentsByKeyword([], documents, keyword);
 
     $wrapper.innerHTML = `
       <div class='modal'>
         <div class='modal-header'>${TEXT.DEFAULT_MODAL_HEADER}</div>
         <div class='modal-content'>
-          ${documents
-            .map((document) => {
-              const { id, title } = document;
+          ${searchedDocuments
+            .map((searchedDocument) => {
+              const { id, title } = searchedDocument;
               return `
                 <div class='modal-contents' key='${id}'>${title}</div>
               `;

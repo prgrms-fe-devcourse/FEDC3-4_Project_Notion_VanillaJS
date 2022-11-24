@@ -29,9 +29,10 @@ export default function App({ $target, initialState }) {
   };
 
   const fetchDocument = async (documentId) => {
-    const document = await request(`/documents/${documentId}`);
+    const fetchedDocument = await request(`/documents/${documentId}`);
+    const { document } = this.state;
 
-    if ((this.state.document && this.state.document.id !== documentId) || !this.state.document) {
+    if ((document && document.id !== documentId) || !document) {
       documentLocalSaveKey = `temp-document-${documentId}`;
       const tempDocument = getItem(documentLocalSaveKey, {
         title: '',
@@ -39,11 +40,9 @@ export default function App({ $target, initialState }) {
         id: null,
       });
 
-      if (tempDocument.tempSaveDate && tempDocument.tempSaveDate > document.updatedAt) {
+      if (tempDocument.tempSaveDate && tempDocument.tempSaveDate > fetchedDocument.updatedAt) {
         if (confirm(TEXT.LOAD_UNSAVED_DATA)) {
-          this.setState({
-            document: tempDocument,
-          });
+          this.setState({ document: tempDocument });
           editor.setState({ document: tempDocument });
           editor.render();
           return;
@@ -51,8 +50,8 @@ export default function App({ $target, initialState }) {
       }
     }
 
-    this.setState({ document });
-    editor.setState({ document: document });
+    this.setState({ document: fetchedDocument });
+    editor.setState({ document: fetchedDocument });
     editor.render();
   };
 
@@ -68,22 +67,16 @@ export default function App({ $target, initialState }) {
     $target: $wrapper,
     initialState: this.state,
     addDocument: async (targetDocumentId) => {
-      const document = await request(
+      const newDocument = await request(
         '/documents',
         { method: METHOD.POST },
-        {
-          title: TEXT.DEFAULT_TITLE,
-          parent: targetDocumentId,
-        },
+        { title: TEXT.DEFAULT_TITLE, parent: targetDocumentId },
       );
-      if (document) {
+      if (newDocument) {
         const initializedDocument = await request(
-          `/documents/${document.id}`,
+          `/documents/${newDocument.id}`,
           { method: METHOD.PUT },
-          {
-            title: document.title,
-            content: '',
-          },
+          { title: newDocument.title, content: '' },
         );
         if (initializedDocument) {
           await fetchDocuments();
@@ -95,12 +88,15 @@ export default function App({ $target, initialState }) {
       }
     },
     deleteDocument: async (targetDocumentId) => {
-      const document = await request(`/documents/${targetDocumentId}`, { method: METHOD.DELETE });
-      if (document) {
+      const deletedDocument = await request(`/documents/${targetDocumentId}`, {
+        method: METHOD.DELETE,
+      });
+      if (deletedDocument) {
         await fetchDocuments();
+        const { documents, id } = this.state.document;
 
-        if (this.state.document.documents.filter((doc) => doc.id === document.id).length) {
-          await fetchDocument(this.state.document.id);
+        if (documents.filter((doc) => doc.id === deletedDocument.id).length) {
+          await fetchDocument(id);
         }
 
         const { pathname } = window.location;
@@ -121,14 +117,12 @@ export default function App({ $target, initialState }) {
     $target: $wrapper,
     initialState: { document: currentDocument, documents: this.state.documents },
     onEditing: (document) => {
-      const $currentNavigatorTitle = $wrapper.querySelector(`#id-${document.id}`);
+      const { id, title } = document;
+      const $currentNavigatorTitle = $wrapper.querySelector(`#id-${id}`);
       const $currentEditorHeader = $wrapper.querySelector('.editor-header');
-      if (
-        typeof document.title !== 'undefined' &&
-        $currentNavigatorTitle.innerHTML !== document.title
-      ) {
-        $currentNavigatorTitle.innerHTML = document.title;
-        $currentEditorHeader.lastElementChild.innerHTML = document.title;
+      if (typeof title !== 'undefined' && $currentNavigatorTitle.innerHTML !== title) {
+        $currentNavigatorTitle.innerHTML = title;
+        $currentEditorHeader.lastElementChild.innerHTML = title;
       }
 
       if (timer !== null) {
@@ -149,15 +143,12 @@ export default function App({ $target, initialState }) {
         );
 
         if (modifiedDocument) {
-          if (document.title !== this.state.document.title) {
+          if (title !== this.state.document.title) {
             let changedDocuments = getItem(STORAGE_KEY.CHANGED_DOCUMENTS, []);
             changedDocuments = changedDocuments.filter(
-              (changedDocument) => changedDocument.id !== document.id,
+              (changedDocument) => changedDocument.id !== id,
             );
-            setItem(STORAGE_KEY.CHANGED_DOCUMENTS, [
-              ...changedDocuments,
-              { id: document.id, title: document.title },
-            ]);
+            setItem(STORAGE_KEY.CHANGED_DOCUMENTS, [...changedDocuments, { id, title }]);
             editor.handleTitleChangedDocuments();
           }
 

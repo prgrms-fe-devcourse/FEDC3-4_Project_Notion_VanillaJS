@@ -1,8 +1,8 @@
-export const getDocumentsByKeyword = (array, documents, keyword) => {
-  if (documents.length === 0) return array;
-  documents.map((document) => {
-    if (document.title.includes(keyword)) array.push({ id: document.id, title: document.title });
-    if (document.documents.length > 0) getDocumentsByKeyword(array, document.documents, keyword);
+export const getDocumentsByKeyword = (array, childDocuments, keyword) => {
+  if (childDocuments.length === 0) return array;
+  childDocuments.map(({ title, id, documents }) => {
+    if (title.includes(keyword)) array.push({ id, title });
+    if (documents.length > 0) getDocumentsByKeyword(array, documents, keyword);
   });
   return array;
 };
