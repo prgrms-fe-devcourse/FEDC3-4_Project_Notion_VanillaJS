@@ -1,5 +1,6 @@
 import { request } from '../api.js';
 import Editor from '../components/Editor.js';
+import { DEFAULT_POST } from '../constants.js';
 import { getItem, setItem } from '../storage.js';
 
 export default function PostEditPage({ $target, props }) {
@@ -14,6 +15,7 @@ export default function PostEditPage({ $target, props }) {
     // useEffect 같은 것이 필요한 듯
     if (nextState.postId) {
       this.state.post = await getPost();
+      tempPostSaveKey = `temp-post-${this.state.postId}`;
     }
     editor.setState({ ...this.state.post });
     this.render();
@@ -21,17 +23,24 @@ export default function PostEditPage({ $target, props }) {
 
   let isMounted = false;
   this.initialRender = async () => {
+    isMounted = true;
     $target.appendChild($page);
     const post = await getPost();
-    this.setState({ post });
-    isMounted = true;
+    const tempPost = getItem(tempPostSaveKey, DEFAULT_POST);
+    if (tempPost.tempSaveDate && tempPost.tempSaveDate > post.updatedAt) {
+      if (confirm('저장되지 않은 임시 데이터가 있습니다. 불러올까요?')) {
+        this.setState({ post: tempPost });
+      }
+    } else {
+      this.setState({ post });
+    }
   };
   this.render = async () => {
     if (!isMounted) this.initialRender();
   };
 
-  const TEMP_POST_SAVE_KEY = `temp-post-${this.state.postId}`;
-  const tempPost = getItem(TEMP_POST_SAVE_KEY, { title: '', content: '' });
+  let tempPostSaveKey = `temp-post-${this.state.postId}`;
+  const tempPost = getItem(tempPostSaveKey, DEFAULT_POST);
   let timer = null;
 
   const getPost = async () => {
@@ -43,13 +52,13 @@ export default function PostEditPage({ $target, props }) {
   const editor = new Editor({
     $target: $page,
     props: {
-      ...tempPost,
+      ...DEFAULT_POST,
       onEdit: (post) => {
         if (timer !== null) {
           clearTimeout(timer);
         }
         timer = setTimeout(() => {
-          setItem(TEMP_POST_SAVE_KEY, { ...post, tempSaveDate: new Date() });
+          setItem(tempPostSaveKey, { ...post, tempSaveDate: new Date() });
         }, 1000);
       },
     },
