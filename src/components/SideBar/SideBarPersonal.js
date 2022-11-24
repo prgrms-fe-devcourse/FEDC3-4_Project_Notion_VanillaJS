@@ -1,12 +1,14 @@
-import { push } from "../router";
-import { getItem, setItem } from "../storage";
+import Router from "../../Router";
+import { getItem, setItem } from "../../storage";
 
 export default function SideBar_personal({ $target, initialState, onClickAdd }) {
   if (!new.target) {
     throw new Error("App 컴포넌트에 new 생성자가 필요합니다.");
   }
 
-  this.$personal = $target;
+  const router = new Router();
+
+  const $personal = $target;
   this.state = initialState;
   this.onClickAdd = onClickAdd;
   this.lastHover = null;
@@ -67,13 +69,13 @@ export default function SideBar_personal({ $target, initialState, onClickAdd }) 
 
         //prettier-ignore
         return `
-          <li class=${foldState ? "fold" : "unfold"} data-id="${res.id}" style="padding-left:10px">
+          <li class="sideBarLi ${foldState ? "fold" : "unfold"}" data-id="${res.id}" style="padding-left:10px">
             <div 
               class="title" 
               style="${this.state.res_content.id===res.id ? "font-weight:bold;color:#000;" : ""}; width:${275-depth*10-60}px"> 
                 ${res.title || "제목 없음"}
             </div>
-            <img src="${require("../assets/img/plus.png")}" class="plus_btn">
+            <img src="${require("../../assets/img/plus.png")}" class="plus_btn">
             <ul style="display:${foldState ? "none" : "block"};">${res.documents.length ? this.makeChildLi(res.documents,depth+1): this.lastChild()}</ul>
           </li>
         `
@@ -86,18 +88,18 @@ export default function SideBar_personal({ $target, initialState, onClickAdd }) 
   };
 
   this.render = () => {
-    this.$personal.innerHTML = `
+    $personal.innerHTML = `
       <ul>
-        <li data-id="parent">
+        <li data-id="parent" class="parent">
           <span>개인 페이지 </span>
-          <img src="${require("../assets/img/plus.png")}" class="plus_btn">
+          <img src="${require("../../assets/img/plus.png")}" class="plus_btn">
         </li>
       </ul>
       <ul class="depth0">${this.makeChildLi(this.state.res_document)}</ul>
     `;
   };
 
-  this.$personal.addEventListener("click", (e) => {
+  $personal.addEventListener("click", (e) => {
     e.stopImmediatePropagation();
     const { target } = e;
 
@@ -106,8 +108,9 @@ export default function SideBar_personal({ $target, initialState, onClickAdd }) 
 
       if ($classification !== null) {
         const { id } = target.closest("li").dataset;
+        const { classList } = e.target;
 
-        if (target.tagName === "LI") {
+        if (classList.contains("sideBarLi")) {
           const $ul = target.childNodes[5];
 
           if ($ul && $ul.tagName === "UL") {
@@ -120,7 +123,7 @@ export default function SideBar_personal({ $target, initialState, onClickAdd }) 
 
             this.setFoldState(id);
           }
-        } else if (target.tagName === "DIV") {
+        } else if (classList.contains("title")) {
           //click text
           if (id === "parent") {
             const dis = document.querySelector("#personal").style.display;
@@ -135,9 +138,9 @@ export default function SideBar_personal({ $target, initialState, onClickAdd }) 
             target.style.fontWeight = "bold";
             target.style.color = "#000";
 
-            push(`/posts/${id}`);
+            router.push(`/posts/${id}`);
           }
-        } else if (target.tagName === "IMG") {
+        } else if (classList.contains("plus_btn")) {
           //click plus
           const foldState = this.getFoldState(id);
 
@@ -155,7 +158,7 @@ export default function SideBar_personal({ $target, initialState, onClickAdd }) 
     }
   });
 
-  this.$personal.addEventListener("mouseover", (e) => {
+  $personal.addEventListener("mouseover", (e) => {
     e.stopImmediatePropagation();
     const { target } = e;
 

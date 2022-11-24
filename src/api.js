@@ -16,8 +16,7 @@ export const request = async (url, options = {}) => {
     });
 
     if (res.ok) {
-      const resJson = await res.json();
-      return resJson;
+      return await res.json();
     }
 
     throw new Error("서버에서 응답이 정상적으로 완료되지 않았습니다.");

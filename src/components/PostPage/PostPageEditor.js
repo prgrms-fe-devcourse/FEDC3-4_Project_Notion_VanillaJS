@@ -1,4 +1,4 @@
-import { getItem, setItem } from "../storage";
+import { getItem, setItem } from "../../storage";
 
 export default function PostEditor({ $target, initialState, onEditing }) {
   if (!new.target) {
@@ -7,7 +7,7 @@ export default function PostEditor({ $target, initialState, onEditing }) {
 
   let timer = null;
 
-  this.$editor = $target;
+  const $editor = $target;
   this.state = initialState;
   this.onEditing = onEditing;
 
@@ -25,9 +25,10 @@ export default function PostEditor({ $target, initialState, onEditing }) {
       this.state.res_content.content?.replace("\n", "").replaceAll("\n", "<br>") || "";
 
     //prettier-ignore
-    this.$editor.innerHTML = `
+    $editor.innerHTML = `
       <h1 class="setction_title">
         <input 
+          class="section_title_input"
           name="title" 
           type="text" 
           maxLength="20"
@@ -40,21 +41,21 @@ export default function PostEditor({ $target, initialState, onEditing }) {
     `;
 
     if (!this.state.res_content.content) {
-      this.$editor.querySelector(".section_content").innerText = "";
+      $editor.querySelector(".section_content").innerText = "";
     }
   };
 
-  this.$editor.addEventListener("keyup", (e) => {
+  $editor.addEventListener("keyup", (e) => {
     const { target } = e;
 
     if (target) {
-      const targetTagName = target.tagName;
+      const { classList } = target;
       let value, name;
 
-      if (targetTagName === "INPUT") {
+      if (classList.contains("section_title_input")) {
         value = target.value;
         name = target.name;
-      } else if (targetTagName === "DIV") {
+      } else if (classList.contains("section_content")) {
         value = target.innerHTML;
         name = target.getAttribute("name");
       }

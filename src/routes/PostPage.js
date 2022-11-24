@@ -1,7 +1,7 @@
 import Empty from "../components/Empty";
-import PostPage_editor from "../components/PostPage_editor";
-import PostPage_header from "../components/PostPage_header";
-import PostPage_sublinks from "../components/PostPage_sublinks";
+import PostPage_editor from "../components/PostPage/PostPageEditor";
+import PostPage_header from "../components/PostPage/PostPageHeader";
+import PostPage_sublinks from "../components/PostPage/PostPageSublinks";
 import { getItem } from "../storage";
 
 export default function PostPage({ $target, initialState, onEditing, onDelete }) {
@@ -13,25 +13,26 @@ export default function PostPage({ $target, initialState, onEditing, onDelete })
   this.onEditing = onEditing;
   this.onDelete = onDelete;
 
-  this.$postPage = document.createElement("div");
-  this.$postPage.className = "postPage";
+  const $postPage = document.createElement("div");
+  $postPage.className = "postPage";
 
-  this.$header = document.createElement("header");
+  const $header = document.createElement("header");
 
-  this.$section = document.createElement("setcion");
-  this.$section.className = "editor";
-  this.$footer = document.createElement("footer");
+  const $section = document.createElement("setcion");
+  $section.className = "editor";
 
-  this.$empty = document.createElement("div");
-  this.$empty.className = "empty";
+  const $footer = document.createElement("footer");
 
-  $target.appendChild(this.$postPage);
+  const $empty = document.createElement("div");
+  $empty.className = "empty";
+
+  $target.appendChild($postPage);
 
   this.setState = (nextState) => {
     this.state = nextState;
 
     if (nextState.res_document.length < 1) {
-      this.$postPage.innerHTML = "";
+      $postPage.innerHTML = "";
       this.renderEmpty();
     } else {
       postPage_header.setState(this.state);
@@ -44,40 +45,40 @@ export default function PostPage({ $target, initialState, onEditing, onDelete })
   this.render = () => {
     const { isNeedRender } = getItem("currentContentId", null);
 
-    this.$postPage.appendChild(this.$header);
+    $postPage.appendChild($header);
 
     if (isNeedRender) {
       //글을 작성중인 경우 렌더링을 다시 하지 않음. 포커스를 잃기 때문에
-      this.$postPage.appendChild(this.$section);
+      $postPage.appendChild($section);
     }
 
-    this.$postPage.appendChild(this.$footer);
+    $postPage.appendChild($footer);
   };
 
   this.renderEmpty = () => {
     //데이터가 없는 경우, 보여줄 view 렌더링
-    this.$postPage.appendChild(this.$empty);
+    $postPage.appendChild($empty);
   };
 
   const postPage_header = new PostPage_header({
-    $target: this.$header,
+    $target: $header,
     initialState: this.state,
     onDelete: this.onDelete,
   });
 
   const postPage_editor = new PostPage_editor({
-    $target: this.$section,
+    $target: $section,
     initialState: this.state,
     onEditing: this.onEditing,
   });
 
   const postPage_sublinks = new PostPage_sublinks({
-    $target: this.$footer,
+    $target: $footer,
     initialState: this.state,
   });
 
   new Empty({
-    $target: this.$empty,
+    $target: $empty,
     initialState: this.state,
   });
 }

@@ -3,13 +3,13 @@ export default function SideBar_add({ $target, onClickAdd }) {
     throw new Error("App 컴포넌트에 new 생성자가 필요합니다.");
   }
 
-  this.$add = $target;
+  const $add = $target;
   this.onClickAdd = onClickAdd;
 
   this.render = () => {
-    this.$add.innerHTML = `
+    $add.innerHTML = `
       <div class="bottomContainer"> 
-        <img src="${require("../assets/img/plus.png")}" class="plus_btn_bottom">
+        <img src="${require("../../assets/img/plus.png")}" class="plus_btn_bottom">
         <span>새 페이지</span>
       </div>
     `;
@@ -17,8 +17,7 @@ export default function SideBar_add({ $target, onClickAdd }) {
 
   this.render();
 
-  this.$add.addEventListener("click", (e) => {
-    e.stopImmediatePropagation();
+  $add.addEventListener("click", (e) => {
     const $div = e.target.closest(".sideBarAdd");
     if ($div) {
       this.onClickAdd(null);

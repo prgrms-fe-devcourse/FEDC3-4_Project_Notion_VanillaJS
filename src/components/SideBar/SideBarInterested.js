@@ -1,12 +1,14 @@
-import { push } from "../router";
-import { getItem } from "../storage";
+import Router from "../../Router";
+import { getItem } from "../../storage";
 
 export default function SideBar_interested({ $target, initialState }) {
   if (!new.target) {
     throw new Error("App 컴포넌트에 new 생성자가 필요합니다.");
   }
 
-  this.$interested = $target;
+  const router = new Router();
+
+  const $interested = $target;
   this.state = initialState;
 
   this.setState = (nextState) => {
@@ -32,9 +34,9 @@ export default function SideBar_interested({ $target, initialState }) {
   this.render = () => {
     const favoritesList = getItem("favoritesList", []);
 
-    this.$interested.innerHTML = `
+    $interested.innerHTML = `
       <ul>
-        <li data-id="parent">
+        <li data-id="parent" class="parent">
           <span>즐겨 찾기</span>          
         </li>
       </ul>
@@ -42,7 +44,7 @@ export default function SideBar_interested({ $target, initialState }) {
     `;
   };
 
-  this.$interested.addEventListener("click", (e) => {
+  $interested.addEventListener("click", (e) => {
     e.stopImmediatePropagation();
     const { target } = e;
     const $li = target.closest(".fold");
@@ -50,7 +52,7 @@ export default function SideBar_interested({ $target, initialState }) {
     if (target && $li !== null) {
       const { id } = target.closest("li").dataset;
 
-      push(`/posts/${id}`);
+      router.push(`/posts/${id}`);
     }
   });
 }

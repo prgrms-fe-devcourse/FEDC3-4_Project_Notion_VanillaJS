@@ -1,11 +1,12 @@
-import { push } from "../router";
-import { getItem, setItem } from "../storage";
+import Router from "../../Router";
+import { getItem, setItem } from "../../storage";
 export default function PostPageHeader({ $target, initialState, onDelete }) {
   if (!new.target) {
     throw new Error("App 컴포넌트에 new 생성자가 필요합니다.");
   }
+  const router = new Router();
 
-  this.$header = $target;
+  const $header = $target;
   this.state = initialState;
   this.onDelete = onDelete;
 
@@ -71,7 +72,7 @@ export default function PostPageHeader({ $target, initialState, onDelete }) {
     const favoritesList = getItem("favoritesList", []);
     const isFavorite = favoritesList.find((fav) => fav.id === this.state.res_content.id);
 
-    this.$header.innerHTML = `
+    $header.innerHTML = `
       <div class="header_title">
         ${breadCrumb
           .map((r) => {
@@ -88,7 +89,7 @@ export default function PostPageHeader({ $target, initialState, onDelete }) {
     `;
   };
 
-  this.$header.addEventListener("click", (e) => {
+  $header.addEventListener("click", (e) => {
     const { target } = e;
 
     if (target) {
@@ -99,15 +100,15 @@ export default function PostPageHeader({ $target, initialState, onDelete }) {
           this.onDelete(this.state.res_content.id);
         }
       } else if (name === "share") {
-        const t = document.createElement("textarea");
+        const $t = document.createElement("textarea");
 
-        document.body.appendChild(t);
+        document.body.appendChild($t);
 
-        t.value = window.location.href;
-        t.select();
+        $t.value = window.location.href;
+        $t.select();
 
         document.execCommand("copy");
-        document.body.removeChild(t);
+        document.body.removeChild($t);
 
         alert("링크가 복사되었습니다. 원하는 사람에게 공유해보세요");
       } else if (name === "star") {
@@ -132,11 +133,11 @@ export default function PostPageHeader({ $target, initialState, onDelete }) {
           target.className = "on";
         }
 
-        push(`/posts/${this.state.res_content.id}`); //사이드바 리렌더링 위해 호출
+        router.push(`/posts/${this.state.res_content.id}`); //사이드바 리렌더링 위해 호출
       } else if (name === "link") {
         const { id } = target.dataset;
 
-        push(`/posts/${id}`);
+        router.push(`/posts/${id}`);
       }
     }
   });

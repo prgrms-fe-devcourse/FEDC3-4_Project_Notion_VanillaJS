@@ -85,7 +85,7 @@ input:focus,
   cursor: pointer;
   font-size: 15px;
 }
-.sideBar li[data-id="parent"] > span {
+.sideBar .parent > span {
   background-color: var(--sideBar1) !important;
 }
 .sideBar ul {

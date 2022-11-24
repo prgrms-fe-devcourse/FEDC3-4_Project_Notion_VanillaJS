@@ -1,6 +1,6 @@
-import SideBar_add from "../components/SideBar_add";
-import SideBar_interested from "../components/SideBar_interested";
-import SideBar_personal from "../components/SideBar_personal";
+import SideBar_add from "../components/SideBar/SideBarAdd";
+import SideBar_interested from "../components/SideBar/SideBarInterested";
+import SideBar_personal from "../components/SideBar/SideBarPersonal";
 import { getItem } from "../storage";
 
 export default function SideBar({ $target, initialState, onClickAdd }) {
