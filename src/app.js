@@ -6,6 +6,7 @@ import { request } from './utils/api.js';
 import { METHOD, STORAGE_KEY, TEXT, EVENT } from './utils/constants.js';
 import { getIdsThroughRoot } from './utils/getWayThroughRoot.js';
 import { getItem, removeItem, setItem } from './utils/storage.js';
+import { debounce } from './utils/debounce.js';
 
 export default function App({ $target, initialState }) {
   const $wrapper = document.createElement('div');
@@ -111,12 +112,21 @@ export default function App({ $target, initialState }) {
     },
   });
 
-  let timer = null;
+  const optimisticTitleUpdate = (document) => {
+    const { id, title } = document;
+    const $currentNavigatorTitle = $wrapper.querySelector(`#id-${id}`);
+    const $currentEditorHeader = $wrapper.querySelector('.editor-header');
+    if (typeof title !== 'undefined' && $currentNavigatorTitle.innerHTML !== title) {
+      $currentNavigatorTitle.innerHTML = title;
+      $currentEditorHeader.lastElementChild.innerHTML = title;
+    }
+  };
 
   const editor = new Editor({
     $target: $wrapper,
     initialState: { document: currentDocument, documents: this.state.documents },
-    onEditing: (document) => {
+    optimisticTitleUpdate,
+    onEditing: debounce(async (document) => {
       const { id, title } = document;
       const $currentNavigatorTitle = $wrapper.querySelector(`#id-${id}`);
       const $currentEditorHeader = $wrapper.querySelector('.editor-header');
@@ -125,39 +135,34 @@ export default function App({ $target, initialState }) {
         $currentEditorHeader.lastElementChild.innerHTML = title;
       }
 
-      if (timer !== null) {
-        clearTimeout(timer);
-      }
-      timer = setTimeout(async () => {
-        setItem(documentLocalSaveKey, {
-          ...document,
-          tempSaveDate: new Date(),
-        });
+      setItem(documentLocalSaveKey, {
+        ...document,
+        tempSaveDate: new Date(),
+      });
 
-        const modifiedDocument = await request(
-          `/documents/${document.id}`,
-          {
-            method: METHOD.PUT,
-          },
-          document,
-        );
+      const modifiedDocument = await request(
+        `/documents/${document.id}`,
+        {
+          method: METHOD.PUT,
+        },
+        document,
+      );
 
-        if (modifiedDocument) {
-          if (title !== this.state.document.title) {
-            let changedDocuments = getItem(STORAGE_KEY.CHANGED_DOCUMENTS, []);
-            changedDocuments = changedDocuments.filter(
-              (changedDocument) => changedDocument.id !== id,
-            );
-            setItem(STORAGE_KEY.CHANGED_DOCUMENTS, [...changedDocuments, { id, title }]);
-            editor.handleTitleChangedDocuments();
-          }
-
-          editor.setState({ document });
-          removeItem(documentLocalSaveKey);
-          await fetchDocuments();
+      if (modifiedDocument) {
+        if (title !== this.state.document.title) {
+          let changedDocuments = getItem(STORAGE_KEY.CHANGED_DOCUMENTS, []);
+          changedDocuments = changedDocuments.filter(
+            (changedDocument) => changedDocument.id !== id,
+          );
+          setItem(STORAGE_KEY.CHANGED_DOCUMENTS, [...changedDocuments, { id, title }]);
+          editor.handleTitleChangedDocuments();
         }
-      }, 250);
-    },
+
+        editor.setState({ document });
+        removeItem(documentLocalSaveKey);
+        await fetchDocuments();
+      }
+    }, 250),
     openDocument: async (targetDocumentId) => {
       const ids = getIdsThroughRoot($wrapper, targetDocumentId);
       setItem(STORAGE_KEY.OPENED_DOCUMENTS, [...getItem(STORAGE_KEY.OPENED_DOCUMENTS, []), ...ids]);

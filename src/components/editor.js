@@ -14,6 +14,7 @@ export default function Editor({
     },
     documents: [],
   },
+  optimisticTitleUpdate,
   onEditing,
   openDocument,
 }) {
@@ -39,10 +40,10 @@ export default function Editor({
           $content.focus();
         }
 
-        onEditing({
-          ...this.state.document,
-          title: e.target.textContent,
-        });
+        const nextDocument = { ...this.state.document, title: e.target.textContent };
+
+        optimisticTitleUpdate(nextDocument);
+        onEditing(nextDocument);
       });
     }
     if ($content) {
@@ -165,10 +166,10 @@ export default function Editor({
           return;
         }
 
-        onEditing({
-          ...this.state.document,
-          content: e.target.innerHTML,
-        });
+        const nextDocument = { ...this.state.document, content: e.target.innerHTML };
+
+        optimisticTitleUpdate(nextDocument);
+        onEditing(nextDocument);
       });
     }
   };
@@ -179,10 +180,9 @@ export default function Editor({
       documents: this.state.documents,
     },
     onEditing: async (content) => {
-      await onEditing({
-        ...this.state.document,
-        content,
-      });
+      const nextDocument = { ...this.state.document, content };
+      await optimisticTitleUpdate(nextDocument);
+      await onEditing(nextDocument);
       setDocumentLinkEvents();
     },
   });
