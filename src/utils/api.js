@@ -1,3 +1,5 @@
+const API_END_POINT = '';
+
 export const request = async (url, options = {}) => {
   try {
     const res = await fetch(url, {
@@ -20,8 +22,6 @@ export const request = async (url, options = {}) => {
 
 export const fetchDocuments = async (documentId, options) =>
   request(
-    `${process.env.API_END_POINT}/documents${
-      documentId ? `/${documentId}` : ''
-    }`,
+    `${API_END_POINT}/documents${documentId ? `/${documentId}` : ''}`,
     options
   );
