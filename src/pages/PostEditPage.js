@@ -72,18 +72,29 @@ export default function PostEditPage({ $target, props }) {
             tempSaveDate: new Date(),
           });
 
-          if (this.state.postId === 'new' && this.state.post.title) {
-            const createdPost = await request('/documents', {
-              method: 'POST',
-              body: JSON.stringify({
-                title: this.state.post.title,
-                parent: null,
-              }),
+          this.setState({ post });
+
+          if (this.state.postId === 'new') {
+            if (this.state.post.title) {
+              const createdPost = await request('/documents', {
+                method: 'POST',
+                body: JSON.stringify({
+                  title: this.state.post.title,
+                  parent: null,
+                }),
+              });
+              history.replaceState(null, null, `/posts/${createdPost.id}`);
+              storage.removeItem('temp-post-new');
+              this.setState({ postId: createdPost.id });
+            }
+          } else {
+            await request(`/documents/${this.state.postId}`, {
+              method: 'PUT',
+              body: JSON.stringify(this.state.post),
             });
-            history.replaceState(null, null, `/posts/${createdPost.id}`);
-            storage.removeItem('temp-post-new');
+            storage.removeItem(tempPostSaveKey);
           }
-        }, 1000);
+        }, 2000);
       },
     },
   });
