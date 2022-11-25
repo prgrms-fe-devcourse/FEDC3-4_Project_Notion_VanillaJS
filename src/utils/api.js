@@ -1,4 +1,4 @@
-const API_END_POINT = '';
+import API_END_POINT from './key.js';
 
 export const request = async (url, options = {}) => {
   try {

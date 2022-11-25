@@ -3,17 +3,12 @@
   "version": "1.0.0",
   "description": "Notion 클로닝",
   "scripts": {
-    "start": "npx serve -s",
-    "parcel": "parcel index.html",
-    "build": "parcel build index.html"
+    "start": "npx serve -s"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/prgrms-fe-devcourse/FEDC3-4_Project_Notion_VanillaJS.git"
   },
   "author": "yurikim",
-  "license": "ISC",
-  "devDependencies": {
-    "parcel": "^2.8.0"
-  }
+  "license": "ISC"
 }
