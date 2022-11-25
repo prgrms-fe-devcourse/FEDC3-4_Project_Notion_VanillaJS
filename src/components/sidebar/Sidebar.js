@@ -72,14 +72,13 @@ export default function Sidebar({ $target, initialState }) {
       } else {
         const $parentLi = document.getElementById(res.parent.id);
         // 이미 상위 페이지가 지워진 경우 방어 코드
-        if ($parentLi !== null) {
+        if ($parentLi) {
           const $childUl = $parentLi.querySelector(".child");
           if ($childUl.innerText === "") {
             $childUl.innerHTML = `
               <li class="isEnd">하위 페이지가 없습니다.</li>
             `;
           }
-          this.setState();
           push(`/documents/${res.parent.id}`);
         } else {
           this.setState();
@@ -121,6 +120,7 @@ export default function Sidebar({ $target, initialState }) {
         </p>
       `;
       }
+      $rootUl.appendChild($li);
       push(`/documents/${newRootDoc.id}`);
       this.setState();
     },
