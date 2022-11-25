@@ -17,8 +17,6 @@
 
   /* border-radius */
   --border-radius-small: 4px;
-
-  /* todo: width, height 정의 */
 }
 
 * {
@@ -90,8 +88,6 @@ nav {
 }
 
 .document-item-container {
-  /* cursor: pointer; */
-
   display: flex;
   flex-direction: column;
 }
@@ -171,6 +167,11 @@ img[data-action='add']:hover {
   cursor: default;
   height: 2rem;
   line-height: 2rem;
+  
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .root-document-add-button {
