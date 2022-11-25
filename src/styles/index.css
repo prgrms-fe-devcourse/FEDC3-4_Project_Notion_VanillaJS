@@ -1,0 +1,247 @@
+:root {
+  /* color */
+  --sidebar-background-color: rgb(251, 251, 250);
+  --document-item-selected-background-color: #0000000a;
+  --document-item-hover-background-color: rgba(0, 0, 0, 0.04);
+  --document-item-img-hover-background-color: rgba(55, 53, 47, 0.08);
+
+  /* padding */
+  --padding-small: 0.75rem;
+  --padding-normal: 1rem;
+
+  /* margin */
+  --margin-very-small: 0.5rem;
+  --margin-small: 0.75rem;
+  --margin-normal: 1rem;
+  --margin-large: 1.25rem;
+
+  /* border-radius */
+  --border-radius-small: 4px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+}
+
+main {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+}
+
+.svg {
+  width: 14px;
+}
+
+ul {
+  padding-inline-start: var(--padding-small);
+  margin: 0px;
+}
+
+/* shared */
+header {
+  width: 100%;
+  padding: var(--padding-normal);
+
+  align-self: start;
+}
+
+/* Sidebar */
+nav {
+  width: 300px;
+  height: 100%;
+  background-color: var(--sidebar-background-color);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar-header {
+  cursor: pointer;
+}
+
+.sidebar-header:hover {
+  background-color: var(--document-item-hover-background-color);
+}
+
+.document-list__root {
+  height: 100%;
+  padding: 0 var(--padding-normal);
+  justify-self: start;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.document-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.document-item-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.document-item {
+  height: 2rem;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.document-item__title {
+  width: 100%;
+  line-height: 2rem;
+  margin-left: var(--margin-very-small);
+
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  justify-self: start;
+}
+
+.document-item__buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.document-item:hover {
+  background-color: var(--document-item-hover-background-color);
+}
+
+.document-item img {
+  border-radius: var(--border-radius-small);
+  width: 1.25rem;
+  height: 1.25rem;
+  line-height: 2rem;
+  transition: all 0.25s;
+}
+
+.toggled {
+  transform: rotate(90deg);
+}
+
+.not-toggled {
+  transform: rotate(0deg);
+}
+
+.toggled:hover,
+.not-toggled:hover {
+  background-color: var(--document-item-img-hover-background-color);
+  transform: scale(1.25);
+}
+
+.toggled:hover {
+  transform: rotate(90deg) scale(1.25);
+}
+
+.selected {
+  background-color: var(--document-item-selected-background-color);
+  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+img[data-action='delete']:hover,
+img[data-action='add']:hover {
+  background-color: var(--document-item-img-hover-background-color);
+  transform: scale(1.25);
+}
+
+.no-sub-document {
+  margin-left: var(--margin-large);
+  color: #19171199;
+  cursor: default;
+  height: 2rem;
+  line-height: 2rem;
+  
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.root-document-add-button {
+  height: 4rem;
+  border-radius: var(--border-radius-small);
+  /* margin: var(--margin-normal) 0; */
+  background-color: var(--document-item-img-hover-background-color);
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+}
+
+.root-document-add-button > img {
+  margin-left: var(--margin-normal);
+
+  width: 1rem;
+  height: 1rem;
+}
+
+.root-document-add-button > div {
+  padding-left: var(--padding-small);
+  line-height: 4rem;
+}
+
+.root-document-add-button:hover {
+  opacity: 0.75;
+  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Post */
+article {
+  width: 90%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.editor {
+  padding: 0 var(--padding-normal) var(--padding-normal) var(--padding-normal);
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.editor-title {
+  all: unset;
+  font-weight: bold;
+  font-size: 2rem;
+  border-bottom: 1px solid var(--document-item-img-hover-background-color);
+  width: 75%;
+  padding-bottom: var(--padding-small);
+}
+
+.editor-content {
+  margin-top: var(--margin-normal);
+  height: 600px;
+  width: 75%;
+}
+
+.editor-content:focus {
+  outline: none;
+}
+
+.not-found {
+  padding-left: var(--padding-small);
+  width: 100%;
+  text-align: center;
+}
