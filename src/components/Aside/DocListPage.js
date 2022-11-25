@@ -1,7 +1,7 @@
 import DocListHeader from "./DocListHeader.js";
 import DocList from "./DocList.js";
 import DocListFooter from "./DocListFooter.js";
-import { getDocument, createDocument, deleteDocument } from "../api.js";
+import { getDocument, createDocument, deleteDocument } from "../API/api.js";
 import { push, ROOT } from "../router.js";
 import { makeElement } from "../../util/templates.js";
 import { setListScrollPos } from "../../util/scrollPos.js";

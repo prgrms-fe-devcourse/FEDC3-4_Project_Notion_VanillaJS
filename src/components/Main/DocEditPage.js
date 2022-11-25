@@ -2,7 +2,7 @@ import Editor from "./Editor.js";
 import Subdirectory from "./Subdirectory.js";
 import DocEditFooter from "./DocEditFooter.js";
 import { makeElement } from "../../util/templates.js";
-import { getDocument, editDocument } from "../api.js";
+import { getDocument, editDocument } from "../API/api.js";
 import { local } from "../../util/storage.js";
 import { debounce } from "../../util/helper.js";
 import { push, ROOT } from "../router.js";

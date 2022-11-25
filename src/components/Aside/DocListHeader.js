@@ -14,11 +14,6 @@ export default function DocListHeader({ $target, content = {
         <p>${content.subtitle}</p>
       </header>
     `
-    $header.appendChild(makeButton({
-      name: 'menu', 
-      iconName: 'xi-bars',
-      spanText: '메뉴 열기/닫기'
-    }))
   }
 
   this.render();
