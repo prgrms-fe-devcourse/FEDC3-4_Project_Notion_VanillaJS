@@ -17,8 +17,8 @@ export default function MarkUpList({ $target, initialState }) {
     this.render();
   };
 
-  const markUpList = (list, text) => {
-    text += `
+  const markUpList = (list) => {
+    const text = `
       <ul>
       ${list
         .map(
@@ -28,7 +28,7 @@ export default function MarkUpList({ $target, initialState }) {
         <img class="svg" src="../icon/chevron-right-solid.svg" />
         ${title}
         </li>
-        ${documents.map((document) => markUpList([document], text)).join("")}
+        ${documents.map((document) => markUpList([document])).join("")}
       </div>
       `
         )
@@ -40,7 +40,7 @@ export default function MarkUpList({ $target, initialState }) {
   };
 
   this.render = () => {
-    const documentsList = markUpList(this.state, "");
+    const documentsList = markUpList(this.state);
     $markUpList.innerHTML = `<div class="list">${documentsList}</div>`;
   };
 
