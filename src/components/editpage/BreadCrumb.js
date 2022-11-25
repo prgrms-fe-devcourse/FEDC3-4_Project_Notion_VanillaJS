@@ -5,13 +5,12 @@ export default function BreadCrumb({ $target, initialState, clickPath }) {
 
   const $breadCrumb = document.createElement("nav");
   $breadCrumb.className = "linkContainer";
-  $target.appendChild($breadCrumb);
-
   this.state = initialState;
 
   this.setState = (nextState) => {
     this.state = nextState;
     this.render();
+    $target.prepend($breadCrumb);
   };
 
   this.renderBreadCrumb = (id) => {
