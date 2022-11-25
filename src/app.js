@@ -3,8 +3,8 @@ import Home from './components/home.js';
 import Navigator from './components/navigator.js';
 import { initRouter, push } from './router.js';
 import { request } from './utils/api.js';
-import { METHOD, STORAGE_KEY, TEXT, EVENT } from './utils/constants.js';
-import { getIdsThroughRoot } from './utils/getWayThroughRoot.js';
+import { METHOD, STORAGE_KEY, TEXT } from './utils/constants.js';
+import { getWaysFromRootToLeaf } from './utils/getWayThroughRoot.js';
 import { getItem, removeItem, setItem } from './utils/storage.js';
 import { debounce } from './utils/debounce.js';
 
@@ -164,8 +164,25 @@ export default function App({ $target, initialState }) {
       }
     }, 250),
     openDocument: async (targetDocumentId) => {
-      const ids = getIdsThroughRoot($wrapper, targetDocumentId);
-      setItem(STORAGE_KEY.OPENED_DOCUMENTS, [...getItem(STORAGE_KEY.OPENED_DOCUMENTS, []), ...ids]);
+      targetDocumentId = parseInt(targetDocumentId);
+      const waysFromRootToLeafs = getWaysFromRootToLeaf(this.state.documents);
+      const ids = waysFromRootToLeafs.filter((rootToLeaf) =>
+        rootToLeaf.includes(targetDocumentId),
+      )[0];
+
+      if (!ids) {
+        push('/');
+        return;
+      }
+
+      const currentWay = ids.slice(0, ids.findIndex((id) => id === targetDocumentId) + 1);
+
+      let openDocuments = {};
+      for (const way of currentWay) {
+        openDocuments = { ...openDocuments, [way]: true };
+      }
+
+      setItem(STORAGE_KEY.OPENED_DOCUMENTS, { ...this.state.openedDocuments, ...openDocuments });
       push(`/documents/${targetDocumentId}`);
     },
   });

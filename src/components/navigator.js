@@ -111,12 +111,17 @@ export default function Navigator({
 
       if ($document && !$chevronButton && !$deleteButton && !$addButton) {
         const targetDocumentId = $document.getAttribute('key');
+
+        this.setState({
+          openedDocuments: { ...this.state.openedDocuments, [targetDocumentId]: true },
+        });
+        setItem(STORAGE_KEY.OPENED_DOCUMENTS, this.state.openedDocuments);
         openDocument(targetDocumentId);
       }
 
       if ($deleteButton && $document) {
         const targetDocumentId = $document.getAttribute('key');
-        
+
         delete this.state.openedDocuments[targetDocumentId];
         setItem(STORAGE_KEY.OPENED_DOCUMENTS, this.state.openedDocuments);
         deleteDocument(targetDocumentId);

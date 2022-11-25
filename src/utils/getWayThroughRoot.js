@@ -1,12 +1,25 @@
-export const getIdsThroughRoot = (from, id) => {
-  const ids = [id];
-  let $parent = from.querySelector(`#id-${id}`).parentNode;
-
-  while (!$parent.parentNode.parentNode.classList.contains('documents-wrapper')) {
-    $parent = $parent.parentNode.previousElementSibling;
-    ids.push($parent.getAttribute('key'));
+const getWaysToLeaf = (originArray, _documents, currentArray) => {
+  if (_documents.length === 0) {
+    originArray.push(currentArray);
+    return originArray;
   }
-  return ids;
+
+  _documents.forEach((document) => {
+    const { documents, id } = document;
+    getWaysToLeaf(originArray, documents, [...currentArray, id]);
+  });
+
+  return currentArray;
+};
+
+export const getWaysFromRootToLeaf = (_documents) => {
+  const originArray = [];
+
+  _documents.forEach(({ documents, id }) => {
+    getWaysToLeaf(originArray, documents, [id]);
+  });
+
+  return originArray;
 };
 
 export const getTitlesThroughRoot = (from, startId) => {
