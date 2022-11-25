@@ -37,7 +37,7 @@ button {
 
 .sidebar button {
   color: #a3a29d;
-  padding: 3px;
+  padding: 1px 3px;
 }
 
 .sidebar button.add,
