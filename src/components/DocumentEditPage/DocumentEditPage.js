@@ -3,8 +3,12 @@ import DocumentHeader from './DocumentHeader.js';
 import DocumentFooter from './DocumentFooter.js';
 
 import { fetchDocuments } from '../../utils/api.js';
-import { CLASS_NAME, ID, MESSAGE, ROUTE } from '../../utils/constants.js';
-import { isNew, setDocumentTitle } from '../../utils/helper.js';
+import { CLASS_NAME, ID, MESSAGE } from '../../utils/constants.js';
+import {
+  generateRouteDocuments,
+  isNew,
+  setDocumentTitle,
+} from '../../utils/helper.js';
 import { push } from '../../utils/router.js';
 
 export default function DocumentEditPage({
@@ -80,7 +84,7 @@ export default function DocumentEditPage({
     const document = await fetchDocuments(this.state.documentId);
     if (!document) {
       alert(MESSAGE.REDIRECT);
-      push(`${ROUTE.DOCUMENTS}/${ID.DEFAULT_DOCUMENT}`);
+      push(generateRouteDocuments(ID.DEFAULT_DOCUMENT));
       return;
     }
 
@@ -95,7 +99,7 @@ export default function DocumentEditPage({
   };
 
   this.render = () => {
-    if (!$target.querySelector(CLASS_NAME.DOCUMENT_EDIT_PAGE)) {
+    if (!$target.querySelector(`.${CLASS_NAME.DOCUMENT_EDIT_PAGE}`)) {
       $target.appendChild($page);
     }
     setDocumentTitle(this.state.document?.title || '');

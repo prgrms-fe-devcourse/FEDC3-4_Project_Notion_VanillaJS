@@ -1,6 +1,6 @@
-import { CLASS_NAME, ROUTE } from '../../utils/constants.js';
+import { CLASS_NAME } from '../../utils/constants.js';
 import { push } from '../../utils/router.js';
-import { generateTitle } from '../../utils/helper.js';
+import { generateRouteDocuments, generateTitle } from '../../utils/helper.js';
 
 export default function DocumentFooter({ $target, initialState }) {
   const $footer = document.createElement('footer');
@@ -39,7 +39,7 @@ export default function DocumentFooter({ $target, initialState }) {
     if (!$title) return;
 
     const { id } = $title.dataset;
-    push(`${ROUTE.DOCUMENTS}/${parseInt(id)}`);
+    push(generateRouteDocuments(parseInt(id)));
   });
 
   this.render();

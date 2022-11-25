@@ -43,7 +43,3 @@ export const TEXT = {
   NEW_PAGE: '새 페이지',
   UNTITLED: '제목 없음',
 };
-
-export const ROUTE = {
-  DOCUMENTS: '/documents',
-};

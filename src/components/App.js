@@ -1,8 +1,12 @@
 import Sidebar from './Sidebar/Sidebar.js';
 import DocumentEditPage from './DocumentEditPage/DocumentEditPage.js';
 
-import { ID, KEY, MESSAGE, ROUTE } from '../utils/constants.js';
-import { isNew, setDocumentTitle } from '../utils/helper.js';
+import { ID, KEY, MESSAGE } from '../utils/constants.js';
+import {
+  generateRouteDocuments,
+  isNew,
+  setDocumentTitle,
+} from '../utils/helper.js';
 import { initRouter, push } from '../utils/router.js';
 import { fetchDocuments } from '../utils/api.js';
 import {
@@ -17,7 +21,7 @@ export default function App({ $target }) {
   let timer = null;
 
   const onAdd = async () => {
-    push(`${ROUTE.DOCUMENTS}/${ID.NEW}`);
+    push(generateRouteDocuments(ID.NEW));
 
     const createdDocument = await fetchDocuments('', {
       method: 'POST',
@@ -30,7 +34,7 @@ export default function App({ $target }) {
     history.replaceState(
       null,
       null,
-      `${ROUTE.DOCUMENTS}/${createdDocument.id}`
+      generateRouteDocuments(createdDocument.id)
     );
     removeStorageItem(KEY.NEW_PARENT);
 
@@ -61,7 +65,7 @@ export default function App({ $target }) {
 
     if (currentDocumentId === removedDocumentId) {
       documentEditPage.setState({ documentId: ID.DEFAULT_DOCUMENT });
-      push(`${ROUTE.DOCUMENTS}/${ID.DEFAULT_DOCUMENT}`);
+      push(generateRouteDocuments(ID.DEFAULT_DOCUMENT));
     } else {
       documentEditPage.setState({ documentId: currentDocumentId });
     }
@@ -118,7 +122,7 @@ export default function App({ $target }) {
       return;
     }
 
-    if (pathname.indexOf(ROUTE.DOCUMENTS) !== 0) return;
+    if (pathname.indexOf('/documents') !== 0) return;
 
     const [, , documentId] = pathname.split('/');
     documentEditPage.setState({

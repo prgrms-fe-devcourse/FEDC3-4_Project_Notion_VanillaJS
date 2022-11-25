@@ -1,11 +1,12 @@
 import DocumentAddButton from './DocumentAddButton.js';
 
 import { push } from '../../utils/router.js';
-import { ROUTE, CLASS_NAME, KEY, TEXT } from '../../utils/constants.js';
+import { CLASS_NAME, KEY, TEXT } from '../../utils/constants.js';
 import {
   isNew,
   generateTitle,
   generateTextIndent,
+  generateRouteDocuments,
 } from '../../utils/helper.js';
 import { getStorageItem, setStorageItem } from '../../utils/storage.js';
 
@@ -114,7 +115,7 @@ export default function DocumentList({
     id = parseInt(id);
 
     if (target.classList.contains(CLASS_NAME.DOCUMENT_ITEM)) {
-      push(`${ROUTE.DOCUMENTS}/${id}`);
+      push(generateRouteDocuments(id));
       this.render();
     } else if (target.classList.contains(CLASS_NAME.ADD)) {
       setStorageItem(KEY.NEW_PARENT, id);

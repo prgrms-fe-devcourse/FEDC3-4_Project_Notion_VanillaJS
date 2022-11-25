@@ -23,3 +23,5 @@ export const setDocumentTitle = (title) => {
 };
 
 export const generateTextIndent = (depth) => 12 * depth;
+
+export const generateRouteDocuments = (id) => `/documents/${id}`;
