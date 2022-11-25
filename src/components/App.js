@@ -1,13 +1,7 @@
 import Sidebar from './Sidebar/Sidebar.js';
 import DocumentEditPage from './DocumentEditPage/DocumentEditPage.js';
 
-import {
-  DEFAULT_DOCUMENT_ID,
-  NEW,
-  NEW_PARENT,
-  OPENED_ITEMS,
-  ROUTE_DOCUMENTS,
-} from '../utils/constants.js';
+import { ID, KEY, MESSAGE, ROUTE } from '../utils/constants.js';
 import { isNew, setDocumentTitle } from '../utils/helper.js';
 import { initRouter, push } from '../utils/router.js';
 import { fetchDocuments } from '../utils/api.js';
@@ -23,22 +17,22 @@ export default function App({ $target }) {
   let timer = null;
 
   const onAdd = async () => {
-    push(`${ROUTE_DOCUMENTS}/${NEW}`);
+    push(`${ROUTE.DOCUMENTS}/${ID.NEW}`);
 
     const createdDocument = await fetchDocuments('', {
       method: 'POST',
       body: JSON.stringify({
         title: '',
-        parent: getStorageItem(NEW_PARENT, null),
+        parent: getStorageItem(KEY.NEW_PARENT, null),
       }),
     });
 
     history.replaceState(
       null,
       null,
-      `${ROUTE_DOCUMENTS}/${createdDocument.id}`
+      `${ROUTE.DOCUMENTS}/${createdDocument.id}`
     );
-    removeStorageItem(NEW_PARENT);
+    removeStorageItem(KEY.NEW_PARENT);
 
     documentEditPage.setState({ documentId: createdDocument.id });
 
@@ -48,26 +42,26 @@ export default function App({ $target }) {
   };
 
   const onDelete = async (currentDocumentId, removedDocumentId) => {
-    if (removedDocumentId === DEFAULT_DOCUMENT_ID) {
-      alert('첫 페이지는 지우지 말아주세요 :D');
+    if (removedDocumentId === ID.DEFAULT_DOCUMENT) {
+      alert(MESSAGE.DO_NOT_DELETE_FIRST_PAGE);
       return;
     }
 
-    if (!confirm('페이지를 삭제하시겠습니까?')) return;
+    if (!confirm(MESSAGE.DELETE_PAGE)) return;
 
     await fetchDocuments(removedDocumentId, {
       method: 'DELETE',
     });
 
-    const openedItems = getStorageItem(OPENED_ITEMS, []);
+    const openedItems = getStorageItem(KEY.OPENED_ITEMS, []);
     setStorageItem(
-      OPENED_ITEMS,
+      KEY.OPENED_ITEMS,
       openedItems.filter((item) => item !== removedDocumentId)
     );
 
     if (currentDocumentId === removedDocumentId) {
-      documentEditPage.setState({ documentId: DEFAULT_DOCUMENT_ID });
-      push(`${ROUTE_DOCUMENTS}/${DEFAULT_DOCUMENT_ID}`);
+      documentEditPage.setState({ documentId: ID.DEFAULT_DOCUMENT });
+      push(`${ROUTE.DOCUMENTS}/${ID.DEFAULT_DOCUMENT}`);
     } else {
       documentEditPage.setState({ documentId: currentDocumentId });
     }
@@ -124,7 +118,7 @@ export default function App({ $target }) {
       return;
     }
 
-    if (pathname.indexOf(ROUTE_DOCUMENTS) !== 0) return;
+    if (pathname.indexOf(ROUTE.DOCUMENTS) !== 0) return;
 
     const [, , documentId] = pathname.split('/');
     documentEditPage.setState({

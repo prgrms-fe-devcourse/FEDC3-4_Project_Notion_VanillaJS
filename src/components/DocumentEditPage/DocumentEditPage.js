@@ -3,11 +3,7 @@ import DocumentHeader from './DocumentHeader.js';
 import DocumentFooter from './DocumentFooter.js';
 
 import { fetchDocuments } from '../../utils/api.js';
-import {
-  NEW,
-  ROUTE_DOCUMENTS,
-  DEFAULT_DOCUMENT_ID,
-} from '../../utils/constants.js';
+import { CLASS_NAME, ID, MESSAGE, ROUTE } from '../../utils/constants.js';
 import { isNew, setDocumentTitle } from '../../utils/helper.js';
 import { push } from '../../utils/router.js';
 
@@ -20,7 +16,7 @@ export default function DocumentEditPage({
   isNew(new.target);
 
   const $page = document.createElement('div');
-  $page.className = 'document-edit-page';
+  $page.className = CLASS_NAME.DOCUMENT_EDIT_PAGE;
 
   this.state = initialState;
 
@@ -65,7 +61,7 @@ export default function DocumentEditPage({
 
     this.state = { ...this.state, ...nextState };
 
-    if (this.state.documentId === NEW) {
+    if (this.state.documentId === ID.NEW) {
       editor.setState({
         title: '',
         content: '',
@@ -83,8 +79,8 @@ export default function DocumentEditPage({
   const loadDocument = async () => {
     const document = await fetchDocuments(this.state.documentId);
     if (!document) {
-      alert('존재하지 않는 페이지입니다. 첫 페이지로 이동합니다.');
-      push(`${ROUTE_DOCUMENTS}/${DEFAULT_DOCUMENT_ID}`);
+      alert(MESSAGE.REDIRECT);
+      push(`${ROUTE.DOCUMENTS}/${ID.DEFAULT_DOCUMENT}`);
       return;
     }
 
@@ -99,7 +95,7 @@ export default function DocumentEditPage({
   };
 
   this.render = () => {
-    if (!$target.querySelector('.document-edit-page')) {
+    if (!$target.querySelector(CLASS_NAME.DOCUMENT_EDIT_PAGE)) {
       $target.appendChild($page);
     }
     setDocumentTitle(this.state.document?.title || '');

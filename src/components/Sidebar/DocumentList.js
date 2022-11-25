@@ -1,23 +1,13 @@
 import DocumentAddButton from './DocumentAddButton.js';
 
 import { push } from '../../utils/router.js';
-import {
-  ROUTE_DOCUMENTS,
-  ADD,
-  DELETE,
-  OPENED_ITEMS,
-  NEW_PARENT,
-} from '../../utils/constants.js';
+import { ROUTE, CLASS_NAME, KEY, TEXT } from '../../utils/constants.js';
 import {
   isNew,
   generateTitle,
   generateTextIndent,
 } from '../../utils/helper.js';
 import { getStorageItem, setStorageItem } from '../../utils/storage.js';
-
-const DOCUMENT_ITEM = 'document-item';
-const BLOCK = 'block';
-const NONE = 'none';
 
 export default function DocumentList({
   $target,
@@ -28,7 +18,7 @@ export default function DocumentList({
   isNew(new.target);
 
   const $documentList = document.createElement('div');
-  $documentList.className = 'document-list';
+  $documentList.className = CLASS_NAME.DOCUMENT_LIST;
   $target.appendChild($documentList);
 
   this.state = initialState;
@@ -41,13 +31,15 @@ export default function DocumentList({
   let isBlock = false;
 
   const renderButton = (id) => {
-    const openedItems = getStorageItem(OPENED_ITEMS, []);
+    const openedItems = getStorageItem(KEY.OPENED_ITEMS, []);
     isBlock = openedItems.includes(id);
     return `
-      <button class="toggle ${isBlock ? 'open' : ''}" type="button">
-        <i class="toggle ${isBlock ? 'open' : ''} fa-solid fa-angle-${
-      isBlock ? 'down' : 'right'
-    }"></i>
+      <button class="${CLASS_NAME.TOGGLE} ${
+      isBlock ? CLASS_NAME.OPEN : ''
+    }" type="button">
+        <i class="${CLASS_NAME.TOGGLE} ${
+      isBlock ? CLASS_NAME.OPEN : ''
+    } fa-solid fa-angle-${isBlock ? 'down' : 'right'}"></i>
       </button>
     `;
   };
@@ -59,18 +51,20 @@ export default function DocumentList({
             <ul>
               <li 
                 data-id="${id}" 
-                class="${DOCUMENT_ITEM} ${
-              id === this.state.selectedId ? 'selected' : ''
+                class="${CLASS_NAME.DOCUMENT_ITEM} ${
+              id === this.state.selectedId ? CLASS_NAME.SELECTED : ''
             }" 
                 style="padding-left: ${generateTextIndent(depth)}px">
                 ${renderButton(id)}
-                <p class="${DOCUMENT_ITEM}">${generateTitle(title)}</p>
-                <div class="buttons">
-                  <button title="삭제" class="${DELETE}" type="button">
-                    <i title="삭제" class="fa-regular fa-trash-can ${DELETE}"></i>
+                <p class="${CLASS_NAME.DOCUMENT_ITEM}">${generateTitle(
+              title
+            )}</p>
+                <div class="${CLASS_NAME.BUTTONS}">
+                  <button class="${CLASS_NAME.DELETE}" type="button">
+                    <i class="fa-regular fa-trash-can ${CLASS_NAME.DELETE}"></i>
                   </button>
-                  <button title="하위 페이지 추가" class="${ADD}" type="button">
-                    <i title="하위 페이지 추가" class="fa-solid fa-plus ${ADD}"></i>
+                  <button class="${CLASS_NAME.ADD}" type="button">
+                    <i class="fa-solid fa-plus ${CLASS_NAME.ADD}"></i>
                   </button>
                 </div>
               </li>
@@ -78,10 +72,10 @@ export default function DocumentList({
                 isBlock && documents.length
                   ? renderDocuments(documents, depth + 2)
                   : `<li 
-                      class="no-subpages" 
+                      class="${CLASS_NAME.NO_SUBPAGES}" 
                       style="
                         padding-left: ${generateTextIndent(depth + 2)}px; 
-                        display: ${isBlock ? BLOCK : NONE};
+                        display: ${isBlock ? 'block' : 'none'};
                       ">
                       하위 페이지 없음
                     </li>`
@@ -95,8 +89,8 @@ export default function DocumentList({
   const documentAddButton = new DocumentAddButton({
     $target: $documentList,
     initialState: {
-      position: 'document-list-bottom',
-      text: '페이지 추가',
+      position: CLASS_NAME.DOCUMENT_LIST_BOTTOM,
+      text: TEXT.ADD_PAGE,
     },
     onAdd,
   });
@@ -119,36 +113,36 @@ export default function DocumentList({
     let { id } = $li.dataset;
     id = parseInt(id);
 
-    if (target.classList.contains(DOCUMENT_ITEM)) {
-      push(`${ROUTE_DOCUMENTS}/${id}`);
+    if (target.classList.contains(CLASS_NAME.DOCUMENT_ITEM)) {
+      push(`${ROUTE.DOCUMENTS}/${id}`);
       this.render();
-    } else if (target.classList.contains(ADD)) {
-      setStorageItem(NEW_PARENT, id);
+    } else if (target.classList.contains(CLASS_NAME.ADD)) {
+      setStorageItem(KEY.NEW_PARENT, id);
       onAdd(id);
       toggleOpen(target, id);
-    } else if (target.classList.contains(DELETE)) {
+    } else if (target.classList.contains(CLASS_NAME.DELETE)) {
       onDelete(this.state.selectedId, id);
     }
 
-    if (target.classList.contains('toggle')) {
+    if (target.classList.contains(CLASS_NAME.TOGGLE)) {
       toggleOpen(target, id);
     }
   });
 
   const toggleOpen = (target, id) => {
-    const openedItems = getStorageItem(OPENED_ITEMS, []);
+    const openedItems = getStorageItem(KEY.OPENED_ITEMS, []);
 
-    if (target.classList.contains('open')) {
+    if (target.classList.contains(CLASS_NAME.OPEN)) {
       const index = openedItems.indexOf(id);
-      setStorageItem(OPENED_ITEMS, [
+      setStorageItem(KEY.OPENED_ITEMS, [
         ...openedItems.slice(0, index),
         ...openedItems.slice(index + 1),
       ]);
-      target.classList.toggle('open');
+      target.classList.toggle(CLASS_NAME.OPEN);
     } else {
       if (openedItems.indexOf(id) > -1) return;
-      setStorageItem(OPENED_ITEMS, [...openedItems, id]);
-      target.classList.toggle('open');
+      setStorageItem(KEY.OPENED_ITEMS, [...openedItems, id]);
+      target.classList.toggle(CLASS_NAME.OPEN);
     }
 
     this.render();
@@ -160,10 +154,10 @@ export default function DocumentList({
 
     for (const element of $li.children) {
       if (
-        element.classList.contains('buttons') ||
-        element.classList.contains(DOCUMENT_ITEM)
+        element.classList.contains(CLASS_NAME.BUTTONS) ||
+        element.classList.contains(CLASS_NAME.DOCUMENT_ITEM)
       ) {
-        element.classList.toggle(BLOCK);
+        element.classList.toggle('block');
       }
     }
   };

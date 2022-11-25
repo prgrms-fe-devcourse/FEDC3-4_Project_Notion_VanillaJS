@@ -1,15 +1,16 @@
 import DocumentList from './DocumentList.js';
 import DocumentAddButton from './DocumentAddButton.js';
+import SidebarHeader from './SidebarHeader.js';
 
 import { fetchDocuments } from '../../utils/api.js';
 import { isNew } from '../../utils/helper.js';
-import SidebarHeader from './SidebarHeader.js';
+import { CLASS_NAME, TEXT } from '../../utils/constants.js';
 
 export default function Sidebar({ $target, initialState, onAdd, onDelete }) {
   isNew(new.target);
 
   const $sidebar = document.createElement('div');
-  $sidebar.className = 'sidebar';
+  $sidebar.className = CLASS_NAME.SIDEBAR;
 
   $target.appendChild($sidebar);
 
@@ -40,8 +41,8 @@ export default function Sidebar({ $target, initialState, onAdd, onDelete }) {
   const documentAddButton = new DocumentAddButton({
     $target: $sidebar,
     initialState: {
-      position: 'sidebar-bottom',
-      text: '새 페이지',
+      position: CLASS_NAME.SIDEBAR_BOTTOM,
+      text: TEXT.NEW_PAGE,
     },
     onAdd,
   });

@@ -1,10 +1,10 @@
-import { ROUTE_DOCUMENTS } from '../../utils/constants.js';
+import { CLASS_NAME, ROUTE } from '../../utils/constants.js';
 import { push } from '../../utils/router.js';
 import { generateTitle } from '../../utils/helper.js';
 
 export default function DocumentFooter({ $target, initialState }) {
   const $footer = document.createElement('footer');
-  $footer.className = 'document-footer';
+  $footer.className = CLASS_NAME.DOCUMENT_FOOTER;
 
   $target.appendChild($footer);
 
@@ -21,11 +21,13 @@ export default function DocumentFooter({ $target, initialState }) {
     const { documents } = this.state.document;
 
     $footer.innerHTML = `
-      <div class="titles">
+      <div class="${CLASS_NAME.TITLES}">
         ${documents
           .map(
             ({ id, title }) =>
-              `<p data-id="${id}" class="title">${generateTitle(title)}</p>`
+              `<p data-id="${id}" class="${CLASS_NAME.TITLE}">${generateTitle(
+                title
+              )}</p>`
           )
           .join('')}
       </div>
@@ -33,11 +35,11 @@ export default function DocumentFooter({ $target, initialState }) {
   };
 
   $footer.addEventListener('click', (e) => {
-    const $title = e.target.closest('.title');
+    const $title = e.target.closest(`.${CLASS_NAME.TITLE}`);
     if (!$title) return;
 
     const { id } = $title.dataset;
-    push(`${ROUTE_DOCUMENTS}/${parseInt(id)}`);
+    push(`${ROUTE.DOCUMENTS}/${parseInt(id)}`);
   });
 
   this.render();

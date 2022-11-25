@@ -1,5 +1,5 @@
 import { isNew, setDocumentTitle } from '../../utils/helper.js';
-import { UNTITLED } from '../../utils/constants.js';
+import { MESSAGE, TEXT } from '../../utils/constants.js';
 
 export default function Editor({
   $target,
@@ -12,8 +12,8 @@ export default function Editor({
   $editor.className = 'editor';
 
   $editor.innerHTML = `
-      <input type="text" name="title" class="title" placeholder="${UNTITLED}" autofocus/>
-      <textarea name="content" class="content" placeholder="내용을 입력하세요."></textarea>
+      <input type="text" name="title" class="title" placeholder="${TEXT.UNTITLED}" autofocus/>
+      <textarea name="content" class="content" placeholder="${MESSAGE.WRITE_CONTENT}"></textarea>
   `;
 
   $target.appendChild($editor);

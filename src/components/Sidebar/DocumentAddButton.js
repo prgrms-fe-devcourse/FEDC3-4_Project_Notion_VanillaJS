@@ -1,4 +1,4 @@
-import { ADD, NEW } from '../../utils/constants.js';
+import { CLASS_NAME, ID } from '../../utils/constants.js';
 
 export default function DocumentAddButton({ $target, initialState, onAdd }) {
   const $button = document.createElement('div');
@@ -7,11 +7,11 @@ export default function DocumentAddButton({ $target, initialState, onAdd }) {
 
   const { position, text } = this.state;
 
-  $button.className = `document-add-button ${position}`;
+  $button.className = `${CLASS_NAME.DOCUMENT_ADD_BUTTON} ${position}`;
 
   $button.innerHTML = `
     <button type="button">
-      <i class="fa-solid fa-plus ${ADD}"></i>
+      <i class="fa-solid fa-plus ${CLASS_NAME.ADD}"></i>
     </button>
     <p>${text}</p>
   `;
@@ -21,7 +21,7 @@ export default function DocumentAddButton({ $target, initialState, onAdd }) {
   };
 
   $button.addEventListener('click', () => {
-    onAdd(NEW);
+    onAdd(ID.NEW);
   });
 
   this.render();
