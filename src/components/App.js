@@ -11,7 +11,11 @@ import {
 import { isNew, setDocumentTitle } from '../utils/helper.js';
 import { initRouter, push } from '../utils/router.js';
 import { fetchDocuments } from '../utils/api.js';
-import { getItem, removeItem, setItem } from '../utils/storage.js';
+import {
+  getStorageItem,
+  removeStorageItem,
+  setStorageItem,
+} from '../utils/storage.js';
 
 export default function App({ $target }) {
   isNew(new.target);
@@ -25,7 +29,7 @@ export default function App({ $target }) {
       method: 'POST',
       body: JSON.stringify({
         title: '',
-        parent: getItem(NEW_PARENT, null),
+        parent: getStorageItem(NEW_PARENT, null),
       }),
     });
 
@@ -34,7 +38,7 @@ export default function App({ $target }) {
       null,
       `${ROUTE_DOCUMENTS}/${createdDocument.id}`
     );
-    removeItem(NEW_PARENT);
+    removeStorageItem(NEW_PARENT);
 
     documentEditPage.setState({ documentId: createdDocument.id });
 

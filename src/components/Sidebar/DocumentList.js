@@ -13,7 +13,7 @@ import {
   generateTitle,
   generateTextIndent,
 } from '../../utils/helper.js';
-import { getItem, setItem } from '../../utils/storage.js';
+import { getStorageItem, setStorageItem } from '../../utils/storage.js';
 
 const DOCUMENT_ITEM = 'document-item';
 const BLOCK = 'block';
@@ -41,7 +41,7 @@ export default function DocumentList({
   let isBlock = false;
 
   const renderButton = (id) => {
-    const openedItems = getItem(OPENED_ITEMS, []);
+    const openedItems = getStorageItem(OPENED_ITEMS, []);
     isBlock = openedItems.includes(id);
     return `
       <button class="toggle ${isBlock ? 'open' : ''}" type="button">
@@ -123,7 +123,7 @@ export default function DocumentList({
       push(`${ROUTE_DOCUMENTS}/${id}`);
       this.render();
     } else if (target.classList.contains(ADD)) {
-      setItem(NEW_PARENT, id);
+      setStorageItem(NEW_PARENT, id);
       onAdd(id);
       toggleOpen(target, id);
     } else if (target.classList.contains(DELETE)) {
@@ -136,18 +136,18 @@ export default function DocumentList({
   });
 
   const toggleOpen = (target, id) => {
-    const openedItems = getItem(OPENED_ITEMS, []);
+    const openedItems = getStorageItem(OPENED_ITEMS, []);
 
     if (target.classList.contains('open')) {
       const index = openedItems.indexOf(id);
-      setItem(OPENED_ITEMS, [
+      setStorageItem(OPENED_ITEMS, [
         ...openedItems.slice(0, index),
         ...openedItems.slice(index + 1),
       ]);
       target.classList.toggle('open');
     } else {
       if (openedItems.indexOf(id) > -1) return;
-      setItem(OPENED_ITEMS, [...openedItems, id]);
+      setStorageItem(OPENED_ITEMS, [...openedItems, id]);
       target.classList.toggle('open');
     }
 
