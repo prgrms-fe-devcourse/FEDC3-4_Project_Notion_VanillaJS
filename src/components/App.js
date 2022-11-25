@@ -55,14 +55,11 @@ export default function App({ $target }) {
       method: 'DELETE',
     });
 
-    const openedItems = getItem(OPENED_ITEMS, []);
-    const index = openedItems.indexOf(documentId);
-    if (index > -1) {
-      setItem(OPENED_ITEMS, [
-        ...openedItems.slice(0, index),
-        ...openedItems.slice(index + 1),
-      ]);
-    }
+    const openedItems = getStorageItem(OPENED_ITEMS, []);
+    setStorageItem(
+      OPENED_ITEMS,
+      openedItems.filter((item) => item !== removedDocumentId)
+    );
 
     const currentId = documentEditPage.state.documentId;
     if (currentId === documentId) {
