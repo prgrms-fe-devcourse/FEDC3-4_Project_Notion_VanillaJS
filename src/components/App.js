@@ -43,15 +43,15 @@ export default function App({ $target }) {
     });
   };
 
-  const onDelete = async (documentId) => {
-    if (documentId === DEFAULT_DOCUMENT_ID) {
+  const onDelete = async (currentDocumentId, removedDocumentId) => {
+    if (removedDocumentId === DEFAULT_DOCUMENT_ID) {
       alert('첫 페이지는 지우지 말아주세요 :D');
       return;
     }
 
     if (!confirm('페이지를 삭제하시겠습니까?')) return;
 
-    await fetchDocuments(documentId, {
+    await fetchDocuments(removedDocumentId, {
       method: 'DELETE',
     });
 
@@ -61,12 +61,11 @@ export default function App({ $target }) {
       openedItems.filter((item) => item !== removedDocumentId)
     );
 
-    const currentId = documentEditPage.state.documentId;
-    if (currentId === documentId) {
+    if (currentDocumentId === removedDocumentId) {
       documentEditPage.setState({ documentId: DEFAULT_DOCUMENT_ID });
       push(`${ROUTE_DOCUMENTS}/${DEFAULT_DOCUMENT_ID}`);
     } else {
-      documentEditPage.setState({ documentId: currentId });
+      documentEditPage.setState({ documentId: currentDocumentId });
     }
 
     sidebar.render();

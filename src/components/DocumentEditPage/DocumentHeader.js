@@ -33,7 +33,7 @@ export default function DocumentHeader({ $target, initialState, onDelete }) {
     const { target } = e;
 
     if (target.classList.contains('delete')) {
-      onDelete(this.state.documentId);
+      onDelete(this.state.documentId, this.state.documentId);
     }
   });
 

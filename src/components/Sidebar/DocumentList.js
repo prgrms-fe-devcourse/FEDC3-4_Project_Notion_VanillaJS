@@ -127,7 +127,7 @@ export default function DocumentList({
       onAdd(id);
       toggleOpen(target, id);
     } else if (target.classList.contains(DELETE)) {
-      onDelete(id);
+      onDelete(this.state.selectedId, id);
     }
 
     if (target.classList.contains('toggle')) {
