@@ -20,6 +20,7 @@ export default function EditorContainer({ $target, initialState }) {
     $target: $editorContainer,
     initialState: this.state,
     clickPath: (id) => {
+      changeHoverEffect(this.state, id);
       push(`/documents/${id}`);
     },
   });
@@ -46,6 +47,7 @@ export default function EditorContainer({ $target, initialState }) {
     $target: $editorContainer,
     initialState: this.state,
     clickLink: (id) => {
+      changeHoverEffect(this.state, id);
       push(`/documents/${id}`);
     },
   });
@@ -76,5 +78,15 @@ export default function EditorContainer({ $target, initialState }) {
       ...this.state,
       doc,
     });
+  };
+
+  const changeHoverEffect = (prev, curr) => {
+    const { docId } = prev;
+    if (docId) {
+      const $prevLi = document.getElementById(docId);
+      const $currLi = document.getElementById(curr);
+      $prevLi.querySelector("p").style = "";
+      $currLi.querySelector("p").style.backgroundColor = "rgba(0, 0, 0, 0.1)";
+    }
   };
 }
