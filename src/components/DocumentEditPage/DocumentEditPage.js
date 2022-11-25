@@ -99,7 +99,9 @@ export default function DocumentEditPage({
   };
 
   this.render = () => {
-    $target.appendChild($page);
+    if (!$target.querySelector('.document-edit-page')) {
+      $target.appendChild($page);
+    }
     setDocumentTitle(this.state.document?.title || '');
   };
 }
