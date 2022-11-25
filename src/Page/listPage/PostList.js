@@ -21,8 +21,8 @@ export default function PostList({
     this.render();
   };
 
-  const markUpDocumentList = (list, text) => {
-    text += `
+  const markUpDocumentList = (list) => {
+    const text = `
       <ul>
       ${list
         .map(
@@ -31,12 +31,10 @@ export default function PostList({
         <li data-id="${id}">
         <img class="svg" src="../icon/chevron-right-solid.svg" />
         ${title}
-        <button name="add" class="addBtn"> + </button>
-        <button name="remove"class="removeBtn"> - </button>
+        <button data-name="add" class="addBtn"> + </button>
+        <button data-name="remove"class="removeBtn"> - </button>
         </li>
-        ${documents
-          .map((document) => markUpDocumentList([document], text))
-          .join("")}
+        ${documents.map((document) => markUpDocumentList([document])).join("")}
       </div>
       `
         )
@@ -48,26 +46,25 @@ export default function PostList({
   };
 
   this.render = () => {
-    const documentsList = markUpDocumentList(this.state, "");
-    const documentAddBtn = `<button name="add" class="pageBtn"> + 페이지 추가하기 </button>`;
+    const documentsList = markUpDocumentList(this.state);
+    const documentAddBtn = `<button data-name="add" class="pageBtn"> + 페이지 추가하기 </button>`;
     $postList.innerHTML = `<div class="list">${documentsList}${documentAddBtn}</div>`;
   };
 
   this.render();
 
-  $postList.addEventListener("click", (e) => {
-    const $li = e.target.closest("li");
-    const { name } = e.target;
+  $postList.addEventListener("click", ({ target }) => {
+    const $li = target.closest("li");
+    const { name } = target.dataset;
     const id = $li?.dataset.id;
 
     if (name) {
       if (name === "remove") {
         onRemove(id);
         return;
-      } else {
-        onAddDocument(id, name);
-        return;
       }
+      onAddDocument(id, name);
+      return;
     }
 
     if ($li) {

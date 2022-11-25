@@ -24,11 +24,7 @@ export default function Header({ $target, initialState }) {
 
   this.render();
 
-  $header.addEventListener("click", (e) => {
-    const $user = e.target.closest(".header");
-
-    if ($user) {
-      push("/");
-    }
+  $header.addEventListener("click", () => {
+    push("/");
   });
 }

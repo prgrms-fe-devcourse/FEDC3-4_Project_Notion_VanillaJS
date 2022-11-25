@@ -13,6 +13,7 @@ export default function MarkUpList({ $target, initialState }) {
 
   this.setState = (nextState) => {
     this.state = [nextState];
+
     this.render();
   };
 
@@ -45,8 +46,8 @@ export default function MarkUpList({ $target, initialState }) {
 
   this.render();
 
-  $markUpList.addEventListener("click", (e) => {
-    const $li = e.target.closest("li");
+  $markUpList.addEventListener("click", ({ target }) => {
+    const $li = target.closest("li");
     const id = $li.dataset.id;
     if ($li) {
       push(`/documents/${id}`);

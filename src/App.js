@@ -30,7 +30,7 @@ export default function App({ $target }) {
         content: "",
       },
     },
-    listUpdate: () => {
+    updateList: () => {
       postPage.render();
     },
   });

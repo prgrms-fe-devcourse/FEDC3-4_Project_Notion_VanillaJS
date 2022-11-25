@@ -3,9 +3,10 @@ import Editor from "./Editor.js";
 import MarkUpList from "./MarkUpList.js";
 import { getItem, removeItem, setItem } from "../../utils/storage.js";
 import instanceCheck from "../../utils/instanceCheck.js";
+import debounce from "../../utils/debounce.js";
 
 /**편집기의 내용을 서버에 저장하고 불러오는 컴포넌트 */
-export default function PostEditPage({ $target, initialState, listUpdate }) {
+export default function PostEditPage({ $target, initialState, updateList }) {
   instanceCheck(new.target);
 
   const $page = document.createElement("div");
@@ -22,8 +23,8 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
       content: "",
     },
     onEditing: (post) => {
-      storageSave(post);
-      serverSave(post);
+      saveStorage(post);
+      saveServer(post);
     },
   });
 
@@ -32,40 +33,25 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
     initialState: [],
   });
 
-  let storageTimer = null;
-  let serveTimer = null;
+  const saveStorage = debounce((post) => {
+    setItem(postLocalSaveKey, {
+      ...post,
+      tempSaveDate: new Date(),
+    });
+  }, 500);
 
-  const storageSave = (post) => {
-    if (storageTimer !== null) {
-      clearTimeout(storageTimer);
-    }
+  const saveServer = debounce(async (newpost) => {
+    await request(`/documents/${newpost.id}`, {
+      method: "PUT",
+      body: JSON.stringify(newpost),
+    });
 
-    storageTimer = setTimeout(() => {
-      setItem(postLocalSaveKey, {
-        ...post,
-        tempSaveDate: new Date(),
-      });
-    }, 500);
-  };
+    removeItem(postLocalSaveKey);
+    updateList();
 
-  const serverSave = (post) => {
-    if (serveTimer !== null) {
-      clearTimeout(serveTimer);
-    }
-
-    serveTimer = setTimeout(async () => {
-      await request(`/documents/${post.id}`, {
-        method: "PUT",
-        body: JSON.stringify(post),
-      });
-
-      removeItem(postLocalSaveKey);
-      listUpdate();
-
-      const data = await request(`/documents/${post.id}`);
-      markupList.setState(data);
-    }, 1000);
-  };
+    const post = await fetchRequest(newpost.id);
+    markupList.setState(post);
+  }, 1000);
 
   this.setState = async (nextState) => {
     if (this.state.postId !== nextState.postId) {
@@ -74,10 +60,9 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
       await fetchPost();
       return;
     }
+
     this.state = nextState;
-
     this.render();
-
     if (this.state.post) {
       markupList.setState(this.state.post);
       editor.setState(this.state.post);
@@ -86,7 +71,7 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
 
   const fetchPost = async () => {
     const { postId } = this.state;
-    const post = await request(`/documents/${postId}`);
+    const post = await fetchRequest(postId);
     const tempPost = getItem(postLocalSaveKey, {
       title: "",
       content: "",
@@ -110,5 +95,11 @@ export default function PostEditPage({ $target, initialState, listUpdate }) {
 
   this.render = () => {
     $target.appendChild($page);
+  };
+
+  const fetchRequest = async (postId) => {
+    const post = await request(`/documents/${postId}`);
+
+    return post;
   };
 }

@@ -32,9 +32,7 @@ export default function Editor({
 
   this.render();
 
-  $editor.addEventListener("keyup", (e) => {
-    const { target } = e;
-
+  $editor.addEventListener("keyup", ({ target }) => {
     const name = target.getAttribute("name");
 
     if (this.state[name] !== undefined) {
