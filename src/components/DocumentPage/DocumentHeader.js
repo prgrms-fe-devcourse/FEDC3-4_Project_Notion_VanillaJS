@@ -1,14 +1,9 @@
-import {
-  classNameObj,
-  styleObj,
-  idNameObj,
-  DOCUMENT_HEADER_CONTENT,
-  ERROR_NEW_KEYWORD_MISSING,
-} from "../utils/constants.js";
+import { classNameObj, styleObj, idNameObj, ERROR_NEW_KEYWORD_MISSING } from "../utils/constants.js";
 import { hasNewTarget } from "../utils/error.js";
 import { routeCreateDocument } from "../utils/router.js";
 
 const { TITLE, DOCUMENT_BLOCK_INNER, NEW_BTN } = classNameObj;
+const DOCUMENT_HEADER_CONTENT = "Notion";
 
 export default function DocumentHeader({ $target }) {
   if (!hasNewTarget(new.target)) throw new Error(ERROR_NEW_KEYWORD_MISSING);

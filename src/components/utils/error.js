@@ -1,4 +1,12 @@
-import { PROPERTIES } from "./constants.js";
+// import { PROPERTIES } from "./constants.js";
+
+//state properties
+const PROPERTIES = {
+  ID: "id",
+  TITLE: "title",
+  CONTENT: "content",
+  DOCUMENTS: "documents",
+};
 
 const { ID, TITLE, CONTENT, DOCUMENTS } = PROPERTIES;
 

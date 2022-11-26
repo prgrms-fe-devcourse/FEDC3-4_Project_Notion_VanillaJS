@@ -1,19 +1,9 @@
-//state properties
-export const PROPERTIES = {
-  ID: "id",
-  TITLE: "title",
-  CONTENT: "content",
-  DOCUMENTS: "documents",
-};
-
 //Default values
 export const DEFAULT_TITLE = "제목 없음";
+export const DEFAULT_CONTENT = "내용을 입력해주세요";
 export const ROOT_TITLE = "작업 중... 💨";
 export const REMOVED_DOC_TITLE = "삭제된 문서입니다.";
-export const DEFAULT_CONTENT = "내용을 입력해주세요";
 
-export const DOCUMENT_HEADER_CONTENT = "Notion";
-export const DOCUMENT_FOOTER_CONTENT = "New Doc";
 export const DISABLED_ID = -1;
 export const DEFAULT_ID = "new";
 
@@ -61,9 +51,6 @@ export const styleObj = {
   DEFAULT_PADDING: 15,
   PADDING_INCREMENT: 20,
 };
-
-//Button
-export const DELETE_BUTTON_TEXT = "Delete";
 
 //error
 export const ERROR_NEW_KEYWORD_MISSING = "Error: missing new keyword";

@@ -1,5 +1,5 @@
 import { hasNewTarget, hasId } from "../utils/error.js";
-import { DELETE_BUTTON_TEXT, DISABLED_ID, ERROR_NEW_KEYWORD_MISSING } from "../utils/constants.js";
+import { DISABLED_ID, ERROR_NEW_KEYWORD_MISSING } from "../utils/constants.js";
 import { routeRemoveDocument } from "../utils/router.js";
 
 export default function DeleteButton({ $target, initialState }) {

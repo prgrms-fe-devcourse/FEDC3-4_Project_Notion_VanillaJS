@@ -1,14 +1,9 @@
-import {
-  classNameObj,
-  styleObj,
-  idNameObj,
-  DOCUMENT_FOOTER_CONTENT,
-  ERROR_NEW_KEYWORD_MISSING,
-} from "../utils/constants.js";
+import { classNameObj, styleObj, idNameObj, ERROR_NEW_KEYWORD_MISSING } from "../utils/constants.js";
 import { hasNewTarget } from "../utils/error.js";
 import { routeCreateDocument } from "../utils/router.js";
 
 const { TITLE, NEW_BTN, DOCUMENT_BLOCK_INNER } = classNameObj;
+const DOCUMENT_FOOTER_CONTENT = "New Doc";
 
 export default function DocumentFooter({ $target }) {
   if (!hasNewTarget(new.target)) throw new Error(ERROR_NEW_KEYWORD_MISSING);
