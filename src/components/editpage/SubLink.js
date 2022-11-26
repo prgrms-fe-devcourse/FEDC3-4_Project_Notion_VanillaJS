@@ -16,23 +16,21 @@ export default function SubLink({ $target, initialState, clickLink }) {
   this.render = () => {
     const { doc } = this.state;
 
-    if (doc.documents.length > 0) {
-      $subLink.innerHTML = doc.documents
-        .map((el) => `<div class="link" data-id=${el.id}>${el.title}</div>`)
-        .join("");
-    } else {
-      $subLink.innerHTML = `
-        `;
-    }
+    $subLink.innerHTML =
+      doc.documents.length > 0
+        ? doc.documents.map((el) => `<div class="link" data-id=${el.id}>${el.title}</div>`).join("")
+        : ``;
   };
 
   $subLink.addEventListener("click", (e) => {
     const { id } = e.target.closest("div").dataset;
-    const $curLi = document.getElementById(id);
-    const $parentUl = $curLi.closest("ul");
+    if (id) {
+      const $curLi = document.getElementById(id);
+      const $parentUl = $curLi.closest("ul");
 
-    $parentUl.closest("li").querySelector(".toggleFold").innerText = "▼";
-    $parentUl.style.display = "block";
-    clickLink(id);
+      $parentUl.closest("li").querySelector(".toggleFold").innerText = "▼";
+      $parentUl.style.display = "block";
+      clickLink(id);
+    }
   });
 }
