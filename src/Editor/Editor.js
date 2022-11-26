@@ -7,68 +7,69 @@ import EditorContent from './EditorContent.js';
 import { documentsUrl } from '../utils/util.js';
 import { route } from '../utils/route.js';
 import EditorSubContent from './EditorSubContent.js';
+import { ERROR_MESSAGE } from '../utils/constant.js';
 
 function Editor({ target, initialState }) {
-    isNew(new.target);
-    const page = createElement('section');
-    page.className = 'content';
+  isNew(new.target);
+  const page = createElement('section');
+  page.className = 'content';
 
-    const editor = createElement('div');
-    editor.className = 'editor';
+  const editor = createElement('div');
+  editor.className = 'editor';
 
-    this.state = initialState;
-    const postTitle = new EditorTitle({
-        div: editor,
-        initialState: initialState,
+  this.state = initialState;
 
-        onChangeTitle: async ({ id, title }) => {
-            setTimeout(await putTitleMethod(id, title), 2000);
-        },
-    });
+  const postTitle = new EditorTitle({
+    div: editor,
+    initialState: initialState,
 
-    const postContent = new EditorContent({
-        div: editor,
-        initialState: initialState,
+    onChangeTitle: async ({ id, title }) => {
+      setTimeout(await putTitleMethod(id, title), 2000);
+    },
+  });
 
-        onChangeContent: async ({ id, content }) => {
-            setTimeout(await putContentMethod(id, content), 2000);
-        },
-    });
+  const postContent = new EditorContent({
+    div: editor,
+    initialState: initialState,
 
-    const postSub = new EditorSubContent({
-        div: editor,
-        initialState: initialState,
-        onClickSubDocument: async (id) => {
-            await changeUrl(id);
-        },
-    });
+    onChangeContent: async ({ id, content }) => {
+      setTimeout(await putContentMethod(id, content), 2000);
+    },
+  });
 
-    this.setState = async (nextState) => {
-        const post = await request(`${documentsUrl}/${nextState.postId}`);
-        isObject(post);
-        postTitle.setState(post);
-        postContent.setState(post);
-        postSub.setState(post);
-        this.render();
-    };
+  const postSub = new EditorSubContent({
+    div: editor,
+    initialState: initialState,
+    onClickSubDocument: async (id) => {
+      await changeUrl(id);
+    },
+  });
 
-    this.render = () => {
-        page.appendChild(editor);
-        target.appendChild(page);
-    };
+  this.setState = async (nextState) => {
+    const post = await request(`${documentsUrl}/${nextState.postId}`);
+    isObject(post);
+    postTitle.setState(post);
+    postContent.setState(post);
+    postSub.setState(post);
+    render();
+  };
 
-    const changeUrl = async (id) => {
-        try {
-            const post = await request(`${documentsUrl}/${id}`);
-            route(`${documentsUrl}/${post.id}`);
-            console.log(post);
-        } catch (e) {
-            alert('해당 문서를 찾을 수 없습니다');
-            route('/');
-        }
-    };
+  const render = () => {
+    page.appendChild(editor);
+    target.appendChild(page);
+  };
 
-    this.render();
+  const changeUrl = async (id) => {
+    try {
+      const post = await request(`${documentsUrl}/${id}`);
+      route(`${documentsUrl}/${post.id}`);
+    } catch (e) {
+      alert(ERROR_MESSAGE.EMPTY);
+      route('/');
+    }
+  };
+
+  render();
 }
 
 export default Editor;

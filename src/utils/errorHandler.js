@@ -7,7 +7,7 @@ export const isNew = (target) => {
 };
 
 export const isString = (title) => {
-  if (!title instanceof String) {
+  if (typeof title !== 'string') {
     throw new Error(ERROR_MESSAGE.STRING);
   }
 };
