@@ -51,7 +51,7 @@ export default function DocumentListPage({ $bodyPage, initialState }) {
         });
         console.log("remove");
       }
-      push("/index.html");
+      push("/");
     },
     onRootPlus: async (id) => {
       const res = await request(`/documents`, {

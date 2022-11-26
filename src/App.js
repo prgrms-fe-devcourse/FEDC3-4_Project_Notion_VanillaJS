@@ -26,7 +26,7 @@ export default function App({ $bodyPage, initalState }) {
   this.router = () => {
     const { pathname } = location;
 
-    if (pathname === "/index.html") {
+    if (pathname === "/") {
       documentListPage.documentListSetState();
       editorPage.editorPageSetState();
     } else if (pathname.indexOf("/documents/") === 0) {

@@ -89,7 +89,7 @@ export default function DocumentList({
     selectIndex = 0;
     if (Array.isArray(this.listState.originEdit)) {
       $listPage.innerHTML = `
-        <a href="/index.html" class="home">
+        <a href="/" class="home">
           <i class="fa-solid fa-user"></i>
           <div>민형 박의 Notion</div>
         </a>
