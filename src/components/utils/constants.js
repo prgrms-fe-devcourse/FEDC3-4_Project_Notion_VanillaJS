@@ -1,5 +1,5 @@
 //state properties
-export const properties = {
+export const PROPERTIES = {
   ID: "id",
   TITLE: "title",
   CONTENT: "content",

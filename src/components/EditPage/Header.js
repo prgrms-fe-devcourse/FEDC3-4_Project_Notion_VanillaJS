@@ -9,11 +9,8 @@ export default function Header({ $target, initialState, onEditing }) {
   const $header = document.createElement("header");
   $target.appendChild($header);
 
-  let isInit = false;
-
   const isValidState = (state) => {
-    if (!state) return false;
-    if (!hasId(state) || !hasTitle(state)) return false;
+    if (!state || !hasId(state) || !hasTitle(state)) return false;
     return true;
   };
 
@@ -34,42 +31,43 @@ export default function Header({ $target, initialState, onEditing }) {
       input.value = title;
     }
 
-    this.state.id === DISABLED_ID ? (input.disabled = true) : (input.disabled = false);
+    input.disabled = this.state.id === DISABLED_ID;
   };
 
   this.render = () => {
-    if (!isInit) {
-      const { title } = this.state;
-      $header.innerHTML = `
-        <div class="${classNameObj.INPUT_WRAPPER}">
-          <input type="text"${!title.length ? `placeholder="${DEFAULT_TITLE}"` : `value="${title}"`}/>
-        </div>
-      `;
-      isInit = true;
-    }
+    const { title } = this.state;
+    $header.innerHTML = `
+      <div class="${classNameObj.INPUT_WRAPPER}">
+        <input type="text"${!title.length ? `placeholder="${DEFAULT_TITLE}"` : `value="${title}"`}/>
+      </div>
+    `;
   };
 
-  this.render();
+  const init = () => {
+    this.render();
 
-  $header.addEventListener("input", (e) => {
-    const { value } = e.target;
+    $header.addEventListener("input", (e) => {
+      const { value } = e.target;
 
-    setHeaderChange({
-      id: this.state.id,
-      title: value,
+      setHeaderChange({
+        id: this.state.id,
+        title: value,
+      });
+
+      onEditing(value);
     });
 
-    onEditing(value);
-  });
+    $header.querySelector("input").addEventListener("focus", (e) => {
+      const { value } = e.target;
 
-  $header.querySelector("input").addEventListener("focus", (e) => {
-    const { value } = e.target;
+      e.target.placeholder = "";
 
-    e.target.placeholder = "";
-
-    setHeaderChange({
-      id: this.state.id,
-      title: value,
+      setHeaderChange({
+        id: this.state.id,
+        title: value,
+      });
     });
-  })
+  };
+
+  init();
 }

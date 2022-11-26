@@ -14,8 +14,8 @@ Variables
   --display-icon: "\f054";
   --remove-icon: "\f1f8";
   --new-icon: "\2b";
-  --scrollbar-thumb: #D3D1CB;
-  --scrollbar-track: #EDECE9;
+  --scrollbar-thumb: #d3d1cb;
+  --scrollbar-track: #edece9;
 }
 
 /*
@@ -74,6 +74,14 @@ COMMON
 
 .scrollbar::-webkit-scrollbar-track {
   background: var(--scrollbar-track);
+}
+
+.none {
+  display: none;
+}
+
+.block {
+  display: block;
 }
 
 /*
@@ -326,7 +334,6 @@ EDITOR-PAGE
 }
 
 #editor-container .topbar div {
-  display: block;
   padding: 5px 10px;
   border-radius: 3px;
   border: 1px solid var(--btn-color);

@@ -1,4 +1,10 @@
-import { classNameObj, ERROR_NEW_KEYWORD_MISSING, LOCAL_STORAGE_DISPLAY, SLASH_DOCUMENTS, styleObj } from "../utils/constants.js";
+import {
+  classNameObj,
+  ERROR_NEW_KEYWORD_MISSING,
+  LOCAL_STORAGE_DISPLAY,
+  SLASH_DOCUMENTS,
+  styleObj,
+} from "../utils/constants.js";
 import { hasNewTarget, isValidArray } from "../utils/error.js";
 import { routeCreateDocument, routePush, routeRemoveDocument } from "../utils/router.js";
 import { getItem, setItem } from "../utils/storage.js";
@@ -19,7 +25,7 @@ const {
   DOCUMENT_LIST_BLOCK,
   DOCUMENT_SECTION,
   SIDEBAR_DOCUMENT_LIST_CONTAINER,
-  SCROLLBAR
+  SCROLLBAR,
 } = classNameObj;
 
 export default function Documents({ $target, initialState }) {
@@ -27,7 +33,7 @@ export default function Documents({ $target, initialState }) {
 
   const $sidebar = document.createElement("div");
   $sidebar.setAttribute("id", SIDEBAR_DOCUMENT_LIST_CONTAINER);
-  $sidebar.setAttribute("class", SCROLLBAR)
+  $sidebar.setAttribute("class", SCROLLBAR);
   $target.appendChild($sidebar);
 
   const isValidState = (state) => {
@@ -37,7 +43,7 @@ export default function Documents({ $target, initialState }) {
 
   this.state = isValidState(initialState) ? initialState : [];
 
-  const displayMap = getItem(LOCAL_STORAGE_DISPLAY, new Map(this.state.map((document) => [document.id, false])));
+  const openDocumentsList = getItem(LOCAL_STORAGE_DISPLAY, new Map(this.state.map((document) => [document.id, false])));
 
   this.setState = (nextState) => {
     if (!isValidState(nextState)) return;
@@ -49,7 +55,7 @@ export default function Documents({ $target, initialState }) {
   this.render = () => {
     $sidebar.innerHTML = `
       ${this.state
-        .map((rootDocument) => createDocumentSection(rootDocument, styleObj.DEFAULT_PADDING, displayMap))
+        .map((rootDocument) => createDocumentSection(rootDocument, styleObj.DEFAULT_PADDING, openDocumentsList))
         .join("")}
     `;
   };
@@ -64,10 +70,9 @@ export default function Documents({ $target, initialState }) {
     const parentId = documentSection.parentNode.dataset.id;
 
     if (classList[0] === TITLE || classList[0] === TITLE_WRAPPER) {
-
       routePush(`${SLASH_DOCUMENTS}/${id}`, parentId);
     } else if (classList[0] === DISPLAY_BTN) {
-      sidebarDisplayBtnClick(id, target, displayMap);
+      sidebarDisplayBtnClick(id, target, openDocumentsList);
     } else if (classList[0] === NEW_BTN) {
       //낙관적 업데이트
       sidebarNewDocumentBtnClick(id, target);
@@ -76,8 +81,8 @@ export default function Documents({ $target, initialState }) {
       if (documentSection) {
         const documentListBlock = documentSection.querySelector(`.${DOCUMENT_LIST_BLOCK}`);
 
-        displayMap[id] = true;
-        setItem(LOCAL_STORAGE_DISPLAY, displayMap);
+        openDocumentsList[id] = true;
+        setItem(LOCAL_STORAGE_DISPLAY, openDocumentsList);
         documentListBlock.style.display = "block";
       }
 

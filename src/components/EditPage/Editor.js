@@ -8,8 +8,6 @@ export default function Editor({ $target, initialState, onEditing }) {
   $editor.setAttribute("class", classNameObj.EDOTOR_EDITOR);
   $target.appendChild($editor);
 
-  let isInit = false;
-
   const isValidState = (state) => {
     if (!state || !hasContent(state)) return false;
     return true;
@@ -32,26 +30,28 @@ export default function Editor({ $target, initialState, onEditing }) {
       textarea.value = this.state.content;
     }
 
-    this.state.id === DISABLED_ID ? (textarea.disabled = true) : (textarea.disabled = false);
+    textarea.disabled = this.state.id === DISABLED_ID;
   };
 
   this.render = () => {
-    if (!isInit) {
-      $editor.innerHTML = `
-        <textarea class="${classNameObj.SCROLLBAR}">${this.state.content}</textarea>
-      `;
-    }
+    $editor.innerHTML = `
+      <textarea class="${classNameObj.SCROLLBAR}">${this.state.content}</textarea>
+    `;
   };
 
-  this.render();
+  const init = () => {
+    this.render();
 
-  $editor.addEventListener("input", (e) => {
-    const { value } = e.target;
+    $editor.addEventListener("input", (e) => {
+      const { value } = e.target;
 
-    onEditing(value);
-  });
+      onEditing(value);
+    });
 
-  $editor.querySelector("textarea").addEventListener("focus", (e) => {
-    e.target.placeholder = "";
-  })
+    $editor.querySelector("textarea").addEventListener("focus", (e) => {
+      e.target.placeholder = "";
+    });
+  };
+
+  init();
 }

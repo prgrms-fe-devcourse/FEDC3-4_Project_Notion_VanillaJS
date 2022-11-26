@@ -1,6 +1,6 @@
-import { properties } from "./constants.js";
+import { PROPERTIES } from "./constants.js";
 
-const { ID, TITLE, CONTENT, DOCUMENTS } = properties;
+const { ID, TITLE, CONTENT, DOCUMENTS } = PROPERTIES;
 
 //properties
 export const hasNewTarget = (target) => (target ? true : false);

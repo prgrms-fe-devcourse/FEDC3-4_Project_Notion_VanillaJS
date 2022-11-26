@@ -76,7 +76,7 @@ const addNewDocumentList = (id, documentListAddBlock, paddingLeft) => {
 };
 
 //public method
-export const createDocumentSection = (parentDocument, padding, displayMap) => {
+export const createDocumentSection = (parentDocument, padding, openDocumentsList) => {
   const { id, title, documents } = parentDocument;
 
   if (id && title !== undefined) {
@@ -86,10 +86,11 @@ export const createDocumentSection = (parentDocument, padding, displayMap) => {
       ${
         documents.length
           ? `
-              <div data-id="${id}" class="${DOCUMENT_LIST_BLOCK}"
-                   style="display:${displayMap[id] ? "block" : "none"}">
+              <div data-id="${id}" class="${DOCUMENT_LIST_BLOCK} ${openDocumentsList[id] ? "block" : "none"}">
                     ${documents
-                      .map((document) => createDocumentSection(document, padding + PADDING_INCREMENT, displayMap))
+                      .map((document) =>
+                        createDocumentSection(document, padding + PADDING_INCREMENT, openDocumentsList)
+                      )
                       .join("")}
               </div>
             `
@@ -100,21 +101,23 @@ export const createDocumentSection = (parentDocument, padding, displayMap) => {
   }
 };
 
-export const sidebarDisplayBtnClick = (id, target, displayMap) => {
+export const sidebarDisplayBtnClick = (id, target, openDocumentsList) => {
   const documentListBlock = target.closest(`.${DOCUMENT_SECTION}`).querySelector(`.${DOCUMENT_LIST_BLOCK}`);
 
   if (!documentListBlock) return;
 
-  const { display } = documentListBlock.style;
+  const { classList } = documentListBlock;
 
-  if (display === "none") {
-    displayMap[id] = true;
-    documentListBlock.style.display = "block";
+  if (classList.contains("none")) {
+    openDocumentsList[id] = true;
+    classList.remove("none");
+    classList.add("block");
   } else {
-    displayMap[id] = false;
-    documentListBlock.style.display = "none";
+    openDocumentsList[id] = false;
+    classList.remove("block");
+    classList.add("none");
   }
-  setItem(LOCAL_STORAGE_DISPLAY, displayMap);
+  setItem(LOCAL_STORAGE_DISPLAY, openDocumentsList);
 };
 
 export const sidebarNewDocumentBtnClick = (id, target) => {
