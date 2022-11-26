@@ -1,4 +1,4 @@
-import { validation } from "../../validation.js";
+import { validation, checkDifference } from "../../validation.js";
 
 export default function BreadCrumb({ $target, initialState, clickPath }) {
   validation(new.target, "BreadCrumb");
@@ -8,28 +8,31 @@ export default function BreadCrumb({ $target, initialState, clickPath }) {
   this.state = initialState;
 
   this.setState = (nextState) => {
+    if (typeof nextState !== "object") throw new Error("변경될 상태가 객체가 아닙니다.");
+    if (checkDifference(this.state, nextState)) return;
     this.state = nextState;
     this.render();
-    $target.prepend($breadCrumb);
   };
 
-  this.renderBreadCrumb = (id) => {
-    const path = [];
-
-    const recursiveBC = (id) => {
-      const $curLi = document.getElementById(id);
+  const recursiveBC = (id, path) => {
+    const $curLi = document.getElementById(id);
+    if ($curLi) {
       const $ul = $curLi.closest("ul");
 
       if ($ul.className === "child") {
         path.push([$curLi.querySelector("span").innerHTML, id]);
 
-        recursiveBC($ul.closest("li").id);
+        recursiveBC($ul.closest("li").id, path);
       } else {
         path.push([$curLi.querySelector("span").innerHTML, id]);
       }
-    };
+    }
+  };
 
-    recursiveBC(id);
+  const renderBreadCrumb = (id) => {
+    const path = [];
+
+    recursiveBC(id, path);
 
     return path
       .reverse()
@@ -51,8 +54,10 @@ export default function BreadCrumb({ $target, initialState, clickPath }) {
 
     $breadCrumb.innerHTML = `
       <div>
-        ${docId ? this.renderBreadCrumb(docId) : ""}
+        ${docId ? renderBreadCrumb(docId) : ""}
       </div>
     `;
   };
+
+  $target.prepend($breadCrumb);
 }
