@@ -28,8 +28,7 @@ export default function Editor({ $target, initialState, onEdit }) {
   this.render();
 
   $editor.addEventListener("keyup", (e) => {
-    const targetTag = e.target.tagName;
-    const { value } = e.target;
+    const { tagName: targetTag, value } = e.target;
     let nextState = {};
     if (targetTag === "INPUT") {
       nextState = { ...this.state, title: value };
