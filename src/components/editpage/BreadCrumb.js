@@ -19,7 +19,7 @@ export default function BreadCrumb({ $target, initialState, clickPath }) {
     if ($curLi) {
       const $ul = $curLi.closest("ul");
 
-      if ($ul.className === "child") {
+      if ($ul.className === "child" || $ul.className === "child--show") {
         path.push([$curLi.querySelector("span").innerHTML, id]);
 
         recursiveBC($ul.closest("li").id, path);

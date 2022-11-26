@@ -29,7 +29,7 @@ export default function SubLink({ $target, initialState, clickLink }) {
       const $parentUl = $curLi.closest("ul");
 
       $parentUl.closest("li").querySelector(".toggleFold").innerText = "▼";
-      $parentUl.style.display = "block";
+      $parentUl.className = "child--show";
       clickLink(id);
     }
   });

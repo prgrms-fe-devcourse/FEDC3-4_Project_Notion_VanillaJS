@@ -83,7 +83,7 @@ export default function Sidebar({ $target, initialState }) {
         // 이미 상위 페이지가 지워진 경우 방어 코드
         if ($parentLi) {
           const $currLiP = $parentLi.querySelector(".forHover");
-          const $childUl = $parentLi.querySelector(".child");
+          const $childUl = $parentLi.querySelector("ul");
 
           if ($childUl.innerText === "") {
             $childUl.innerHTML = `

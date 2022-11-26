@@ -28,8 +28,8 @@ export default function DocList({ $target, initialState, onClick, onNewSubDoc, o
             </span>
             ${
               documents.length > 0
-                ? `<ul class='child' style='display: none;'>${renderDocList(documents)}</ul>`
-                : `<ul class='child' style='display: none;'><li class="isEnd">하위 페이지가 없습니다.</li></ul>`
+                ? `<ul class='child'>${renderDocList(documents)}</ul>`
+                : `<ul class='child'><li class="isEnd">하위 페이지가 없습니다.</li></ul>`
             }
           </p>
         </li>`
@@ -47,7 +47,7 @@ export default function DocList({ $target, initialState, onClick, onNewSubDoc, o
 
   this.render();
 
-  $docList.addEventListener("click", async (e) => {
+  $docList.addEventListener("click", (e) => {
     const $li = e.target.closest("li");
 
     if (!$li) return;
@@ -55,24 +55,22 @@ export default function DocList({ $target, initialState, onClick, onNewSubDoc, o
     const { className } = e.target;
 
     if (className === "toggleFold") {
-      const $childUl = $li.getElementsByClassName("child");
-
-      if ($childUl.length > 0) {
-        const toggleDisplay = $childUl[0].style.display === "block" ? "none" : "block";
-
-        $li.querySelector(".toggleFold").innerText = toggleDisplay === "block" ? "▼" : "►";
-        $childUl[0].style.display = toggleDisplay;
+      const $childUl = $li.getElementsByTagName("ul");
+      if ($childUl) {
+        const toggleDisplay = $childUl[0].classList.contains("child");
+        $childUl[0].className = toggleDisplay ? "child--show" : "child";
+        $li.querySelector(".toggleFold").innerText = toggleDisplay ? "▼" : "►";
       }
       return;
     }
     if (className === "newSubDoc") {
-      const $childUl = $li.getElementsByClassName("child");
+      const $childUl = $li.getElementsByTagName("ul");
       const $isEnd = $childUl[0].querySelector(".isEnd");
       const $newSubDoc = document.createElement("li");
 
       if ($childUl.length > 0) {
-        $childUl[0].style.display = "block";
-        $li.querySelector(".toggleFold").innerText = "block" ? "▼" : "►";
+        $childUl[0].className = "child--show";
+        $li.querySelector(".toggleFold").innerText = "▼";
       }
 
       if ($isEnd) {
@@ -90,10 +88,10 @@ export default function DocList({ $target, initialState, onClick, onNewSubDoc, o
             <button class="newSubDoc">➕</button> 
             <button class="delete">X</button>
           </span>
-          <ul class='child' style='display: none;'><li class="isEnd">하위 페이지가 없습니다.</li></ul>
+          <ul class='child'><li class="isEnd">하위 페이지가 없습니다.</li></ul>
         </p>
       `;
-      await onNewSubDoc(id);
+      onNewSubDoc(id);
       return;
     }
     if (className === "delete") {
