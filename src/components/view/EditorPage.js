@@ -48,9 +48,8 @@ export default function EditorPage({ $bodyPage, initialState, onEdit }) {
   });
 
   this.sendData = async () => {
-    if (this.editorPageState.editorData) {
-      const { id } = this.editorPageState.editorData;
-
+    const { id } = this.editorPageState.editorData;
+    if (id) {
       const serverData = await request(`/documents/${id}`, { method: "GET" });
 
       editor.editorSetState({

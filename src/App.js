@@ -27,8 +27,8 @@ export default function App({ $bodyPage, initalState }) {
     const { pathname } = location;
 
     if (pathname === "/") {
-      documentListPage.documentListSetState();
-      editorPage.editorPageSetState();
+      documentListPage.documentListSetState({ updateEdit: undefined });
+      editorPage.editorPageSetState({ id: undefined });
     } else if (pathname.indexOf("/documents/") === 0) {
       const [, , id] = pathname.split("/");
 
@@ -36,7 +36,7 @@ export default function App({ $bodyPage, initalState }) {
       // 1. 새로고침 했을 경우 2. 수정 중인 경우, 3. 수정 후 다른페이지로 이동하는 경우
       if (!this.state) {
         // 1
-        documentListPage.documentListSetState();
+        documentListPage.documentListSetState({ updateEdit: undefined });
         editorPage.editorPageSetState({ id });
       } else {
         // 2
@@ -45,7 +45,7 @@ export default function App({ $bodyPage, initalState }) {
           // 3
           editorPage.editorPageSetState({ id });
           // by 민형, 다른 페이지로 이동 시 기존의 state 제거_221116
-          this.setState();
+          this.setState(undefined);
         }
       }
     }
