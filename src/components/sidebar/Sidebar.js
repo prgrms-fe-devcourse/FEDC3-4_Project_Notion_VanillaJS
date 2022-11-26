@@ -49,10 +49,19 @@ export default function Sidebar({ $target, initialState }) {
         }),
       });
 
+      const { pathname } = window.location;
+      const [, , docId] = pathname.split("/");
       const $curLi = document.getElementById("newSubDoc");
 
+      if (docId) {
+        const $prevLiP = document.getElementById(docId).querySelector(".forHover");
+        $prevLiP.style = "";
+      }
+
+      $curLi.querySelector(".forHover").style.backgroundColor = "rgba(0, 0, 0, 0.1)";
       $curLi.id = newSubDoc.id;
       $curLi.dataset["id"] = newSubDoc.id;
+
       push(`/documents/${newSubDoc.id}`);
     },
     onDelete: async (id) => {
@@ -73,12 +82,15 @@ export default function Sidebar({ $target, initialState }) {
         const $parentLi = document.getElementById(res.parent.id);
         // 이미 상위 페이지가 지워진 경우 방어 코드
         if ($parentLi) {
+          const $currLiP = $parentLi.querySelector(".forHover");
           const $childUl = $parentLi.querySelector(".child");
+
           if ($childUl.innerText === "") {
             $childUl.innerHTML = `
               <li class="isEnd">하위 페이지가 없습니다.</li>
             `;
           }
+          $currLiP.style.backgroundColor = "rgba(0, 0, 0, 0.1)";
           push(`/documents/${res.parent.id}`);
         } else {
           this.setState();
