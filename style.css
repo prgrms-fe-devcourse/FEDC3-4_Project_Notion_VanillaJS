@@ -1,3 +1,11 @@
+:root {
+  --black: rgb(55, 53, 47);
+  --grey100: rgba(25, 23, 17, 0.6);
+  --white: rgb(251, 251, 250);
+  --outline: rgb(245, 245, 239);
+  --grey200: rgba(0, 0, 0, 0.1);
+}
+
 html,
 body,
 div,
@@ -152,7 +160,7 @@ ul {
 }
 
 .sidebarTitle {
-  color: rgb(55, 53, 47);
+  color: var(--black);
   padding: 15px 14px;
   margin: 1px 0px;
   font-weight: 600;
@@ -162,8 +170,8 @@ ul {
 
 .sideBar {
   height: 100%;
-  background-color: rgb(251, 251, 250);
-  outline: 1px solid rgb(245, 245, 239);
+  background-color: var(--white);
+  outline: 1px solid var(--outline);
   min-width: 240px;
   max-width: 26%;
 }
@@ -175,7 +183,7 @@ ul {
 
 .docList,
 .newRootDoc {
-  color: rgba(25, 23, 17, 0.6);
+  color: var(--grey100);
   padding-left: 5px;
   padding-bottom: 5px;
   font-size: 14px;
@@ -192,12 +200,12 @@ ul {
 }
 
 .editor {
-  color: rgb(55, 53, 47);
+  color: var(--black);
   height: 80%;
 }
 
 .linkContainer {
-  color: rgba(25, 23, 17, 0.6);
+  color: var(--grey100);
   padding-top: 16px;
   padding-left: 10px;
 }
@@ -209,8 +217,8 @@ ul {
   text-decoration: underline;
 }
 
-button {
-  color: rgba(25, 23, 17, 0.6);
+.btn {
+  color: var(--grey100);
   border: 0;
   padding: 2px;
   background-color: transparent;
@@ -247,7 +255,7 @@ button {
 }
 
 .forHover:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: var(--grey200);
 }
 
 .forHover:hover .controlBtns {
@@ -280,7 +288,7 @@ textarea {
   max-width: 100%;
   white-space: pre-wrap;
   word-break: break-word;
-  caret-color: rgb(55, 53, 47);
+  caret-color: var(--black);
 }
 
 .landingPage {

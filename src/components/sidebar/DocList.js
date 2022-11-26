@@ -20,11 +20,11 @@ export default function DocList({ $target, initialState, onClick, onNewSubDoc, o
         ({ id, title, documents }, i) => `
         <li id=${id} data-id=${id} class="docItem">
           <p class="forHover">
-            <button class="toggleFold">►</button>
+            <button class="toggleFold btn">►</button>
             <span class="docTitle">${title}</span>
             <span class="controlBtns">
-              <button class="newSubDoc">➕</button> 
-              <button class="delete">X</button>
+              <button class="newSubDoc btn">➕</button> 
+              <button class="delete btn">X</button>
             </span>
             ${
               documents.length > 0
@@ -52,9 +52,9 @@ export default function DocList({ $target, initialState, onClick, onNewSubDoc, o
 
     if (!$li) return;
     const { id } = $li.dataset;
-    const { className } = e.target;
+    const { classList } = e.target;
 
-    if (className === "toggleFold") {
+    if (classList.contains("toggleFold")) {
       const $childUl = $li.getElementsByTagName("ul");
       if ($childUl) {
         const toggleDisplay = $childUl[0].classList.contains("child");
@@ -63,7 +63,7 @@ export default function DocList({ $target, initialState, onClick, onNewSubDoc, o
       }
       return;
     }
-    if (className === "newSubDoc") {
+    if (classList.contains("newSubDoc")) {
       const $childUl = $li.getElementsByTagName("ul");
       const $isEnd = $childUl[0].querySelector(".isEnd");
       const $newSubDoc = document.createElement("li");
@@ -82,11 +82,11 @@ export default function DocList({ $target, initialState, onClick, onNewSubDoc, o
       $childUl[0].appendChild($newSubDoc);
       $newSubDoc.innerHTML = `
         <p class="forHover">
-          <button class="toggleFold">►</button>
+          <button class="toggleFold btn">►</button>
           <span class="docTitle">제목 없음</span>
           <span class="controlBtns">
-            <button class="newSubDoc">➕</button> 
-            <button class="delete">X</button>
+            <button class="newSubDoc btn">➕</button> 
+            <button class="delete btn">X</button>
           </span>
           <ul class='child'><li class="isEnd">하위 페이지가 없습니다.</li></ul>
         </p>
@@ -94,7 +94,7 @@ export default function DocList({ $target, initialState, onClick, onNewSubDoc, o
       onNewSubDoc(id);
       return;
     }
-    if (className === "delete") {
+    if (classList.contains("delete")) {
       if (confirm("이 문서를 삭제하시겠습니까?")) {
         $li.remove();
         onDelete(id);
