@@ -7,14 +7,13 @@ const bringAllList = (list, type) => {
   while (stack.length > 0) {
     const nextList = stack.pop();
 
-    if (nextList.documents) {
-      for (let i = nextList.documents.length - 1; i >= 0; i--) {
-        stack.push(nextList.documents[i]);
-      }
-    }
-
     if (type === "id") bringData.push(nextList.id);
     else bringData.push(nextList.title);
+
+    if (!nextList.documents) continue;
+    for (let i = nextList.documents.length - 1; i >= 0; i--) {
+      stack.push(nextList.documents[i]);
+    }
   }
 
   return bringData;

@@ -37,28 +37,26 @@ export default function Editor({ $editorPageTarget, onEditing }) {
   };
 
   this.render = () => {
-    if (this.editorState.editorData) {
-      const { title, content, documents } = this.editorState.editorData;
+    if (!this.editorState.editorData) return;
 
-      $editorPageTarget.querySelector(
-        "[name=editor-subdocuments]"
-      ).innerHTML = ``;
+    const { title, content, documents } = this.editorState.editorData;
 
-      // by 민형, index 페이지 일 경우_221113
-      if (title === "not render") {
-        editorRender($editorPageTarget, "none");
-      } else {
-        editorRender($editorPageTarget, "block");
+    $editorPageTarget.querySelector(
+      "[name=editor-subdocuments]"
+    ).innerHTML = ``;
 
-        // by 민형, 처음 페이지를 추가했을 때 title을 제목 없음으로 넘겨주는데 "제목 없음"을 value로 설정하면 placeholder가 작동 안 함_221115
-        // "제목 없음" document로 왔을 때도 tile이 ""로 수정되어야 함, 수정되지 않으면 이전 document의 title이 render
-        $editorPageTarget.querySelector("[name=title]").value =
-          title === "제목 없음" ? "" : title;
-        $editorPageTarget.querySelector("[name=content]").value = content;
+    // by 민형, index 페이지 일 경우_221113
+    title === "not render"
+      ? editorRender($editorPageTarget, "none")
+      : editorRender($editorPageTarget, "block");
 
-        subDocumentRender($editorPageTarget, documents);
-      }
-    }
+    // by 민형, 처음 페이지를 추가했을 때 title을 제목 없음으로 넘겨주는데 "제목 없음"을 value로 설정하면 placeholder가 작동 안 함_221115
+    // "제목 없음" document로 왔을 때도 tile이 ""로 수정되어야 함, 수정되지 않으면 이전 document의 title이 render
+    $editorPageTarget.querySelector("[name=title]").value =
+      title === "제목 없음" ? "" : title;
+    $editorPageTarget.querySelector("[name=content]").value = content;
+
+    if (documents) subDocumentRender($editorPageTarget, documents);
   };
 
   this.render();
@@ -67,41 +65,41 @@ export default function Editor({ $editorPageTarget, onEditing }) {
     .querySelector("[name=title]")
     .addEventListener("keyup", (e) => {
       const newTitle = e.target.value;
-      if (newTitle !== undefined) {
-        document.querySelector(".editor-same__link").style.display = "none";
-        // by 민형, 기존의 title과 동일한 document title을 입력했을 경우_221116
-        if (this.editorState.documentTitleData.includes(newTitle)) {
-          const coinCildeIndex =
-            this.editorState.documentTitleData.indexOf(newTitle);
-          const coinCildeId = this.editorState.documentIdData[coinCildeIndex];
-          sameDocumentRender($editorPageTarget, newTitle, coinCildeId);
-        }
+      if (newTitle === undefined) return;
 
-        const nextState = {
-          editorData: {
-            ...this.editorState.editorData,
-            title: newTitle || "제목 없음",
-          },
-          documentIdData: this.editorState.documentIdData,
-          documentTitleData: this.editorState.documentTitleData,
-        };
-        this.editorSetState(nextState);
-        onEditing(nextState);
+      document.querySelector(".editor-same__link").style.display = "none";
+      // by 민형, 기존의 title과 동일한 document title을 입력했을 경우_221116
+      if (this.editorState.documentTitleData.includes(newTitle)) {
+        const coinCildeIndex =
+          this.editorState.documentTitleData.indexOf(newTitle);
+        const coinCildeId = this.editorState.documentIdData[coinCildeIndex];
+        sameDocumentRender($editorPageTarget, newTitle, coinCildeId);
       }
+
+      const nextState = {
+        editorData: {
+          ...this.editorState.editorData,
+          title: newTitle || "제목 없음",
+        },
+        documentIdData: this.editorState.documentIdData,
+        documentTitleData: this.editorState.documentTitleData,
+      };
+      this.editorSetState(nextState);
+      onEditing(nextState);
     });
 
   $editorPageTarget
     .querySelector("[name=content]")
     .addEventListener("keyup", (e) => {
       const newContent = e.target.value;
-      if (newContent !== undefined) {
-        const nextState = {
-          editorData: { ...this.editorState.editorData, content: newContent },
-          documentIdData: this.editorState.documentIdData,
-          documentTitleData: this.editorState.documentTitleData,
-        };
-        this.editorSetState(nextState);
-        onEditing(nextState);
-      }
+      if (newContent === undefined) return;
+
+      const nextState = {
+        editorData: { ...this.editorState.editorData, content: newContent },
+        documentIdData: this.editorState.documentIdData,
+        documentTitleData: this.editorState.documentTitleData,
+      };
+      this.editorSetState(nextState);
+      onEditing(nextState);
     });
 }

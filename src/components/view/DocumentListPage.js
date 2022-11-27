@@ -39,17 +39,15 @@ export default function DocumentListPage({ $bodyPage, initialState }) {
       while (stack.length > 0) {
         const currentDocument = stack.pop();
 
-        // by 민형, 현재 document의 자식 document가 있다면 stack에 추가_221113
-        if (currentDocument.documents) {
-          for (let i = currentDocument.documents.length - 1; i >= 0; i--) {
-            stack.push(currentDocument.documents[i]);
-          }
-        }
-
         await request(`/documents/${currentDocument.id}`, {
           method: "DELETE",
         });
-        console.log("remove");
+
+        // by 민형, 현재 document의 자식 document가 있다면 stack에 추가_221113
+        if (!currentDocument.documents) continue;
+        for (let i = currentDocument.documents.length - 1; i >= 0; i--) {
+          stack.push(currentDocument.documents[i]);
+        }
       }
       push("/");
     },

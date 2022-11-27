@@ -71,13 +71,12 @@ export default function DocumentList({
 
       $renderHTML += listMarkUp(nextList, nextWidth);
 
-      if (nextList.documents) {
-        for (let i = nextList.documents.length - 1; i >= 0; i--) {
-          stack.push({
-            list: nextList.documents[i],
-            width: nextWidth + 15,
-          });
-        }
+      if (!nextList.documents) continue;
+      for (let i = nextList.documents.length - 1; i >= 0; i--) {
+        stack.push({
+          list: nextList.documents[i],
+          width: nextWidth + 15,
+        });
       }
     }
 
@@ -87,21 +86,20 @@ export default function DocumentList({
   this.render = () => {
     foldData = [0];
     selectIndex = 0;
-    if (Array.isArray(this.listState.originEdit)) {
-      $listPage.innerHTML = `
-        <a href="/" class="home">
-          <i class="fa-solid fa-user"></i>
-          <div>민형 박의 Notion</div>
-        </a>
-        <ul>
-          ${this.listState.originEdit.map((list) => listRender(list)).join("")}
-          <div class="list-container__list rootplus" data-id="no-router">
-            <i class="fa-solid fa-plus"></i>
-            <span>페이지 추가</span>
-          </div>
-        </ul>
-        `;
-    }
+    if (!Array.isArray(this.listState.originEdit)) return;
+    $listPage.innerHTML = `
+      <a href="/" class="home">
+        <i class="fa-solid fa-user"></i>
+        <div>민형 박의 Notion</div>
+      </a>
+      <ul>
+        ${this.listState.originEdit.map((list) => listRender(list)).join("")}
+        <div class="list-container__list rootplus" data-id="no-router">
+          <i class="fa-solid fa-plus"></i>
+          <span>페이지 추가</span>
+        </div>
+      </ul>
+      `;
   };
 
   $documentListPage.addEventListener("click", (e) => {
