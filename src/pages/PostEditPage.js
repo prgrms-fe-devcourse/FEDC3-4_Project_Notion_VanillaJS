@@ -1,6 +1,7 @@
-import { createPost, fetchPost, updatePost } from "../util/api.js";
-import Editor from "../components/Editor.js";
+import { fetchPost, updatePost } from "../util/api.js";
+import Editor from "../components/Preview.js";
 import { getItem, removeItem, setItem } from "../util/storage.js";
+import SubPostList from "../components/SubPostList.js";
 
 export default function PostEditPage({ $target, initialState, onUpdateList }) {
   const $page = document.createElement("div");
@@ -42,7 +43,10 @@ export default function PostEditPage({ $target, initialState, onUpdateList }) {
       }, 200);
     },
   });
-
+  const subPostList = new SubPostList({
+    $target: $page,
+    initialState: [],
+  });
   this.setState = async (nextState) => {
     if (this.state.postId !== nextState.postId) {
       postLocalSaveKey = `temp-post-${nextState.postId}`;
@@ -56,6 +60,8 @@ export default function PostEditPage({ $target, initialState, onUpdateList }) {
     this.render();
 
     editor.setState(this.state.post);
+    console.log(this.state.post.documents);
+    subPostList.setState(this.state.post.documents);
   };
 
   this.render = () => {
