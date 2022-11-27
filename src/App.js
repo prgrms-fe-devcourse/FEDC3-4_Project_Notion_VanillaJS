@@ -44,11 +44,11 @@ export default function App({ $bodyPage, initalState }) {
 
   this.router = async () => {
     const { pathname } = location;
-    const getListData = await getListData();
+    const getedListData = await getListData();
 
     if (pathname === "/") {
       documentListPage.documentListSetState({
-        originEdit: getListData,
+        originEdit: getedListData,
         updateEdit: undefined,
       });
       editorPage.editorPageSetState({
@@ -58,7 +58,7 @@ export default function App({ $bodyPage, initalState }) {
       });
     } else if (pathname.indexOf("/documents/") === 0) {
       const [, , id] = pathname.split("/");
-      const getEditData = await getEditData(id);
+      const getedEditData = await getEditData(id);
       const bringAllData = await bringData();
 
       // by 민형, 여러 가지 경우_221115
@@ -66,25 +66,25 @@ export default function App({ $bodyPage, initalState }) {
       if (!this.state) {
         // 1
         documentListPage.documentListSetState({
-          originEdit: getListData,
+          originEdit: getedListData,
           updateEdit: undefined,
         });
         editorPage.editorPageSetState({
-          editorData: getEditData,
+          editorData: getedEditData,
           documentIdData: bringAllData[0],
           documentTitleData: bringAllData[1],
         });
       } else {
         // 2
         documentListPage.documentListSetState({
-          originEdit: getListData,
+          originEdit: getedListData,
           updateEdit: this.state,
         });
 
         if (this.state.id === parseInt(id)) return;
         // 3(by 민형, 다른 페이지로 이동 시 기존의 state 제거_221116)
         editorPage.editorPageSetState({
-          editorData: getEditData,
+          editorData: getedEditData,
           documentIdData: bringAllData[0],
           documentTitleData: bringAllData[1],
         });

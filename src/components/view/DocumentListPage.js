@@ -35,7 +35,6 @@ export default function DocumentListPage({ $bodyPage, initialState }) {
           parent: id,
         }),
       });
-      console.log("plus");
       push(`/documents/${res.id}`);
     },
     onRemove: async (id) => {
@@ -58,17 +57,6 @@ export default function DocumentListPage({ $bodyPage, initialState }) {
         }
       }
       push("/");
-    },
-    onRootPlus: async (id) => {
-      const res = await request(`/documents`, {
-        method: "POST",
-        body: JSON.stringify({
-          title: "",
-          parent: id,
-        }),
-      });
-      console.log("plus");
-      push(`/documents/${res.id}`);
     },
   });
 

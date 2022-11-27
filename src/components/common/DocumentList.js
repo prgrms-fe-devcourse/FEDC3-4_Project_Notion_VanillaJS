@@ -1,6 +1,6 @@
 import { push } from "../../router/router.js";
 import { changeFold } from "../../js/folder.js";
-import { NOT_TITLE } from "../../js/constants.js";
+import { NOT_TITLE, NOT_RENDER } from "../../js/constants.js";
 
 export default function DocumentList({
   $documentListPage,
@@ -99,7 +99,7 @@ export default function DocumentList({
       </a>
       <ul>
         ${this.listState.originEdit.map((list) => listRender(list)).join("")}
-        <div class="list-container__list rootplus" data-id="no-router">
+        <div class="list-container__list rootplus" data-id="${NOT_RENDER}">
           <i class="fa-solid fa-plus"></i>
           <span>페이지 추가</span>
         </div>
@@ -129,9 +129,9 @@ export default function DocumentList({
       }
     } else if ($div) {
       const { id } = $div.dataset;
-      if (id === "no-router") {
+      if (id === NOT_RENDER) {
         const className = $div.classList.item(1);
-        if (className === "rootplus") onRootPlus(className);
+        if (className === "rootplus") onPlus(null);
       } else if (id) {
         push(`/documents/${id}`);
       }
