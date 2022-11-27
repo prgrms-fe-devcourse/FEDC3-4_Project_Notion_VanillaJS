@@ -4,9 +4,7 @@ import { initRouter, push } from "./util/router.js";
 import Home from "./components/Introduce.js";
 
 export default function App({ $target }) {
-  const postPage = new PostPage({
-    $target,
-  });
+  const postPage = new PostPage({ $target });
 
   const home = new Home({ $target });
 
