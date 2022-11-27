@@ -1,5 +1,3 @@
-## 👩‍💻 요구 사항과 구현 내용
-
 ### 📘 UI
 ![image](https://user-images.githubusercontent.com/67576476/202186472-d685a8de-2344-41eb-b607-95e664007c72.png)
 
