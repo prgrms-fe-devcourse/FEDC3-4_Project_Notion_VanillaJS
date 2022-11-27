@@ -1,5 +1,6 @@
 import { push } from "../../router/router.js";
 import { changeFold } from "../../js/folder.js";
+import { NOT_TITLE } from "../../js/constants.js";
 
 export default function DocumentList({
   $documentListPage,
@@ -49,9 +50,13 @@ export default function DocumentList({
 
     return `<div class="${containerClassName}" data-id="${list.id}">
       <li class="list" style="margin-left: ${width}px;">
-        <i class="fa-solid fa-chevron-down fold" data-id="${list.id}" data-index-id="${selectIndex}"></i>
+        <i class="fa-solid fa-chevron-down fold" data-id="${
+          list.id
+        }" data-index-id="${selectIndex}"></i>
         <i class="fa-brands fa-pagelines fa-lg"></i>
-        <span class="list-container__lists--txt">${title}<span>
+        <span class="list-container__lists--txt">${
+          title === "" ? NOT_TITLE : title
+        }<span>
       </li>
       <div data-id="${list.id}"> 
         <i class="fa-solid fa-plus plus" data-id="${list.id}"></i>
