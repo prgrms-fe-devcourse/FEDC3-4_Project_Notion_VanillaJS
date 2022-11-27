@@ -5,8 +5,8 @@ import { request } from "./js/api.js";
 import { NOT_RENDER } from "./js/constants.js";
 import { bringData } from "./js/bringAllData.js";
 
-export default function App({ $bodyPage, initalState }) {
-  this.state = initalState;
+export default function App({ $bodyPage, initialState }) {
+  this.state = initialState;
 
   this.setState = (nextState) => {
     this.state = nextState;
@@ -29,7 +29,7 @@ export default function App({ $bodyPage, initalState }) {
     },
     onEdit: (currentEdit) => {
       if (currentEdit) {
-        this.setState({ ...currentEdit });
+        this.setState({ ...this.state, curEdit: currentEdit });
         this.router();
       }
     },
@@ -63,7 +63,7 @@ export default function App({ $bodyPage, initalState }) {
 
       // by 민형, 여러 가지 경우_221115
       // 1. 새로고침 했을 경우 2. 수정 중인 경우, 3. 수정 후 다른페이지로 이동하는 경우
-      if (!this.state) {
+      if (this.state.curEdit.id === null) {
         // 1
         documentListPage.documentListSetState({
           originEdit: getedListData,
@@ -78,17 +78,24 @@ export default function App({ $bodyPage, initalState }) {
         // 2
         documentListPage.documentListSetState({
           originEdit: getedListData,
-          updateEdit: this.state,
+          updateEdit: this.state.curEdit,
         });
 
-        if (this.state.id === parseInt(id)) return;
+        if (this.state.curEdit.id === parseInt(id)) return;
         // 3(by 민형, 다른 페이지로 이동 시 기존의 state 제거_221116)
         editorPage.editorPageSetState({
           editorData: getedEditData,
           documentIdData: bringedAllData[0],
           documentTitleData: bringedAllData[1],
         });
-        this.setState(undefined);
+        this.setState({
+          curEdit: {
+            id: null,
+            title: "",
+            content: "",
+            documents: [],
+          },
+        });
       }
     }
   };

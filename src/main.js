@@ -4,5 +4,12 @@ const $target = document.querySelector("#app");
 
 new App({
   $bodyPage: $target,
-  initialState: {},
+  initialState: {
+    curEdit: {
+      id: null,
+      title: "",
+      content: "",
+      documents: [],
+    },
+  },
 });
