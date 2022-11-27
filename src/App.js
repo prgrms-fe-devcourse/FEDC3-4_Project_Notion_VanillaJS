@@ -59,7 +59,7 @@ export default function App({ $bodyPage, initalState }) {
     } else if (pathname.indexOf("/documents/") === 0) {
       const [, , id] = pathname.split("/");
       const getedEditData = await getEditData(id);
-      const bringAllData = await bringData();
+      const bringedAllData = await bringData();
 
       // by 민형, 여러 가지 경우_221115
       // 1. 새로고침 했을 경우 2. 수정 중인 경우, 3. 수정 후 다른페이지로 이동하는 경우
@@ -71,8 +71,8 @@ export default function App({ $bodyPage, initalState }) {
         });
         editorPage.editorPageSetState({
           editorData: getedEditData,
-          documentIdData: bringAllData[0],
-          documentTitleData: bringAllData[1],
+          documentIdData: bringedAllData[0],
+          documentTitleData: bringedAllData[1],
         });
       } else {
         // 2
@@ -85,8 +85,8 @@ export default function App({ $bodyPage, initalState }) {
         // 3(by 민형, 다른 페이지로 이동 시 기존의 state 제거_221116)
         editorPage.editorPageSetState({
           editorData: getedEditData,
-          documentIdData: bringAllData[0],
-          documentTitleData: bringAllData[1],
+          documentIdData: bringedAllData[0],
+          documentTitleData: bringedAllData[1],
         });
         this.setState(undefined);
       }
