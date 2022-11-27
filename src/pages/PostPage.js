@@ -1,17 +1,17 @@
 import PostList from "../components/PostList.js";
 import { createPost, fetchPostList, deletePost } from "../util/api.js";
-import LinkButton from "../components/LinkButton.js";
+import NewPostButton from "../components/NewPostButton.js";
 import Header from "../components/Header.js";
 import { push } from "../util/router.js";
 
 export default function PostPage({ $target }) {
   const $page = document.createElement("div");
   $page.className = "postpage";
-  $target.appendChild($page);
 
   this.setState = async () => {
     const posts = await fetchPostList();
     postList.setState(posts);
+    this.render();
   };
 
   new Header({
@@ -24,7 +24,6 @@ export default function PostPage({ $target }) {
     initialState: [],
     onAdd: async (parentId) => {
       const createdPost = await createPost(parentId);
-      console.log(parentId, createdPost);
       push(`/documents/${createdPost.id}`);
       this.setState();
     },
@@ -35,12 +34,14 @@ export default function PostPage({ $target }) {
     },
   });
 
-  new LinkButton({
+  new NewPostButton({
     $target: $page,
-    initialState: {
-      text: "+&nbsp&nbsp새로운 페이지 추가",
-      link: "/documents/new",
+    onUpdate: () => {
+      this.setState();
     },
-    className: "newPostButton",
   });
+
+  this.render = () => {
+    $target.prepend($page);
+  };
 }

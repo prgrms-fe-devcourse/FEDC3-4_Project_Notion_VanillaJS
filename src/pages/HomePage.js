@@ -1,14 +1,8 @@
-export default function Home({ $target }) {
+export default function HomePage({ $target }) {
   const $home = document.createElement("div");
   $home.className = "home";
 
-  $target.appendChild($home);
-
-  this.render = () => {
-    if (window.location.pathname !== "/") $home.style.display = "none";
-    else $home.style.display = "flex";
-
-    $home.innerHTML = `
+  $home.innerHTML = `
         <div class="title">
         안녕하세요, BeNI의 노션 클로닝 프로젝트 입니다.
         <a href="https://github.com/beni1026/FEDC3-4_Project_Notion_VanillaJS">전체 소스코드(링크)</a>
@@ -33,6 +27,13 @@ export default function Home({ $target }) {
           <img src="/src/img/components.PNG" />
         </div>
       `;
+
+  this.render = () => {
+    if (window.location.pathname !== "/") $home.style.display = "none";
+    else {
+      $target.appendChild($home);
+      $home.style.display = "flex";
+    }
   };
 
   this.render();

@@ -90,6 +90,4 @@ export default function PostEditPage({ $target, initialState, onUpdateList }) {
       post,
     });
   };
-
-  this.render();
 }

@@ -1,12 +1,12 @@
 import PostEditPage from "./pages/PostEditPage.js";
 import PostPage from "./pages/PostPage.js";
 import { initRouter, push } from "./util/router.js";
-import Home from "./components/Introduce.js";
+import HomePage from "./pages/HomePage.js";
 
 export default function App({ $target }) {
   const postPage = new PostPage({ $target });
 
-  const home = new Home({ $target });
+  const homePage = new HomePage({ $target });
 
   const postEditPage = new PostEditPage({
     $target,
@@ -23,27 +23,19 @@ export default function App({ $target }) {
   });
 
   this.route = () => {
-    home.render();
-    postEditPage.render();
     const { pathname } = window.location;
 
     if (pathname === "/") {
+      $target.innerHTML = "";
       postPage.setState();
-      postEditPage.render();
+      homePage.render();
     } else if (pathname.indexOf("/documents/") === 0) {
-      const [, , postId, isNew] = pathname.split("/");
-      if (!isNew) {
-        postEditPage.setState({ ...postEditPage.state, postId });
+      if ($target.innerHTML === "") {
         postPage.setState();
-      } else {
-        postEditPage.setState({
-          postId: `new-${postId}`,
-          post: {
-            title: "",
-            content: "",
-          },
-        });
       }
+      const [, , postId] = pathname.split("/");
+      homePage.render();
+      postEditPage.setState({ postId });
     }
   };
 
