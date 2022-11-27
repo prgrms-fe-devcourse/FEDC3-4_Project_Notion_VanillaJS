@@ -1,5 +1,5 @@
 import PostList from "../components/PostList.js";
-import { request } from "../util/api.js";
+import { createPost, fetchPostList, deletePost } from "../util/api.js";
 import LinkButton from "../components/LinkButton.js";
 import Header from "../components/Header.js";
 import { push } from "../util/router.js";
@@ -10,7 +10,7 @@ export default function PostPage({ $target }) {
   $target.appendChild($page);
 
   this.setState = async () => {
-    const posts = await request("/documents");
+    const posts = await fetchPostList();
     postList.setState(posts);
   };
 
@@ -22,23 +22,24 @@ export default function PostPage({ $target }) {
   const postList = new PostList({
     $target: $page,
     initialState: [],
-    onAdd: (id) => {
-      push(`/documents/${id}/new`);
+    onAdd: async (parentId) => {
+      const createdPost = await createPost(parentId);
+      console.log(parentId, createdPost);
+      //push(`/posts/${createdPost.id}`);
+      this.setState();
     },
     onDelete: async (id) => {
-      await request(`/documents/${id}`, {
-        method: "DELETE",
-      });
+      deletePost(id);
       push("/");
     },
   });
 
-  const linkButton = new LinkButton({
+  new LinkButton({
     $target: $page,
     initialState: {
       text: "+&nbsp&nbsp새로운 페이지 추가",
       link: "/documents/new",
     },
+    className: "newPostButton",
   });
-  linkButton.$linkButton.className = "newPostButton";
 }

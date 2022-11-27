@@ -47,20 +47,20 @@ export default function PostList({ $target, initialState, onAdd, onDelete }) {
         return;
       case "add":
         onAdd(id);
-        const $tmpul = document.createElement("ul");
-        $tmpul.innerHTML = `<li  class="parentList">
-          <div class="content" style="background-color: #f1f1f0;">
-            <div class="left-box">
-              <img src="/src/img/arrow_right_icon.svg" class="toggleBtn"/>
-              <span class="title" >하위 페이지</span>
-            </div>
-            <div class="right-box">
-              <img src="/src/img/minus_icon.svg" class="del" />
-              <img src="/src/img/plus_icon.svg" class="add" />
-            </div>  
-          </div>
-        </li>`;
-        $li.appendChild($tmpul);
+        // const $tmpul = document.createElement("ul");
+        // $tmpul.innerHTML = `<li  class="parentList">
+        //   <div class="content" style="background-color: #f1f1f0;">
+        //     <div class="left-box">
+        //       <img src="/src/img/arrow_right_icon.svg" class="toggleBtn"/>
+        //       <span class="title" >하위 페이지</span>
+        //     </div>
+        //     <div class="right-box">
+        //       <img src="/src/img/minus_icon.svg" class="del" />
+        //       <img src="/src/img/plus_icon.svg" class="add" />
+        //     </div>
+        //   </div>
+        // </li>`;
+        // $li.appendChild($tmpul);
         return;
       case "del":
         if (confirm("정말로 삭제하시겠습니까?")) onDelete(id);
