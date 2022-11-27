@@ -4,6 +4,7 @@ import {
   subDocumentRender,
   sameDocumentRender,
 } from "../../js/relatedEditor.js";
+import { NOT_RENDER } from "../../js/constants.js";
 
 export default function Editor({ $editorPageTarget, onEditing }) {
   const $editor = document.createElement("div");
@@ -22,7 +23,7 @@ export default function Editor({ $editorPageTarget, onEditing }) {
   $editorPageTarget.appendChild($editor);
 
   this.editorState = {
-    editorData: { id: 0, title: "not render" },
+    editorData: { id: 0, title: NOT_RENDER },
     documentIdData: [],
     documentTitleData: [],
   };
@@ -46,7 +47,7 @@ export default function Editor({ $editorPageTarget, onEditing }) {
     ).innerHTML = ``;
 
     // by 민형, index 페이지 일 경우_221113
-    title === "not render"
+    title === NOT_RENDER
       ? editorRender($editorPageTarget, "none")
       : editorRender($editorPageTarget, "block");
 

@@ -1,6 +1,7 @@
 import Editor from "../common/Editor.js";
 import { request } from "../../js/api.js";
 import { bringData } from "../../js/bringAllData.js";
+import { NOT_RENDER } from "../../js/constants.js";
 
 export default function EditorPage({ $bodyPage, initialState, onEdit }) {
   const $editorPage = document.createElement("div");
@@ -62,7 +63,7 @@ export default function EditorPage({ $bodyPage, initialState, onEdit }) {
       // Editor에 setState를 통해 render
       // Editor는 render시에 tex가 not render라면 화면을 지움
       editor.editorSetState({
-        editorData: { id: 0, title: "not render" },
+        editorData: { id: 0, title: NOT_RENDER },
         documentIdData: [],
         documentTitleData: [],
       });
