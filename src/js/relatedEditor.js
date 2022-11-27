@@ -16,7 +16,7 @@ export const subDocumentRender = ($editorPageTarget, documents) => {
     $linkDiv.classList.add("editor-subdocument");
 
     const $i = document.createElement("i");
-    $i.innerHTML = `<i class="fa-solid fa-link"></i>`;
+    $i.className = "fa-solid fa-link";
 
     const $link = document.createElement("a");
     $link.textContent = doc.title;
