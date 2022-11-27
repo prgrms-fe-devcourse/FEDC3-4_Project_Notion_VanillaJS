@@ -1,8 +1,8 @@
-import PostList from "./PostList.js";
-import { request } from "./api.js";
-import LinkButton from "./LinkButton.js";
-import Header from "./Header.js";
-import { push } from "./router.js";
+import PostList from "../components/PostList.js";
+import { request } from "../util/api.js";
+import LinkButton from "../components/LinkButton.js";
+import Header from "../components/Header.js";
+import { push } from "../util/router.js";
 
 export default function PostPage({ $target }) {
   const $page = document.createElement("div");

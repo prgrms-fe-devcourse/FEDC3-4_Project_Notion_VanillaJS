@@ -1,8 +1,7 @@
-import PostEditPage from "./PostEditPage.js";
-import PostPage from "./PostPage.js";
-import { initRouter, push } from "./router.js";
-import { request } from "./api.js";
-import Home from "./Home.js";
+import PostEditPage from "./pages/PostEditPage.js";
+import PostPage from "./pages/PostPage.js";
+import { initRouter, push } from "./util/router.js";
+import Home from "./components/Introduce.js";
 
 export default function App({ $target }) {
   const postPage = new PostPage({

@@ -1,4 +1,4 @@
-import { push } from "./router.js";
+import { push } from "../util/router.js";
 
 export default function PostList({ $target, initialState, onAdd, onDelete }) {
   const $postList = document.createElement("div");

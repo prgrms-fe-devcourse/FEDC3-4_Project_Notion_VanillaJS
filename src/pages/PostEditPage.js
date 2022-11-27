@@ -1,6 +1,6 @@
-import { request } from "./api.js";
-import Editor from "./Editor.js";
-import { getItem, removeItem, setItem } from "./storage.js";
+import { request } from "../util/api.js";
+import Editor from "../components/Editor.js";
+import { getItem, removeItem, setItem } from "../util/storage.js";
 
 export default function PostEditPage({ $target, initialState, onUpdateList }) {
   const $page = document.createElement("div");

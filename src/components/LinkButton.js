@@ -1,4 +1,4 @@
-import { push } from "./router.js";
+import { push } from "../util/router.js";
 
 export default function LinkButton({ $target, initialState }) {
   this.$linkButton = document.createElement("div");

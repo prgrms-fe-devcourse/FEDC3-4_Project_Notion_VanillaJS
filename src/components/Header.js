@@ -1,4 +1,4 @@
-import { push } from "./router.js";
+import { push } from "../util/router.js";
 
 export default function Header({ $target, $name }) {
   const $header = document.createElement("header");
