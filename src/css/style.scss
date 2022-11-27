@@ -47,6 +47,11 @@
 
       ul {
         padding-left: 15px;
+        display: block;
+      }
+
+      .isToggled {
+        display: none;
       }
       .parentList {
         display: flex;

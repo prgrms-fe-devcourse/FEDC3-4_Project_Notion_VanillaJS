@@ -43,6 +43,10 @@
 }
 #app .postpage .postList ul {
   padding-left: 15px;
+  display: block;
+}
+#app .postpage .postList .isToggled {
+  display: none;
 }
 #app .postpage .postList .parentList {
   display: flex;
