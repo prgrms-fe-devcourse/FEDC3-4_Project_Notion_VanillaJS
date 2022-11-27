@@ -25,12 +25,13 @@ export default function PostPage({ $target }) {
     onAdd: async (parentId) => {
       const createdPost = await createPost(parentId);
       console.log(parentId, createdPost);
-      //push(`/posts/${createdPost.id}`);
+      push(`/documents/${createdPost.id}`);
       this.setState();
     },
     onDelete: async (id) => {
       deletePost(id);
       push("/");
+      this.setState();
     },
   });
 

@@ -11,7 +11,7 @@ export default function App({ $target }) {
   const postEditPage = new PostEditPage({
     $target,
     initialState: {
-      postId: "new",
+      postId: null,
       post: {
         title: "",
         content: "",
