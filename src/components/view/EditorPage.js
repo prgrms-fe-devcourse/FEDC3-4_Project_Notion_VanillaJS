@@ -1,7 +1,5 @@
 import Editor from "../common/Editor.js";
 import { request } from "../../js/api.js";
-import { bringData } from "../../js/bringAllData.js";
-import { NOT_RENDER } from "../../js/constants.js";
 
 export default function EditorPage({ $bodyPage, initialState, onEdit }) {
   const $editorPage = document.createElement("div");
@@ -9,21 +7,16 @@ export default function EditorPage({ $bodyPage, initialState, onEdit }) {
 
   $bodyPage.appendChild($editorPage);
 
-  this.editorPageState = {
-    editorData: initialState,
-    documentIdData: [],
-    documentTitleData: [],
-  };
+  this.editorPageState = initialState;
 
   this.editorPageSetState = async (nextState) => {
-    this.editorPageState.editorData = nextState;
+    this.editorPageState = nextState;
 
-    // by 민형, 동일 document check 구현을 위한 작업_221116
-    const bringAllData = await bringData();
-    this.editorPageState.documentIdData = bringAllData[0];
-    this.editorPageState.documentTitleData = bringAllData[1];
-
-    this.sendData();
+    editor.editorSetState({
+      editorData: this.editorPageState.editorData,
+      documentIdData: this.editorPageState.documentIdData,
+      documentTitleData: this.editorPageState.documentTitleData,
+    });
   };
 
   let event = null;
@@ -47,26 +40,4 @@ export default function EditorPage({ $bodyPage, initialState, onEdit }) {
       }, 2000);
     },
   });
-
-  this.sendData = async () => {
-    const { id } = this.editorPageState.editorData;
-    if (id) {
-      const serverData = await request(`/documents/${id}`, { method: "GET" });
-
-      editor.editorSetState({
-        editorData: serverData,
-        documentIdData: this.editorPageState.documentIdData,
-        documentTitleData: this.editorPageState.documentTitleData,
-      });
-    } else {
-      // by 민형, remove하고 index 왔을 때 Editor 지워져야 함_221113
-      // Editor에 setState를 통해 render
-      // Editor는 render시에 tex가 not render라면 화면을 지움
-      editor.editorSetState({
-        editorData: { id: 0, title: NOT_RENDER },
-        documentIdData: [],
-        documentTitleData: [],
-      });
-    }
-  };
 }
