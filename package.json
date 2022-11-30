@@ -1,0 +1,33 @@
+{
+  "name": "fedc3-4_project_notion_vanillajs",
+  "version": "1.0.0",
+  "description": "- 프로젝트 기한\r   - 프로젝트 수행 기간 : 2022년 11월 8일(화) ~ 2022년 11월 16일(수)\r   - 멘티 코드 리뷰 기간 : 2022년 11월 17일(목) ~ 2022년 11월 20일(일)\r   - 멘토 코드 리뷰 기간 : 2022년 11월 17일(목) ~ 2022년 11월 22일(화)\r   - 코드 리뷰 반영 기간 : 2022년 11월 23일(수) ~ 2022년 11월 25일(금)\r - 내용\r   - **Day 17 [프로젝트] 노션 클로닝 요구사항** 확인 부탁드립니다.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prgrms-fe-devcourse/FEDC3-4_Project_Notion_VanillaJS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prgrms-fe-devcourse/FEDC3-4_Project_Notion_VanillaJS/issues"
+  },
+  "homepage": "https://github.com/prgrms-fe-devcourse/FEDC3-4_Project_Notion_VanillaJS#readme",
+  "devDependencies": {
+    "prettier": "2.7.1"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "semi": true,
+    "useTabs": false,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "printWidth": 100,
+    "bracketSpacing": true,
+    "arrowParens": "always"
+  }
+}
