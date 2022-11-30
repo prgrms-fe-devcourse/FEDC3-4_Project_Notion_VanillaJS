@@ -13,10 +13,10 @@ function NavbarDocumentList({ target, initialState, onDelete, onAdd }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
-    this.render();
+    render();
   };
 
-  this.render = () => {
+  const render = () => {
     postList.innerHTML = paintDocument(this.state);
     onClickDocument();
   };
@@ -66,7 +66,7 @@ function NavbarDocumentList({ target, initialState, onDelete, onAdd }) {
       }
     });
   };
-  this.render();
+  render();
 }
 
 export default NavbarDocumentList;

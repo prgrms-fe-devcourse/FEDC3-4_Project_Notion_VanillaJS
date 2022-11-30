@@ -11,7 +11,7 @@ function NavbarHeader({ target, initialState }) {
   header.className = 'header';
   this.state = initialState;
 
-  this.render = () => {
+  const render = () => {
     header.innerHTML = `
                       <span>${this.state.text}</span>
                       <button class="home-plus-btn"><i class="far fa-plus-square"></i></button>
@@ -31,8 +31,7 @@ function NavbarHeader({ target, initialState }) {
       }
     });
   };
-  this.render();
-
+  render();
   onClickHeader();
 }
 
