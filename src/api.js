@@ -1,5 +1,3 @@
-import { API_END_POINT, X_USERNAME } from "./constants.js";
-
 export const request = async (url, options = {}) => {
   try {
     const res = await fetch(`${API_END_POINT}${url}`, {
