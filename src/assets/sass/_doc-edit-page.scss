@@ -1,0 +1,78 @@
+.doc-edit-page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 30px 50px;
+  width: 100%;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+
+  .title, .content {
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    border: 1px solid var(--text-secondary);
+    opacity: 1;
+  }
+
+  .title:disabled, .content:disabled {
+    opacity: 0.3;
+  }
+
+  .title {
+    height: 34px;
+    text-indent: 5px;
+    font-size: 1.5em;
+
+    &::placeholder {
+      opacity: 0.5;
+    }
+  }
+
+  .content {
+    font-family: var(--font-family);
+    padding: 5px;
+    margin-top: 10px;
+    height: 50vh;
+    resize: vertical;
+  }
+}
+
+.subdirectory {
+  width: calc(100% - 100px);
+  margin-right: 60px;
+  box-sizing: border-box;
+
+  .list-item {
+    display: block;
+    position: relative;
+
+    .title {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
+  .parent {
+    padding-left: 10px;
+
+    > .list-item {
+      position: relative;
+
+      &::before {
+        content: "\e981";
+        font-family: 'xeicon';
+        display: inline-block;
+        margin-right: 2px;
+        vertical-align: middle;
+      }
+    }
+    
+  }
+}

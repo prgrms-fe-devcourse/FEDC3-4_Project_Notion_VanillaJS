@@ -1,0 +1,85 @@
+@import '_reset.scss';
+
+$transition-time: 0.3s;
+
+%icon-format {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+}
+
+:root {
+  --background-color: rgb(255, 255, 238);
+  --text-primary: rgb(25, 25, 23);
+  --text-secondary: rgb(76, 76, 71);
+  --text-rgb: 25, 25, 23;
+  --font-family: 'NotoSansKR', 'sans-serif';
+  --color-primary: rgb(220, 200, 156);
+  --color-secondary: rgb(255, 250, 225);
+  --color-primary-rgb: 220, 200, 156;
+  --color-secondary-rgb: 255, 250, 225;
+}
+
+html[data-scheme='light'] {
+  --background-color: rgb(255, 255, 238);
+  --text-primary: rgb(25, 25, 23);
+  --text-secondary: rgb(76, 76, 71);
+}
+
+html[data-scheme='dark'] {
+  --background-color: rgb(51, 51, 47);
+  --text-primary: rgb(255, 255, 238);
+  --text-rgb: 255, 255, 238;
+  --text-secondary: rgb(229, 229, 214);
+  --color-primary: rgb(127, 127, 119);
+  --color-secondary: rgb(51, 51, 47); 
+  --color-primary-rgb: 127, 127, 119;
+  --color-secondary-rgb: 51, 51, 47;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  font-size: 14px;
+  position: relative;
+  overscroll-behavior-y: none;
+  min-width: 730px;
+}
+
+body::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  background: url(../images/vecteezy_icon-background-ice-cream-flat-design-vector_.jpg) repeat;
+  background-size: 30%;
+}
+
+#app {
+  display: flex;
+  height: 100vh;
+  position: relative;
+}
+
+@import '_toggle.scss';
+@import '_doc-list-page.scss';
+@import '_doc-edit-page.scss';
+
+.footer {
+ position: relative;
+ display: flex;
+ bottom: 0;
+ height: 40px;
+ width: 100%;
+ justify-content: center;
+ align-items: center;
+
+ p {
+  color: rgba(var(--text-rgb), 0.5);
+ }
+}
