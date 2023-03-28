@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "start": "npx serve -s",
+    "parcel": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "dependencies": {
+    "parcel": "^2.8.0"
+  }
+}
