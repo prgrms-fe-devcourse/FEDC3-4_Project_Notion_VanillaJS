@@ -1,4 +1,5 @@
 # Dongtion
+<img width="1328" alt="image" src="https://user-images.githubusercontent.com/28768535/230762564-8372c564-2039-4758-a49b-44425cffead6.png">
 
 ## VanllaJS로 Notion 구현해보기
 
