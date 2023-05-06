@@ -1,14 +1,15 @@
-import { validation, checkDifference } from "../../validation.js";
+import { validation, checkDifference } from '../../validation.js';
 
 export default function BreadCrumb({ $target, initialState, clickPath }) {
-  validation(new.target, "BreadCrumb");
+  validation(new.target, 'BreadCrumb');
 
-  const $breadCrumb = document.createElement("nav");
-  $breadCrumb.className = "linkContainer";
+  const $breadCrumb = document.createElement('nav');
+  $breadCrumb.className = 'linkContainer';
   this.state = initialState;
 
   this.setState = (nextState) => {
-    if (typeof nextState !== "object") throw new Error("변경될 상태가 객체가 아닙니다.");
+    if (typeof nextState !== 'object')
+      throw new Error('변경될 상태가 객체가 아닙니다.');
     if (checkDifference(this.state, nextState)) return;
     this.state = nextState;
     this.render();
@@ -17,14 +18,14 @@ export default function BreadCrumb({ $target, initialState, clickPath }) {
   const recursiveBC = (id, path) => {
     const $curLi = document.getElementById(id);
     if ($curLi) {
-      const $ul = $curLi.closest("ul");
+      const $ul = $curLi.closest('ul');
 
-      if ($ul.className === "child" || $ul.className === "child--show") {
-        path.push([$curLi.querySelector("span").innerHTML, id]);
+      if ($ul.className === 'child' || $ul.className === 'child--show') {
+        path.push([$curLi.querySelector('span').innerHTML, id]);
 
-        recursiveBC($ul.closest("li").id, path);
+        recursiveBC($ul.closest('li').id, path);
       } else {
-        path.push([$curLi.querySelector("span").innerHTML, id]);
+        path.push([$curLi.querySelector('span').innerHTML, id]);
       }
     }
   };
@@ -37,11 +38,11 @@ export default function BreadCrumb({ $target, initialState, clickPath }) {
     return path
       .reverse()
       .map((el) => `<span class="link" data-id=${el[1]} >${el[0]}</span>`)
-      .join(" / ");
+      .join(' / ');
   };
 
-  $breadCrumb.addEventListener("click", (e) => {
-    const $span = e.target.closest("span");
+  $breadCrumb.addEventListener('click', (e) => {
+    const $span = e.target.closest('span');
 
     if ($span) {
       const { id } = $span.dataset;
@@ -54,7 +55,7 @@ export default function BreadCrumb({ $target, initialState, clickPath }) {
 
     $breadCrumb.innerHTML = `
       <div>
-        ${docId ? renderBreadCrumb(docId) : ""}
+        ${docId ? renderBreadCrumb(docId) : ''}
       </div>
     `;
   };

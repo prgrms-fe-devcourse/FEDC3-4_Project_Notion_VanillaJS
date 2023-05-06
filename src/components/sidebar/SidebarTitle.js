@@ -1,12 +1,12 @@
-import { validation } from "../../validation.js";
+import { validation } from '../../validation.js';
 
 export default function SidebarTitle({ $target, text, onClick }) {
-  validation(new.target, "SidebarTitle");
-  const $sidebarTitle = document.createElement("header");
-  $sidebarTitle.className = "sidebarTitle";
+  validation(new.target, 'SidebarTitle');
+  const $sidebarTitle = document.createElement('header');
+  $sidebarTitle.className = 'sidebarTitle';
   $target.appendChild($sidebarTitle);
 
-  $sidebarTitle.addEventListener("click", () => {
+  $sidebarTitle.addEventListener('click', () => {
     onClick();
   });
 

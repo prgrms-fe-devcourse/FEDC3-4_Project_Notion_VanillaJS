@@ -1,10 +1,10 @@
-import { validation } from "../../validation.js";
+import { validation } from '../../validation.js';
 
 export default function LandingPage({ $target }) {
-  validation(new.target, "LandingPage");
+  validation(new.target, 'LandingPage');
 
-  const $landingPage = document.createElement("section");
-  $landingPage.className = "landingPage";
+  const $landingPage = document.createElement('section');
+  $landingPage.className = 'landingPage';
   $target.appendChild($landingPage);
 
   this.render = () => {
