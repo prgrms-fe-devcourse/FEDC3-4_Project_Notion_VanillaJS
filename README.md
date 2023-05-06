@@ -1,6 +1,4 @@
-# Notion Clone Project
-
-## with Vanilla JS
+## Notion Clone Project with Vanilla JS
 
 ### 프로젝트 특징
 
@@ -15,11 +13,14 @@
 
 - 🎄 폴더 구조를 위해 재귀를 활용하여 트리 구조를 구현하였습니다.
 - 🪤 구조 설계
+
 <center><img src="https://user-images.githubusercontent.com/82329983/235961065-beec0dc5-f2a1-4978-a0f9-7110d88ec43c.png" width="500" height="300"></center>
+
 - 👐 제목 작성시 낙관적 업데이트로 구현하여 입력시 변경 사항을 사이드바에서 확인할 수 있습니다.
 - 🕰️ history API로 route를 활용했습니다.
 - 🍞 breadcrumb 또한 재귀로 구현하여 경로를 표시할 수 있도록 했습니다.
 - 📑 subdocument link를 구현하여 하위 페이지로 바로 접근할 수 있도록 구현했습니다.
+- 🗂️ LocalStorage를 활용하여 폴더의 열림/닫힘 여부를 기억하도록 하였습니다.
 
 ### ♻️ 리팩토링을 진행한 부분들
 
