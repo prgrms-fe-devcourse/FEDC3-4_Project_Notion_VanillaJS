@@ -63,6 +63,7 @@ export default function DocList({
 
   $docList.addEventListener('click', (e) => {
     const $li = e.target.closest('li');
+    const prev = getItem('opened', []);
 
     if (!$li) return;
     const { id } = $li.dataset;
@@ -72,7 +73,6 @@ export default function DocList({
       const $childUl = $li.getElementsByTagName('ul');
       if ($childUl) {
         const toggleDisplay = $childUl[0].classList.contains('child');
-        const prev = getItem('opened', []);
         if (toggleDisplay) {
           setItem('opened', [...prev, id]);
         } else {
@@ -91,7 +91,6 @@ export default function DocList({
       const $isEnd = $childUl[0].querySelector('.isEnd');
       const $newSubDoc = document.createElement('li');
 
-      const prev = getItem('opened', []);
       if (!prev.includes(id)) {
         setItem('opened', [...prev, id]);
       }
@@ -124,6 +123,10 @@ export default function DocList({
     }
     if (classList.contains('delete')) {
       if (confirm('이 문서를 삭제하시겠습니까?')) {
+        setItem(
+          'opened',
+          prev.filter((el) => el !== id)
+        );
         $li.remove();
         onDelete(id);
       }
