@@ -1,16 +1,17 @@
-import { request } from "../../api.js";
-import BreadCrumb from "./BreadCrumb.js";
-import Editor from "./Editor.js";
-import { push } from "../../router.js";
-import SubLink from "./SubLink.js";
-import { validation } from "../../validation.js";
+import { request } from '../../api.js';
+import BreadCrumb from './BreadCrumb.js';
+import Editor from './Editor.js';
+import { push } from '../../router.js';
+import SubLink from './SubLink.js';
+import { validation } from '../../validation.js';
 
 //여기에선 docId만 핸들, Editor에는 Doc만
 export default function EditorContainer({ $target, initialState }) {
-  validation(new.target, "EditorContainer");
+  validation(new.target, 'EditorContainer');
 
-  const $editorContainer = document.createElement("section");
-  $editorContainer.className = "editContainer";
+  const $editorContainer = document.createElement('section');
+  $editorContainer.className = 'editContainer';
+  $editorContainer.style.display = 'none';
 
   this.state = initialState;
 
@@ -29,14 +30,16 @@ export default function EditorContainer({ $target, initialState }) {
     $target: $editorContainer,
     initialState: this.state.doc,
     onEdit: (post) => {
-      document.getElementById(post.id).getElementsByTagName("span")[0].innerText = post.title;
+      document
+        .getElementById(post.id)
+        .getElementsByTagName('span')[0].innerText = post.title;
 
       if (timer !== null) {
         clearTimeout(timer);
       }
       timer = setTimeout(async () => {
         await request(`/documents/${post.id}`, {
-          method: "PUT",
+          method: 'PUT',
           body: JSON.stringify(post),
         });
       }, 500);
@@ -62,7 +65,7 @@ export default function EditorContainer({ $target, initialState }) {
 
     breadCrumb.setState(this.state);
     subLink.setState(this.state);
-    editor.setState(this.state.doc || { title: "", content: "" });
+    editor.setState(this.state.doc || { title: '', content: '' });
     this.render();
   };
 
@@ -85,8 +88,8 @@ export default function EditorContainer({ $target, initialState }) {
     if (docId) {
       const $prevLi = document.getElementById(docId);
       const $currLi = document.getElementById(curr);
-      $prevLi.querySelector("p").style = "";
-      $currLi.querySelector("p").style.backgroundColor = "rgba(0, 0, 0, 0.1)";
+      $prevLi.querySelector('p').style = '';
+      $currLi.querySelector('p').style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
     }
   };
 }
