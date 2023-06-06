@@ -1,0 +1,177 @@
+:root {
+  /*color*/
+  --list-text-color: rgb(116, 115, 111);
+  --list-backgroud-color: rgb(251, 251, 250);
+  --list-hover-color: rgb(218, 218, 216);
+  --button-hover-color: rgb(199, 199, 199);
+  --border-line-color: rgb(216, 216, 211);
+  --bold-text-color: rgb(55, 53, 47);
+
+  /*size*/
+  --padding: 1rem;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+body {
+  padding: 0px;
+  margin: 0px;
+}
+
+#app {
+  display: flex;
+}
+
+/* Editor */
+
+.editPage {
+  width: 100vh;
+  padding-top: calc(var(--padding) * 5);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.title {
+  width: 600px;
+  height: 50px;
+  border: none;
+  border-bottom: solid 1px var(--border-line-color);
+  color: rgb(73, 73, 71);
+  font-size: 40px;
+  margin-bottom: 30px;
+}
+
+.content {
+  width: 600px;
+  height: 600px;
+  resize: none;
+  font-size: 15px;
+  border: 1px solid var(--border-line-color);
+}
+
+/* markUpList */
+
+.markUpList {
+  text-align: left;
+  padding-left: calc(var(--padding) * 9.5);
+  cursor: pointer;
+}
+
+/* List */
+
+.listPage {
+  width: 300px;
+  height: 100vh;
+  border-right: 1px solid var(--border-line-color);
+  background-color: var(--list-backgroud-color);
+}
+
+.postList {
+  padding-top: var(--padding);
+  color: var(--list-text-color);
+}
+
+.postList li {
+  display: flex;
+  align-items: center;
+  padding: calc(var(--padding) / 5);
+  padding-left: var(--padding);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.postList li:hover {
+  background-color: var(--list-hover-color);
+  color: var(--bold-text-color);
+  font-weight: bold;
+}
+
+.documentsTree .addBtn {
+  margin-left: auto;
+}
+
+.documentsTree .svg {
+  height: 10px;
+  width: 10px;
+  padding-right: calc(var(--padding) / 4);
+  color: var(--list-text-color);
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0px;
+}
+
+.documentsTree {
+  padding-left: var(--padding);
+}
+
+.postList .pageBtn {
+  width: 100%;
+  text-align: left;
+  padding: calc(var(--padding) / 1.8) 0px calc(var(--padding) / 1.8)
+    calc(var(--padding) * 2);
+  font-size: 15px;
+}
+
+button {
+  font-size: 18px;
+  background-color: transparent;
+  border: none;
+  color: var(--list-text-color);
+  padding: 0 calc(var(--padding) / 2);
+}
+
+button:hover {
+  background-color: var(--button-hover-color);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.removeBtn {
+  margin-right: 10px;
+}
+
+/* header */
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+
+.user h3 {
+  margin: 0px;
+  padding: var(--padding) 0 0px var(--padding);
+}
+
+.user h5 {
+  margin: 0px;
+  padding: 0 0 0px var(--padding);
+  color: rgb(117, 115, 111);
+}
+
+.header .logo {
+  padding-left: var(--padding);
+  padding-top: var(--padding);
+}
+
+/* StartPage */
+.startPage {
+  width: 100vh;
+  padding: calc(var(--padding) * 5) 0 0 calc(var(--padding) * 9.5);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.startPage .startList {
+  list-style-type: disc;
+}
